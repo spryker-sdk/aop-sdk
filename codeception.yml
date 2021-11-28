@@ -1,0 +1,36 @@
+namespace: SprykerSdkTest
+paths:
+    tests: tests
+    output: tests/_output
+    data: tests/_data
+    support: tests/_support
+    envs: tests/_envs
+bootstrap: bootstrap.php
+actor_suffix: Tester
+coverage:
+    enabled: true
+    include:
+        - src/SprykerSdk/Zed/AppSdk/*
+suites:
+    Communication:
+        path: SprykerSdkTest/Zed/AppSdk/Communication
+        class_name: CommunicationTester
+        modules:
+            enabled:
+                - \SprykerSdkTest\Helper\CommandHelper
+                - \SprykerSdkTest\Helper\AppConfigurationValidatorHelper
+                - \SprykerSdkTest\Helper\AppManifestValidatorHelper
+                - \SprykerSdkTest\Helper\AppTranslationValidatorHelper
+                - \SprykerSdkTest\Helper\ValidatorHelper
+    Businesss:
+        path: SprykerSdkTest/Zed/AppSdk/Business
+        class_name: BusinesssTester
+        modules:
+            enabled:
+                - \SprykerSdkTest\Helper\AppConfigurationValidatorHelper
+                - \SprykerSdkTest\Helper\AppManifestValidatorHelper
+                - \SprykerSdkTest\Helper\AppTranslationValidatorHelper
+                - \SprykerSdkTest\Helper\ValidatorHelper
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed

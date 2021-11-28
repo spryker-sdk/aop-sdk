@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "title": "foo.bar"
+        },
+        "children": {
+            "type": "array",
+            "title": "baz.bat"
+        }
+    }
+}
