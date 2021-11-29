@@ -17,5 +17,11 @@ if (!defined('COMPOSER_INSTALL')) {
 
 require_once COMPOSER_INSTALL;
 
-$bootstrap = new \Spryker\Zed\Console\Communication\Bootstrap\ConsoleBootstrap();
+defined('APPLICATION_ROOT_DIR')
+    || define('APPLICATION_ROOT_DIR', getcwd());
+
+defined('APPLICATION_ENV')
+    || define('APPLICATION_ENV', 'development');
+
+$bootstrap = new \SprykerSdk\Zed\AppSdkConsole\Communication\Bootstrap\AppSdkConsoleBootstrap();
 $bootstrap->run();

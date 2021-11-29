@@ -10,10 +10,6 @@ namespace SprykerSdk\Zed\Console;
 use Spryker\Zed\Console\ConsoleDependencyProvider as SprykerConsoleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
 use Spryker\Zed\Transfer\Communication\Console\TransferGeneratorConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateConfigurationConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateManifestConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateTranslationConsole;
 
 class ConsoleDependencyProvider extends SprykerConsoleDependencyProvider
 {
@@ -25,10 +21,6 @@ class ConsoleDependencyProvider extends SprykerConsoleDependencyProvider
     protected function getConsoleCommands(Container $container): array
     {
         return [
-            new ValidateConsole(),
-            new ValidateManifestConsole(),
-            new ValidateConfigurationConsole(),
-            new ValidateTranslationConsole(),
             new TransferGeneratorConsole(),
         ];
     }
