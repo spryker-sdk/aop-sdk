@@ -12,6 +12,8 @@ jobs:
     validation:
         name: "CS, ArchSniffer, PHPStan, Security"
         runs-on: ubuntu-18.04
+        env:
+            APPLICATION_ENV: testing
         strategy:
             fail-fast: false
             matrix:
