@@ -7,8 +7,9 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business\Validator\Manifest\Validator;
 
+use Generated\Shared\Transfer\MessageTransfer;
+use Generated\Shared\Transfer\ValidateResponseTransfer;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
-use SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface;
 
 class RequiredFieldsFileValidator implements FileValidatorInterface
@@ -29,19 +30,25 @@ class RequiredFieldsFileValidator implements FileValidatorInterface
     /**
      * @param array $data
      * @param string $fileName
-     * @param \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface $validateResponse
+     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
      * @param array|null $context
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validate(array $data, string $fileName, ValidateResponseInterface $validateResponse, ?array $context = null): ValidateResponseInterface
-    {
+    public function validate(
+        array $data,
+        string $fileName,
+        ValidateResponseTransfer $validateResponseTransfer,
+        ?array $context = null
+    ): ValidateResponseTransfer {
         foreach ($this->config->getRequiredManifestFieldNames() as $requiredManifestFieldName) {
             if (!isset($data[$requiredManifestFieldName])) {
-                $validateResponse->addError(sprintf('Field "%s" must be present in the manifest file "%s" but was not found.', $requiredManifestFieldName, $fileName));
+                $messageTransfer = new MessageTransfer();
+                $messageTransfer->setMessage(sprintf('Field "%s" must be present in the manifest file "%s" but was not found.', $requiredManifestFieldName, $fileName));
+                $validateResponseTransfer->addError($messageTransfer);
             }
         }
 
-        return $validateResponse;
+        return $validateResponseTransfer;
     }
 }

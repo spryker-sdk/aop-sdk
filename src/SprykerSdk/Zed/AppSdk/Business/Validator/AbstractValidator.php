@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business\Validator;
 
+use Generated\Shared\Transfer\ValidateResponseTransfer;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
-use SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Finder\FinderInterface;
 
 abstract class AbstractValidator implements ValidatorInterface
@@ -43,21 +43,21 @@ abstract class AbstractValidator implements ValidatorInterface
     /**
      * @param array $fileData
      * @param string $fileName
-     * @param \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface $validateResponse
+     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
      * @param array|null $context
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
     protected function validateFileData(
         array $fileData,
         string $fileName,
-        ValidateResponseInterface $validateResponse,
+        ValidateResponseTransfer $validateResponseTransfer,
         ?array $context = null
-    ): ValidateResponseInterface {
+    ): ValidateResponseTransfer {
         foreach ($this->fileValidators as $fileValidator) {
-            $validateResponse = $fileValidator->validate($fileData, $fileName, $validateResponse, $context);
+            $validateResponseTransfer = $fileValidator->validate($fileData, $fileName, $validateResponseTransfer, $context);
         }
 
-        return $validateResponse;
+        return $validateResponseTransfer;
     }
 }

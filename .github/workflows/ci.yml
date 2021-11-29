@@ -52,6 +52,9 @@ jobs:
             - name: Composer install
               run: composer install
 
+            - name: Generate Transfers
+              run: console transfer:generate
+
             - name: Run Rector checks
               run: composer rector-diff
 

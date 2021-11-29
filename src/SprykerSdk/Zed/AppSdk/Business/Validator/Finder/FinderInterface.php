@@ -13,18 +13,18 @@ use Symfony\Component\Finder\SplFileInfo;
 interface FinderInterface
 {
     /**
-     * @param string $path
+     * @param string|null $path
      *
      * @return bool
      */
-    public function hasFile(string $path): bool;
+    public function hasFile(?string $path): bool;
 
     /**
-     * @param string $path
+     * @param string|null $path
      *
      * @return bool
      */
-    public function hasFiles(string $path): bool;
+    public function hasFiles(?string $path): bool;
 
     /**
      * @param string $path

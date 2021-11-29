@@ -16,7 +16,7 @@ use Codeception\Test\Unit;
 class AppManifestValidatorFacadeTest extends Unit
 {
     /**
-     * @var \AppSdkTest\AppSdkTester
+     * @var \SprykerSdkTest\BusinesssTester
      */
     protected $tester;
 
@@ -29,16 +29,16 @@ class AppManifestValidatorFacadeTest extends Unit
         $this->tester->haveValidManifestFile();
 
         // Act
-        $validatorResult = $this->tester->getFacade()->validateManifest(
+        $validateResponseTransfer = $this->tester->getFacade()->validateManifest(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $this->assertCount(0, $validatorResult->getErrors(), sprintf(
+        $this->assertCount(0, $validateResponseTransfer->getErrors(), sprintf(
             'Expected that no validation errors given but there are errors. Errors: "%s"',
-            implode(', ', $validatorResult->getErrors()),
+            implode(', ', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer)),
         ));
-        $this->assertTrue($validatorResult->isValid(), 'Expected that validation was successful but was not.');
+        $this->assertCount(0, $validateResponseTransfer->getErrors(), 'Expected that validation was successful but was not.');
     }
 
     /**
@@ -50,13 +50,13 @@ class AppManifestValidatorFacadeTest extends Unit
         $this->tester->haveManifestFileWithMissingRequiredFields();
 
         // Act
-        $validatorResult = $this->tester->getFacade()->validateManifest(
+        $validateResponseTransfer = $this->tester->getFacade()->validateManifest(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $expectedErrorMessage = current($validatorResult->getErrors());
-        $this->assertSame('Field "provider" must be present in the manifest file "en_US.json" but was not found.', $expectedErrorMessage);
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('Field "provider" must be present in the manifest file "en_US.json" but was not found.', $expectedErrorMessage->getMessage());
     }
 
     /**
@@ -68,13 +68,13 @@ class AppManifestValidatorFacadeTest extends Unit
         $this->tester->haveManifestFileWithMissingRequiredFieldsInPageBlock();
 
         // Act
-        $validatorResult = $this->tester->getFacade()->validateManifest(
+        $validateResponseTransfer = $this->tester->getFacade()->validateManifest(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $expectedErrorMessage = current($validatorResult->getErrors());
-        $this->assertSame('Page block field "type" in page "Overview" must be present in the manifest file "en_US.json" but was not found.', $expectedErrorMessage);
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('Page block field "type" in page "Overview" must be present in the manifest file "en_US.json" but was not found.', $expectedErrorMessage->getMessage());
     }
 
     /**
@@ -86,13 +86,13 @@ class AppManifestValidatorFacadeTest extends Unit
         $this->tester->haveManifestFileWithInvalidPageBlockType();
 
         // Act
-        $validatorResult = $this->tester->getFacade()->validateManifest(
+        $validateResponseTransfer = $this->tester->getFacade()->validateManifest(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $expectedErrorMessage = current($validatorResult->getErrors());
-        $this->assertSame('Page block type "invalid" not allowed in page "Overview" in the manifest file "en_US.json".', $expectedErrorMessage);
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('Page block type "invalid" not allowed in page "Overview" in the manifest file "en_US.json".', $expectedErrorMessage->getMessage());
     }
 
     /**
@@ -101,15 +101,15 @@ class AppManifestValidatorFacadeTest extends Unit
     public function testValidateManifestReturnsFailedResponseWhenFilesNotFound(): void
     {
         // Act
-        $validatorResult = $this->tester->getFacade()->validateManifest(
+        $validateResponseTransfer = $this->tester->getFacade()->validateManifest(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $this->assertCount(1, $validatorResult->getErrors());
+        $this->assertCount(1, $validateResponseTransfer->getErrors());
 
-        $expectedErrorMessage = current($validatorResult->getErrors());
-        $this->assertSame('No manifest files found.', $expectedErrorMessage);
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('No manifest files found.', $expectedErrorMessage->getMessage());
     }
 
     /**
@@ -121,12 +121,12 @@ class AppManifestValidatorFacadeTest extends Unit
         $this->tester->haveInvalidManifestFile();
 
         // Act
-        $validatorResult = $this->tester->getFacade()->validateManifest(
+        $validateResponseTransfer = $this->tester->getFacade()->validateManifest(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $expectedErrorMessage = current($validatorResult->getErrors());
-        $this->assertSame('Manifest file "vfs://root/config/app/manifest/en_US.json" contains invalid JSON. Error: "Syntax error".', $expectedErrorMessage);
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('Manifest file "vfs://root/config/app/manifest/en_US.json" contains invalid JSON. Error: "Syntax error".', $expectedErrorMessage->getMessage());
     }
 }

@@ -7,41 +7,47 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business\Validator\Manifest;
 
-use SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface;
-use SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponse;
-use SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface;
+use Generated\Shared\Transfer\MessageTransfer;
+use Generated\Shared\Transfer\ValidateRequestTransfer;
+use Generated\Shared\Transfer\ValidateResponseTransfer;
 use SprykerSdk\Zed\AppSdk\Business\Validator\AbstractValidator;
 
 class ManifestValidator extends AbstractValidator
 {
     /**
-     * @param \SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface $validateRequest
-     * @param \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface|null $validateResponse
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
+     * @param \Generated\Shared\Transfer\ValidateResponseTransfer|null $validateResponseTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validate(ValidateRequestInterface $validateRequest, ?ValidateResponseInterface $validateResponse = null): ValidateResponseInterface
-    {
-        $validateResponse ??= new ValidateResponse();
+    public function validate(
+        ValidateRequestTransfer $validateRequestTransfer,
+        ?ValidateResponseTransfer $validateResponseTransfer = null
+    ): ValidateResponseTransfer {
+        $validateResponseTransfer ??= new ValidateResponseTransfer();
 
-        if (!$this->finder->hasFiles($validateRequest->getManifestPath())) {
-            $validateResponse->addError('No manifest files found.');
+        if (!$this->finder->hasFiles($validateRequestTransfer->getManifestPathOrFail())) {
+            $messageTransfer = new MessageTransfer();
+            $messageTransfer->setMessage('No manifest files found.');
+            $validateResponseTransfer->addError($messageTransfer);
 
-            return $validateResponse;
+            return $validateResponseTransfer;
         }
 
-        foreach ($this->finder->getFiles($validateRequest->getManifestPath()) as $manifestFile) {
+        foreach ($this->finder->getFiles($validateRequestTransfer->getManifestPathOrFail()) as $manifestFile) {
             $manifestData = json_decode((string)file_get_contents($manifestFile->getPathname()), true);
 
             if (json_last_error()) {
-                $validateResponse->addError(sprintf('Manifest file "%s" contains invalid JSON. Error: "%s".', $manifestFile->getPathname(), json_last_error_msg()));
+                $messageTransfer = new MessageTransfer();
+                $messageTransfer->setMessage(sprintf('Manifest file "%s" contains invalid JSON. Error: "%s".', $manifestFile->getPathname(), json_last_error_msg()));
+                $validateResponseTransfer->addError($messageTransfer);
 
                 continue;
             }
 
-            $validateResponse = $this->validateFileData($manifestData, $manifestFile->getFilename(), $validateResponse);
+            $validateResponseTransfer = $this->validateFileData($manifestData, $manifestFile->getFilename(), $validateResponseTransfer);
         }
 
-        return $validateResponse;
+        return $validateResponseTransfer;
     }
 }

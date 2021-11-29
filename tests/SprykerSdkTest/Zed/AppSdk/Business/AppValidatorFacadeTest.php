@@ -16,7 +16,7 @@ use Codeception\Test\Unit;
 class AppValidatorFacadeTest extends Unit
 {
     /**
-     * @var \AppSdkTest\AppSdkTester
+     * @var \SprykerSdkTest\BusinesssTester
      */
     protected $tester;
 
@@ -29,16 +29,16 @@ class AppValidatorFacadeTest extends Unit
         $this->tester->haveValidTranslationWithManifestAndConfiguration();
 
         // Act
-        $validatorResult = $this->tester->getFacade()->validate(
+        $validateResponseTransfer = $this->tester->getFacade()->validate(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $this->assertCount(0, $validatorResult->getErrors(), sprintf(
+        $this->assertCount(0, $validateResponseTransfer->getErrors(), sprintf(
             'Expected that no validation errors given but there are errors. Errors: "%s"',
-            implode(', ', $validatorResult->getErrors()),
+            implode(', ', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer)),
         ));
-        $this->assertTrue($validatorResult->isValid(), 'Expected that validation was successful but was not.');
+        $this->assertCount(0, $validateResponseTransfer->getErrors(), 'Expected that validation was successful but was not.');
     }
 
     /**
@@ -47,11 +47,11 @@ class AppValidatorFacadeTest extends Unit
     public function testValidateReturnsFailedResponseWhenValidationFailes(): void
     {
         // Act
-        $validatorResult = $this->tester->getFacade()->validate(
+        $validateResponseTransfer = $this->tester->getFacade()->validate(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $this->assertFalse($validatorResult->isValid());
+        $this->assertTrue($validateResponseTransfer->getErrors()->count() > 0);
     }
 }

@@ -10,12 +10,12 @@ namespace SprykerSdkTest\Helper;
 use Codeception\Module;
 use Codeception\Stub;
 use Codeception\TestInterface;
+use Generated\Shared\Transfer\ValidateRequestTransfer;
+use Generated\Shared\Transfer\ValidateResponseTransfer;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
 use SprykerSdk\Zed\AppSdk\Business\AppSdkBusinessFactory;
 use SprykerSdk\Zed\AppSdk\Business\AppSdkFacade;
 use SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface;
-use SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequest;
-use SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface;
 
 class ValidatorHelper extends Module
 {
@@ -70,18 +70,34 @@ class ValidatorHelper extends Module
     }
 
     /**
-     * @return \SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface
+     * @return \Generated\Shared\Transfer\ValidateRequestTransfer
      */
-    public function haveValidateRequest(): ValidateRequestInterface
+    public function haveValidateRequest(): ValidateRequestTransfer
     {
         $config = $this->getConfig() ?? new AppSdkConfig();
 
-        $validateRequest = new ValidateRequest();
+        $validateRequest = new ValidateRequestTransfer();
         $validateRequest->setManifestPath($config->getDefaultManifestPath());
         $validateRequest->setConfigurationFile($config->getDefaultConfigurationFile());
         $validateRequest->setTranslationFile($config->getDefaultTranslationFile());
 
         return $validateRequest;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
+     *
+     * @return array
+     */
+    public function getMessagesFromValidateResponseTransfer(ValidateResponseTransfer $validateResponseTransfer): array
+    {
+        $messages = [];
+
+        foreach ($validateResponseTransfer->getErrors() as $messageTransfer) {
+            $messages[] = $messageTransfer->getMessage();
+        }
+
+        return $messages;
     }
 
     /**

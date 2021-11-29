@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business;
 
+use Generated\Shared\Transfer\ValidateRequestTransfer;
+use Generated\Shared\Transfer\ValidateResponseTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
-use SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface;
-use SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface;
 
 /**
  * @method \SprykerSdk\Zed\AppSdk\Business\AppSdkBusinessFactory getFactory()
@@ -21,13 +21,13 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
      *
      * @api
      *
-     * @param \SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface $validateRequest
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validate(ValidateRequestInterface $validateRequest): ValidateResponseInterface
+    public function validate(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
     {
-        return $this->getFactory()->createValidator()->validate($validateRequest);
+        return $this->getFactory()->createValidator()->validate($validateRequestTransfer);
     }
 
     /**
@@ -35,13 +35,13 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
      *
      * @api
      *
-     * @param \SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface $validateRequest
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateManifest(ValidateRequestInterface $validateRequest): ValidateResponseInterface
+    public function validateManifest(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
     {
-        return $this->getFactory()->createManifestValidator()->validate($validateRequest);
+        return $this->getFactory()->createManifestValidator()->validate($validateRequestTransfer);
     }
 
     /**
@@ -49,13 +49,13 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
      *
      * @api
      *
-     * @param \SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface $validateRequest
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateConfiguration(ValidateRequestInterface $validateRequest): ValidateResponseInterface
+    public function validateConfiguration(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
     {
-        return $this->getFactory()->createConfigurationValidator()->validate($validateRequest);
+        return $this->getFactory()->createConfigurationValidator()->validate($validateRequestTransfer);
     }
 
     /**
@@ -63,12 +63,12 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
      *
      * @api
      *
-     * @param \SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface $validateRequest
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateTranslation(ValidateRequestInterface $validateRequest): ValidateResponseInterface
+    public function validateTranslation(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
     {
-        return $this->getFactory()->createTranslationValidator()->validate($validateRequest);
+        return $this->getFactory()->createTranslationValidator()->validate($validateRequestTransfer);
     }
 }

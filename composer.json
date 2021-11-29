@@ -26,7 +26,7 @@
     "autoload": {
         "psr-4": {
             "SprykerSdk\\": "src/SprykerSdk/",
-            "Generated\\Shared\\Transfer\\": "src/Generated/"
+            "Generated\\Shared\\Transfer\\": "src/Generated/Shared/Transfer/"
         }
     },
     "autoload-dev": {
@@ -51,7 +51,7 @@
     "scripts": {
         "cs-check": "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/",
         "cs-fix": "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/",
-        "stan": "phpstan analyze -l 8 src/",
+        "stan": "phpstan analyze -l 8 src/SprykerSdk/",
         "test": "codecept build && codecept run",
         "test-cover": "codecept build && codecept run --coverage-xml",
         "rector": "vendor/bin/rector process src/SprykerSdk/ --config architector.php --ansi",

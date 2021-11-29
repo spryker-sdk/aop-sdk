@@ -13,23 +13,23 @@ use Symfony\Component\Finder\SplFileInfo;
 class Finder implements FinderInterface
 {
     /**
-     * @param string $path
+     * @param string|null $path
      *
      * @return bool
      */
-    public function hasFile(string $path): bool
+    public function hasFile(?string $path): bool
     {
-        return file_exists($path);
+        return $path && file_exists($path);
     }
 
     /**
-     * @param string $path
+     * @param string|null $path
      *
      * @return bool
      */
-    public function hasFiles(string $path): bool
+    public function hasFiles(?string $path): bool
     {
-        return file_exists($path);
+        return $path && file_exists($path);
     }
 
     /**

@@ -16,7 +16,7 @@ use Codeception\Test\Unit;
 class AppTranslationValidatorFacadeTest extends Unit
 {
     /**
-     * @var \AppSdkTest\AppSdkTester
+     * @var \SprykerSdkTest\BusinesssTester
      */
     protected $tester;
 
@@ -29,16 +29,16 @@ class AppTranslationValidatorFacadeTest extends Unit
         $this->tester->haveValidTranslationWithManifestAndConfiguration();
 
         // Act
-        $validatorResult = $this->tester->getFacade()->validateTranslation(
+        $validateResponseTransfer = $this->tester->getFacade()->validateTranslation(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $this->assertCount(0, $validatorResult->getErrors(), sprintf(
+        $this->assertCount(0, $validateResponseTransfer->getErrors(), sprintf(
             'Expected that no validation errors given but there are errors. Errors: "%s"',
-            implode(', ', $validatorResult->getErrors()),
+            implode(', ', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer)),
         ));
-        $this->assertTrue($validatorResult->isValid(), 'Expected that validation was successful but was not.');
+        $this->assertCount(0, $validateResponseTransfer->getErrors(), 'Expected that validation was successful but was not.');
     }
 
     /**
@@ -50,15 +50,15 @@ class AppTranslationValidatorFacadeTest extends Unit
         $this->tester->haveValidTranslationWithoutManifest();
 
         // Act
-        $validatorResult = $this->tester->getFacade()->validateTranslation(
+        $validateResponseTransfer = $this->tester->getFacade()->validateTranslation(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $this->assertCount(1, $validatorResult->getErrors());
+        $this->assertCount(1, $validateResponseTransfer->getErrors());
 
-        $expectedErrorMessage = current($validatorResult->getErrors());
-        $this->assertSame('Can not validate the Translation file "vfs://root/config/app/translation/translation.json" without existing manifest file(s).', $expectedErrorMessage);
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('Can not validate the Translation file "vfs://root/config/app/translation/translation.json" without existing manifest file(s).', $expectedErrorMessage->getMessage());
     }
 
     /**
@@ -70,15 +70,15 @@ class AppTranslationValidatorFacadeTest extends Unit
         $this->tester->haveValidTranslationWithManifestAndWithoutConfiguration();
 
         // Act
-        $validatorResult = $this->tester->getFacade()->validateTranslation(
+        $validateResponseTransfer = $this->tester->getFacade()->validateTranslation(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $this->assertCount(1, $validatorResult->getErrors());
+        $this->assertCount(1, $validateResponseTransfer->getErrors());
 
-        $expectedErrorMessage = current($validatorResult->getErrors());
-        $this->assertSame('Can not validate the Translation file "vfs://root/config/app/translation/translation.json" without existing "configuration.json" file.', $expectedErrorMessage);
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('Can not validate the Translation file "vfs://root/config/app/translation/translation.json" without existing "configuration.json" file.', $expectedErrorMessage->getMessage());
     }
 
     /**
@@ -90,15 +90,15 @@ class AppTranslationValidatorFacadeTest extends Unit
         $this->tester->haveMissingTranslationValueTranslationFile();
 
         // Act
-        $validatorResult = $this->tester->getFacade()->validateTranslation(
+        $validateResponseTransfer = $this->tester->getFacade()->validateTranslation(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $this->assertCount(1, $validatorResult->getErrors());
+        $this->assertCount(1, $validateResponseTransfer->getErrors());
 
-        $expectedErrorMessage = current($validatorResult->getErrors());
-        $this->assertSame('Missing translation for key "foo.bar" and locale "en_US".', $expectedErrorMessage);
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('Missing translation for key "foo.bar" and locale "en_US".', $expectedErrorMessage->getMessage());
     }
 
     /**
@@ -107,15 +107,15 @@ class AppTranslationValidatorFacadeTest extends Unit
     public function testValidateTranslationReturnsFailedResponseWhenTranslationFileNotFound(): void
     {
         // Act
-        $validatorResult = $this->tester->getFacade()->validateTranslation(
+        $validateResponseTransfer = $this->tester->getFacade()->validateTranslation(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $this->assertCount(1, $validatorResult->getErrors());
+        $this->assertCount(1, $validateResponseTransfer->getErrors());
 
-        $expectedErrorMessage = current($validatorResult->getErrors());
-        $this->assertSame('No "translation.json" file found.', $expectedErrorMessage);
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('No "translation.json" file found.', $expectedErrorMessage->getMessage());
     }
 
     /**
@@ -127,14 +127,14 @@ class AppTranslationValidatorFacadeTest extends Unit
         $this->tester->haveInvalidTranslationFile();
 
         // Act
-        $validatorResult = $this->tester->getFacade()->validateTranslation(
+        $validateResponseTransfer = $this->tester->getFacade()->validateTranslation(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $this->assertCount(1, $validatorResult->getErrors());
+        $this->assertCount(1, $validateResponseTransfer->getErrors());
 
-        $expectedErrorMessage = current($validatorResult->getErrors());
-        $this->assertSame('Translation file "vfs://root/config/app/translation/translation.json" contains invalid JSON. Error: "Syntax error".', $expectedErrorMessage);
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('Translation file "vfs://root/config/app/translation/translation.json" contains invalid JSON. Error: "Syntax error".', $expectedErrorMessage->getMessage());
     }
 }

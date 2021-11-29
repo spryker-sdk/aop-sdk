@@ -7,65 +7,75 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business\Validator\Translation;
 
-use SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface;
-use SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponse;
-use SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface;
+use Generated\Shared\Transfer\MessageTransfer;
+use Generated\Shared\Transfer\ValidateRequestTransfer;
+use Generated\Shared\Transfer\ValidateResponseTransfer;
 use SprykerSdk\Zed\AppSdk\Business\Validator\AbstractValidator;
 
 class TranslationValidator extends AbstractValidator
 {
     /**
-     * @param \SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface $validateRequest
-     * @param \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface|null $validateResponse
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
+     * @param \Generated\Shared\Transfer\ValidateResponseTransfer|null $validateResponseTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validate(ValidateRequestInterface $validateRequest, ?ValidateResponseInterface $validateResponse = null): ValidateResponseInterface
-    {
-        $validateResponse ??= new ValidateResponse();
+    public function validate(
+        ValidateRequestTransfer $validateRequestTransfer,
+        ?ValidateResponseTransfer $validateResponseTransfer = null
+    ): ValidateResponseTransfer {
+        $validateResponseTransfer ??= new ValidateResponseTransfer();
 
-        if (!$this->finder->hasFile($validateRequest->getTranslationFile())) {
-            $validateResponse->addError('No "translation.json" file found.');
+        if (!$this->finder->hasFile($validateRequestTransfer->getTranslationFile())) {
+            $messageTransfer = new MessageTransfer();
+            $messageTransfer->setMessage('No "translation.json" file found.');
+            $validateResponseTransfer->addError($messageTransfer);
 
-            return $validateResponse;
+            return $validateResponseTransfer;
         }
 
-        $splFileInfo = $this->finder->getFile($validateRequest->getTranslationFile());
+        $splFileInfo = $this->finder->getFile($validateRequestTransfer->getTranslationFileOrFail());
         $fileData = json_decode((string)file_get_contents($splFileInfo->getPathname()), true);
 
         if (json_last_error()) {
-            $validateResponse->addError(sprintf('Translation file "%s" contains invalid JSON. Error: "%s".', $splFileInfo->getPathname(), json_last_error_msg()));
+            $messageTransfer = new MessageTransfer();
+            $messageTransfer->setMessage(sprintf('Translation file "%s" contains invalid JSON. Error: "%s".', $splFileInfo->getPathname(), json_last_error_msg()));
+            $validateResponseTransfer->addError($messageTransfer);
 
-            return $validateResponse;
+            return $validateResponseTransfer;
         }
 
-        if (!$this->finder->hasFiles($validateRequest->getManifestPath())) {
-            $validateResponse->addError(sprintf('Can not validate the Translation file "%s" without existing manifest file(s).', $splFileInfo->getPathname()));
+        if (!$this->finder->hasFiles($validateRequestTransfer->getManifestPath())) {
+            $messageTransfer = new MessageTransfer();
+            $messageTransfer->setMessage(sprintf('Can not validate the Translation file "%s" without existing manifest file(s).', $splFileInfo->getPathname()));
+            $validateResponseTransfer->addError($messageTransfer);
 
-            return $validateResponse;
+            return $validateResponseTransfer;
         }
 
-        if (!$this->finder->hasFile($validateRequest->getConfigurationFile())) {
-            $validateResponse->addError(sprintf('Can not validate the Translation file "%s" without existing "configuration.json" file.', $splFileInfo->getPathname()));
+        if (!$this->finder->hasFile($validateRequestTransfer->getConfigurationFile())) {
+            $messageTransfer = new MessageTransfer();
+            $messageTransfer->setMessage(sprintf('Can not validate the Translation file "%s" without existing "configuration.json" file.', $splFileInfo->getPathname()));
+            $validateResponseTransfer->addError($messageTransfer);
 
-            return $validateResponse;
+            return $validateResponseTransfer;
         }
 
         $context = [
-            'locales' => $this->getLocalesFromManifestFiles($validateRequest),
+            'locales' => $this->getLocalesFromManifestFiles($validateRequestTransfer),
         ];
 
-        return $this->validateFileData($fileData, $splFileInfo->getFilename(), $validateResponse, $context);
+        return $this->validateFileData($fileData, $splFileInfo->getFilename(), $validateResponseTransfer, $context);
     }
 
     /**
-     * @param \SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface $validateRequest
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
      * @return array
      */
-    protected function getLocalesFromManifestFiles(ValidateRequestInterface $validateRequest): array
+    protected function getLocalesFromManifestFiles(ValidateRequestTransfer $validateRequestTransfer): array
     {
-        $manifestFiles = $this->finder->getFiles($validateRequest->getManifestPath());
+        $manifestFiles = $this->finder->getFiles($validateRequestTransfer->getManifestPathOrFail());
         $extractedLocales = [];
 
         foreach ($manifestFiles as $manifestFile) {

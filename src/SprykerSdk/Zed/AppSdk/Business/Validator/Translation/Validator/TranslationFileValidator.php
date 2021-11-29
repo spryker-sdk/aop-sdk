@@ -7,8 +7,9 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business\Validator\Translation\Validator;
 
+use Generated\Shared\Transfer\MessageTransfer;
+use Generated\Shared\Transfer\ValidateResponseTransfer;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
-use SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface;
 
 class TranslationFileValidator implements FileValidatorInterface
@@ -29,42 +30,48 @@ class TranslationFileValidator implements FileValidatorInterface
     /**
      * @param array $data
      * @param string $fileName
-     * @param \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface $validateResponse
+     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
      * @param array|null $context
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validate(array $data, string $fileName, ValidateResponseInterface $validateResponse, ?array $context = null): ValidateResponseInterface
-    {
+    public function validate(
+        array $data,
+        string $fileName,
+        ValidateResponseTransfer $validateResponseTransfer,
+        ?array $context = null
+    ): ValidateResponseTransfer {
         $locales = $context['locales'] ?? [];
 
         foreach ($data as $translationKey => $translationValues) {
-            $validateResponse = $this->validateTranslationValuesExistForLocales($translationKey, $translationValues, $locales, $validateResponse);
+            $validateResponseTransfer = $this->validateTranslationValuesExistForLocales($translationKey, $translationValues, $locales, $validateResponseTransfer);
         }
 
-        return $validateResponse;
+        return $validateResponseTransfer;
     }
 
     /**
      * @param string $translationKey
      * @param array $translationValues
      * @param array $locales
-     * @param \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface $validateResponse
+     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
     protected function validateTranslationValuesExistForLocales(
         string $translationKey,
         array $translationValues,
         array $locales,
-        ValidateResponseInterface $validateResponse
-    ): ValidateResponseInterface {
+        ValidateResponseTransfer $validateResponseTransfer
+    ): ValidateResponseTransfer {
         foreach ($locales as $locale) {
             if (!isset($translationValues[$locale])) {
-                $validateResponse->addError(sprintf('Missing translation for key "%s" and locale "%s".', $translationKey, $locale));
+                $messageTransfer = new MessageTransfer();
+                $messageTransfer->setMessage(sprintf('Missing translation for key "%s" and locale "%s".', $translationKey, $locale));
+                $validateResponseTransfer->addError($messageTransfer);
             }
         }
 
-        return $validateResponse;
+        return $validateResponseTransfer;
     }
 }

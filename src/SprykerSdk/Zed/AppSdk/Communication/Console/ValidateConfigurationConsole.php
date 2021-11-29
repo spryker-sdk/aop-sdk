@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Zed\AppSdk\Communication\Console;
 
-use SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequest;
+use Generated\Shared\Transfer\ValidateRequestTransfer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -45,18 +45,18 @@ class ValidateConfigurationConsole extends AbstractConsole
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $validatorRequest = new ValidateRequest();
-        $validatorRequest->setConfigurationFile($input->getOption(static::CONFIGURATION_FILE));
+        $validateRequestTransfer = new ValidateRequestTransfer();
+        $validateRequestTransfer->setConfigurationFile($input->getOption(static::CONFIGURATION_FILE));
 
-        $validatorResult = $this->getFacade()->validateConfiguration($validatorRequest);
+        $validateResponseTransfer = $this->getFacade()->validateConfiguration($validateRequestTransfer);
 
-        if ($validatorResult->isValid()) {
+        if ($validateResponseTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;
         }
 
         if ($output->isVerbose()) {
-            foreach ($validatorResult->getErrors() as $error) {
-                $output->writeln($error);
+            foreach ($validateResponseTransfer->getErrors() as $error) {
+                $output->writeln($error->getMessageOrFail());
             }
         }
 

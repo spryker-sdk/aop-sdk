@@ -1,6 +1,9 @@
 <?php
 
 use Spryker\Shared\Kernel\KernelConstants;
+use Spryker\Shared\Log\LogConstants;
+use Spryker\Shared\ErrorHandler\ErrorHandlerConstants;
+use Monolog\Logger;
 
 // ############################################################################
 // ############################## PRODUCTION CONFIGURATION ####################
@@ -18,3 +21,9 @@ $config[KernelConstants::PROJECT_NAMESPACES] = [
 $config[KernelConstants::CORE_NAMESPACES] = [
     'Spryker',
 ];
+
+// >>> LOGGING
+
+$config[ErrorHandlerConstants::ERROR_LEVEL] = E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED;
+$config[ErrorHandlerConstants::ERROR_LEVEL_LOG_ONLY] = E_DEPRECATED | E_USER_DEPRECATED;
+$config[LogConstants::LOG_LEVEL] = Logger::ERROR;

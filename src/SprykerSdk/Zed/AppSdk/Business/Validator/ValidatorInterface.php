@@ -7,16 +7,19 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business\Validator;
 
-use SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface;
-use SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface;
+use Generated\Shared\Transfer\ValidateRequestTransfer;
+use Generated\Shared\Transfer\ValidateResponseTransfer;
 
 interface ValidatorInterface
 {
     /**
-     * @param \SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface $validateRequest
-     * @param \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface|null $validateResponse
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
+     * @param \Generated\Shared\Transfer\ValidateResponseTransfer|null $validateResponseTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validate(ValidateRequestInterface $validateRequest, ?ValidateResponseInterface $validateResponse = null): ValidateResponseInterface;
+    public function validate(
+        ValidateRequestTransfer $validateRequestTransfer,
+        ?ValidateResponseTransfer $validateResponseTransfer = null
+    ): ValidateResponseTransfer;
 }

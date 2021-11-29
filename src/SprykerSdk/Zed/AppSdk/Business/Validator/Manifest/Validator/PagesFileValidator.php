@@ -7,8 +7,9 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business\Validator\Manifest\Validator;
 
+use Generated\Shared\Transfer\MessageTransfer;
+use Generated\Shared\Transfer\ValidateResponseTransfer;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
-use SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface;
 
 class PagesFileValidator implements FileValidatorInterface
@@ -29,96 +30,104 @@ class PagesFileValidator implements FileValidatorInterface
     /**
      * @param array $data
      * @param string $fileName
-     * @param \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface $validateResponse
+     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
      * @param array|null $context
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validate(array $data, string $fileName, ValidateResponseInterface $validateResponse, ?array $context = null): ValidateResponseInterface
-    {
+    public function validate(
+        array $data,
+        string $fileName,
+        ValidateResponseTransfer $validateResponseTransfer,
+        ?array $context = null
+    ): ValidateResponseTransfer {
         foreach ($data['pages'] as $pageName => $page) {
-            $validateResponse = $this->validatePage($page, $pageName, $fileName, $validateResponse);
+            $validateResponseTransfer = $this->validatePage($page, $pageName, $fileName, $validateResponseTransfer);
         }
 
-        return $validateResponse;
+        return $validateResponseTransfer;
     }
 
     /**
      * @param array $page
      * @param string $pageName
      * @param string $manifestFileName
-     * @param \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface $validateResponse
+     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
     protected function validatePage(
         array $page,
         string $pageName,
         string $manifestFileName,
-        ValidateResponseInterface $validateResponse
-    ): ValidateResponseInterface {
+        ValidateResponseTransfer $validateResponseTransfer
+    ): ValidateResponseTransfer {
         foreach ($page as $pageBlock) {
-            $validateResponse = $this->validatePageBlockRequiredFields($pageBlock, $pageName, $manifestFileName, $validateResponse);
-            $validateResponse = $this->validatePageBlockType($pageBlock, $pageName, $manifestFileName, $validateResponse);
+            $validateResponseTransfer = $this->validatePageBlockRequiredFields($pageBlock, $pageName, $manifestFileName, $validateResponseTransfer);
+            $validateResponseTransfer = $this->validatePageBlockType($pageBlock, $pageName, $manifestFileName, $validateResponseTransfer);
         }
 
-        return $validateResponse;
+        return $validateResponseTransfer;
     }
 
     /**
      * @param array $pageBlock
      * @param string $pageName
      * @param string $manifestFileName
-     * @param \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface $validateResponse
+     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
     protected function validatePageBlockRequiredFields(
         array $pageBlock,
         string $pageName,
         string $manifestFileName,
-        ValidateResponseInterface $validateResponse
-    ): ValidateResponseInterface {
+        ValidateResponseTransfer $validateResponseTransfer
+    ): ValidateResponseTransfer {
         $requiredManifestPageBlockFields = $this->config->getRequiredManifestPageBlockFields();
 
         foreach ($requiredManifestPageBlockFields as $requiredManifestPageBlockField) {
             if (!isset($pageBlock[$requiredManifestPageBlockField])) {
-                $validateResponse->addError(sprintf('Page block field "%s" in page "%s" must be present in the manifest file "%s" but was not found.', $requiredManifestPageBlockField, $pageName, $manifestFileName));
+                $messageTransfer = new MessageTransfer();
+                $messageTransfer->setMessage(sprintf('Page block field "%s" in page "%s" must be present in the manifest file "%s" but was not found.', $requiredManifestPageBlockField, $pageName, $manifestFileName));
+                $validateResponseTransfer->addError($messageTransfer);
             }
         }
 
-        return $validateResponse;
+        return $validateResponseTransfer;
     }
 
     /**
      * @param array $pageBlock
      * @param string $pageName
      * @param string $manifestFileName
-     * @param \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface $validateResponse
+     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
     protected function validatePageBlockType(
         array $pageBlock,
         string $pageName,
         string $manifestFileName,
-        ValidateResponseInterface $validateResponse
-    ): ValidateResponseInterface {
+        ValidateResponseTransfer $validateResponseTransfer
+    ): ValidateResponseTransfer {
         if (!isset($pageBlock['type'])) { // Validation already done in `validatePageBlockRequiredFields()`, no additional error message needed.
-            return $validateResponse;
+            return $validateResponseTransfer;
         }
 
         $allowedManifestPageBlockTypes = $this->config->getAllowedManifestPageTypes();
 
         if (!in_array($pageBlock['type'], $allowedManifestPageBlockTypes)) {
-            $validateResponse->addError(sprintf(
+            $messageTransfer = new MessageTransfer();
+            $messageTransfer->setMessage(sprintf(
                 'Page block type "%s" not allowed in page "%s" in the manifest file "%s".',
                 $pageBlock['type'],
                 $pageName,
                 $manifestFileName,
             ));
+            $validateResponseTransfer->addError($messageTransfer);
         }
 
-        return $validateResponse;
+        return $validateResponseTransfer;
     }
 }

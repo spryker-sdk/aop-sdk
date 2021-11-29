@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Zed\AppSdk\Communication\Console;
 
-use SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequest;
+use Generated\Shared\Transfer\ValidateRequestTransfer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -47,20 +47,20 @@ class ValidateTranslationConsole extends AbstractConsole
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $validatorRequest = new ValidateRequest();
-        $validatorRequest->setTranslationFile($input->getOption(static::TRANSLATION_FILE));
-        $validatorRequest->setManifestPath($input->getOption(ValidateManifestConsole::MANIFEST_PATH));
-        $validatorRequest->setConfigurationFile($input->getOption(ValidateConfigurationConsole::CONFIGURATION_FILE));
+        $validateRequestTransfer = new ValidateRequestTransfer();
+        $validateRequestTransfer->setTranslationFile($input->getOption(static::TRANSLATION_FILE));
+        $validateRequestTransfer->setManifestPath($input->getOption(ValidateManifestConsole::MANIFEST_PATH));
+        $validateRequestTransfer->setConfigurationFile($input->getOption(ValidateConfigurationConsole::CONFIGURATION_FILE));
 
-        $validatorResult = $this->getFacade()->validateTranslation($validatorRequest);
+        $validateResponseTransfer = $this->getFacade()->validateTranslation($validateRequestTransfer);
 
-        if ($validatorResult->isValid()) {
+        if ($validateResponseTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;
         }
 
         if ($output->isVerbose()) {
-            foreach ($validatorResult->getErrors() as $error) {
-                $output->writeln($error);
+            foreach ($validateResponseTransfer->getErrors() as $error) {
+                $output->writeln($error->getMessageOrFail());
             }
         }
 

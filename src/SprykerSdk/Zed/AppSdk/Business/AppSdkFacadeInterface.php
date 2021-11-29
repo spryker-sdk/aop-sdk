@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business;
 
-use SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface;
-use SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface;
+use Generated\Shared\Transfer\ValidateRequestTransfer;
+use Generated\Shared\Transfer\ValidateResponseTransfer;
 
 interface AppSdkFacadeInterface
 {
@@ -18,11 +18,11 @@ interface AppSdkFacadeInterface
      *
      * @api
      *
-     * @param \SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface $validateRequest
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validate(ValidateRequestInterface $validateRequest): ValidateResponseInterface;
+    public function validate(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
 
     /**
      * Specification:
@@ -30,11 +30,11 @@ interface AppSdkFacadeInterface
      *
      * @api
      *
-     * @param \SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface $validateRequest
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateManifest(ValidateRequestInterface $validateRequest): ValidateResponseInterface;
+    public function validateManifest(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
 
     /**
      * Specification:
@@ -42,11 +42,11 @@ interface AppSdkFacadeInterface
      *
      * @api
      *
-     * @param \SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface $validateRequest
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateConfiguration(ValidateRequestInterface $validateRequest): ValidateResponseInterface;
+    public function validateConfiguration(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
 
     /**
      * Specification:
@@ -54,9 +54,9 @@ interface AppSdkFacadeInterface
      *
      * @api
      *
-     * @param \SprykerSdk\Zed\AppSdk\Business\Request\ValidateRequestInterface $validateRequest
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateTranslation(ValidateRequestInterface $validateRequest): ValidateResponseInterface;
+    public function validateTranslation(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
 }

@@ -7,17 +7,22 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business\Validator;
 
-use SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface;
+use Generated\Shared\Transfer\ValidateResponseTransfer;
 
 interface FileValidatorInterface
 {
     /**
      * @param array $data
      * @param string $fileName
-     * @param \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface $validateResponse
+     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
      * @param array|null $context
      *
-     * @return \SprykerSdk\Zed\AppSdk\Business\Response\ValidateResponseInterface
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validate(array $data, string $fileName, ValidateResponseInterface $validateResponse, ?array $context = null): ValidateResponseInterface;
+    public function validate(
+        array $data,
+        string $fileName,
+        ValidateResponseTransfer $validateResponseTransfer,
+        ?array $context = null
+    ): ValidateResponseTransfer;
 }

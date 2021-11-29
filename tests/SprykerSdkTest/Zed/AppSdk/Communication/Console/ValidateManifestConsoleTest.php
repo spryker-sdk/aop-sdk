@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ValidateManifestConsoleTest extends Unit
 {
     /**
-     * @var \AppSdkTest\CommandTester
+     * @var \SprykerSdkTest\CommunicationTester
      */
     protected $tester;
 

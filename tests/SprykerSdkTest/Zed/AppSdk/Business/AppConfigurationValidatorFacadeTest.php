@@ -16,7 +16,7 @@ use Codeception\Test\Unit;
 class AppConfigurationValidatorFacadeTest extends Unit
 {
     /**
-     * @var \AppSdkTest\AppSdkTester
+     * @var \SprykerSdkTest\BusinesssTester
      */
     protected $tester;
 
@@ -29,16 +29,16 @@ class AppConfigurationValidatorFacadeTest extends Unit
         $this->tester->haveValidConfiguration();
 
         // Act
-        $validatorResult = $this->tester->getFacade()->validateConfiguration(
+        $validateResponseTransfer = $this->tester->getFacade()->validateConfiguration(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $this->assertCount(0, $validatorResult->getErrors(), sprintf(
+        $this->assertCount(0, $validateResponseTransfer->getErrors(), sprintf(
             'Expected that no validation errors given but there are errors. Errors: "%s"',
-            implode(', ', $validatorResult->getErrors()),
+            implode(', ', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer)),
         ));
-        $this->assertTrue($validatorResult->isValid(), 'Expected that validation was successful but was not.');
+        $this->assertCount(0, $validateResponseTransfer->getErrors(), 'Expected that validation was successful but was not.');
     }
 
     /**
@@ -47,15 +47,15 @@ class AppConfigurationValidatorFacadeTest extends Unit
     public function testValidateConfigurationReturnsFailedResponseWhenConfigurationFileNotFound(): void
     {
         // Act
-        $validatorResult = $this->tester->getFacade()->validateConfiguration(
+        $validateResponseTransfer = $this->tester->getFacade()->validateConfiguration(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $this->assertCount(1, $validatorResult->getErrors());
+        $this->assertCount(1, $validateResponseTransfer->getErrors());
 
-        $expectedErrorMessage = current($validatorResult->getErrors());
-        $this->assertSame('No "configuration.json" file found.', $expectedErrorMessage);
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('No "configuration.json" file found.', $expectedErrorMessage->getMessage());
     }
 
     /**
@@ -67,14 +67,14 @@ class AppConfigurationValidatorFacadeTest extends Unit
         $this->tester->haveInvalidConfigurationFile();
 
         // Act
-        $validatorResult = $this->tester->getFacade()->validateConfiguration(
+        $validateResponseTransfer = $this->tester->getFacade()->validateConfiguration(
             $this->tester->haveValidateRequest(),
         );
 
         // Assert
-        $this->assertCount(1, $validatorResult->getErrors());
+        $this->assertCount(1, $validateResponseTransfer->getErrors());
 
-        $expectedErrorMessage = current($validatorResult->getErrors());
-        $this->assertSame('Configuration file "vfs://root/config/app/configuration/configuration.json" contains invalid JSON. Error: "Syntax error".', $expectedErrorMessage);
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('Configuration file "vfs://root/config/app/configuration/configuration.json" contains invalid JSON. Error: "Syntax error".', $expectedErrorMessage->getMessage());
     }
 }
