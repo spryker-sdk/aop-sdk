@@ -53,7 +53,7 @@ jobs:
               run: composer install
 
             - name: Generate Transfers
-              run: console transfer:generate
+              run: vendor/bin/console transfer:generate
 
             - name: Run Rector checks
               run: composer rector-diff
