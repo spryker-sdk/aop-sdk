@@ -9,7 +9,7 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateConfigurationConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AddAsyncApiConsole;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -18,9 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @group AppSdk
  * @group Communication
  * @group Console
- * @group ValidateConfigurationConsoleTest
+ * @group AddAsyncApiConsoleTest
  */
-class ValidateConfigurationConsoleTest extends Unit
+class AddAsyncApiConsoleTest extends Unit
 {
     /**
      * @var \SprykerSdkTest\CommunicationTester
@@ -30,15 +30,18 @@ class ValidateConfigurationConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testValidateConfigurationReturnsSuccessCodeWhenValidationIsSuccessful(): void
+    public function testAddAsyncApiReturnsSuccessCodeWhenAsyncApiWasAdded(): void
     {
         // Arrange
-        $this->tester->haveValidConfiguration();
-
-        $commandTester = $this->tester->getConsoleTester(ValidateConfigurationConsole::class);
+        $this->tester->mockRootPath();
+        $commandTester = $this->tester->getConsoleTester(AddAsyncApiConsole::class);
 
         // Act
-        $commandTester->execute([]);
+        $commandTester->execute(
+            [
+                AddAsyncApiConsole::ARGUMENT_TITLE => 'My Apps AsyncAPI title',
+            ],
+        );
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
@@ -47,12 +50,18 @@ class ValidateConfigurationConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testValidateConfigurationReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
+    public function testAddAsyncApiReturnsErrorCodeAndPrintsErrorMessagesWhenAsyncApiCouldNotBeAdded(): void
     {
-        $commandTester = $this->tester->getConsoleTester(new ValidateConfigurationConsole());
+        $this->tester->haveAsyncApiFile();
+        $commandTester = $this->tester->getConsoleTester(AddAsyncApiConsole::class, false);
 
         // Act
-        $commandTester->execute([], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+        $commandTester->execute(
+            [
+                AddAsyncApiConsole::ARGUMENT_TITLE => 'My Apps AsyncAPI title',
+            ],
+            ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
+        );
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());

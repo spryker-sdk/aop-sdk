@@ -13,8 +13,12 @@ use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateManifestConsole;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @group Command
- * @group ValidateManifestCommandTest
+ * @group SprykerSdkTest
+ * @group Zed
+ * @group AppSdk
+ * @group Communication
+ * @group Console
+ * @group ValidateManifestConsoleTest
  */
 class ValidateManifestConsoleTest extends Unit
 {

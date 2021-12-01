@@ -22,6 +22,7 @@ suites:
                 - \SprykerSdkTest\Helper\AppManifestValidatorHelper
                 - \SprykerSdkTest\Helper\AppTranslationValidatorHelper
                 - \SprykerSdkTest\Helper\ValidatorHelper
+                - \SprykerSdkTest\Helper\AsyncApiHelper
     Businesss:
         path: SprykerSdkTest/Zed/AppSdk/Business
         class_name: BusinesssTester
@@ -31,6 +32,7 @@ suites:
                 - \SprykerSdkTest\Helper\AppManifestValidatorHelper
                 - \SprykerSdkTest\Helper\AppTranslationValidatorHelper
                 - \SprykerSdkTest\Helper\ValidatorHelper
+                - \SprykerSdkTest\Helper\AsyncApiHelper
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
