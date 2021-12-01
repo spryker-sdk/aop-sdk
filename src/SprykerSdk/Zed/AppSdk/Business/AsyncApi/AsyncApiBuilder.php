@@ -122,7 +122,11 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
         $requiredFields = [];
 
         foreach ($messageAttributes as $propertyName => $propertyDefinition) {
-            if ($propertyDefinition['is_transfer'] || $propertyDefinition['is_value_object']) {
+            if ($propertyDefinition['is_transfer']) {
+                continue;
+            }
+
+            if ($propertyDefinition['is_value_object']) {
                 continue;
             }
 
@@ -299,6 +303,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
         if (!isset($asyncApi['components'])) {
             $asyncApi['components'] = [];
         }
+
         if (!isset($asyncApi['components']['schemas'])) {
             $asyncApi['components']['schemas'] = [];
         }
