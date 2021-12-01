@@ -341,6 +341,8 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
      */
     private function writeToFile(string $targetFile, array $asyncApi): void
     {
+        $asyncApi = $this->orderAsyncApiElements($asyncApi);
+
         $asyncApiSchemaYaml = Yaml::dump($asyncApi, 100);
 
         $dirname = dirname($targetFile);
@@ -350,5 +352,37 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
         }
 
         file_put_contents($targetFile, $asyncApiSchemaYaml);
+    }
+
+    /**
+     * @param array $asyncApi
+     *
+     * @return array
+     */
+    protected function orderAsyncApiElements(array $asyncApi): array
+    {
+        $orderedElements = [];
+
+        if (isset($asyncApi['channels'])) {
+            $orderedElements['channels'] = $asyncApi['channels'];
+            unset($asyncApi['channels']);
+        }
+
+        if (isset($asyncApi['components']['schemas'])) {
+            $orderedElements['components']['schemas'] = $asyncApi['components']['schemas'];
+            unset($asyncApi['components']['schemas']);
+        }
+
+        if (isset($asyncApi['components']['messages'])) {
+            $orderedElements['components']['messages'] = $asyncApi['components']['messages'];
+            unset($asyncApi['components']['messages']);
+        }
+
+        if (!$asyncApi['components']) {
+            unset($asyncApi['components']);
+        }
+        $asyncApi = array_merge($asyncApi, $orderedElements);
+
+        return $asyncApi;
     }
 }
