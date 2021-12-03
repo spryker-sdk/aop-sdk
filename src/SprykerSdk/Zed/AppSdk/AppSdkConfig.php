@@ -42,7 +42,6 @@ class AppSdkConfig extends AbstractBundleConfig
             'description',
             'descriptionShort',
             'categories',
-            'labels',
             'pages',
         ];
     }
