@@ -35,7 +35,6 @@ class AppSdkConsoleDependencyProvider extends SprykerConsoleDependencyProvider
             new ValidateManifestConsole(),
             new ValidateConfigurationConsole(),
             new ValidateTranslationConsole(),
-            new AddAsyncApiMessageConsole(),
         ];
     }
 }

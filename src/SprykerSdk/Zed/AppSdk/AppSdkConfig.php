@@ -42,7 +42,6 @@ class AppSdkConfig extends AbstractBundleConfig
             'description',
             'descriptionShort',
             'categories',
-            'labels',
             'pages',
         ];
     }
@@ -132,6 +131,8 @@ class AppSdkConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
      * @throws \Exception
      *
      * @return string
