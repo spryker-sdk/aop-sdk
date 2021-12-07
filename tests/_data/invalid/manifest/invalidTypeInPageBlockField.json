@@ -1,0 +1,20 @@
+{
+    "name": "Example DE",
+    "provider": "Example",
+    "description": "Eine lange Beschreibung.",
+    "descriptionShort": "Eine kurze Beschreibung.",
+    "configurationUrl": "https://example.spryker.local/configure",
+    "categories": [],
+    "pages": {
+        "Overview": [
+            {
+                "title": "Features",
+                "type": "invalid",
+                "data": [
+                    "Feature A"
+                ]
+            }
+        ]
+    },
+    "labels": []
+}

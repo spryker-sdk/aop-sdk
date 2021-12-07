@@ -1,0 +1,9 @@
+{
+    "foo.bar": {
+        "de_DE": "Foo Bar"
+    },
+    "baz.bat": {
+        "de_DE": "Baz Bat",
+        "en_US": "Baz Bat"
+    }
+}

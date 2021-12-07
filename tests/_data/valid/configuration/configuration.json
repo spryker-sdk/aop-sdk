@@ -1,0 +1,97 @@
+{
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "title": "Surname"
+        },
+        "children": {
+            "type": "array",
+            "title": "Family",
+            "items": {
+                "type": "object",
+                "title": "Children",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Surname",
+                        "widget": {
+                            "id": "string"
+                        }
+                    },
+                    "forename": {
+                        "type": "string",
+                        "title": "forename",
+                        "widget": {
+                            "id": "string"
+                        }
+                    },
+                    "age": {
+                        "type": "number",
+                        "title": "age",
+                        "widget": {
+                            "id": "number"
+                        }
+                    }
+                },
+                "fieldsets": [
+                    {
+                        "id": "fieldset-default",
+                        "title": "Children",
+                        "description": "",
+                        "name": "",
+                        "fields": [
+                            "name",
+                            "forename",
+                            "age"
+                        ]
+                    }
+                ],
+                "widget": {
+                    "id": "object"
+                }
+            },
+            "widget": {
+                "id": "array"
+            }
+        },
+        "test": {
+            "type": "string",
+            "title": "Testparam",
+            "visibleIf": {
+                "allOf": [
+                    {
+                        "forename": [
+                            "$ANY$"
+                        ]
+                    },
+                    {
+                        "name": [
+                            "$ANY$"
+                        ]
+                    }
+                ]
+            },
+            "widget": {
+                "id": "string"
+            }
+        }
+    },
+    "fieldsets": [
+        {
+            "id": "fieldset-default",
+            "title": "Example with custom bindings.",
+            "description": "Type a family name to see how the name gets synchronized with the children.",
+            "name": "",
+            "fields": [
+                "name",
+                "forename",
+                "children",
+                "test"
+            ]
+        }
+    ],
+    "widget": {
+        "id": "object"
+    }
+}
