@@ -18,4 +18,41 @@
         <property name="message" type="string"/>
     </transfer>
 
+    <transfer name="AsyncApiRequest">
+        <property name="targetFile" type="string"/>
+        <property name="asyncApi" type="AsyncApi"/>
+        <property name="asyncApiMesssage" type="AsyncApiMessage"/>
+    </transfer>
+
+    <transfer name="AsyncApi">
+        <property name="title" type="string"/>
+        <property name="version" type="string"/>
+    </transfer>
+
+    <transfer name="AsyncApiChannel">
+        <property name="name" type="string"/>
+    </transfer>
+
+    <transfer name="AsyncApiMessage">
+        <property name="name" type="string"/>
+        <property name="summary" type="string"/>
+        <property name="contentType" type="string"/>
+        <property name="payloadTransferObjectName" type="string"/>
+        <property name="addMetadata" type="bool"/>
+        <property name="channel" type="AsyncApiChannel"/>
+        <property name="isPublish" type="bool"/>
+        <property name="isSubscribe" type="bool"/>
+    </transfer>
+
+    <transfer name="AsyncApiResponse">
+        <property name="errors" type="Message[]" singular="error"/>
+    </transfer>
+
+    <transfer name="AsyncApiBuilderTest">
+        <property name="string" type="string"/>
+        <property name="integer" type="int"/>
+        <property name="decimal" type="decimal"/>
+        <property name="errors" type="Message[]" singular="error"/>
+    </transfer>
+
 </transfers>

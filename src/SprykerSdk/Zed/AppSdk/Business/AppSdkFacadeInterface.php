@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business;
 
+use Generated\Shared\Transfer\AsyncApiRequestTransfer;
+use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\ValidateRequestTransfer;
 use Generated\Shared\Transfer\ValidateResponseTransfer;
 
@@ -59,4 +61,29 @@ interface AppSdkFacadeInterface
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
     public function validateTranslation(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
+
+    /**
+     * Specification:
+     * - Adds an AsyncAPI file.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
+     */
+    public function addAsyncApi(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer;
+
+    /**
+     * Specification:
+     * - Adds an AsyncAPI message to a given file.
+     * - When the file does not exist, it will raise an error.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
+     */
+    public function addAsyncApiMessage(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer;
 }

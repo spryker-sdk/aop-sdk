@@ -110,6 +110,29 @@ class AppSdkConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
+     * @throws \Exception
+     *
+     * @return string
+     */
+    public function getDefaultAsyncApiFile(): string
+    {
+        $pathFragments = [
+            $this->getRootPath(),
+            'config',
+            'app',
+            'api',
+            'asyncapi',
+            'asyncapi.schema.yml',
+        ];
+
+        return implode(DIRECTORY_SEPARATOR, $pathFragments);
+    }
+
+    /**
+     * @api
+     *
      * @throws \Exception
      *
      * @return string

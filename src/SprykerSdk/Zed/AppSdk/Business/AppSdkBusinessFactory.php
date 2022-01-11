@@ -8,6 +8,8 @@
 namespace SprykerSdk\Zed\AppSdk\Business;
 
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
+use SprykerSdk\Zed\AppSdk\Business\AsyncApi\AsyncApiBuilder;
+use SprykerSdk\Zed\AppSdk\Business\AsyncApi\AsyncApiBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Configuration\ConfigurationValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Finder\Finder;
@@ -123,5 +125,13 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     protected function createTranslationFileValidator(): FileValidatorInterface
     {
         return new TranslationFileValidator($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\AsyncApi\AsyncApiBuilderInterface
+     */
+    public function createAsyncApiBuilder(): AsyncApiBuilderInterface
+    {
+        return new AsyncApiBuilder();
     }
 }
