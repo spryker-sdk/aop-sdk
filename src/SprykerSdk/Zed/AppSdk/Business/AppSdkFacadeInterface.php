@@ -9,6 +9,8 @@ namespace SprykerSdk\Zed\AppSdk\Business;
 
 use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
+use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
+use Generated\Shared\Transfer\CheckReadinessTransfer;
 use Generated\Shared\Transfer\ValidateRequestTransfer;
 use Generated\Shared\Transfer\ValidateResponseTransfer;
 
@@ -86,4 +88,19 @@ interface AppSdkFacadeInterface
      * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
      */
     public function addAsyncApiMessage(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer;
+
+    /**
+     * Specification:
+     * - Checks the readines of a project against recipes.
+     * - Loads recipe(s) by recipe name(s) from another repository.
+     * - Runs all defined checks.
+     * - Returns a CheckReadinessResponseTransfer that contains all needed information.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\CheckReadinessTransfer $checkReadinessTransfer
+     *
+     * @return \Generated\Shared\Transfer\CheckReadinessResponseTransfer
+     */
+    public function checkReadiness(CheckReadinessTransfer $checkReadinessTransfer): CheckReadinessResponseTransfer;
 }

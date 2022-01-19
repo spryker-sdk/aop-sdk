@@ -149,4 +149,22 @@ class AppSdkConfig extends AbstractBundleConfig
 
         return $cwd;
     }
+
+    /**
+     * @api
+     *
+     * @throws \Exception
+     *
+     * @return string
+     */
+    public function getPathToCheckRecipes(): string
+    {
+        $pathFragments = [
+            $this->getRootPath(),
+            'config',
+            'CheckRecipes',
+        ];
+
+        return implode(DIRECTORY_SEPARATOR, $pathFragments);
+    }
 }

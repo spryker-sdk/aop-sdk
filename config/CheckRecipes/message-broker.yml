@@ -1,0 +1,25 @@
+composer:
+    "spryker/message-broker": "^1.0.0"
+    "spryker/message-broker-aws": "^1.0.0"
+plugins:
+    - "\\{projectNamespace}\\Zed\\MessageBroker\\MessageBrokerDependencyProvider":
+        method: "getMessageSenderPlugins"
+        plugins:
+          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\AwsSqsSenderPlugin"
+          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\HttpSenderPlugin"
+    - "\\{projectNamespace}\\Zed\\MessageBroker\\MessageBrokerDependencyProvider":
+        method: "getMessageReceiverPlugins"
+        plugins:
+          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\AwsSqsReceiverPlugin"
+    - "\\{projectNamespace}\\Zed\\MessageBroker\\MessageBrokerDependencyProvider":
+        method: "getMessageAttributeProviderPlugins"
+        plugins:
+          - "\\Spryker\\Zed\\MessageBroker\\Communication\\Plugin\\MessageBroker\\AppIdentifierMessageAttributeProviderPlugin"
+          - "\\Spryker\\Zed\\MessageBroker\\Communication\\Plugin\\MessageBroker\\CorrelationIdMessageAttributeProviderPlugin"
+          - "\\Spryker\\Zed\\MessageBroker\\Communication\\Plugin\\MessageBroker\\TenantIdentifierMessageAttributeProviderPlugin"
+          - "\\Spryker\\Zed\\MessageBroker\\Communication\\Plugin\\MessageBroker\\TimestampMessageAttributeProviderPlugin"
+env:
+    - "AOP_MESSAGE_TO_CHANNEL_MAP"
+    - "AOP_SENDER_CHANNEL_TO_CLIENT_MAP"
+    - "AOP_CHANNEL_TO_SENDER_CLIENT_MAP"
+    - "AOP_CHANNEL_TO_RECEIVER_CLIENT_MAP"

@@ -4,11 +4,22 @@
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg)](https://php.net/)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%208-brightgreen.svg?style=flat)](https://phpstan.org/)
 
-AppSdk is a tool that helps to work with Apps.
+AppSdk is a tool that helps to work with Apps. It is designed as small Spryker project that has the same features as a standard installation.
+
+There will be other modules beside the AppSdk module e.g. Console, Transfer etc.
 
 ## Installation
 
 `composer require --dev spryker-sdk/app-sdk`
+
+`vendor/bin/console transfer:generate`
+
+### Run tests/checks
+
+- `composer test` - This will execute the tests.
+- `composer cs-check` - This will run CodeStyle checks.
+- `composer cs-fix` - This will fix fixable CodeStyles.
+- `composer stan` - This will run PHPStan checks.
 
 ## Usage
 

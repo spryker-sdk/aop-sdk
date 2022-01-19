@@ -1,0 +1,5 @@
+plugins:
+    "\\{projectNamespace}\\Zed\\FooBar\\FooBarDependencyProvider":
+        method: "getFooBarPlugins"
+        plugins:
+            - "\\Spryker\\Zed\\FooBar\\Communication\\Plugins\\BazBat\\FooBarPlugin"

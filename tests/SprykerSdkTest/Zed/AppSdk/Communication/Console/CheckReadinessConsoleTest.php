@@ -1,0 +1,228 @@
+<?php
+
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
+
+use Codeception\Test\Unit;
+use SprykerSdk\Zed\AppSdk\Business\Exception\CheckerNotFoundExceptionException;
+use SprykerSdk\Zed\AppSdk\Business\Exception\RecipeNotFoundExceptionException;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\CheckReadinessConsole;
+use Symfony\Component\Console\Output\OutputInterface;
+
+/**
+ * @group SprykerSdkTest
+ * @group Zed
+ * @group AppSdk
+ * @group Communication
+ * @group Console
+ * @group CheckReadinessConsoleTest
+ */
+class CheckReadinessConsoleTest extends Unit
+{
+    /**
+     * @var \SprykerSdkTest\Zed\AppSdk\CommunicationTester
+     */
+    protected $tester;
+
+    /**
+     * @return void
+     */
+    public function testReturnsSuccessfulResponseWhenNoErrorWasFound(): void
+    {
+        // Arrange
+        $checkReadinessConsoleCommand = $this->tester->createCheckReadinessConsoleCommand();
+        $commandTester = $this->tester->getConsoleTester($checkReadinessConsoleCommand);
+
+        // Act
+        $commandTester->execute(
+            [
+                CheckReadinessConsole::ARGUMENT_CHECK_RECIPE => 'no-error',
+            ],
+        );
+        $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
+    }
+
+    /**
+     * @return void
+     */
+    public function testReturnsThrowsExceptionWhenRecipeByNameWasNotFound(): void
+    {
+        // Arrange
+        $checkReadinessConsoleCommand = $this->tester->createCheckReadinessConsoleCommand();
+        $commandTester = $this->tester->getConsoleTester($checkReadinessConsoleCommand);
+
+        // Expect
+        $this->expectException(RecipeNotFoundExceptionException::class);
+
+        // Act
+        $commandTester->execute(
+            [
+                CheckReadinessConsole::ARGUMENT_CHECK_RECIPE => 'not-existent-recipe',
+            ],
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testReturnsThrowsExceptionWhenCheckerByNameWasNotFound(): void
+    {
+        // Arrange
+        $checkReadinessConsoleCommand = $this->tester->createCheckReadinessConsoleCommand();
+        $commandTester = $this->tester->getConsoleTester($checkReadinessConsoleCommand);
+
+        // Expect
+        $this->expectException(CheckerNotFoundExceptionException::class);
+
+        // Act
+        $commandTester->execute(
+            [
+                CheckReadinessConsole::ARGUMENT_CHECK_RECIPE => 'undefined-checker',
+            ],
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testReturnsRecipeWithErrorsWhenComposerPackageIsNotInstalled(): void
+    {
+        // Arrange
+        $checkReadinessConsoleCommand = $this->tester->createCheckReadinessConsoleCommand();
+        $commandTester = $this->tester->getConsoleTester($checkReadinessConsoleCommand);
+
+        // Act
+        $commandTester->execute(
+            [
+                CheckReadinessConsole::ARGUMENT_CHECK_RECIPE => 'missing-composer-package',
+            ],
+            ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
+        );
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+        $this->assertStringContainsString('Required package "missing/requirement" was not found. Please install it with "composer install missing/requirement".', $commandTester->getDisplay());
+    }
+
+    /**
+     * @return void
+     */
+    public function testReturnsRecipeWithErrorsWhenComposerPackageDoesNotSatisfyExpectedVersion(): void
+    {
+        // Arrange
+        $checkReadinessConsoleCommand = $this->tester->createCheckReadinessConsoleCommand();
+        $commandTester = $this->tester->getConsoleTester($checkReadinessConsoleCommand);
+
+        // Act
+        $commandTester->execute(
+            [
+                CheckReadinessConsole::ARGUMENT_CHECK_RECIPE => 'composer-package-does-not-satisfy-expected-version',
+            ],
+            ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
+        );
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+        $this->assertStringContainsString('Required package "spryker/testify" does not satisfy the expected version "^100.0.0". Please update your composer dependencies.', $commandTester->getDisplay());
+    }
+
+    /**
+     * @return void
+     */
+    public function testReturnsRecipeWithErrorsWhenExpectedDependencyProviderDoesNotExists(): void
+    {
+        // Arrange
+        $checkReadinessConsoleCommand = $this->tester->createCheckReadinessConsoleCommand();
+        $commandTester = $this->tester->getConsoleTester($checkReadinessConsoleCommand);
+
+        // Act
+        $commandTester->execute(
+            [
+                CheckReadinessConsole::ARGUMENT_CHECK_RECIPE => 'missing-plugins',
+                '--' . CheckReadinessConsole::OPTION_PROJECT_NAMESPACE => 'FooBar',
+            ],
+            ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
+        );
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+        $this->assertStringContainsString('The class "\FooBar\Zed\FooBar\FooBarDependencyProvider" was not found please create one with a method "getFooBarPlugins()".', $commandTester->getDisplay());
+    }
+
+    /**
+     * @return void
+     */
+    public function testReturnsRecipeWithErrorsWhenExpectedPluginMethodDoesNotExistsInTheDependencyProvider(): void
+    {
+        // Arrange
+        $checkReadinessConsoleCommand = $this->tester->createCheckReadinessConsoleCommand();
+        $commandTester = $this->tester->getConsoleTester($checkReadinessConsoleCommand);
+
+        include_once codecept_data_dir('Fixtures/FooBarDependencyProvider.php');
+
+        // Act
+        $commandTester->execute(
+            [
+                CheckReadinessConsole::ARGUMENT_CHECK_RECIPE => 'missing-dependency-provider-method',
+                '--' . CheckReadinessConsole::OPTION_PROJECT_NAMESPACE => 'FooBar',
+            ],
+            ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
+        );
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+        $this->assertStringContainsString('The method "\FooBar\Zed\FooBar\FooBarDependencyProvider::getCatFacePlugins()" was not found please add it.', $commandTester->getDisplay());
+    }
+
+    /**
+     * @return void
+     */
+    public function testReturnsRecipeWithErrorsWhenExpectedPluginsAreNotAddedToTheDependencyProvider(): void
+    {
+        // Arrange
+        $checkReadinessConsoleCommand = $this->tester->createCheckReadinessConsoleCommand();
+        $commandTester = $this->tester->getConsoleTester($checkReadinessConsoleCommand);
+
+        include_once codecept_data_dir('Fixtures/FooBarDependencyProvider.php');
+
+        // Act
+        $commandTester->execute(
+            [
+                CheckReadinessConsole::ARGUMENT_CHECK_RECIPE => 'missing-plugins',
+                '--' . CheckReadinessConsole::OPTION_PROJECT_NAMESPACE => 'FooBar',
+            ],
+            ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
+        );
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+        $this->assertStringContainsString('The plugin "\Spryker\Zed\FooBar\Communication\Plugins\BazBat\FooBarPlugin" does not exists in "\FooBar\Zed\FooBar\FooBarDependencyProvider::getFooBarPlugins()".', $commandTester->getDisplay());
+    }
+
+    /**
+     * @return void
+     */
+    public function testReturnsRecipeWithErrorsWhenEnvVarIsNotSet(): void
+    {
+        // Arrange
+        $checkReadinessConsoleCommand = $this->tester->createCheckReadinessConsoleCommand();
+        $commandTester = $this->tester->getConsoleTester($checkReadinessConsoleCommand);
+
+        // Act
+        $commandTester->execute(
+            [
+                CheckReadinessConsole::ARGUMENT_CHECK_RECIPE => 'env',
+            ],
+            ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
+        );
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+        $this->assertStringContainsString('The env variable "FOO_BAR" does not exists, please add it.', $commandTester->getDisplay());
+    }
+}

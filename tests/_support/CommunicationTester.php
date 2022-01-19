@@ -4,7 +4,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdkTest;
+namespace SprykerSdkTest\Zed\AppSdk;
 
 use Codeception\Actor;
 
@@ -27,4 +27,8 @@ use Codeception\Actor;
 class CommunicationTester extends Actor
 {
     use _generated\CommunicationTesterActions;
+
+    /**
+     * Define custom actions here
+     */
 }

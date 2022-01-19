@@ -16,6 +16,7 @@
 
     <transfer name="Message">
         <property name="message" type="string"/>
+        <property name="type" type="string"/>
     </transfer>
 
     <transfer name="AsyncApiRequest">
@@ -53,6 +54,33 @@
         <property name="integer" type="int"/>
         <property name="decimal" type="decimal"/>
         <property name="errors" type="Message[]" singular="error"/>
+    </transfer>
+
+    <transfer name="CheckReadiness">
+        <property name="recipes" type="Recipe[]" singular="recipe"/>
+        <property name="checkConfiguration" type="CheckConfiguration"/>
+    </transfer>
+
+    <transfer name="CheckConfiguration">
+        <property name="projectNamespace" type="string"/>
+        <property name="rootPath" type="string"/>
+        <property name="checkConfiguration" type="array"/>
+    </transfer>
+
+    <transfer name="CheckReadinessResponse">
+        <property name="recipes" type="Recipe[]" singular="recipe"/>
+        <property name="isSuccessful" type="bool"/>
+    </transfer>
+
+    <transfer name="Recipe">
+        <property name="name" type="string"/>
+        <property name="loadedRecipe" type="array"/>
+        <property name="checkerMessages" type="CheckerMessage[]" singular="checkerMessage"/>
+    </transfer>
+
+    <transfer name="CheckerMessage">
+        <property name="type" type="string"/>
+        <property name="message" type="string"/>
     </transfer>
 
 </transfers>
