@@ -168,6 +168,8 @@ class AppSdkConfig extends AbstractBundleConfig
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return string
      */
     protected function getRootPath(): string

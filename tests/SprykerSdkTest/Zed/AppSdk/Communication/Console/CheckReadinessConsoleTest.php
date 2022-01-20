@@ -35,16 +35,29 @@ class CheckReadinessConsoleTest extends Unit
     public function testReturnsSuccessfulResponseWhenNoErrorWasFound(): void
     {
         // Arrange
+        putenv('FOO_BAR=exist');
+        include_once codecept_data_dir('Fixtures/BazBatDependencyProvider.php');
+
         $checkReadinessConsoleCommand = $this->tester->createCheckReadinessConsoleCommand();
         $commandTester = $this->tester->getConsoleTester($checkReadinessConsoleCommand);
 
         // Act
         $commandTester->execute(
             [
-                CheckReadinessConsole::ARGUMENT_CHECK_RECIPE => 'no-error',
+                CheckReadinessConsole::ARGUMENT_CHECK_RECIPE => [
+                    'valid-composer',
+                    'valid-env',
+                    'valid-plugins',
+                ],
+                '--' . CheckReadinessConsole::OPTION_PROJECT_NAMESPACE => 'BazBat',
             ],
+            ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
         );
+        $this->assertEmpty($commandTester->getDisplay(), $commandTester->getDisplay());
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
+
+        // Cleanup
+        putenv('FOO_BAR');
     }
 
     /**
@@ -216,7 +229,7 @@ class CheckReadinessConsoleTest extends Unit
         // Act
         $commandTester->execute(
             [
-                CheckReadinessConsole::ARGUMENT_CHECK_RECIPE => 'env',
+                CheckReadinessConsole::ARGUMENT_CHECK_RECIPE => 'missing-env',
             ],
             ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
         );

@@ -65,9 +65,8 @@ class ReadinessChecker implements ReadinessCheckerInterface
 
             if ($recipeTransfer->getCheckerMessages()->count() !== 0) {
                 $checkReadinessResponseTransfer->setIsSuccessful(false);
+                $checkReadinessResponseTransfer->addRecipe($recipeTransfer);
             }
-
-            $checkReadinessResponseTransfer->addRecipe($recipeTransfer);
         }
 
         return $checkReadinessResponseTransfer;
