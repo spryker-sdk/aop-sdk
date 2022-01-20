@@ -20,7 +20,7 @@ class AppSdkConfig extends AbstractBundleConfig
     public function getDefaultManifestPath(): string
     {
         $pathFragments = [
-            $this->getRootPath(),
+            $this->getProjectRootPath(),
             'config',
             'app',
             'manifest',
@@ -81,7 +81,7 @@ class AppSdkConfig extends AbstractBundleConfig
     public function getDefaultConfigurationFile(): string
     {
         $pathFragments = [
-            $this->getRootPath(),
+            $this->getProjectRootPath(),
             'config',
             'app',
             'configuration',
@@ -99,7 +99,7 @@ class AppSdkConfig extends AbstractBundleConfig
     public function getDefaultTranslationFile(): string
     {
         $pathFragments = [
-            $this->getRootPath(),
+            $this->getProjectRootPath(),
             'config',
             'app',
             'translation',
@@ -119,12 +119,11 @@ class AppSdkConfig extends AbstractBundleConfig
     public function getDefaultAsyncApiFile(): string
     {
         $pathFragments = [
-            $this->getRootPath(),
+            $this->getProjectRootPath(),
             'config',
-            'app',
             'api',
             'asyncapi',
-            'asyncapi.schema.yml',
+            'asyncapi.yml',
         ];
 
         return implode(DIRECTORY_SEPARATOR, $pathFragments);
@@ -137,7 +136,7 @@ class AppSdkConfig extends AbstractBundleConfig
      *
      * @return string
      */
-    protected function getRootPath(): string
+    protected function getProjectRootPath(): string
     {
         $cwd = getcwd();
 
@@ -166,5 +165,13 @@ class AppSdkConfig extends AbstractBundleConfig
         ];
 
         return implode(DIRECTORY_SEPARATOR, $pathFragments);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRootPath(): string
+    {
+        return __DIR__ . '/../../../..';
     }
 }

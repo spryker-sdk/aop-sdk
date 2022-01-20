@@ -98,11 +98,9 @@ class AsyncApiHelper extends Module
     {
         $structure = [
             'config' => [
-                'app' => [
-                    'api' => [
-                        'asyncapi' => [
-                            'asyncapi.schema.yml' => file_get_contents($pathToAsyncApi),
-                        ],
+                'api' => [
+                    'asyncapi' => [
+                        'asyncapi.yml' => file_get_contents($pathToAsyncApi),
                     ],
                 ],
             ],

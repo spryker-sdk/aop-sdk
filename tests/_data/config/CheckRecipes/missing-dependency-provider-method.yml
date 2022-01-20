@@ -1,5 +1,10 @@
 plugins:
-    "\\{projectNamespace}\\Zed\\FooBar\\FooBarDependencyProvider":
+    - "\\{projectNamespace}\\Zed\\FooBar\\FooBarDependencyProvider":
+        method: "getCatFacePlugins"
+        plugins:
+            - "\\Spryker\\Zed\\FooBar\\Communication\\Plugins\\BazBat\\FooBarPlugin"
+
+    - "\\{projectNamespace}\\Zed\\FooBar\\FooBarDependencyProvider":
         method: "getCatFacePlugins"
         plugins:
             - "\\Spryker\\Zed\\FooBar\\Communication\\Plugins\\BazBat\\FooBarPlugin"
