@@ -20,6 +20,9 @@ require_once COMPOSER_INSTALL;
 defined('APPLICATION_ROOT_DIR')
     || define('APPLICATION_ROOT_DIR', getcwd());
 
+defined('APP_SDK_ROOT_DIR')
+    || define('APP_SDK_ROOT_DIR', __DIR__ . '/..');
+
 defined('APPLICATION_ENV')
     || define('APPLICATION_ENV', 'development');
 

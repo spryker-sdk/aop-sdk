@@ -8,14 +8,17 @@
 namespace BazBat\Zed\BazBat;
 
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
+use Spryker\Zed\Kernel\Container;
 use stdClass;
 
 class BazBatDependencyProvider extends AbstractBundleDependencyProvider
 {
     /**
-     * @return array
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return array<\stdClass>
      */
-    protected function getBazBatPlugins(): array
+    protected function getBazBatPlugins(Container $container): array
     {
         return [
             new stdClass(),

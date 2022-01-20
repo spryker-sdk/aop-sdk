@@ -174,6 +174,6 @@ class AppSdkConfig extends AbstractBundleConfig
      */
     protected function getRootPath(): string
     {
-        return __DIR__ . '/../../../..';
+        return APP_SDK_ROOT_DIR;
     }
 }

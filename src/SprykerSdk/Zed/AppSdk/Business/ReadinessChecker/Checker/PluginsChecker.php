@@ -11,6 +11,8 @@ use Generated\Shared\Transfer\CheckConfigurationTransfer;
 use Generated\Shared\Transfer\CheckerMessageTransfer;
 use Generated\Shared\Transfer\RecipeTransfer;
 use ReflectionMethod;
+use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
+use Spryker\Zed\Kernel\Container;
 
 class PluginsChecker implements CheckerInterface
 {
@@ -115,11 +117,12 @@ class PluginsChecker implements CheckerInterface
      */
     protected function checkExpectedPluginsExists(RecipeTransfer $recipeTransfer, string $className, array $configuration): RecipeTransfer
     {
+        /** @var \Spryker\Zed\Kernel\AbstractBundleDependencyProvider $dependencyProvider */
         $dependencyProvider = new $className();
         $reflectionMethod = new ReflectionMethod($className, $configuration['method']);
         $reflectionMethod->setAccessible(true);
 
-        $plugins = $reflectionMethod->invoke($dependencyProvider);
+        $plugins = $this->getPluginsFromReflection($reflectionMethod, $dependencyProvider);
 
         foreach ($configuration['plugins'] as $expectedPluginClassName) {
             if (!$this->checkIfPluginExistsInPluginStack($plugins, $expectedPluginClassName)) {
@@ -132,6 +135,29 @@ class PluginsChecker implements CheckerInterface
         }
 
         return $recipeTransfer;
+    }
+
+    /**
+     * This is only for the ConsoleDependencyProvider as it needs the Container passed.
+     *
+     * TODO: Change to use a static analyser instead of Reflection.
+     *
+     * @param \ReflectionMethod $reflectionMethod
+     * @param \Spryker\Zed\Kernel\AbstractBundleDependencyProvider $dependencyProvider
+     *
+     * @return array
+     */
+    protected function getPluginsFromReflection(ReflectionMethod $reflectionMethod, AbstractBundleDependencyProvider $dependencyProvider): array
+    {
+        $parameters = $reflectionMethod->getParameters();
+
+        if (count($parameters) !== 0) {
+            $container = new Container();
+
+            return $reflectionMethod->invoke($dependencyProvider, $container);
+        }
+
+        return $reflectionMethod->invoke($dependencyProvider);
     }
 
     /**
