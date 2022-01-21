@@ -172,7 +172,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
                 '--mode', 'project',
                 '--organization', $projectNamespace,
                 '--module', $moduleName,
-                '--name', $asyncApiMessage->getName() . 'Transfer',
+                '--name', $asyncApiMessage->getName(),
                 '--propertyName', $propertyName,
                 '--propertyType', $type,
                 '-n',
@@ -189,9 +189,9 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
             '--mode', 'project',
             '--organization', $projectNamespace,
             '--module', $moduleName,
-            '--name', $asyncApiMessage->getName() . 'Transfer',
+            '--name', $asyncApiMessage->getName(),
             '--propertyName', 'messageAttributes',
-            '--propertyType', 'MessageAttributesTransfer',
+            '--propertyType', 'MessageAttributes',
             '-n',
         ];
         $messageTransfer = new MessageTransfer();
@@ -204,7 +204,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
             '--mode', 'project',
             '--organization', $projectNamespace,
             '--module', $moduleName,
-            '--name', 'MessageAttributesTransfer',
+            '--name', 'MessageAttributes',
             '-n',
         ];
         $messageTransfer = new MessageTransfer();
