@@ -10,7 +10,7 @@ namespace SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader;
 use Generated\Shared\Transfer\CheckReadinessTransfer;
 use Generated\Shared\Transfer\RecipeTransfer;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
-use SprykerSdk\Zed\AppSdk\Business\Exception\RecipeNotFoundExceptionException;
+use SprykerSdk\Zed\AppSdk\Business\Exception\RecipeNotFoundException;
 use Symfony\Component\Yaml\Yaml;
 
 class RecipeLoader implements RecipeLoaderInterface
@@ -59,7 +59,7 @@ class RecipeLoader implements RecipeLoaderInterface
     /**
      * @param string $recipeName
      *
-     * @throws \SprykerSdk\Zed\AppSdk\Business\Exception\RecipeNotFoundExceptionException
+     * @throws \SprykerSdk\Zed\AppSdk\Business\Exception\RecipeNotFoundException
      *
      * @return string
      */
@@ -68,7 +68,7 @@ class RecipeLoader implements RecipeLoaderInterface
         $pathToRecipe = sprintf('%s/%s.yml', $this->config->getPathToCheckRecipes(), $recipeName);
 
         if (!file_exists($pathToRecipe)) {
-            throw new RecipeNotFoundExceptionException(sprintf('Could not load recipe by name "%s".', $recipeName));
+            throw new RecipeNotFoundException(sprintf('Could not load recipe by name "%s".', $recipeName));
         }
 
         return (string)file_get_contents($pathToRecipe);

@@ -103,4 +103,16 @@ interface AppSdkFacadeInterface
      * @return \Generated\Shared\Transfer\CheckReadinessResponseTransfer
      */
     public function checkReadiness(CheckReadinessTransfer $checkReadinessTransfer): CheckReadinessResponseTransfer;
+
+    /**
+     * Specification:
+     * - Reads an AsyncAPI file and builds code that is required.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
+     */
+    public function buildFromAsyncApi(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer;
 }

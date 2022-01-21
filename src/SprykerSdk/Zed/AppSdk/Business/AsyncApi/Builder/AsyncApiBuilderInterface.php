@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Zed\AppSdk\Business\AsyncApi;
+namespace SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder;
 
 use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;

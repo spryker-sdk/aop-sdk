@@ -8,8 +8,12 @@
 namespace SprykerSdk\Zed\AppSdk\Business;
 
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
-use SprykerSdk\Zed\AppSdk\Business\AsyncApi\AsyncApiBuilder;
-use SprykerSdk\Zed\AppSdk\Business\AsyncApi\AsyncApiBuilderInterface;
+use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilder;
+use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilderInterface;
+use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
+use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilderInterface;
+use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Loader\AsyncApiLoader;
+use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Loader\AsyncApiLoaderInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\ComposerChecker;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\EnvChecker;
@@ -136,7 +140,7 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerSdk\Zed\AppSdk\Business\AsyncApi\AsyncApiBuilderInterface
+     * @return \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilderInterface
      */
     public function createAsyncApiBuilder(): AsyncApiBuilderInterface
     {
@@ -193,5 +197,21 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     public function createRecipeLoader(): RecipeLoaderInterface
     {
         return new RecipeLoader($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilderInterface
+     */
+    public function createAsyncApiCodeBuilder(): AsyncApiCodeBuilderInterface
+    {
+        return new AsyncApiCodeBuilder($this->getConfig(), $this->createAsyncApiLoader());
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Loader\AsyncApiLoaderInterface
+     */
+    public function createAsyncApiLoader(): AsyncApiLoaderInterface
+    {
+        return new AsyncApiLoader();
     }
 }

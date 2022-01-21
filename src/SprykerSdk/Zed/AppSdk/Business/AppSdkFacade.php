@@ -117,4 +117,18 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
     {
         return $this->getFactory()->createReadinessChecker()->checkReadiness($checkReadinessTransfer);
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
+     */
+    public function buildFromAsyncApi(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer
+    {
+        return $this->getFactory()->createAsyncApiCodeBuilder()->build($asyncApiRequestTransfer);
+    }
 }

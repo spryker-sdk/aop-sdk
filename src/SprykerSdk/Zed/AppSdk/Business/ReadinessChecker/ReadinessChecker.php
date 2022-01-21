@@ -11,7 +11,7 @@ use Generated\Shared\Transfer\CheckConfigurationTransfer;
 use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessTransfer;
 use Generated\Shared\Transfer\RecipeTransfer;
-use SprykerSdk\Zed\AppSdk\Business\Exception\CheckerNotFoundExceptionException;
+use SprykerSdk\Zed\AppSdk\Business\Exception\CheckerNotFoundException;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoaderInterface;
 
@@ -93,7 +93,7 @@ class ReadinessChecker implements ReadinessCheckerInterface
     /**
      * @param string $checkerName
      *
-     * @throws \SprykerSdk\Zed\AppSdk\Business\Exception\CheckerNotFoundExceptionException
+     * @throws \SprykerSdk\Zed\AppSdk\Business\Exception\CheckerNotFoundException
      *
      * @return \SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface
      */
@@ -105,6 +105,6 @@ class ReadinessChecker implements ReadinessCheckerInterface
             }
         }
 
-        throw new CheckerNotFoundExceptionException(sprintf('Could not find a checker by name "%s".', $checkerName));
+        throw new CheckerNotFoundException(sprintf('Could not find a checker by name "%s".', $checkerName));
     }
 }

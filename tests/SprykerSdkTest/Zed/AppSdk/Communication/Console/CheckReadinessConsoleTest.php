@@ -8,8 +8,8 @@
 namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Zed\AppSdk\Business\Exception\CheckerNotFoundExceptionException;
-use SprykerSdk\Zed\AppSdk\Business\Exception\RecipeNotFoundExceptionException;
+use SprykerSdk\Zed\AppSdk\Business\Exception\CheckerNotFoundException;
+use SprykerSdk\Zed\AppSdk\Business\Exception\RecipeNotFoundException;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\CheckReadinessConsole;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -70,7 +70,7 @@ class CheckReadinessConsoleTest extends Unit
         $commandTester = $this->tester->getConsoleTester($checkReadinessConsoleCommand);
 
         // Expect
-        $this->expectException(RecipeNotFoundExceptionException::class);
+        $this->expectException(RecipeNotFoundException::class);
 
         // Act
         $commandTester->execute(
@@ -90,7 +90,7 @@ class CheckReadinessConsoleTest extends Unit
         $commandTester = $this->tester->getConsoleTester($checkReadinessConsoleCommand);
 
         // Expect
-        $this->expectException(CheckerNotFoundExceptionException::class);
+        $this->expectException(CheckerNotFoundException::class);
 
         // Act
         $commandTester->execute(
