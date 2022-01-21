@@ -42,3 +42,22 @@ This console command has many options to be configured. See all of them by runni
 `vendor/bin/app-sdk asyncapi:add:message -h`
 
 it will print a help page for this command.
+
+
+## Create code from an existing AsyncAPI
+
+The `vendor/bin/app-sdk build:from:asyncapi` reads an existing AsyncAPI file and creates code out of it. This command creates:
+
+- Message Transfer definitions (XML)
+- Adds handler for Messages that are sent to the application
+
+#### Options
+
+- `asyncapi-file`, can be used to run the generator with a specific AsyncAPI file
+- `project-namespace`, can be used to set a specific project namespace (default: Pyz)
+
+After the command was running you need to generate the transfer objects `vendor/bin/console transfer:generate`. After that you can use the generated transfers to pushMessages.
+
+**NOTE**
+
+Keep in mind that you need to wire the generated `MessageHandlerPluginInterface`s in the `MessageBrokerDependencyProvider::getMessaegHandlerPlugins()`.
