@@ -19,7 +19,7 @@ use Codeception\Test\Unit;
 class AppAsyncApiFacadeTest extends Unit
 {
     /**
-     * @var \SprykerSdkTest\BusinesssTester
+     * @var \SprykerSdkTest\Zed\AppSdk\BusinesssTester
      */
     protected $tester;
 

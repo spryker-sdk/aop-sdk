@@ -9,6 +9,8 @@ namespace SprykerSdk\Zed\AppSdk\Business;
 
 use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
+use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
+use Generated\Shared\Transfer\CheckReadinessTransfer;
 use Generated\Shared\Transfer\ValidateRequestTransfer;
 use Generated\Shared\Transfer\ValidateResponseTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
@@ -100,5 +102,19 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
     public function addAsyncApiMessage(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer
     {
         return $this->getFactory()->createAsyncApiBuilder()->addAsyncApiMessage($asyncApiRequestTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\CheckReadinessTransfer $checkReadinessTransfer
+     *
+     * @return \Generated\Shared\Transfer\CheckReadinessResponseTransfer
+     */
+    public function checkReadiness(CheckReadinessTransfer $checkReadinessTransfer): CheckReadinessResponseTransfer
+    {
+        return $this->getFactory()->createReadinessChecker()->checkReadiness($checkReadinessTransfer);
     }
 }

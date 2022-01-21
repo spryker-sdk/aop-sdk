@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ValidateConfigurationConsoleTest extends Unit
 {
     /**
-     * @var \SprykerSdkTest\CommunicationTester
+     * @var \SprykerSdkTest\Zed\AppSdk\CommunicationTester
      */
     protected $tester;
 

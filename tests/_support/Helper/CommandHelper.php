@@ -9,20 +9,26 @@ namespace SprykerSdkTest\Helper;
 
 use Codeception\Module;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\CheckReadinessConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\ConsoleBootstrap;
-use Symfony\Component\Console\Command\Command;
+use SprykerTest\Shared\Testify\Helper\ConfigHelperTrait;
+use SprykerTest\Zed\Testify\Helper\Business\BusinessHelperTrait;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class CommandHelper extends Module
 {
+    use BusinessHelperTrait;
+    use ConfigHelperTrait;
+
     /**
-     * @param \AppSdk\Command\AbstractCommand|string $command
+     * @param \SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole|string $command
      *
      * @return \Symfony\Component\Console\Tester\CommandTester
      */
     public function getConsoleTester($command): CommandTester
     {
-        if (!($command instanceof Command)) {
+        if (!($command instanceof AbstractConsole)) {
             $command = new $command(null, $this->getConfig());
         }
 
@@ -32,6 +38,19 @@ class CommandHelper extends Module
         $command = $application->find($command->getName());
 
         return new CommandTester($command);
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Communication\Console\CheckReadinessConsole
+     */
+    public function createCheckReadinessConsoleCommand(): CheckReadinessConsole
+    {
+        $this->getConfigHelper()->mockConfigMethod('getRootPath', codecept_data_dir());
+        $facade = $this->getBusinessHelper()->getFacade();
+        $checkReadinessConsole = new CheckReadinessConsole();
+        $checkReadinessConsole->setFacade($facade);
+
+        return $checkReadinessConsole;
     }
 
     /**

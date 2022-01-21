@@ -4,7 +4,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdkTest;
+namespace SprykerSdkTest\Zed\AppSdk;
 
 use Codeception\Actor;
 
@@ -23,8 +23,6 @@ use Codeception\Actor;
  * @method void pause()
  *
  * @SuppressWarnings(PHPMD)
- *
- * @method \SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface getFacade()
  */
 class BusinesssTester extends Actor
 {

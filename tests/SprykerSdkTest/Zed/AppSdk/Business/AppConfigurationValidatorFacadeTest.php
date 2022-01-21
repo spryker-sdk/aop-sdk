@@ -16,7 +16,7 @@ use Codeception\Test\Unit;
 class AppConfigurationValidatorFacadeTest extends Unit
 {
     /**
-     * @var \SprykerSdkTest\BusinesssTester
+     * @var \SprykerSdkTest\Zed\AppSdk\BusinesssTester
      */
     protected $tester;
 

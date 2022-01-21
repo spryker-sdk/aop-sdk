@@ -24,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class AddAsyncApiMessageConsoleTest extends Unit
 {
     /**
-     * @var \SprykerSdkTest\CommunicationTester
+     * @var \SprykerSdkTest\Zed\AppSdk\CommunicationTester
      */
     protected $tester;
 

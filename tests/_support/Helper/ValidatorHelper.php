@@ -63,7 +63,7 @@ class ValidatorHelper extends Module
         }
 
         return Stub::make(AppSdkConfig::class, [
-            'getRootPath' => function () {
+            'getProjectRootPath' => function () {
                 return $this->rootPath;
             },
         ]);

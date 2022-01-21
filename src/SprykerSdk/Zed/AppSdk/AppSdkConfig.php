@@ -20,7 +20,7 @@ class AppSdkConfig extends AbstractBundleConfig
     public function getDefaultManifestPath(): string
     {
         $pathFragments = [
-            $this->getRootPath(),
+            $this->getProjectRootPath(),
             'config',
             'app',
             'manifest',
@@ -81,7 +81,7 @@ class AppSdkConfig extends AbstractBundleConfig
     public function getDefaultConfigurationFile(): string
     {
         $pathFragments = [
-            $this->getRootPath(),
+            $this->getProjectRootPath(),
             'config',
             'app',
             'configuration',
@@ -99,7 +99,7 @@ class AppSdkConfig extends AbstractBundleConfig
     public function getDefaultTranslationFile(): string
     {
         $pathFragments = [
-            $this->getRootPath(),
+            $this->getProjectRootPath(),
             'config',
             'app',
             'translation',
@@ -119,12 +119,11 @@ class AppSdkConfig extends AbstractBundleConfig
     public function getDefaultAsyncApiFile(): string
     {
         $pathFragments = [
-            $this->getRootPath(),
+            $this->getProjectRootPath(),
             'config',
-            'app',
             'api',
             'asyncapi',
-            'asyncapi.schema.yml',
+            'asyncapi.yml',
         ];
 
         return implode(DIRECTORY_SEPARATOR, $pathFragments);
@@ -137,7 +136,7 @@ class AppSdkConfig extends AbstractBundleConfig
      *
      * @return string
      */
-    protected function getRootPath(): string
+    protected function getProjectRootPath(): string
     {
         $cwd = getcwd();
 
@@ -148,5 +147,33 @@ class AppSdkConfig extends AbstractBundleConfig
         // @codeCoverageIgnoreEnd
 
         return $cwd;
+    }
+
+    /**
+     * @api
+     *
+     * @throws \Exception
+     *
+     * @return string
+     */
+    public function getPathToCheckRecipes(): string
+    {
+        $pathFragments = [
+            $this->getRootPath(),
+            'config',
+            'CheckRecipes',
+        ];
+
+        return implode(DIRECTORY_SEPARATOR, $pathFragments);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @return string
+     */
+    protected function getRootPath(): string
+    {
+        return APP_SDK_ROOT_DIR;
     }
 }

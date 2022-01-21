@@ -10,6 +10,14 @@ namespace SprykerSdk\Zed\AppSdk\Business;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\AsyncApiBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\AsyncApiBuilderInterface;
+use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface;
+use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\ComposerChecker;
+use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\EnvChecker;
+use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\PluginsChecker;
+use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\ReadinessChecker;
+use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\ReadinessCheckerInterface;
+use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoader;
+use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoaderInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Configuration\ConfigurationValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Finder\Finder;
@@ -133,5 +141,57 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     public function createAsyncApiBuilder(): AsyncApiBuilderInterface
     {
         return new AsyncApiBuilder();
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\ReadinessCheckerInterface
+     */
+    public function createReadinessChecker(): ReadinessCheckerInterface
+    {
+        return new ReadinessChecker($this->createRecipeLoader(), $this->getReadinessChecker());
+    }
+
+    /**
+     * @return array<\SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface>
+     */
+    public function getReadinessChecker(): array
+    {
+        return [
+            $this->createComposerChecker(),
+            $this->createPluginsChecker(),
+            $this->createEnvChecker(),
+        ];
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface
+     */
+    public function createComposerChecker(): CheckerInterface
+    {
+        return new ComposerChecker();
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface
+     */
+    public function createPluginsChecker(): CheckerInterface
+    {
+        return new PluginsChecker();
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface
+     */
+    public function createEnvChecker(): CheckerInterface
+    {
+        return new EnvChecker();
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoaderInterface
+     */
+    public function createRecipeLoader(): RecipeLoaderInterface
+    {
+        return new RecipeLoader($this->getConfig());
     }
 }
