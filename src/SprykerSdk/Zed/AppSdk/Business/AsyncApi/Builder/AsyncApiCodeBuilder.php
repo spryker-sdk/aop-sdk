@@ -268,7 +268,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
         foreach ($commandLines as $commandLine) {
             $process = new Process($commandLine, $this->config->getProjectRootPath());
             $process->run(function ($a, $buffer) {
-                $foo = ''; // For debugging purposes, set a breakpoint here to see issues.
+                // For debugging purposes, set a breakpoint here to see issues.
             });
         }
     }
