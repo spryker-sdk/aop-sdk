@@ -8,12 +8,12 @@
 namespace SprykerSdk\Zed\AppSdk\Business;
 
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
+use SprykerSdk\AsyncApi\Loader\AsyncApiLoader;
+use SprykerSdk\AsyncApi\Loader\AsyncApiLoaderInterface;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilderInterface;
-use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Loader\AsyncApiLoader;
-use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Loader\AsyncApiLoaderInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\ComposerChecker;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\EnvChecker;
@@ -208,7 +208,7 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Loader\AsyncApiLoaderInterface
+     * @return \SprykerSdk\AsyncApi\Loader\AsyncApiLoaderInterface
      */
     public function createAsyncApiLoader(): AsyncApiLoaderInterface
     {

@@ -8,6 +8,7 @@
 namespace SprykerSdk\Zed\AppSdk\Communication\Console;
 
 use Generated\Shared\Transfer\AsyncApiRequestTransfer;
+use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -64,15 +65,47 @@ class BuildFromAsyncApiConsole extends AbstractConsole
         $asyncApiResponseTransfer = $this->getFacade()->buildFromAsyncApi($asyncApiRequestTransfer);
 
         if ($asyncApiResponseTransfer->getErrors()->count() === 0) {
+            $this->printMessages($asyncApiResponseTransfer, $output);
+
             return static::CODE_SUCCESS;
         }
 
-        if ($output->isVerbose()) {
-            foreach ($asyncApiResponseTransfer->getErrors() as $error) {
-                $output->writeln($error->getMessageOrFail());
-            }
-        }
+        $this->printErrors($asyncApiResponseTransfer, $output);
 
         return static::CODE_ERROR;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\AsyncApiResponseTransfer $asyncApiResponseTransfer
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return void
+     */
+    protected function printMessages(AsyncApiResponseTransfer $asyncApiResponseTransfer, OutputInterface $output): void
+    {
+        if (!$output->isVerbose()) {
+            return;
+        }
+
+        foreach ($asyncApiResponseTransfer->getMessages() as $message) {
+            $output->writeln($message->getMessageOrFail());
+        }
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\AsyncApiResponseTransfer $asyncApiResponseTransfer
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return void
+     */
+    protected function printErrors(AsyncApiResponseTransfer $asyncApiResponseTransfer, OutputInterface $output): void
+    {
+        if (!$output->isVerbose()) {
+            return;
+        }
+
+        foreach ($asyncApiResponseTransfer->getErrors() as $error) {
+            $output->writeln($error->getMessageOrFail());
+        }
     }
 }

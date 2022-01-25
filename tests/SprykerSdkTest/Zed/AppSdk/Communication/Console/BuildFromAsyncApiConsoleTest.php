@@ -10,10 +10,11 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 use Codeception\Stub;
 use Codeception\Stub\Expected;
 use Codeception\Test\Unit;
+use SprykerSdk\AsyncApi\Loader\AsyncApiLoader;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
-use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Loader\AsyncApiLoader;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\BuildFromAsyncApiConsole;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @group SprykerSdkTest
@@ -33,29 +34,79 @@ class BuildFromAsyncApiConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testCreatesMessageBrokerRelevantCode(): void
+    public function testBuildFromAsyncApiReturnsSuccessCodeWhenProcessIsDone(): void
     {
         // Arrange
-        $this->tester->mockRootPath();
+        $buildFromAsyncApiConsoleMock = $this->tester->getAsyncApiBuilderConsoleMock();
 
-        $asyncApiCodeBuilderStub = Stub::construct(AsyncApiCodeBuilder::class, [$this->tester->getConfig(), new AsyncApiLoader()], [
-            'runCommandLines' => Expected::atLeastOnce(),
-        ]);
-        $this->tester->mockFactoryMethod('createAsyncApiCodeBuilder', $asyncApiCodeBuilderStub);
-        $facade = $this->tester->getFacade();
-        $buildFromAsyncApiConsole = new BuildFromAsyncApiConsole();
-        $buildFromAsyncApiConsole->setFacade($facade);
-
-        $commandTester = $this->tester->getConsoleTester($buildFromAsyncApiConsole);
+        $commandTester = $this->tester->getConsoleTester($buildFromAsyncApiConsoleMock);
 
         // Act
-        $commandTester->execute(
-            [
-                '--' . BuildFromAsyncApiConsole::OPTION_ASYNC_API_FILE => codecept_data_dir('api/asyncapi/builder/asyncapi.yml'),
-            ],
-        );
+        $commandTester->execute([
+            '--' . BuildFromAsyncApiConsole::OPTION_ASYNC_API_FILE => codecept_data_dir('api/asyncapi/builder/asyncapi.yml'),
+        ]);
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
+    }
+
+    /**
+     * @return void
+     */
+    public function testBuildFromAsyncApiPrintsResultToConsoleInVerboseMode(): void
+    {
+        // Arrange
+        $buildFromAsyncApiConsoleMock = $this->tester->getAsyncApiBuilderConsoleMock();
+
+        $commandTester = $this->tester->getConsoleTester($buildFromAsyncApiConsoleMock);
+
+        // Act
+        $commandTester->execute([
+            '--' . BuildFromAsyncApiConsole::OPTION_ASYNC_API_FILE => codecept_data_dir('api/asyncapi/builder/asyncapi.yml'),
+        ], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
+        $this->assertStringContainsString('Added property "incomingSourceStatus" with type "string" to the "IncomingMessageTransfer" transfer object of the module "Module".', $commandTester->getDisplay());
+        $this->assertStringContainsString('Added MessageHandlerPlugin for the message "IncomingMessage" to the module "Module".', $commandTester->getDisplay());
+    }
+
+    /**
+     * @return void
+     */
+    public function testBuildFromAsyncApiReturnsErrorCodeWhenAnErrorOccurred(): void
+    {
+        // Arrange
+        $buildFromAsyncApiConsoleMock = $this->tester->getAsyncApiBuilderConsoleMock();
+
+        $commandTester = $this->tester->getConsoleTester($buildFromAsyncApiConsoleMock);
+
+        // Act
+        $commandTester->execute([
+            '--' . BuildFromAsyncApiConsole::OPTION_ASYNC_API_FILE => codecept_data_dir('api/asyncapi/builder/asyncapi-empty.yml'),
+        ]);
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+    }
+
+    /**
+     * @return void
+     */
+    public function testBuildFromAsyncApiReturnsErrorCodeWhenAnErrorOccurredAndPrintsResultToConsoleInVerboseMode(): void
+    {
+        // Arrange
+        $buildFromAsyncApiConsoleMock = $this->tester->getAsyncApiBuilderConsoleMock();
+
+        $commandTester = $this->tester->getConsoleTester($buildFromAsyncApiConsoleMock);
+
+        // Act
+        $commandTester->execute([
+            '--' . BuildFromAsyncApiConsole::OPTION_ASYNC_API_FILE => codecept_data_dir('api/asyncapi/builder/asyncapi-empty.yml'),
+        ], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+        $this->assertStringContainsString('Something went wrong. Either not channels have been found or the channels do not have messages defined.', $commandTester->getDisplay());
     }
 }

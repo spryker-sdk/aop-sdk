@@ -10,11 +10,11 @@ namespace SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder;
 use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\MessageTransfer;
+use SprykerSdk\AsyncApi\AsyncApiInterface;
+use SprykerSdk\AsyncApi\Channel\AsyncApiChannelInterface;
+use SprykerSdk\AsyncApi\Loader\AsyncApiLoaderInterface;
+use SprykerSdk\AsyncApi\Message\AsyncApiMessageInterface;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
-use SprykerSdk\Zed\AppSdk\Business\AsyncApi\AsyncApiInterface;
-use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Channel\AsyncApiChannelInterface;
-use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Loader\AsyncApiLoaderInterface;
-use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Message\AsyncApiMessageInterface;
 use Symfony\Component\Process\Process;
 
 class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
@@ -25,13 +25,13 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
     protected AppSdkConfig $config;
 
     /**
-     * @var \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Loader\AsyncApiLoaderInterface
+     * @var \SprykerSdk\AsyncApi\Loader\AsyncApiLoaderInterface
      */
     protected AsyncApiLoaderInterface $asyncApiLoader;
 
     /**
      * @param \SprykerSdk\Zed\AppSdk\AppSdkConfig $config
-     * @param \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Loader\AsyncApiLoaderInterface $asyncApiLoader
+     * @param \SprykerSdk\AsyncApi\Loader\AsyncApiLoaderInterface $asyncApiLoader
      */
     public function __construct(AppSdkConfig $config, AsyncApiLoaderInterface $asyncApiLoader)
     {
@@ -52,11 +52,17 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
         $asyncApiResponseTransfer = $this->buildCodeForPublishMessagesChannels($asyncApi, $asyncApiResponseTransfer, $asyncApiRequestTransfer->getProjectNamespaceOrFail());
         $asyncApiResponseTransfer = $this->buildCodeForSubscribeMessagesChannels($asyncApi, $asyncApiResponseTransfer, $asyncApiRequestTransfer->getProjectNamespaceOrFail());
 
+        if ($asyncApiResponseTransfer->getMessages()->count() === 0) {
+            $messageTransfer = new MessageTransfer();
+            $messageTransfer->setMessage('Something went wrong. Either not channels have been found or the channels do not have messages defined.');
+            $asyncApiResponseTransfer->addError($messageTransfer);
+        }
+
         return $asyncApiResponseTransfer;
     }
 
     /**
-     * @param \SprykerSdk\Zed\AppSdk\Business\AsyncApi\AsyncApiInterface $asyncApi
+     * @param \SprykerSdk\AsyncApi\AsyncApiInterface $asyncApi
      * @param \Generated\Shared\Transfer\AsyncApiResponseTransfer $asyncApiResponseTransfer
      * @param string $projectNamespace
      *
@@ -75,7 +81,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Zed\AppSdk\Business\AsyncApi\AsyncApiInterface $asyncApi
+     * @param \SprykerSdk\AsyncApi\AsyncApiInterface $asyncApi
      * @param \Generated\Shared\Transfer\AsyncApiResponseTransfer $asyncApiResponseTransfer
      * @param string $projectNamespace
      *
@@ -94,7 +100,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Channel\AsyncApiChannelInterface $asyncApiChannel
+     * @param \SprykerSdk\AsyncApi\Channel\AsyncApiChannelInterface $asyncApiChannel
      * @param \Generated\Shared\Transfer\AsyncApiResponseTransfer $asyncApiResponseTransfer
      * @param string $projectNamespace
      *
@@ -114,7 +120,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Channel\AsyncApiChannelInterface $asyncApiChannel
+     * @param \SprykerSdk\AsyncApi\Channel\AsyncApiChannelInterface $asyncApiChannel
      * @param \Generated\Shared\Transfer\AsyncApiResponseTransfer $asyncApiResponseTransfer
      * @param string $projectNamespace
      *
@@ -133,7 +139,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Message\AsyncApiMessageInterface $asyncApiMessage
+     * @param \SprykerSdk\AsyncApi\Message\AsyncApiMessageInterface $asyncApiMessage
      * @param \Generated\Shared\Transfer\AsyncApiResponseTransfer $asyncApiResponseTransfer
      * @param string $projectNamespace
      *
@@ -146,23 +152,23 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
     ): AsyncApiResponseTransfer {
         $commandLines = [];
 
-        /** @var \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Message\Attributes\AsyncApiMessageAttributeInterface $operationIdAttribute */
+        /** @var \SprykerSdk\AsyncApi\Message\Attributes\AsyncApiMessageAttributeInterface $operationIdAttribute */
         $operationIdAttribute = $asyncApiMessage->getAttribute('operationId');
         /** @var string $moduleName */
         $moduleName = $operationIdAttribute->getValue();
 
-        /** @var \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Message\Attributes\AsyncApiMessageAttributeCollectionInterface $payload */
+        /** @var \SprykerSdk\AsyncApi\Message\Attributes\AsyncApiMessageAttributeCollectionInterface $payload */
         $payload = $asyncApiMessage->getAttribute('payload');
 
-        /** @var \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Message\Attributes\AsyncApiMessageAttributeCollectionInterface $properties */
+        /** @var \SprykerSdk\AsyncApi\Message\Attributes\AsyncApiMessageAttributeCollectionInterface $properties */
         $properties = $payload->getAttribute('properties');
 
         /** @var string $asyncApiMessageName */
         $asyncApiMessageName = $asyncApiMessage->getName();
 
-        /** @var \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Message\Attributes\AsyncApiMessageAttributeCollectionInterface $property */
+        /** @var \SprykerSdk\AsyncApi\Message\Attributes\AsyncApiMessageAttributeCollectionInterface $property */
         foreach ($properties->getAttributes() as $propertyName => $property) {
-            /** @var \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Message\Attributes\AsyncApiMessageAttributeInterface $typeAttribute */
+            /** @var \SprykerSdk\AsyncApi\Message\Attributes\AsyncApiMessageAttributeInterface $typeAttribute */
             $typeAttribute = $property->getAttribute('type');
             /** @var string $type */
             $type = $typeAttribute->getValue();
@@ -217,7 +223,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Message\AsyncApiMessageInterface $asyncApiMessage
+     * @param \SprykerSdk\AsyncApi\Message\AsyncApiMessageInterface $asyncApiMessage
      * @param \Generated\Shared\Transfer\AsyncApiResponseTransfer $asyncApiResponseTransfer
      * @param string $projectNamespace
      *
@@ -229,12 +235,12 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
         string $projectNamespace
     ): AsyncApiResponseTransfer {
         $commandLines = [];
-        /** @var \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Message\Attributes\AsyncApiMessageAttributeInterface $moduleNameAttribute */
+        /** @var \SprykerSdk\AsyncApi\Message\Attributes\AsyncApiMessageAttributeInterface $moduleNameAttribute */
         $moduleNameAttribute = $asyncApiMessage->getAttribute('operationId');
         /** @var string $moduleName */
         $moduleName = $moduleNameAttribute->getValue();
 
-        /** @var \SprykerSdk\Zed\AppSdk\Business\AsyncApi\Message\Attributes\AsyncApiMessageAttributeInterface $messageNameAttribute */
+        /** @var \SprykerSdk\AsyncApi\Message\Attributes\AsyncApiMessageAttributeInterface $messageNameAttribute */
         $messageNameAttribute = $asyncApiMessage->getAttribute('name');
         /** @var string $messageName */
         $messageName = $messageNameAttribute->getValue();
@@ -259,6 +265,8 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param array<array> $commandLines
      *
      * @return void
