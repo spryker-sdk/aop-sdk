@@ -45,7 +45,7 @@ class BuildFromAsyncApiConsole extends AbstractConsole
         $this->setName('build:from:asyncapi')
             ->setDescription('Builds code from an AsyncAPI file definition.')
             ->addOption(static::OPTION_ASYNC_API_FILE, static::OPTION_ASYNC_API_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultAsyncApiFile())
-            ->addOption(static::OPTION_PROJECT_NAMESPACE, static::OPTION_PROJECT_NAMESPACE_SHORT, InputOption::VALUE_REQUIRED, 'Project namespace that should be used for the code builder.', 'Pyz');
+            ->addOption(static::OPTION_PROJECT_NAMESPACE, static::OPTION_PROJECT_NAMESPACE_SHORT, InputOption::VALUE_REQUIRED, 'Project namespace that should be used for the code builder.', 'App');
     }
 
     /**
