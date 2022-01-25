@@ -7,11 +7,7 @@
 
 namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
-use Codeception\Stub;
-use Codeception\Stub\Expected;
 use Codeception\Test\Unit;
-use SprykerSdk\AsyncApi\Loader\AsyncApiLoader;
-use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\BuildFromAsyncApiConsole;
 use Symfony\Component\Console\Output\OutputInterface;
