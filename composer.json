@@ -20,6 +20,7 @@
         "mikey179/vfsstream": "^1.6",
         "sllh/composer-versions-check": "^2.0",
         "spryker-sdk/architector": "0.1.x-dev",
+        "spryker-sdk/async-api": "1.0.x-dev",
         "spryker/code-sniffer": "*",
         "spryker/testify": "^3.43",
         "symfony/filesystem": "^5.3",
@@ -48,6 +49,9 @@
         }
     },
     "config": {
+        "platform": {
+            "php": "7.4.15"
+        },
         "sort-packages": true,
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
