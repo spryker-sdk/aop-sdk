@@ -10,13 +10,13 @@ plugins:
     - "\\{projectNamespace}\\Zed\\MessageBroker\\MessageBrokerDependencyProvider":
         method: "getMessageSenderPlugins"
         plugins:
-          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\AwsSqsMessageSenderPlugin"
-          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\HttpMessageSenderPlugin"
+          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\Sender\\AwsSqsMessageSenderPlugin"
+          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\Sender\\HttpMessageSenderPlugin"
 
     - "\\{projectNamespace}\\Zed\\MessageBroker\\MessageBrokerDependencyProvider":
         method: "getMessageReceiverPlugins"
         plugins:
-          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\AwsSqsMessageReceiverPlugin"
+          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\Receiver\\AwsSqsMessageReceiverPlugin"
 
     - "\\{projectNamespace}\\Zed\\MessageBroker\\MessageBrokerDependencyProvider":
         method: "getMessageAttributeProviderPlugins"
