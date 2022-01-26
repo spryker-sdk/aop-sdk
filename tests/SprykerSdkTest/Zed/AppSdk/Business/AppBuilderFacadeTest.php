@@ -31,7 +31,7 @@ class AppBuilderFacadeTest extends Unit
         // Arrange
         $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
         $asyncApiRequestTransfer
-            ->setProjectNamespace('FooBar')
+            ->setOrganization('FooBar')
             ->setTargetFile(codecept_data_dir('api/asyncapi/builder/asyncapi-empty.yml'));
 
         // Act

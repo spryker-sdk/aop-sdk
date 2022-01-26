@@ -30,6 +30,11 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
     protected AsyncApiLoaderInterface $asyncApiLoader;
 
     /**
+     * @var string
+     */
+    protected string $sprykMode = 'project';
+
+    /**
      * @param \SprykerSdk\Zed\AppSdk\AppSdkConfig $config
      * @param \SprykerSdk\AsyncApi\Loader\AsyncApiLoaderInterface $asyncApiLoader
      */
@@ -49,8 +54,14 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
         $asyncApiResponseTransfer = new AsyncApiResponseTransfer();
         $asyncApi = $this->asyncApiLoader->load($asyncApiRequestTransfer->getTargetFileOrFail());
 
-        $asyncApiResponseTransfer = $this->buildCodeForPublishMessagesChannels($asyncApi, $asyncApiResponseTransfer, $asyncApiRequestTransfer->getProjectNamespaceOrFail());
-        $asyncApiResponseTransfer = $this->buildCodeForSubscribeMessagesChannels($asyncApi, $asyncApiResponseTransfer, $asyncApiRequestTransfer->getProjectNamespaceOrFail());
+        $organization = $asyncApiRequestTransfer->getOrganizationOrFail();
+
+        if ($organization === 'Spryker') {
+            $this->sprykMode = 'core';
+        }
+
+        $asyncApiResponseTransfer = $this->buildCodeForPublishMessagesChannels($asyncApi, $asyncApiResponseTransfer, $organization);
+        $asyncApiResponseTransfer = $this->buildCodeForSubscribeMessagesChannels($asyncApi, $asyncApiResponseTransfer, $organization);
 
         if ($asyncApiResponseTransfer->getMessages()->count() === 0) {
             $messageTransfer = new MessageTransfer();
@@ -175,7 +186,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
             $commandLines[] = [
                 'vendor/bin/spryk-run',
                 'AddSharedTransferProperty',
-                '--mode', 'project',
+                '--mode', $this->sprykMode,
                 '--organization', $projectNamespace,
                 '--module', $moduleName,
                 '--name', $asyncApiMessage->getName(),
@@ -192,7 +203,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
         $commandLines[] = [
             'vendor/bin/spryk-run',
             'AddSharedTransferProperty',
-            '--mode', 'project',
+            '--mode', $this->sprykMode,
             '--organization', $projectNamespace,
             '--module', $moduleName,
             '--name', $asyncApiMessage->getName(),
@@ -207,7 +218,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
         $commandLines[] = [
             'vendor/bin/spryk-run',
             'AddSharedTransferDefinition',
-            '--mode', 'project',
+            '--mode', $this->sprykMode,
             '--organization', $projectNamespace,
             '--module', $moduleName,
             '--name', 'MessageAttributes',
@@ -248,7 +259,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
         $commandLines[] = [
             'vendor/bin/spryk-run',
             'AddMessageBrokerHandlerPlugin',
-            '--mode', 'project',
+            '--mode', $this->sprykMode,
             '--organization', $projectNamespace,
             '--module', $moduleName,
             '--messageName', $messageName,

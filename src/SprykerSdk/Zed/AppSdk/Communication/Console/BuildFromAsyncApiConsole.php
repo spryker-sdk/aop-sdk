@@ -31,12 +31,12 @@ class BuildFromAsyncApiConsole extends AbstractConsole
     /**
      * @var string
      */
-    public const OPTION_PROJECT_NAMESPACE = 'project-namespace';
+    public const OPTION_ORGANIZATION = 'organization';
 
     /**
      * @var string
      */
-    public const OPTION_PROJECT_NAMESPACE_SHORT = 'p';
+    public const OPTION_ORGANIZATION_SHORT = 'o';
 
     /**
      * @return void
@@ -46,7 +46,7 @@ class BuildFromAsyncApiConsole extends AbstractConsole
         $this->setName('build:from:asyncapi')
             ->setDescription('Builds code from an AsyncAPI file definition.')
             ->addOption(static::OPTION_ASYNC_API_FILE, static::OPTION_ASYNC_API_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultAsyncApiFile())
-            ->addOption(static::OPTION_PROJECT_NAMESPACE, static::OPTION_PROJECT_NAMESPACE_SHORT, InputOption::VALUE_REQUIRED, 'Project namespace that should be used for the code builder.', 'App');
+            ->addOption(static::OPTION_ORGANIZATION, static::OPTION_ORGANIZATION_SHORT, InputOption::VALUE_REQUIRED, 'Namespace that should be used for the code builder. When set to Spryker code will be generated in the core modules.', 'App');
     }
 
     /**
@@ -60,7 +60,7 @@ class BuildFromAsyncApiConsole extends AbstractConsole
         $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
         $asyncApiRequestTransfer
             ->setTargetFile($input->getOption(static::OPTION_ASYNC_API_FILE))
-            ->setProjectNamespace($input->getOption(static::OPTION_PROJECT_NAMESPACE));
+            ->setOrganization($input->getOption(static::OPTION_ORGANIZATION));
 
         $asyncApiResponseTransfer = $this->getFacade()->buildFromAsyncApi($asyncApiRequestTransfer);
 

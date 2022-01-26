@@ -54,7 +54,7 @@ The `vendor/bin/app-sdk build:from:asyncapi` reads an existing AsyncAPI file and
 #### Options
 
 - `asyncapi-file`, can be used to run the generator with a specific AsyncAPI file
-- `project-namespace`, can be used to set a specific project namespace (default: App)
+- `organization`, can be used to set a specific organization, when set to Spryker code will be generated in the core modules (default: App)
 
 After the command was running you need to generate the transfer objects `vendor/bin/console transfer:generate`. After that you can use the generated transfers to pushMessages.
 
