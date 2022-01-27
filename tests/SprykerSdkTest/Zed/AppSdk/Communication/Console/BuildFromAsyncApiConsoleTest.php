@@ -9,7 +9,7 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\BuildFromAsyncApiConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\BuildCodeFromAsyncApiConsole;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -39,7 +39,7 @@ class BuildFromAsyncApiConsoleTest extends Unit
 
         // Act
         $commandTester->execute([
-            '--' . BuildFromAsyncApiConsole::OPTION_ASYNC_API_FILE => codecept_data_dir('api/asyncapi/builder/asyncapi.yml'),
+            '--' . BuildCodeFromAsyncApiConsole::OPTION_ASYNC_API_FILE => codecept_data_dir('api/asyncapi/builder/asyncapi.yml'),
         ]);
 
         // Assert
@@ -58,7 +58,7 @@ class BuildFromAsyncApiConsoleTest extends Unit
 
         // Act
         $commandTester->execute([
-            '--' . BuildFromAsyncApiConsole::OPTION_ASYNC_API_FILE => codecept_data_dir('api/asyncapi/builder/asyncapi.yml'),
+            '--' . BuildCodeFromAsyncApiConsole::OPTION_ASYNC_API_FILE => codecept_data_dir('api/asyncapi/builder/asyncapi.yml'),
         ], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
 
         // Assert
@@ -79,7 +79,7 @@ class BuildFromAsyncApiConsoleTest extends Unit
 
         // Act
         $commandTester->execute([
-            '--' . BuildFromAsyncApiConsole::OPTION_ASYNC_API_FILE => codecept_data_dir('api/asyncapi/builder/asyncapi-empty.yml'),
+            '--' . BuildCodeFromAsyncApiConsole::OPTION_ASYNC_API_FILE => codecept_data_dir('api/asyncapi/builder/asyncapi-empty.yml'),
         ]);
 
         // Assert
@@ -98,7 +98,7 @@ class BuildFromAsyncApiConsoleTest extends Unit
 
         // Act
         $commandTester->execute([
-            '--' . BuildFromAsyncApiConsole::OPTION_ASYNC_API_FILE => codecept_data_dir('api/asyncapi/builder/asyncapi-empty.yml'),
+            '--' . BuildCodeFromAsyncApiConsole::OPTION_ASYNC_API_FILE => codecept_data_dir('api/asyncapi/builder/asyncapi-empty.yml'),
         ], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
 
         // Assert

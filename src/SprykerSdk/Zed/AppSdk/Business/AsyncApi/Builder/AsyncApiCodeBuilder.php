@@ -193,6 +193,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
                 '--propertyName', $propertyName,
                 '--propertyType', $type,
                 '-n',
+                '-v',
             ];
             $messageTransfer = new MessageTransfer();
             $messageTransfer->setMessage(sprintf('Added property "%s" with type "%s" to the "%sTransfer" transfer object of the module "%s".', $propertyName, $type, $asyncApiMessageName, $moduleName));
@@ -210,6 +211,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
             '--propertyName', 'messageAttributes',
             '--propertyType', 'MessageAttributes',
             '-n',
+            '-v',
         ];
         $messageTransfer = new MessageTransfer();
         $messageTransfer->setMessage(sprintf('Added property "messageAttributes" with type "MessageAttributesTransfer" to the "%sTransfer" transfer object of the module "%s".', $asyncApiMessage->getName(), $moduleName));
@@ -223,6 +225,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
             '--module', $moduleName,
             '--name', 'MessageAttributes',
             '-n',
+            '-v',
         ];
         $messageTransfer = new MessageTransfer();
         $messageTransfer->setMessage(sprintf('Added transfer definition for "MessageAttributeTransfer" to the module "%s".', $moduleName));
@@ -264,6 +267,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
             '--module', $moduleName,
             '--messageName', $messageName,
             '-n',
+            '-v',
         ];
 
         $messageTransfer = new MessageTransfer();
@@ -287,6 +291,7 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
         foreach ($commandLines as $commandLine) {
             $process = new Process($commandLine, $this->config->getProjectRootPath());
             $process->run(function ($a, $buffer) {
+                echo $buffer;
                 // For debugging purposes, set a breakpoint here to see issues.
             });
         }

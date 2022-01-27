@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @method \SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface getFacade()
  */
-class BuildFromAsyncApiConsole extends AbstractConsole
+class BuildCodeFromAsyncApiConsole extends AbstractConsole
 {
     /**
      * @var string

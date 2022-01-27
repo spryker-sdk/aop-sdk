@@ -35,7 +35,7 @@ info:
 
 ## Adding a message to an AsyncAPI file
 
-The `vendor/bin/app-sdk asyncapi:add:message` adds a message to a given AsyncAPI file. This command can also be used to reverse engeneer from an existing Transfer object.
+The `vendor/bin/app-sdk asyncapi:add:message` adds a message to a given AsyncAPI file. This command can also be used to reverse engineer from an existing Transfer object.
 
 This console command has many options to be configured. See all of them by running
 
@@ -56,7 +56,7 @@ The `vendor/bin/app-sdk build:from:asyncapi` reads an existing AsyncAPI file and
 - `asyncapi-file`, can be used to run the generator with a specific AsyncAPI file
 - `organization`, can be used to set a specific organization, when set to Spryker code will be generated in the core modules (default: App)
 
-After the command was running you need to generate the transfer objects `vendor/bin/console transfer:generate`. After that you can use the generated transfers to pushMessages.
+After the command was running you need to generate the transfer objects `vendor/bin/console transfer:generate`. After that you can use the generated transfers to sendMessages.
 
 > **NOTE** Keep in mind that you need to wire the generated `MessageHandlerPluginInterface`s in the `MessageBrokerDependencyProvider::getMessaegHandlerPlugins()`.
 
