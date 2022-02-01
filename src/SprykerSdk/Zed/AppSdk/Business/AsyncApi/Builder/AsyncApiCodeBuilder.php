@@ -177,28 +177,46 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
         /** @var string $asyncApiMessageName */
         $asyncApiMessageName = $asyncApiMessage->getName();
 
+        $transferPropertiesToAdd = [];
+
         /** @var \SprykerSdk\AsyncApi\Message\Attributes\AsyncApiMessageAttributeCollectionInterface $property */
         foreach ($properties->getAttributes() as $propertyName => $property) {
             /** @var \SprykerSdk\AsyncApi\Message\Attributes\AsyncApiMessageAttributeInterface $typeAttribute */
             $typeAttribute = $property->getAttribute('type');
             /** @var string $type */
             $type = $typeAttribute->getValue();
-            $commandLines[] = [
-                'vendor/bin/spryk-run',
-                'AddSharedTransferProperty',
-                '--mode', $this->sprykMode,
-                '--organization', $projectNamespace,
-                '--module', $moduleName,
-                '--name', $asyncApiMessage->getName(),
-                '--propertyName', $propertyName,
-                '--propertyType', $type,
-                '-n',
-                '-v',
-            ];
-            $messageTransfer = new MessageTransfer();
-            $messageTransfer->setMessage(sprintf('Added property "%s" with type "%s" to the "%sTransfer" transfer object of the module "%s".', $propertyName, $type, $asyncApiMessageName, $moduleName));
-            $asyncApiResponseTransfer->addMessage($messageTransfer);
+
+            $transferPropertiesToAdd[] = sprintf('%s:%s', $propertyName, $type);
+//            $commandLines[] = [
+//                'vendor/bin/spryk-run',
+//                'AddSharedTransferProperty',
+//                '--mode', $this->sprykMode,
+//                '--organization', $projectNamespace,
+//                '--module', $moduleName,
+//                '--name', $asyncApiMessage->getName(),
+//                '--propertyName', $propertyName,
+//                '--propertyType', $type,
+//                '-n',
+//                '-v',
+//            ];
+//            $messageTransfer = new MessageTransfer();
+//            $messageTransfer->setMessage(sprintf('Added property "%s" with type "%s" to the "%sTransfer" transfer object of the module "%s".', $propertyName, $type, $asyncApiMessageName, $moduleName));
+//            $asyncApiResponseTransfer->addMessage($messageTransfer);
         }
+
+        $transferBuildCommandLine = [
+            'vendor/bin/spryk-run',
+            'AddSharedTransferProperty',
+            '--mode', $this->sprykMode,
+            '--organization', $projectNamespace,
+            '--module', $moduleName,
+            '--name', $asyncApiMessageName,
+            '--propertyName', implode(',', $transferPropertiesToAdd),
+            '-n',
+            '-v',
+        ];
+
+        $commandLines[] = $transferBuildCommandLine;
 
         // Add messageAttributes to the Transfer
         $commandLines[] = [
