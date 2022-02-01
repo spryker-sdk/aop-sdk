@@ -187,21 +187,9 @@ class AsyncApiCodeBuilder implements AsyncApiCodeBuilderInterface
             $type = $typeAttribute->getValue();
 
             $transferPropertiesToAdd[] = sprintf('%s:%s', $propertyName, $type);
-//            $commandLines[] = [
-//                'vendor/bin/spryk-run',
-//                'AddSharedTransferProperty',
-//                '--mode', $this->sprykMode,
-//                '--organization', $projectNamespace,
-//                '--module', $moduleName,
-//                '--name', $asyncApiMessage->getName(),
-//                '--propertyName', $propertyName,
-//                '--propertyType', $type,
-//                '-n',
-//                '-v',
-//            ];
-//            $messageTransfer = new MessageTransfer();
-//            $messageTransfer->setMessage(sprintf('Added property "%s" with type "%s" to the "%sTransfer" transfer object of the module "%s".', $propertyName, $type, $asyncApiMessageName, $moduleName));
-//            $asyncApiResponseTransfer->addMessage($messageTransfer);
+            $messageTransfer = new MessageTransfer();
+            $messageTransfer->setMessage(sprintf('Added property "%s" with type "%s" to the "%sTransfer" transfer object of the module "%s".', $propertyName, $type, $asyncApiMessageName, $moduleName));
+            $asyncApiResponseTransfer->addMessage($messageTransfer);
         }
 
         $transferBuildCommandLine = [
