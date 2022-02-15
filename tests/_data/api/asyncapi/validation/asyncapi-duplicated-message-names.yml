@@ -43,7 +43,7 @@ components:
             headers:
                 $ref: '#/components/schemas/headers'
         AnotherOutgoingMessage:
-            name: AnotherOutgoingMessage
+            name: OutgoingMessage
             operationId: Module
             payload:
                 $ref: '#/components/schemas/AnotherOutgoingMessage'
@@ -57,7 +57,7 @@ components:
             headers:
                 $ref: '#/components/schemas/headers'
         AnotherIncomingMessage:
-            name: AnotherIncomingMessage
+            name: IncomingMessage
             operationId: Module
             payload:
                 $ref: '#/components/schemas/AnotherIncomingMessage'
