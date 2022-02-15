@@ -5,6 +5,7 @@
     "license": "proprietary",
     "require": {
         "php": ">=7.4",
+        "spryker-sdk/async-api": "1.0.x-dev",
         "spryker-sdk/spryk": "*",
         "spryker/console": "^4.10",
         "spryker/kernel": "^3.61",
@@ -20,7 +21,6 @@
         "mikey179/vfsstream": "^1.6",
         "sllh/composer-versions-check": "^2.0",
         "spryker-sdk/architector": "0.1.x-dev",
-        "spryker-sdk/async-api": "1.0.x-dev",
         "spryker/code-sniffer": "*",
         "spryker/testify": "^3.43",
         "symfony/filesystem": "^5.3",
