@@ -7,6 +7,6 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business\Exception;
 
-class CheckerNotFoundExceptionException extends AppSdkException
+class RecipeNotFoundException extends AppSdkException
 {
 }

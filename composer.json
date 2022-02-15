@@ -5,7 +5,8 @@
     "license": "proprietary",
     "require": {
         "php": ">=7.4",
-        "spryker-sdk/spryk": "^0.3.2",
+        "spryker-sdk/async-api": "1.0.x-dev",
+        "spryker-sdk/spryk": "*",
         "spryker/console": "^4.10",
         "spryker/kernel": "^3.61",
         "spryker/transfer": "^3.29",
@@ -48,7 +49,14 @@
         }
     },
     "config": {
-        "sort-packages": true
+        "platform": {
+            "php": "7.4.15"
+        },
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "sllh/composer-versions-check": true
+        }
     },
     "scripts": {
         "cs-check": "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/SprykerSdk/ tests/",

@@ -8,6 +8,8 @@
 namespace SprykerSdkTest\Helper;
 
 use Codeception\Module;
+use Codeception\Stub;
+use Codeception\Stub\Expected;
 use Generated\Shared\Transfer\AsyncApiBuilderTestTransfer;
 use Generated\Shared\Transfer\AsyncApiChannelTransfer;
 use Generated\Shared\Transfer\AsyncApiMessageTransfer;
@@ -15,11 +17,19 @@ use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\AsyncApiTransfer;
 use org\bovigo\vfs\vfsStream;
+use SprykerSdk\AsyncApi\Loader\AsyncApiLoader;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
+use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
+use SprykerSdk\Zed\AppSdk\Communication\Console\BuildCodeFromAsyncApiConsole;
+use SprykerTest\Shared\Testify\Helper\ConfigHelperTrait;
+use SprykerTest\Zed\Testify\Helper\Business\BusinessHelperTrait;
 use Symfony\Component\Yaml\Yaml;
 
 class AsyncApiHelper extends Module
 {
+    use BusinessHelperTrait;
+    use ConfigHelperTrait;
+
     /**
      * @var string
      */
@@ -319,5 +329,21 @@ class AsyncApiHelper extends Module
         }
 
         return $asyncApiMessageTransfer;
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Communication\Console\BuildCodeFromAsyncApiConsole
+     */
+    public function getAsyncApiBuilderConsoleMock(): BuildCodeFromAsyncApiConsole
+    {
+        $asyncApiCodeBuilderStub = Stub::construct(AsyncApiCodeBuilder::class, [$this->getConfigHelper()->getModuleConfig(), new AsyncApiLoader()], [
+            'runCommandLines' => Expected::atLeastOnce(),
+        ]);
+        $this->getBusinessHelper()->mockFactoryMethod('createAsyncApiCodeBuilder', $asyncApiCodeBuilderStub);
+        $facade = $this->getBusinessHelper()->getFacade();
+        $buildFromAsyncApiConsole = new BuildCodeFromAsyncApiConsole();
+        $buildFromAsyncApiConsole->setFacade($facade);
+
+        return $buildFromAsyncApiConsole;
     }
 }

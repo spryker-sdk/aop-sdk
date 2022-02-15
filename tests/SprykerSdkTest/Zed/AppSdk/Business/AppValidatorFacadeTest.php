@@ -44,7 +44,7 @@ class AppValidatorFacadeTest extends Unit
     /**
      * @return void
      */
-    public function testValidateReturnsFailedResponseWhenValidationFailes(): void
+    public function testValidateReturnsFailedResponseWhenValidationFails(): void
     {
         // Act
         $validateResponseTransfer = $this->tester->getFacade()->validate(

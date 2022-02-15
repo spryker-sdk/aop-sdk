@@ -10,13 +10,13 @@ plugins:
     - "\\{projectNamespace}\\Zed\\MessageBroker\\MessageBrokerDependencyProvider":
         method: "getMessageSenderPlugins"
         plugins:
-          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\AwsSqsSenderPlugin"
-          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\HttpSenderPlugin"
+          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\Sender\\AwsSqsMessageSenderPlugin"
+          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\Sender\\HttpMessageSenderPlugin"
 
     - "\\{projectNamespace}\\Zed\\MessageBroker\\MessageBrokerDependencyProvider":
         method: "getMessageReceiverPlugins"
         plugins:
-          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\AwsSqsReceiverPlugin"
+          - "\\Spryker\\Zed\\MessageBrokerAws\\Communication\\Plugin\\MessageBroker\\Receiver\\AwsSqsMessageReceiverPlugin"
 
     - "\\{projectNamespace}\\Zed\\MessageBroker\\MessageBrokerDependencyProvider":
         method: "getMessageAttributeProviderPlugins"
@@ -28,6 +28,6 @@ plugins:
 
 env:
     - "AOP_MESSAGE_TO_CHANNEL_MAP"
-    - "AOP_SENDER_CHANNEL_TO_CLIENT_MAP"
-    - "AOP_CHANNEL_TO_SENDER_CLIENT_MAP"
-    - "AOP_CHANNEL_TO_RECEIVER_CLIENT_MAP"
+    - "AOP_CHANNEL_TO_TRANSPORT_MAP"
+    - "AOP_CHANNEL_TO_SENDER_TRANSPORT_MAP"
+    - "AOP_CHANNEL_TO_RECEIVER_TRANSPORT_MAP"

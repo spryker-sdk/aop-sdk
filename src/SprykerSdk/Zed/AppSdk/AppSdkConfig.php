@@ -136,7 +136,7 @@ class AppSdkConfig extends AbstractBundleConfig
      *
      * @return string
      */
-    protected function getProjectRootPath(): string
+    public function getProjectRootPath(): string
     {
         $cwd = getcwd();
 
