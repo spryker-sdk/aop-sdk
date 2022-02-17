@@ -14,4 +14,8 @@ $stores = [
     ],
 ];
 
+// DE is the default store used by the Environment. We map the AppSdk store to the default one to be able to run
+// Console commands e.g. `vendor/bin/console transfer:generate` without getting `Uncaught Exception: Missing setup for store: DE`
+$stores['DE'] = $stores['AppSdk'];
+
 return $stores;
