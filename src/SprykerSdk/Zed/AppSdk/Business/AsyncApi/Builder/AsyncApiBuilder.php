@@ -42,8 +42,9 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
 
         $targetFilePath = $asyncApiRequestTransfer->getTargetFileOrFail();
 
-        if (file_exists($targetFilePath)) {
-            $this->updateFile($targetFilePath, $asyncApi);
+        if (is_file($targetFilePath)) {
+            $this->updateAsyncApi($targetFilePath, $asyncApi);
+
             return $asyncApiResponseTransfer;
         }
 
@@ -297,7 +298,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
      *
      * @return array
      */
-    private function addDefaults(array $asyncApi): array
+    protected function addDefaults(array $asyncApi): array
     {
         if (!isset($asyncApi['components'])) {
             $asyncApi['components'] = [];
@@ -343,7 +344,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
      *
      * @return void
      */
-    private function writeToFile(string $targetFile, array $asyncApi): void
+    protected function writeToFile(string $targetFile, array $asyncApi): void
     {
         $asyncApi = $this->orderAsyncApiElements($asyncApi);
 
@@ -352,7 +353,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
         $dirname = dirname($targetFile);
 
         if (!is_dir($dirname)) {
-            mkdir($dirname, 0777, true);
+            mkdir($dirname, 0770, true);
         }
 
         file_put_contents($targetFile, $asyncApiSchemaYaml);
@@ -396,21 +397,11 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
      *
      * @return void
      */
-    private function updateFile(string $targetFile, array $asyncApi): void
+    protected function updateAsyncApi(string $targetFile, array $asyncApi): void
     {
-        if(file_exists($targetFile)) {
-            $getContent = Yaml::parse(file_get_contents($targetFile));
-            $getContent['info']['version'] = $asyncApi['info']['version'];                
-        }
-                
-        $asyncApiSchemaYaml = Yaml::dump($getContent, 100);
+        $originAsyncApi = Yaml::parse((string)file_get_contents($targetFile));
+        $originAsyncApi['info']['version'] = $asyncApi['info']['version'];
 
-        $dirname = dirname($targetFile);
-
-        if (!is_dir($dirname)) {
-            mkdir($dirname, 0777, true);
-        }
-
-        file_put_contents($targetFile, $asyncApiSchemaYaml);
+        $this->writeToFile($targetFile, $originAsyncApi);
     }
 }
