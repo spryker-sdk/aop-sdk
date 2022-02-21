@@ -44,6 +44,24 @@ class AppAsyncApiFacadeTest extends Unit
     /**
      * @return void
      */
+    public function testAddAsyncApiUpdatesTheVersionAnExistingAsyncApiFile(): void
+    {
+        // Arrange
+        $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequest();
+
+        // Act
+        $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApi(
+            $asyncApiRequestTransfer,
+        );
+
+        // Assert
+        $this->tester->assertAsyncApiResponseHasNoErrors($asyncApiResponseTransfer);
+        $this->assertFileExists($asyncApiRequestTransfer->getTargetFile());
+    }
+
+    /**
+     * @return void
+     */
     public function testAddAsyncApiMessageReturnsFailedResponseWhenAsyncApiFileDoesNotExists(): void
     {
         // Arrange

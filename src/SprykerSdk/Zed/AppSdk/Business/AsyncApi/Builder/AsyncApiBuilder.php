@@ -43,8 +43,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
         $targetFilePath = $asyncApiRequestTransfer->getTargetFileOrFail();
 
         if (file_exists($targetFilePath)) {
-            $asyncApiResponseTransfer->addError((new MessageTransfer())->setMessage(sprintf('The AsyncAPI file "%s" already exists.', $targetFilePath)));
-
+            $this->updateFile($targetFilePath, $asyncApi);
             return $asyncApiResponseTransfer;
         }
 
@@ -389,5 +388,29 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
         $asyncApi = array_merge($asyncApi, $orderedElements);
 
         return $asyncApi;
+    }
+
+    /**
+     * @param string $targetFile
+     * @param array $asyncApi
+     *
+     * @return void
+     */
+    private function updateFile(string $targetFile, array $asyncApi): void
+    {
+        if(file_exists($targetFile)) {
+            $getContent = Yaml::parse(file_get_contents($targetFile));
+            $getContent['info']['version'] = $asyncApi['info']['version'];                
+        }
+                
+        $asyncApiSchemaYaml = Yaml::dump($getContent, 100);
+
+        $dirname = dirname($targetFile);
+
+        if (!is_dir($dirname)) {
+            mkdir($dirname, 0777, true);
+        }
+
+        file_put_contents($targetFile, $asyncApiSchemaYaml);
     }
 }
