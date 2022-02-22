@@ -46,18 +46,6 @@ class AsyncApiHelper extends Module
     public function haveAsyncApiAddRequest(): AsyncApiRequestTransfer
     {
         $rootUrl = $this->getRootUrl();
-
-//        $root = vfsStream::setup('root', null, [
-//            'config' => [
-//                'app' => [
-//                    'api' => [
-//                        'asyncapi',
-//                    ],
-//                ],
-//            ],
-//        ]);
-
-//        $this->getValidatorHelper()->mockRoot($root->url());
         $this->getValidatorHelper()->mockRoot($this->getRootUrl());
 
         $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
