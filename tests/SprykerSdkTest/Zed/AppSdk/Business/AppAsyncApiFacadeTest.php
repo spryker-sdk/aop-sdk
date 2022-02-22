@@ -51,16 +51,18 @@ class AppAsyncApiFacadeTest extends Unit
         $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApi(
             $asyncApiRequestTransfer,
         );
-
-        // Act
+        
+        // Act        
         $asyncApiRequestTransfer->setVersion('1.0.0');
         $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApi(
             $asyncApiRequestTransfer,
         );
-
+        
         // Assert
-        // $this->tester->assertAsyncApiResponseHasNoErrors($asyncApiResponseTransfer);
-         $this->assertFileExists($asyncApiRequestTransfer->getTargetFile());
+        $this->tester->assertAsyncApiResponseHasNoErrors($asyncApiResponseTransfer);
+
+        // Load the file again, parse the YML to array and assert for the new version.
+        $this->assertSame('1.0.0', $asyncApiRequestTransfer->getVersion(), sprintf('Expected to have version "1.0.0" but got "%s".', $asyncApiRequestTransfer->getVersion()));
     }
 
     /**
