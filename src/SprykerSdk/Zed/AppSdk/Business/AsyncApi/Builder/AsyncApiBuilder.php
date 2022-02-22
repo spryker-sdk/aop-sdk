@@ -383,9 +383,10 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
             unset($asyncApi['components']['messages']);
         }
 
-        if (!$asyncApi['components']) {
+        if (isset($asyncApi['components'])) {
             unset($asyncApi['components']);
         }
+
         $asyncApi = array_merge($asyncApi, $orderedElements);
 
         return $asyncApi;

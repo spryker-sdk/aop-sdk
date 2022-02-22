@@ -44,7 +44,7 @@ class AppAsyncApiFacadeTest extends Unit
     /**
      * @return void
      */
-    public function testAddAsyncApiUpdatesTheVersionAnExistingAsyncApiFile(): void
+    public function testAddAsyncApiUpdatesTheVersionOfAnExistingAsyncApiFile(): void
     {
         // Arrange
         $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequest();
