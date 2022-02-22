@@ -51,13 +51,13 @@ class AppAsyncApiFacadeTest extends Unit
         $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApi(
             $asyncApiRequestTransfer,
         );
-        
-        // Act        
+
+        // Act
         $asyncApiRequestTransfer->setVersion('1.0.0');
         $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApi(
             $asyncApiRequestTransfer,
         );
-        
+
         // Assert
         $this->tester->assertAsyncApiResponseHasNoErrors($asyncApiResponseTransfer);
 
