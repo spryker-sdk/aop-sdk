@@ -47,22 +47,17 @@ class AppAsyncApiFacadeTest extends Unit
     public function testAddAsyncApiUpdatesTheVersionOfAnExistingAsyncApiFile(): void
     {
         // Arrange
-        $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequest();
-        $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApi(
-            $asyncApiRequestTransfer,
-        );
+        $this->tester->haveAsyncApiFile(); // Ensure a file with version 0.1.0 exists
+        $asyncApiRequestTransfer = $this->tester->haveAsyncApiUpdateVersionRequest(); // Get a request that will change the version to 1.0.0
 
         // Act
-        $asyncApiRequestTransfer->setVersion('1.0.0');
         $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApi(
             $asyncApiRequestTransfer,
         );
 
         // Assert
         $this->tester->assertAsyncApiResponseHasNoErrors($asyncApiResponseTransfer);
-
-        // Load the file again, parse the YML to array and assert for the new version.
-        $this->assertSame('1.0.0', $asyncApiRequestTransfer->getVersion(), sprintf('Expected to have version "1.0.0" but got "%s".', $asyncApiRequestTransfer->getVersion()));
+        $this->tester->assertAsyncApiVersionIsUpdated($asyncApiRequestTransfer->getTargetFile(), '1.0.0');
     }
 
     /**
