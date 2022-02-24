@@ -174,4 +174,24 @@ class AppAsyncApiFacadeTest extends Unit
         $this->tester->assertAsyncApiResponseHasNoErrors($asyncApiResponseTransfer);
         $this->tester->assertAsyncApiHasPublishMessageInChannel($asyncApiRequestTransfer->getTargetFile(), 'FooBar', $asyncApiMessageTransfer->getChannel()->getName());
     }
+
+    /**
+     * @return void
+     */
+    public function testAddAsyncApiMessagePropertyAdd(): void
+    {
+        // Arrange
+        $this->tester->haveAsyncApiFile(); // Ensure async api file exists
+        $asyncApiMessagePropertyRequest = $this->tester->haveAsyncApiMessagePropertyRequest();
+        
+        // Act
+        $asyncApiMessagePropertyResponse = $this->tester->getFacade()->addAsyncApiMessage(
+            $asyncApiMessagePropertyRequest,
+        );
+
+        // Assert
+        $this->tester->assertAsyncApiResponseHasNoErrors($asyncApiResponseTransfer);
+        // working here
+    }
+
 }
