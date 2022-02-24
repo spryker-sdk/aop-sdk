@@ -74,6 +74,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
         $asyncApi = Yaml::parseFile($targetFile);
 
         $asyncApiMessageTransfer = $asyncApiRequestTransfer->getAsyncApiMesssageOrFail();
+
         $messageName = $this->getMessageName($asyncApiMessageTransfer);
 
         $asyncApi = $this->addComponentMessage($asyncApi, $messageName, $asyncApiMessageTransfer);
@@ -118,28 +119,8 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
     protected function addComponentSchemaMessage(array $asyncApi, string $messageName, AsyncApiMessageTransfer $asyncApiMessageTransfer): array
     {
         $messageAttributes = $this->getMessageAttributes($asyncApiMessageTransfer);
-        $messageProperties = [];
-        $requiredFields = [];
 
-        foreach ($messageAttributes as $propertyName => $propertyDefinition) {
-            if ($propertyDefinition['is_transfer']) {
-                continue;
-            }
-
-            if ($propertyDefinition['is_value_object']) {
-                continue;
-            }
-
-            $messageProperties[$propertyName] = [
-                'type' => $this->mapTransferTypeToAsyncyApiType($propertyDefinition['type']),
-            ];
-
-            if (!$propertyDefinition['is_nullable']) {
-                $requiredFields[] = $propertyName;
-            }
-        }
-
-        return $this->buildComponentSchemaMessage($asyncApi, $messageProperties, $requiredFields, $messageName);
+        return $this->buildComponentSchemaMessage($asyncApi, $messageAttributes['properties'], $messageAttributes['requiredFields'], $messageName);
     }
 
     /**
@@ -282,15 +263,52 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
      */
     protected function getMessageAttributes(AsyncApiMessageTransfer $asyncApiMessageTransfer): array
     {
-        /** @var class-string<\Spryker\Shared\Kernel\Transfer\AbstractTransfer> $transferObjectClassName */
-        $transferObjectClassName = '\\' . ltrim($asyncApiMessageTransfer->getPayloadTransferObjectNameOrFail(), '\\');
+        if ($asyncApiMessageTransfer->getProperty()) {
+            return $this->formatProperty($asyncApiMessageTransfer);
+        }
 
-        $transferObject = new $transferObjectClassName();
-        $transferObjectReflection = new ReflectionClass($transferObjectClassName);
-        $transferMetadataProperty = $transferObjectReflection->getProperty('transferMetadata');
-        $transferMetadataProperty->setAccessible(true);
+        if ($asyncApiMessageTransfer->getPayloadTransferObjectName()) {
+            /** @var class-string<\Spryker\Shared\Kernel\Transfer\AbstractTransfer> $transferObjectClassName */
+            $transferObjectClassName = '\\' . ltrim($asyncApiMessageTransfer->getPayloadTransferObjectNameOrFail(), '\\');
 
-        return $transferMetadataProperty->getValue($transferObject);
+            $transferObject = new $transferObjectClassName();
+            $transferObjectReflection = new ReflectionClass($transferObjectClassName);
+            $transferMetadataProperty = $transferObjectReflection->getProperty('transferMetadata');
+            $transferMetadataProperty->setAccessible(true);
+
+            $transferProperties = $transferMetadataProperty->getValue($transferObject);
+
+            $messageProperties = [];
+            $requiredFields = [];
+
+            foreach ($transferProperties as $propertyName => $propertyDefinition) {
+                if ($propertyDefinition['is_transfer']) {
+                    continue;
+                }
+
+                if ($propertyDefinition['is_value_object']) {
+                    continue;
+                }
+
+                $messageProperties[$propertyName] = [
+                    'type' => $this->mapTransferTypeToAsyncyApiType($propertyDefinition['type']),
+                ];
+
+                if (!$propertyDefinition['is_nullable']) {
+                    $requiredFields[] = $propertyName;
+                }
+            }
+
+            return [
+                'properties' => $messageProperties,
+                'requiredFields' => $requiredFields,
+            ];
+        }
+
+        return [
+            'properties' => [],
+            'requiredFields' => [],
+        ];
     }
 
     /**
@@ -389,5 +407,31 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
         $asyncApi = array_merge($asyncApi, $orderedElements);
 
         return $asyncApi;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\AsyncApiMessageTransfer $asyncApiMessageTransfer
+     *
+     * @return array
+     */
+    public function formatProperty(AsyncApiMessageTransfer $asyncApiMessageTransfer)
+    {
+        $messageProperties = [];
+        $requiredFields = [];
+
+        foreach ($asyncApiMessageTransfer->getProperty() as $propertyName => $propertyDefinition) {
+            $input = explode(':', $propertyDefinition);
+
+            $messageProperties[$input[0]] = ['type' => $input[1]];
+
+            if (in_array('required', $input)) {
+                $requiredFields[] = $input[0];
+            }
+        }
+
+        return [
+            'properties' => $messageProperties,
+            'requiredFields' => $requiredFields,
+        ];
     }
 }

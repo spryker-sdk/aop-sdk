@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Spryker\Shared\Kernel\Transfer\Exception\NullValueException;
 
 /**
  * @method \SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface getFacade()
@@ -91,6 +92,16 @@ class AddAsyncApiMessageConsole extends AbstractConsole
     public const OPTION_ADD_METADATA_SHORT = 'd';
 
     /**
+     * @var string
+     */
+    public const OPTION_PROPERTY = 'property';
+
+    /**
+     * @var string
+     */
+    public const OPTION_PROPERTY_SHORT = 'k';
+
+    /**
      * @return void
      */
     protected function configure(): void
@@ -99,6 +110,7 @@ class AddAsyncApiMessageConsole extends AbstractConsole
             ->setDescription('Adds a message definition to a specified Async API schema file.')
             ->addArgument(static::ARGUMENT_CHANNEL_NAME, InputArgument::REQUIRED, 'The channel name to which the message should be added.')
             ->addOption(static::OPTION_ASYNC_API_FILE, static::OPTION_ASYNC_API_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultAsyncApiFile())
+            ->addOption(static::OPTION_PROPERTY, static::OPTION_PROPERTY_SHORT, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'this is...')
             ->addOption(static::OPTION_MESSAGE_NAME, static::OPTION_MESSAGE_NAME_SHORT, InputOption::VALUE_REQUIRED, 'Name of the message. If not passed the name will be extracted from the ')
             ->addOption(static::OPTION_FROM_TRANSFER_CLASS, static::OPTION_FROM_TRANSFER_CLASS_SHORT, InputOption::VALUE_REQUIRED, 'The Transfer class name from which the message should be created.')
             ->addOption(static::OPTION_PUBLISH, static::OPTION_PUBLISH_SHORT, InputOption::VALUE_NONE, 'When this option is set the message will be added to the publish part of the specified channel.')
@@ -121,18 +133,23 @@ class AddAsyncApiMessageConsole extends AbstractConsole
         $asyncApiChannelTransfer->setName($input->getArgument(static::ARGUMENT_CHANNEL_NAME));
 
         $asyncApiMessageTransfer = new AsyncApiMessageTransfer();
+
         $asyncApiMessageTransfer
             ->setChannel($asyncApiChannelTransfer)
             ->setName($input->getOption(static::OPTION_MESSAGE_NAME))
             ->setAddMetadata($input->getOption(static::OPTION_ADD_METADATA))
             ->setPayloadTransferObjectName($input->getOption(static::OPTION_FROM_TRANSFER_CLASS))
+            ->setProperty($input->getOption(static::OPTION_PROPERTY))
             ->setIsPublish($input->getOption(static::OPTION_PUBLISH))
             ->setIsSubscribe($input->getOption(static::OPTION_SUBSCRIBE));
-
+        
+        if($asyncApiMessageTransfer->getPayloadTransferObjectName() === null && count($asyncApiMessageTransfer->getProperty()) === 0 ){
+            throw new NullValueException(
+                sprintf('You either need to pass properties with the -p option or you need to pass a transfer class name for reverse engineering with the -t option.'),
+            );
+        }
         $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
-
         $asyncApiResponseTransfer = $this->getFacade()->addAsyncApiMessage($asyncApiRequestTransfer);
-
         if ($asyncApiResponseTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;
         }
