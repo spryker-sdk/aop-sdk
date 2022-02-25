@@ -36,21 +36,17 @@ class AsyncApiHelper extends Module
     public const CHANNEL_NAME = 'foo/bar';
 
     /**
+     * @var string|null
+     */
+    protected ?string $rootUrl = null;
+
+    /**
      * @return \Generated\Shared\Transfer\AsyncApiRequestTransfer
      */
     public function haveAsyncApiAddRequest(): AsyncApiRequestTransfer
     {
-        $root = vfsStream::setup('root', null, [
-            'config' => [
-                'app' => [
-                    'api' => [
-                        'asyncapi',
-                    ],
-                ],
-            ],
-        ]);
-
-        $this->getValidatorHelper()->mockRoot($root->url());
+        $rootUrl = $this->getRootUrl();
+        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
 
         $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
 
@@ -65,6 +61,43 @@ class AsyncApiHelper extends Module
             ->setAsyncApi($asyncApiTransfer);
 
         return $asyncApiRequestTransfer;
+    }
+
+    /**
+     * We assume that an AsyncApi file with version 0.1.0 exists when `\SprykerSdkTest\Helper\AsyncApiHelper::haveAsyncApiFile()`
+     * was called before `\SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface::addAsyncApi()` is executed.
+     *
+     * @return \Generated\Shared\Transfer\AsyncApiRequestTransfer
+     */
+    public function haveAsyncApiUpdateVersionRequest(): AsyncApiRequestTransfer
+    {
+        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
+
+        $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
+
+        $asyncApiTransfer = new AsyncApiTransfer();
+        $asyncApiTransfer
+            ->setTitle('Test title')
+            ->setVersion('1.0.0');
+
+        $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
+        $asyncApiRequestTransfer
+            ->setTargetFile($config->getDefaultAsyncApiFile())
+            ->setAsyncApi($asyncApiTransfer);
+
+        return $asyncApiRequestTransfer;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRootUrl(): string
+    {
+        if (!$this->rootUrl) {
+            $this->rootUrl = vfsStream::setup('root')->url();
+        }
+
+        return $this->rootUrl;
     }
 
     /**
@@ -106,18 +139,14 @@ class AsyncApiHelper extends Module
      */
     protected function prepareAsyncApiFile(string $pathToAsyncApi): void
     {
-        $structure = [
-            'config' => [
-                'api' => [
-                    'asyncapi' => [
-                        'asyncapi.yml' => file_get_contents($pathToAsyncApi),
-                    ],
-                ],
-            ],
-        ];
-        $root = vfsStream::setup('root', null, $structure);
+        $filePath = sprintf('%s/config/api/asyncapi/asyncapi.yml', $this->getRootUrl());
 
-        $this->getValidatorHelper()->mockRoot($root->url());
+        if (!is_dir(dirname($filePath))) {
+            mkdir(dirname($filePath), 0770, true);
+        }
+        file_put_contents($filePath, file_get_contents($pathToAsyncApi));
+
+        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
     }
 
     /**
@@ -181,6 +210,20 @@ class AsyncApiHelper extends Module
         $channelType = 'subscribe';
 
         $this->assertMessageInChannelType($asyncApi, $messageName, $channelName, $channelType);
+    }
+
+    /**
+     * @param string $targetFile
+     * @param string $expectedVersion
+     *
+     * @return void
+     */
+    public function assertAsyncApiVersionIsUpdated(string $targetFile, string $expectedVersion): void
+    {
+        $asyncApi = Yaml::parseFile($targetFile);
+        $message = sprintf('Expected to have version "%s" but got "%s".', $expectedVersion, $asyncApi['info']['version']);
+
+        $this->assertSame($asyncApi['info']['version'], $expectedVersion, $message);
     }
 
     /**

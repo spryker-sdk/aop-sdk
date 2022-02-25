@@ -23,6 +23,7 @@
         <property name="targetFile" type="string"/>
         <property name="organization" type="string"/>
         <property name="asyncApi" type="AsyncApi"/>
+        <property name="version" type="string"/>
         <property name="asyncApiMesssage" type="AsyncApiMessage"/>
     </transfer>
 

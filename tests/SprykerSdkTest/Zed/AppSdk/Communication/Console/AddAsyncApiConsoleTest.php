@@ -10,7 +10,6 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AddAsyncApiConsole;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @group SprykerSdkTest
@@ -45,26 +44,5 @@ class AddAsyncApiConsoleTest extends Unit
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
-    }
-
-    /**
-     * @return void
-     */
-    public function testAddAsyncApiReturnsErrorCodeAndPrintsErrorMessagesWhenAsyncApiCouldNotBeAdded(): void
-    {
-        $this->tester->haveAsyncApiFile();
-        $commandTester = $this->tester->getConsoleTester(AddAsyncApiConsole::class, false);
-
-        // Act
-        $commandTester->execute(
-            [
-                AddAsyncApiConsole::ARGUMENT_TITLE => 'My Apps AsyncAPI title',
-            ],
-            ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
-        );
-
-        // Assert
-        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
-        $this->assertNotEmpty($commandTester->getDisplay());
     }
 }
