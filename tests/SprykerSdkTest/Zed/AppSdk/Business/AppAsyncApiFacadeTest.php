@@ -181,17 +181,21 @@ class AppAsyncApiFacadeTest extends Unit
     public function testAddAsyncApiMessagePropertyAdd(): void
     {
         // Arrange
-        $this->tester->haveAsyncApiFile(); // Ensure async api file exists
-        $asyncApiMessagePropertyRequest = $this->tester->haveAsyncApiMessagePropertyRequest();
-        
+        $asyncApiMessageTransfer = $this->tester->haveAsyncApiMessagePropertyRequest();
+
+        $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApi();
+        $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
+
         // Act
-        $asyncApiMessagePropertyResponse = $this->tester->getFacade()->addAsyncApiMessage(
-            $asyncApiMessagePropertyRequest,
+        $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApiMessage(
+            $asyncApiRequestTransfer,
         );
 
         // Assert
         $this->tester->assertAsyncApiResponseHasNoErrors($asyncApiResponseTransfer);
-        // working here
+        $this->tester->assertAsyncApiMessagePropertyInChannel($asyncApiRequestTransfer->getTargetFile(), 'schemas', $asyncApiMessageTransfer->getChannel()->getName(), $asyncApiMessageTransfer->getProperty(), $asyncApiMessageTransfer->getContentType());
+        //$this->tester->assertMessageInChannelHasProperty("name", "string", "schemasfoobar", "message");
+        //$this->tester->assertMessageInChannelHasProperty("name", "string", "schemasfoobar", "message",true);
     }
 
 }
