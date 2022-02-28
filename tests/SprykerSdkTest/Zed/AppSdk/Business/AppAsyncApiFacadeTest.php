@@ -174,4 +174,28 @@ class AppAsyncApiFacadeTest extends Unit
         $this->tester->assertAsyncApiResponseHasNoErrors($asyncApiResponseTransfer);
         $this->tester->assertAsyncApiHasPublishMessageInChannel($asyncApiRequestTransfer->getTargetFile(), 'FooBar', $asyncApiMessageTransfer->getChannel()->getName());
     }
+
+    /**
+     * @return void
+     */
+    public function testAddAsyncApiMessagePropertyAdd(): void
+    {
+        // Arrange
+        $asyncApiMessageTransfer = $this->tester->haveAsyncApiMessagePropertyRequest();
+
+        $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApi();
+        $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
+
+        // Act
+        $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApiMessage(
+            $asyncApiRequestTransfer,
+        );
+
+        // Assert
+        $this->tester->assertAsyncApiResponseHasNoErrors($asyncApiResponseTransfer);
+
+        $this->tester->assertMessageInChannelHasPropertyOrPayload('schemas', 'message', ['firstName', 'string', true], $asyncApiRequestTransfer->getTargetFile());
+
+        // $this->tester->assertMessageInChannelHasPropertyOrPayload("schemas", "message", ["lastName", "string", false], $asyncApiRequestTransfer->getTargetFile());
+    }
 }

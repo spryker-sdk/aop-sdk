@@ -12,6 +12,7 @@ use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\MessageTransfer;
 use ReflectionClass;
+use Spryker\Shared\Kernel\Transfer\Exception\NullValueException;
 use Symfony\Component\Yaml\Yaml;
 
 class AsyncApiBuilder implements AsyncApiBuilderInterface
@@ -58,6 +59,8 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
     /**
      * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
      *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
      * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
      */
     public function addAsyncApiMessage(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer
@@ -74,6 +77,12 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
         $asyncApi = Yaml::parseFile($targetFile);
 
         $asyncApiMessageTransfer = $asyncApiRequestTransfer->getAsyncApiMesssageOrFail();
+
+        if (($asyncApiMessageTransfer->getPayloadTransferObjectName() === null && count($asyncApiMessageTransfer->getProperty()) === 0) || ($asyncApiMessageTransfer->getPayloadTransferObjectName() !== null && count($asyncApiMessageTransfer->getProperty()) > 0)) {
+            throw new NullValueException(
+                sprintf('You either need to pass properties with the -k option or you need to pass a transfer class name for reverse engineering with the -t option.'),
+            );
+        }
 
         $messageName = $this->getMessageName($asyncApiMessageTransfer);
 

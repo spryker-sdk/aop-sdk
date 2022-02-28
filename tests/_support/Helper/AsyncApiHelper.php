@@ -33,24 +33,32 @@ class AsyncApiHelper extends Module
     /**
      * @var string
      */
-    public const CHANNEL_NAME = 'foo/bar';
+    public const CHANNEL_NAME = 'schemas';
+
+    /**
+     * @var string|null
+     */
+    protected ?string $rootUrl = null;
 
     /**
      * @return \Generated\Shared\Transfer\AsyncApiRequestTransfer
      */
     public function haveAsyncApiAddRequest(): AsyncApiRequestTransfer
     {
-        $root = vfsStream::setup('root', null, [
-            'config' => [
-                'app' => [
-                    'api' => [
-                        'asyncapi',
-                    ],
-                ],
-            ],
-        ]);
+        $rootUrl = $this->getRootUrl();
 
-        $this->getValidatorHelper()->mockRoot($root->url());
+//        $root = vfsStream::setup('root', null, [
+//            'config' => [
+//                'app' => [
+//                    'api' => [
+//                        'asyncapi',
+//                    ],
+//                ],
+//            ],
+//        ]);
+
+//        $this->getValidatorHelper()->mockRoot($root->url());
+        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
 
         $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
 
@@ -68,19 +76,55 @@ class AsyncApiHelper extends Module
     }
 
     /**
+     * We assume that an AsyncApi file with version 0.1.0 exists when `\SprykerSdkTest\Helper\AsyncApiHelper::haveAsyncApiFile()`
+     * was called before `\SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface::addAsyncApi()` is executed.
+     *
      * @return \Generated\Shared\Transfer\AsyncApiRequestTransfer
      */
-    public function haveAsyncApiAddRequestWithExistingAsyncApi(): AsyncApiRequestTransfer
+    public function haveAsyncApiUpdateVersionRequest(): AsyncApiRequestTransfer
     {
-        $this->haveAsyncApiFile();
+        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
 
         $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
 
         $asyncApiTransfer = new AsyncApiTransfer();
         $asyncApiTransfer
             ->setTitle('Test title')
-            ->setVersion('0.1.0');
+            ->setVersion('1.0.0');
 
+        $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
+        $asyncApiRequestTransfer
+            ->setTargetFile($config->getDefaultAsyncApiFile())
+            ->setAsyncApi($asyncApiTransfer);
+
+        return $asyncApiRequestTransfer;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRootUrl(): string
+    {
+        if (!$this->rootUrl) {
+            $this->rootUrl = vfsStream::setup('root')->url();
+        }
+
+        return $this->rootUrl;
+    }
+
+    /**
+     * @return \Generated\Shared\Transfer\AsyncApiRequestTransfer
+     */
+    public function haveAsyncApiAddRequestWithExistingAsyncApi(): AsyncApiRequestTransfer
+    {
+        $this->haveAsyncApiFile();
+       //dd($this->haveAsyncApiFile());
+        $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
+
+        $asyncApiTransfer = new AsyncApiTransfer();
+        $asyncApiTransfer
+            ->setTitle('Test title')
+            ->setVersion('0.1.0');
         $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
         $asyncApiRequestTransfer
             ->setTargetFile($config->getDefaultAsyncApiFile())
@@ -106,18 +150,14 @@ class AsyncApiHelper extends Module
      */
     protected function prepareAsyncApiFile(string $pathToAsyncApi): void
     {
-        $structure = [
-            'config' => [
-                'api' => [
-                    'asyncapi' => [
-                        'asyncapi.yml' => file_get_contents($pathToAsyncApi),
-                    ],
-                ],
-            ],
-        ];
-        $root = vfsStream::setup('root', null, $structure);
+        $filePath = sprintf('%s/config/api/asyncapi/asyncapi.yml', $this->getRootUrl());
 
-        $this->getValidatorHelper()->mockRoot($root->url());
+        if (!is_dir(dirname($filePath))) {
+            mkdir(dirname($filePath), 0770, true);
+        }
+        file_put_contents($filePath, file_get_contents($pathToAsyncApi));
+
+        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
     }
 
     /**
@@ -181,6 +221,20 @@ class AsyncApiHelper extends Module
         $channelType = 'subscribe';
 
         $this->assertMessageInChannelType($asyncApi, $messageName, $channelName, $channelType);
+    }
+
+    /**
+     * @param string $targetFile
+     * @param string $expectedVersion
+     *
+     * @return void
+     */
+    public function assertAsyncApiVersionIsUpdated(string $targetFile, string $expectedVersion): void
+    {
+        $asyncApi = Yaml::parseFile($targetFile);
+        $message = sprintf('Expected to have version "%s" but got "%s".', $expectedVersion, $asyncApi['info']['version']);
+
+        $this->assertSame($asyncApi['info']['version'], $expectedVersion, $message);
     }
 
     /**
@@ -345,5 +399,94 @@ class AsyncApiHelper extends Module
         $buildFromAsyncApiConsole->setFacade($facade);
 
         return $buildFromAsyncApiConsole;
+    }
+
+    /**
+     * @return \Generated\Shared\Transfer\AsyncApiMessageTransfer
+     */
+    public function haveAsyncApiMessagePropertyRequest(): AsyncApiMessageTransfer
+    {
+        $asyncApiChannelTransfer = new AsyncApiChannelTransfer();
+        $asyncApiChannelTransfer->setName(static::CHANNEL_NAME);
+
+        $asyncApiMessageTransfer = new AsyncApiMessageTransfer();
+        $asyncApiMessageTransfer
+            ->setChannel($asyncApiChannelTransfer)
+            ->setName('message')
+            ->setProperty(['firstName:string:required', 'lastName:string:optional'])
+            // ->setPayloadTransferObjectName(AsyncApiMessageTransfer::class)
+            ->setContentType('object');
+
+        return $asyncApiMessageTransfer;
+    }
+
+    /**
+     * @param string $targetFile
+     * @param string $messageName
+     * @param string $channelName
+     *
+     * @return void
+     */
+    public function assertAsyncApiHasPropertyInMessage(string $targetFile, string $messageName, string $channelName): void
+    {
+        $asyncApi = Yaml::parseFile($targetFile);
+        $channelType = 'publish';
+
+        $this->assertMessageInChannelType($asyncApi, $messageName, $channelName, $channelType);
+    }
+
+    /**
+     * @param string $channelName
+     * @param string $messageName
+     * @param array $property
+     * @param string $targetFile
+     *
+     * @return void
+     */
+    public function assertMessageInChannelHasPropertyOrPayload(string $channelName, string $messageName, array $property, string $targetFile): void
+    {
+        $asyncApi = Yaml::parseFile($targetFile);
+        $this->assertChannelProperty($asyncApi, $channelName, $messageName, $property);
+    }
+
+    /**
+     * @param array $asyncApi
+     * @param string $channelName
+     * @param string $messageName
+     * @param array $property
+     *
+     * @return void
+     */
+    protected function assertChannelProperty(array $asyncApi, string $channelName, string $messageName, array $property): void
+    {
+        $this->assertIsArray($asyncApi['components'][$channelName], sprintf(
+            'Expected to have a channel name "%s" but it does not exist.',
+            $channelName,
+        ));
+
+        $this->assertIsArray($asyncApi['components'][$channelName][$messageName], sprintf(
+            'Expected to have a "%s" message name in the channel "%s" but it does not exist.',
+            $channelName,
+            $messageName,
+        ));
+
+        $this->assertIsArray($asyncApi['components'][$channelName][$messageName]['properties'][$property[0]], sprintf(
+            'Expected to have a property type "%s" in the message name "%s" but it does not exist.',
+            $property[0],
+            $messageName,
+        ));
+
+        $this->assertSame($asyncApi['components'][$channelName][$messageName]['properties'][$property[0]]['type'], $property[1], sprintf(
+            'Expected to have a "%s" property type in message "%s" but it does not exist.',
+            $property[1],
+            $messageName,
+        ));
+
+        // if($property[2] === true) {
+        $this->assertContains($property[0], $asyncApi['components'][$channelName][$messageName]['required'], sprintf(
+            'Expected to have a "%s" property type required but it does not exist.',
+            'firstName',
+        ));
+        // }
     }
 }

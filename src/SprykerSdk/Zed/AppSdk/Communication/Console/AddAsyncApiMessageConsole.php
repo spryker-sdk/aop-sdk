@@ -14,7 +14,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Spryker\Shared\Kernel\Transfer\Exception\NullValueException;
 
 /**
  * @method \SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface getFacade()
@@ -142,12 +141,7 @@ class AddAsyncApiMessageConsole extends AbstractConsole
             ->setProperty($input->getOption(static::OPTION_PROPERTY))
             ->setIsPublish($input->getOption(static::OPTION_PUBLISH))
             ->setIsSubscribe($input->getOption(static::OPTION_SUBSCRIBE));
-        
-        if($asyncApiMessageTransfer->getPayloadTransferObjectName() === null && count($asyncApiMessageTransfer->getProperty()) === 0 ){
-            throw new NullValueException(
-                sprintf('You either need to pass properties with the -p option or you need to pass a transfer class name for reverse engineering with the -t option.'),
-            );
-        }
+
         $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
         $asyncApiResponseTransfer = $this->getFacade()->addAsyncApiMessage($asyncApiRequestTransfer);
         if ($asyncApiResponseTransfer->getErrors()->count() === 0) {
