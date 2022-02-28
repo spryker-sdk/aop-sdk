@@ -45,19 +45,6 @@ class AsyncApiHelper extends Module
      */
     public function haveAsyncApiAddRequest(): AsyncApiRequestTransfer
     {
-        $rootUrl = $this->getRootUrl();
-
-//        $root = vfsStream::setup('root', null, [
-//            'config' => [
-//                'app' => [
-//                    'api' => [
-//                        'asyncapi',
-//                    ],
-//                ],
-//            ],
-//        ]);
-
-//        $this->getValidatorHelper()->mockRoot($root->url());
         $this->getValidatorHelper()->mockRoot($this->getRootUrl());
 
         $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
@@ -115,39 +102,6 @@ class AsyncApiHelper extends Module
     /**
      * @return \Generated\Shared\Transfer\AsyncApiRequestTransfer
      */
-    public function haveAsyncApiUpdateVersionRequest(): AsyncApiRequestTransfer
-    {
-        $this->haveAsyncApiFile();
-       //dd($this->haveAsyncApiFile());
-        $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
-
-        $asyncApiTransfer = new AsyncApiTransfer();
-        $asyncApiTransfer
-            ->setTitle('Test title')
-            ->setVersion('0.1.0');
-        $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
-        $asyncApiRequestTransfer
-            ->setTargetFile($config->getDefaultAsyncApiFile())
-            ->setAsyncApi($asyncApiTransfer);
-
-        return $asyncApiRequestTransfer;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getRootUrl(): string
-    {
-        if (!$this->rootUrl) {
-            $this->rootUrl = vfsStream::setup('root')->url();
-        }
-
-        return $this->rootUrl;
-    }
-
-    /**
-     * @return \Generated\Shared\Transfer\AsyncApiRequestTransfer
-     */
     public function haveAsyncApiAddRequestWithExistingAsyncApi(): AsyncApiRequestTransfer
     {
         $this->haveAsyncApiFile();
@@ -162,6 +116,7 @@ class AsyncApiHelper extends Module
         $asyncApiRequestTransfer
             ->setTargetFile($config->getDefaultAsyncApiFile())
             ->setAsyncApi($asyncApiTransfer);
+
         return $asyncApiRequestTransfer;
     }
 
@@ -298,7 +253,6 @@ class AsyncApiHelper extends Module
      * @param string $channelType
      *
      * @return string|null
-     * 
      */
     protected function getExpectedMessageReference(array $asyncApi, string $messageName, string $channelName, string $channelType): ?string
     {
