@@ -79,6 +79,7 @@ class AsyncApiHelper extends Module
      * We assume that an AsyncApi file with version 0.1.0 exists when `\SprykerSdkTest\Helper\AsyncApiHelper::haveAsyncApiFile()`
      * was called before `\SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface::addAsyncApi()` is executed.
      *
+<<<<<<< HEAD
      * @return \Generated\Shared\Transfer\AsyncApiRequestTransfer
      */
     public function haveAsyncApiUpdateVersionRequest(): AsyncApiRequestTransfer
@@ -92,6 +93,51 @@ class AsyncApiHelper extends Module
             ->setTitle('Test title')
             ->setVersion('1.0.0');
 
+        $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
+        $asyncApiRequestTransfer
+            ->setTargetFile($config->getDefaultAsyncApiFile())
+            ->setAsyncApi($asyncApiTransfer);
+
+        return $asyncApiRequestTransfer;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRootUrl(): string
+    {
+        if (!$this->rootUrl) {
+            $this->rootUrl = vfsStream::setup('root')->url();
+        }
+
+        return $this->rootUrl;
+    }
+
+    /**
+=======
+>>>>>>> db1500d03f3301694c4c13037050afc75eae923e
+     * @return \Generated\Shared\Transfer\AsyncApiRequestTransfer
+     */
+    public function haveAsyncApiUpdateVersionRequest(): AsyncApiRequestTransfer
+    {
+<<<<<<< HEAD
+        $this->haveAsyncApiFile();
+       //dd($this->haveAsyncApiFile());
+=======
+        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
+
+>>>>>>> db1500d03f3301694c4c13037050afc75eae923e
+        $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
+
+        $asyncApiTransfer = new AsyncApiTransfer();
+        $asyncApiTransfer
+            ->setTitle('Test title')
+<<<<<<< HEAD
+            ->setVersion('0.1.0');
+=======
+            ->setVersion('1.0.0');
+
+>>>>>>> db1500d03f3301694c4c13037050afc75eae923e
         $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
         $asyncApiRequestTransfer
             ->setTargetFile($config->getDefaultAsyncApiFile())
@@ -129,7 +175,6 @@ class AsyncApiHelper extends Module
         $asyncApiRequestTransfer
             ->setTargetFile($config->getDefaultAsyncApiFile())
             ->setAsyncApi($asyncApiTransfer);
-
         return $asyncApiRequestTransfer;
     }
 
@@ -266,6 +311,7 @@ class AsyncApiHelper extends Module
      * @param string $channelType
      *
      * @return string|null
+     * 
      */
     protected function getExpectedMessageReference(array $asyncApi, string $messageName, string $channelName, string $channelType): ?string
     {
@@ -401,7 +447,13 @@ class AsyncApiHelper extends Module
         return $buildFromAsyncApiConsole;
     }
 
+<<<<<<< HEAD
     /**
+=======
+
+    /**
+     *
+>>>>>>> db1500d03f3301694c4c13037050afc75eae923e
      * @return \Generated\Shared\Transfer\AsyncApiMessageTransfer
      */
     public function haveAsyncApiMessagePropertyRequest(): AsyncApiMessageTransfer
@@ -412,10 +464,17 @@ class AsyncApiHelper extends Module
         $asyncApiMessageTransfer = new AsyncApiMessageTransfer();
         $asyncApiMessageTransfer
             ->setChannel($asyncApiChannelTransfer)
+<<<<<<< HEAD
             ->setName('message')
             ->setProperty(['firstName:string:required', 'lastName:string:optional'])
             // ->setPayloadTransferObjectName(AsyncApiMessageTransfer::class)
             ->setContentType('object');
+=======
+            ->setProperty(['firstName:string:required','lastName:string:optional'])
+            ->setPayloadTransferObjectName(AsyncApiMessageTransfer::class)
+            ->setContentType('object');
+    ;
+>>>>>>> db1500d03f3301694c4c13037050afc75eae923e
 
         return $asyncApiMessageTransfer;
     }
@@ -436,6 +495,7 @@ class AsyncApiHelper extends Module
     }
 
     /**
+<<<<<<< HEAD
      * @param string $channelName
      * @param string $messageName
      * @param array $property
@@ -447,16 +507,36 @@ class AsyncApiHelper extends Module
     {
         $asyncApi = Yaml::parseFile($targetFile);
         $this->assertChannelProperty($asyncApi, $channelName, $messageName, $property);
-    }
-
-    /**
-     * @param array $asyncApi
-     * @param string $channelName
+=======
+     * @param string $targetFile
      * @param string $messageName
+     * @param string $channelName
      * @param array $property
      *
      * @return void
      */
+    public function assertAsyncApiMessagePropertyInChannel(string $targetFile, string $messageName, string $channelName, array $property, string $contentType): void
+    {
+        $asyncApi = Yaml::parseFile($targetFile);
+        $this->assertMessagePropertyInChannel($asyncApi, $messageName, $channelName, $property, $contentType);
+>>>>>>> db1500d03f3301694c4c13037050afc75eae923e
+    }
+
+    /**
+     * @param array $asyncApi
+<<<<<<< HEAD
+     * @param string $channelName
+     * @param string $messageName
+=======
+     * @param string $messageName
+     * @param string $channelName
+     * @param string $channelType
+>>>>>>> db1500d03f3301694c4c13037050afc75eae923e
+     * @param array $property
+     *
+     * @return void
+     */
+<<<<<<< HEAD
     protected function assertChannelProperty(array $asyncApi, string $channelName, string $messageName, array $property): void
     {
         $this->assertIsArray($asyncApi['components'][$channelName], sprintf(
@@ -490,3 +570,54 @@ class AsyncApiHelper extends Module
         // }
     }
 }
+=======
+    protected function assertMessagePropertyInChannel(array $asyncApi, string $messageName, string $channelName, array $property, string $contentType): void
+    {
+        $messageProperties = [];
+        $requiredFields = [];
+        
+        foreach ($property as $propertyDefinition) {
+            $input = explode(':', $propertyDefinition);
+
+            $messageProperties[$input[0]] = ['type' => $input[1]];
+
+            if (in_array('required', $input)) {
+                $requiredFields[] = $input[0];
+            }
+        }
+        
+        $this->assertChannelProperty($asyncApi, $channelName, $messageProperties, $requiredFields, $messageName, $contentType);
+    }
+
+    /**
+     * @param array $asyncApi
+     * @param array $messageProperty
+     * @param array $requiredFields
+     * @param string $messageName
+     * @param string $messageType
+     * @return void
+     */
+    protected function assertChannelProperty(array $asyncApi, string $channelName, array $messageProperties, array $requiredFields, string $messageType): void
+    {
+        if(empty($channelName)){
+            $this->assertNotNull($channelName, sprintf(
+                'Expected to have a channel name "%s" but it does not exist.',
+                $channelName,
+            ));
+        } else {
+            $this->assertIsArray($asyncApi['components'][$channelName], sprintf(
+                'Expected to have a message name "%s" but it does not exist.',
+                $channelName,
+            ));
+        }
+        
+        $this->assertIsArray($asyncApi['components'][$channelName]['message'][$messageProperties], sprintf(
+            'Expected to have a "%s" message property in the channel "%s" but it does not exist.',
+            $channelName,
+            $messageProperties,
+        ));
+    }
+
+
+}
+>>>>>>> db1500d03f3301694c4c13037050afc75eae923e
