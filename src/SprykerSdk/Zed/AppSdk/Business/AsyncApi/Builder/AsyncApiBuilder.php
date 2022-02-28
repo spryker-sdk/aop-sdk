@@ -43,8 +43,8 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
 
         $targetFilePath = $asyncApiRequestTransfer->getTargetFileOrFail();
 
-        if (file_exists($targetFilePath)) {
-            $asyncApiResponseTransfer->addError((new MessageTransfer())->setMessage(sprintf('The AsyncAPI file "%s" already exists.', $targetFilePath)));
+        if (is_file($targetFilePath)) {
+            $this->updateAsyncApi($targetFilePath, $asyncApi);
 
             return $asyncApiResponseTransfer;
         }
@@ -325,7 +325,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
      *
      * @return array
      */
-    private function addDefaults(array $asyncApi): array
+    protected function addDefaults(array $asyncApi): array
     {
         if (!isset($asyncApi['components'])) {
             $asyncApi['components'] = [];
@@ -371,7 +371,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
      *
      * @return void
      */
-    private function writeToFile(string $targetFile, array $asyncApi): void
+    protected function writeToFile(string $targetFile, array $asyncApi): void
     {
         $asyncApi = $this->orderAsyncApiElements($asyncApi);
 
@@ -380,7 +380,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
         $dirname = dirname($targetFile);
 
         if (!is_dir($dirname)) {
-            mkdir($dirname, 0777, true);
+            mkdir($dirname, 0770, true);
         }
 
         file_put_contents($targetFile, $asyncApiSchemaYaml);
@@ -410,9 +410,10 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
             unset($asyncApi['components']['messages']);
         }
 
-        if (!$asyncApi['components']) {
+        if (isset($asyncApi['components'])) {
             unset($asyncApi['components']);
         }
+
         $asyncApi = array_merge($asyncApi, $orderedElements);
 
         return $asyncApi;
@@ -442,5 +443,19 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
             'properties' => $messageProperties,
             'requiredFields' => $requiredFields,
         ];
+    }
+
+    /**
+     * @param string $targetFile
+     * @param array $asyncApi
+     *
+     * @return void
+     */
+    protected function updateAsyncApi(string $targetFile, array $asyncApi): void
+    {
+        $originAsyncApi = Yaml::parse((string)file_get_contents($targetFile));
+        $originAsyncApi['info']['version'] = $asyncApi['info']['version'];
+
+        $this->writeToFile($targetFile, $originAsyncApi);
     }
 }
