@@ -429,7 +429,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
         $messageProperties = [];
         $requiredFields = [];
 
-        foreach ($asyncApiMessageTransfer->getProperty() as $propertyName => $propertyDefinition) {
+        foreach ($asyncApiMessageTransfer->getProperty() as $propertyDefinition) {
             $input = explode(':', $propertyDefinition);
 
             $messageProperties[$input[0]] = ['type' => $input[1]];
