@@ -200,7 +200,7 @@ class AppAsyncApiFacadeTest extends Unit
     public function testAddAsyncApiMessagePropertyAdd(): void
     {
         // Arrange
-        $asyncApiMessageTransfer = $this->tester->haveAsyncApiMessagePropertyRequest();
+        $asyncApiMessageTransfer = $this->tester->haveAsyncApiMessagePropertyRequestTransfer();
 
         $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApi();
         $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
@@ -213,8 +213,8 @@ class AppAsyncApiFacadeTest extends Unit
         // Assert
         $this->tester->assertAsyncApiResponseHasNoErrors($asyncApiResponseTransfer);
 
-        $this->tester->assertMessageInChannelHasPropertyOrPayload('schemas', 'message', ['firstName', 'string', true], $asyncApiRequestTransfer->getTargetFile());
-
-        // $this->tester->assertMessageInChannelHasPropertyOrPayload("schemas", "message", ["lastName", "string", false], $asyncApiRequestTransfer->getTargetFile());
+        $this->tester->assertChannelProperty($asyncApiRequestTransfer->getTargetFile(), 'schemas', 'message', ['firstName', 'string', true]);
+        $this->tester->assertChannelProperty($asyncApiRequestTransfer->getTargetFile(), 'schemas', 'message', ['lastName', 'string', false]);
+        $this->tester->assertChannelProperty($asyncApiRequestTransfer->getTargetFile(), 'schemas', 'message', ['phoneNumber', 'int', true]);
     }
 }
