@@ -98,7 +98,7 @@ class AddAsyncApiMessageConsole extends AbstractConsole
     /**
      * @var string
      */
-    public const OPTION_PROPERTY_SHORT = 'k';
+    public const OPTION_PROPERTY_SHORT = 'P';
 
     /**
      * @return void

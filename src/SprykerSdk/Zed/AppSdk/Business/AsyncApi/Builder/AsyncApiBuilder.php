@@ -80,7 +80,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
 
         if ($this->isPropertyOptionEmpty($asyncApiMessageTransfer) || $this->isTransferOptionEmpty($asyncApiMessageTransfer)) {
             throw new NullValueException(
-                sprintf('You either need to pass properties with the -k option or you need to pass a transfer class name for reverse engineering with the -t option.'),
+                sprintf('You either need to pass properties with the -P option or you need to pass a transfer class name for reverse engineering with the -t option.'),
             );
         }
 
@@ -307,8 +307,8 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
 
             $transferProperties = $transferMetadataProperty->getValue($transferObject);
 
-            $messageProperties = [];
-            $requiredFields = [];
+            $requiredFields = $asyncApiMessageTransfer->getRequiredFields();
+            $messageProperties = $asyncApiMessageTransfer->getMessageProperties();
 
             foreach ($transferProperties as $propertyName => $propertyDefinition) {
                 if ($propertyDefinition['is_transfer']) {
@@ -326,11 +326,14 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
                 if (!$propertyDefinition['is_nullable']) {
                     $requiredFields[] = $propertyName;
                 }
+
+                $asyncApiMessageTransfer->setRequiredFields($requiredFields);
+                $asyncApiMessageTransfer->setMessageProperties($messageProperties);
             }
 
             return [
-                'properties' => $messageProperties,
-                'requiredFields' => $requiredFields,
+                'properties' => $asyncApiMessageTransfer->getMessageProperties(),
+                'requiredFields' => $asyncApiMessageTransfer->getRequiredFields(),
             ];
         }
 
@@ -446,22 +449,26 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
      */
     protected function formatProperty(AsyncApiMessageTransfer $asyncApiMessageTransfer): array
     {
-        $messageProperties = [];
-        $requiredFields = [];
+        $messageProperties = $asyncApiMessageTransfer->getMessageProperties();
+        $requiredFields = $asyncApiMessageTransfer->getRequiredFields();
 
         foreach ($asyncApiMessageTransfer->getProperty() as $property) {
             $propertyDefinition = explode(':', $property);
 
-            $messageProperties[$propertyDefinition[0]] = ['type' => $propertyDefinition[1]];
+            if (count($propertyDefinition) > 1) {
+                $messageProperties[$propertyDefinition[0]] = ['type' => $propertyDefinition[1]];
+            }
 
             if (in_array('required', $propertyDefinition)) {
                 $requiredFields[] = $propertyDefinition[0];
             }
+            $asyncApiMessageTransfer->setRequiredFields($requiredFields);
+            $asyncApiMessageTransfer->setMessageProperties($messageProperties);
         }
 
         return [
-            'properties' => $messageProperties,
-            'requiredFields' => $requiredFields,
+            'properties' => $asyncApiMessageTransfer->getMessageProperties(),
+            'requiredFields' => $asyncApiMessageTransfer->getRequiredFields(),
         ];
     }
 

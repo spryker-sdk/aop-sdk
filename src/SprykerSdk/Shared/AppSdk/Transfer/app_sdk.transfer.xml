@@ -42,6 +42,8 @@
         <property name="contentType" type="string"/>
         <property name="payloadTransferObjectName" type="string"/>
         <property name="property" type="array"/>
+        <property name="messageProperties" type="array"/>
+        <property name="requiredFields" type="array"/>
         <property name="addMetadata" type="bool"/>
         <property name="channel" type="AsyncApiChannel"/>
         <property name="isPublish" type="bool"/>
