@@ -14,6 +14,9 @@ use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilderInterface;
+use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\AsyncApiValidator;
+use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiDuplicateSchemaValidator;
+use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiSchemaRequiredAttributesValidator;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\ComposerChecker;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\EnvChecker;
@@ -48,6 +51,7 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
             $this->createManifestValidator(),
             $this->createConfigurationValidator(),
             $this->createTranslationValidator(),
+            $this->createAsyncApiValidator(),
         ]);
     }
 
@@ -214,4 +218,45 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     {
         return new AsyncApiLoader();
     }
+
+    /**
+     * @return \SprykerSdk\AsyncApi\Loader\AsyncApiValidator
+     */
+    public function createAsyncApiValidator(): AsyncApiValidator
+    {
+        return new AsyncApiValidator(
+            $this->getConfig(),
+            $this->createFinder(),
+            $this->getAsyncApiValidators(),
+        );
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getAsyncApiValidators(): array
+    {
+        return [
+            $this->createAsyncApiDuplicateSchemaValidator(),
+            $this->createAsyncApiSchemaRequiredAttributesValidator(),
+        ];
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface
+     */
+    protected function createAsyncApiDuplicateSchemaValidator(): FileValidatorInterface
+    {
+        return new AsyncApiDuplicateSchemaValidator($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface
+     */
+    protected function createAsyncApiSchemaRequiredAttributesValidator(): FileValidatorInterface
+    {
+        return new AsyncApiSchemaRequiredAttributesValidator($this->getConfig());
+    }
+
 }

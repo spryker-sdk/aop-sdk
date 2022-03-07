@@ -26,6 +26,7 @@ class ValidateConsole extends AbstractConsole
             ->setDescription('Validates the translation file.')
             ->addOption(ValidateConfigurationConsole::CONFIGURATION_FILE, ValidateConfigurationConsole::CONFIGURATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultConfigurationFile())
             ->addOption(ValidateManifestConsole::MANIFEST_PATH, ValidateManifestConsole::MANIFEST_PATH_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultManifestPath())
+            ->addOption(ValidateAsyncApiConsole::ASYNC_API_PATH, ValidateAsyncApiConsole::ASYNC_API_PATH_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultManifestPath())
             ->addOption(ValidateTranslationConsole::TRANSLATION_FILE, ValidateTranslationConsole::TRANSLATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultTranslationFile());
     }
 
@@ -39,6 +40,7 @@ class ValidateConsole extends AbstractConsole
     {
         $validateRequestTransfer = new ValidateRequestTransfer();
         $validateRequestTransfer->setManifestPath($input->getOption(ValidateManifestConsole::MANIFEST_PATH));
+        $validateRequestTransfer->setAsyncApiPath($input->getOption(ValidateAsyncApiConsole::ASYNC_API_PATH));
         $validateRequestTransfer->setConfigurationFile($input->getOption(ValidateConfigurationConsole::CONFIGURATION_FILE));
         $validateRequestTransfer->setTranslationFile($input->getOption(ValidateTranslationConsole::TRANSLATION_FILE));
 

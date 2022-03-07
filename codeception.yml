@@ -20,6 +20,7 @@ suites:
                 - \SprykerSdkTest\Helper\CommandHelper
                 - \SprykerSdkTest\Helper\AppConfigurationValidatorHelper
                 - \SprykerSdkTest\Helper\AppManifestValidatorHelper
+                - \SprykerSdkTest\Helper\AppAsyncApiValidatorHelper
                 - \SprykerSdkTest\Helper\AppTranslationValidatorHelper
                 - \SprykerSdkTest\Helper\ValidatorHelper
                 - \SprykerSdkTest\Helper\AsyncApiHelper
@@ -32,6 +33,7 @@ suites:
             enabled:
                 - \SprykerSdkTest\Helper\AppConfigurationValidatorHelper
                 - \SprykerSdkTest\Helper\AppManifestValidatorHelper
+                - \SprykerSdkTest\Helper\AppAsyncApiValidatorHelper
                 - \SprykerSdkTest\Helper\AppTranslationValidatorHelper
                 - \SprykerSdkTest\Helper\ValidatorHelper
                 - \SprykerSdkTest\Helper\AsyncApiHelper
