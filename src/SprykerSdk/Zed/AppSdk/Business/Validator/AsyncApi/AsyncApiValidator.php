@@ -21,7 +21,7 @@ class AsyncApiValidator extends AbstractValidator
      * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
      * @param \Generated\Shared\Transfer\ValidateResponseTransfer|null $validateResponseTransfer
      *
-     * @throws ParserException
+     * @throws \Behat\Gherkin\Exception\ParserException
      *
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
