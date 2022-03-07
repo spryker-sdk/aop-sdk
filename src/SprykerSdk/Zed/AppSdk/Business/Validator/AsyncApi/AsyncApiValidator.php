@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi;
 
-use Exception;
 use Behat\Gherkin\Exception\ParserException;
+use Exception;
 use Generated\Shared\Transfer\MessageTransfer;
 use Generated\Shared\Transfer\ValidateRequestTransfer;
 use Generated\Shared\Transfer\ValidateResponseTransfer;
@@ -21,6 +21,8 @@ class AsyncApiValidator extends AbstractValidator
      * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
      * @param \Generated\Shared\Transfer\ValidateResponseTransfer|null $validateResponseTransfer
      *
+     * @throws ParserException
+     *
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
     public function validate(
@@ -28,7 +30,7 @@ class AsyncApiValidator extends AbstractValidator
         ?ValidateResponseTransfer $validateResponseTransfer = null
     ): ValidateResponseTransfer {
         $validateResponseTransfer ??= new ValidateResponseTransfer();
-        
+
         if (!$this->finder->hasFiles($validateRequestTransfer->getAsyncApiPathOrFail())) {
             $messageTransfer = new MessageTransfer();
             $messageTransfer->setMessage('No asyncApi files found.');
@@ -37,16 +39,14 @@ class AsyncApiValidator extends AbstractValidator
             return $validateResponseTransfer;
         }
 
-        try{
+        try {
             Yaml::parseFile($validateRequestTransfer->getAsyncApiPathOrFail());
-
-            $validateResponseTransfer = $this->validateFileData(Yaml::parseFile($validateRequestTransfer->getAsyncApiPathOrFail()), "asyncapi.yml", $validateResponseTransfer);
-
-        } catch(Exception $e){
+            $validateResponseTransfer = $this->validateFileData(Yaml::parseFile($validateRequestTransfer->getAsyncApiPathOrFail()), 'asyncapi.yml', $validateResponseTransfer);
+        } catch (Exception $e) {
             throw new ParserException(
                 sprintf('AsyncApi file contains invalid Schema. Error: "%s".', $e->getMessage()),
                 0,
-                $e
+                $e,
             );
         }
 

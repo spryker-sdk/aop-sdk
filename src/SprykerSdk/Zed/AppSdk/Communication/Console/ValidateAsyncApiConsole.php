@@ -34,7 +34,7 @@ class ValidateAsyncApiConsole extends AbstractConsole
     {
         $this->setName('validate:asyncapi')
             ->setDescription('Validates the asyncapi files.')
-            ->addOption(static::ASYNC_API_PATH, static::ASYNC_API_PATH_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getValidationAsyncApiFile());
+            ->addOption(static::ASYNC_API_PATH, static::ASYNC_API_PATH_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultAsyncApiFile());
     }
 
     /**
@@ -48,7 +48,6 @@ class ValidateAsyncApiConsole extends AbstractConsole
         $validateRequestTransfer = new ValidateRequestTransfer();
         $validateRequestTransfer->setAsyncApiPath($input->getOption(static::ASYNC_API_PATH));
 
-        
         $validateResponseTransfer = $this->getFacade()->validateAsyncApi($validateRequestTransfer);
 
         if ($validateResponseTransfer->getErrors()->count() === 0) {
@@ -60,7 +59,7 @@ class ValidateAsyncApiConsole extends AbstractConsole
                 $output->writeln($error->getMessageOrFail());
             }
         }
-        
+
         return static::CODE_ERROR;
     }
 }

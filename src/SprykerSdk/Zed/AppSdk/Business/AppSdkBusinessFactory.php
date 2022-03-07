@@ -14,9 +14,6 @@ use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilderInterface;
-use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\AsyncApiValidator;
-use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiDuplicateSchemaValidator;
-use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiSchemaRequiredAttributesValidator;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\ComposerChecker;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\EnvChecker;
@@ -25,6 +22,9 @@ use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\ReadinessChecker;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\ReadinessCheckerInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoader;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoaderInterface;
+use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\AsyncApiValidator;
+use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiDuplicateSchemaValidator;
+use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiSchemaRequiredAttributesValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Configuration\ConfigurationValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Finder\Finder;
@@ -220,7 +220,7 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerSdk\AsyncApi\Loader\AsyncApiValidator
+     * @return \SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\AsyncApiValidator
      */
     public function createAsyncApiValidator(): AsyncApiValidator
     {
@@ -230,7 +230,6 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
             $this->getAsyncApiValidators(),
         );
     }
-
 
     /**
      * @return array
@@ -258,5 +257,4 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     {
         return new AsyncApiSchemaRequiredAttributesValidator($this->getConfig());
     }
-
 }

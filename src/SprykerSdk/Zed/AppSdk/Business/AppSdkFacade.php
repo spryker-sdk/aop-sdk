@@ -132,7 +132,6 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
         return $this->getFactory()->createAsyncApiCodeBuilder()->build($asyncApiRequestTransfer);
     }
 
-
     /**
      * {@inheritDoc}
      *
@@ -142,7 +141,8 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
      *
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateAsyncApi(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer{
+    public function validateAsyncApi(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
+    {
         return $this->getFactory()->createAsyncApiValidator()->validate($validateRequestTransfer);
     }
 }

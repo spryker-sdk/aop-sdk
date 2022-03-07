@@ -7,17 +7,12 @@
 
 namespace SprykerSdkTest\Helper;
 
-use Codeception\Module;
-use org\bovigo\vfs\vfsStream;
 class AppAsyncApiValidatorHelper extends Module
 {
     /**
-     * @param string $targetFile
      * @return void
      */
-    public function haveInvalidAsyncApiFileWithDuplicatedMessageNames(string $targetFile): void
+    public function haveInvalidAsyncApiFileWithDuplicatedMessageNames(): void
     {
-        dd($asyncApi);
-        $asyncApi = Yaml::parseFile($targetFile);
     }
 }

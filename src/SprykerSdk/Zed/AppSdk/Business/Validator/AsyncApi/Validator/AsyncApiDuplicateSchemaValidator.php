@@ -41,29 +41,26 @@ class AsyncApiDuplicateSchemaValidator implements FileValidatorInterface
         ValidateResponseTransfer $validateResponseTransfer,
         ?array $context = null
     ): ValidateResponseTransfer {
-        
-        if(!isset($data["components"])){
-
+        if (!isset($data['components'])) {
         }
 
-        if(!isset($data["components"]["messages"])){
-
+        if (!isset($data['components']['messages'])) {
         }
 
-        $messageCouter = $duplicateMessages = [];
+        $messageCounter = $duplicateMessages = [];
 
         foreach ($data['components']['messages'] as $value) {
-            if(isset($messageCouter[$value['name']])){
-                $messageCouter[$value['name']]++;
+            if (isset($messageCounter[$value['name']])) {
+                $messageCounter[$value['name']]++;
                 $duplicateMessages[$value['name']] = $value['name'];
-            }else{
-                $messageCouter[$value['name']] = 1;
+            } else {
+                $messageCounter[$value['name']] = 1;
             }
         }
 
-        if(count($duplicateMessages)){
+        if (count($duplicateMessages)) {
             $messageTransfer = new MessageTransfer();
-            $messageTransfer->setMessage(sprintf('Async API file "%s" contains duplicate messages. Duplicate Messages: "%s".', $this->config->getValidationAsyncApiFile(), implode(", ", $duplicateMessages)));
+            $messageTransfer->setMessage(sprintf('Async API file "%s" contains duplicate messages. Duplicate Messages: "%s".', $this->config->getDefaultAsyncApiFile(), implode(',', $duplicateMessages)));
             $validateResponseTransfer->addError($messageTransfer);
         }
 

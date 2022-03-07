@@ -20,13 +20,11 @@ class AppAsyncApiValidatorFacadeTest extends Unit
      */
     protected $tester;
 
-
     /**
      * @return void
      */
     public function testValidateAsyncApiReturnsFailedResponseWhenFilesNotFound(): void
     {
-        dd("AppAsyncApiValidatorFacadeTest");
         // Act
         $validateResponseTransfer = $this->tester->getFacade()->validateAsyncApi(
             $this->tester->haveValidateRequest(),

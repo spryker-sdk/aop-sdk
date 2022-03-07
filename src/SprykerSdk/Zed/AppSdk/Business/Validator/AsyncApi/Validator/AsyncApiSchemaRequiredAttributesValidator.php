@@ -41,25 +41,23 @@ class AsyncApiSchemaRequiredAttributesValidator implements FileValidatorInterfac
         ValidateResponseTransfer $validateResponseTransfer,
         ?array $context = null
     ): ValidateResponseTransfer {
-        if(!isset($data["components"])){
-
+        if (!isset($data['components'])) {
         }
 
-        if(!isset($data['components']["messages"])){
-
+        if (!isset($data['components']['messages'])) {
         }
 
-        $requiredOpeationId  = [];
+        $requiredOperationId = [];
 
-        foreach ($data['components']['messages'] as $key => $value) {
-            if(!isset($value['operationId'])){
-                $requiredOpeationId[] = $value['name'];
+        foreach ($data['components']['messages'] as $value) {
+            if (!isset($value['operationId'])) {
+                $requiredOperationId[] = $value['name'];
             }
         }
 
-        if(count($requiredOpeationId)){
+        if (count($requiredOperationId)) {
             $messageTransfer = new MessageTransfer();
-            $messageTransfer->setMessage(sprintf('Async API file "%s" have missing operation ids. Missing Messages: "%s".', $this->config->getValidationAsyncApiFile(), implode(", ", $requiredOpeationId)));
+            $messageTransfer->setMessage(sprintf('Async API file "%s" have missing operation ids. Missing Messages: "%s".', $this->config->getDefaultAsyncApiFile(), implode(', ', $requiredOperationId)));
             $validateResponseTransfer->addError($messageTransfer);
         }
 

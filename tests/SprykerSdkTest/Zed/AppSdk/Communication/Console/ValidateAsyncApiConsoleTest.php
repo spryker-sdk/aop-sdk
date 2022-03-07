@@ -33,15 +33,13 @@ class ValidateAsyncApiConsoleTest extends Unit
     public function testHaveValidAsyncApiFile(): void
     {
         // Arrange
-        // dd("ValidateAsyncApiConsoleTest");
-        // $this->tester->haveInvalidAsyncApiFileWithDuplicatedMessageNames();
+        $this->tester->haveInvalidAsyncApiFileWithDuplicatedMessageNames();
 
         $commandTester = $this->tester->getConsoleTester(ValidateAsyncApiConsole::class);
 
         // Act
         $commandTester->execute([]);
 
-        dd("ValidateAsyncApiConsoleTest -> testHaveValidAsyncApiFile");
         // Assert
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
     }

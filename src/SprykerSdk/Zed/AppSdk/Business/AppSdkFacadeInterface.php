@@ -116,7 +116,6 @@ interface AppSdkFacadeInterface
      */
     public function buildFromAsyncApi(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer;
 
-
     /**
      * Specification:
      * - Reads an AsyncAPI file and builds code that is required.

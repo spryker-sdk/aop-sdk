@@ -129,29 +129,6 @@ class AppSdkConfig extends AbstractBundleConfig
         return implode(DIRECTORY_SEPARATOR, $pathFragments);
     }
 
-
-    /**
-     * @api
-     *
-     * @throws \Exception
-     *
-     * @return string
-     */
-    public function getValidationAsyncApiFile(): string
-    {
-        $pathFragments = [
-            $this->getProjectRootPath(),
-            'tests',
-            '_data',
-            'api',
-            'asyncapi',
-            'validation',
-            'asyncapi-duplicated-message-names.yml',
-        ];
-
-        return implode(DIRECTORY_SEPARATOR, $pathFragments);
-    }
-
     /**
      * @api
      *
