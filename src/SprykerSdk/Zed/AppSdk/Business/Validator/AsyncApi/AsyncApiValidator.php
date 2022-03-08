@@ -30,8 +30,8 @@ class AsyncApiValidator extends AbstractValidator
         ?ValidateResponseTransfer $validateResponseTransfer = null
     ): ValidateResponseTransfer {
         $validateResponseTransfer ??= new ValidateResponseTransfer();
-
-        if (!$this->finder->hasFiles($validateRequestTransfer->getAsyncApiFileOrFail())) {
+        $asyncApiFile = $validateRequestTransfer->getAsyncApiFileOrFail();
+        if (!$this->finder->hasFiles($asyncApiFile)) {
             $messageTransfer = new MessageTransfer();
             $messageTransfer->setMessage('No AsyncAPI file given, you need to pass a valid filename.');
             $validateResponseTransfer->addError($messageTransfer);
@@ -40,8 +40,7 @@ class AsyncApiValidator extends AbstractValidator
         }
 
         try {
-            Yaml::parseFile($validateRequestTransfer->getAsyncApiFileOrFail());
-            $validateResponseTransfer = $this->validateFileData(Yaml::parseFile($validateRequestTransfer->getAsyncApiFileOrFail()), 'asyncapi.yml', $validateResponseTransfer);
+            $validateResponseTransfer = $this->validateFileData(Yaml::parseFile($asyncApiFile), $this->finder->getFile($asyncApiFile)->getFilename(), $validateResponseTransfer);
         } catch (Exception $e) {
             throw new ParserException(
                 sprintf('Could not parse AsyncApi file. Error: "%s".', $e->getMessage()),
