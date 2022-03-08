@@ -213,8 +213,8 @@ class AppAsyncApiFacadeTest extends Unit
         // Assert
         $this->tester->assertAsyncApiResponseHasNoErrors($asyncApiResponseTransfer);
 
-        $this->tester->assertChannelProperty($asyncApiRequestTransfer->getTargetFile(), 'schemas', 'message', ['firstName', 'string', true]);
-        $this->tester->assertChannelProperty($asyncApiRequestTransfer->getTargetFile(), 'schemas', 'message', ['lastName', 'string', false]);
-        $this->tester->assertChannelProperty($asyncApiRequestTransfer->getTargetFile(), 'schemas', 'message', ['phoneNumber', 'int', true]);
+        $this->tester->assertMessageInChannelHasProperty($asyncApiRequestTransfer->getTargetFile(), $asyncApiMessageTransfer->getChannel()->getName(), $asyncApiMessageTransfer->getName(), ['firstName', 'string', true]);
+        $this->tester->assertMessageInChannelHasProperty($asyncApiRequestTransfer->getTargetFile(), $asyncApiMessageTransfer->getChannel()->getName(), $asyncApiMessageTransfer->getName(), ['lastName', 'string', false]);
+        $this->tester->assertMessageInChannelHasProperty($asyncApiRequestTransfer->getTargetFile(), $asyncApiMessageTransfer->getChannel()->getName(), $asyncApiMessageTransfer->getName(), ['phoneNumber', 'int', true]);
     }
 }

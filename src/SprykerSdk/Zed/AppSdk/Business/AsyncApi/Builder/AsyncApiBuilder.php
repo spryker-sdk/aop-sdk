@@ -12,7 +12,7 @@ use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\MessageTransfer;
 use ReflectionClass;
-use Spryker\Shared\Kernel\Transfer\Exception\NullValueException;
+use SprykerSdk\Zed\AppSdk\Business\Exception\InvalidConfigurationException;
 use Symfony\Component\Yaml\Yaml;
 
 class AsyncApiBuilder implements AsyncApiBuilderInterface
@@ -59,7 +59,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
     /**
      * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
      *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     * @throws \SprykerSdk\Zed\AppSdk\Business\Exception\InvalidConfigurationException
      *
      * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
      */
@@ -79,7 +79,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
         $asyncApiMessageTransfer = $asyncApiRequestTransfer->getAsyncApiMesssageOrFail();
 
         if ($this->isPropertyOptionEmpty($asyncApiMessageTransfer) || $this->isTransferOptionEmpty($asyncApiMessageTransfer)) {
-            throw new NullValueException(
+            throw new InvalidConfigurationException(
                 sprintf('You either need to pass properties with the -P option or you need to pass a transfer class name for reverse engineering with the -t option.'),
             );
         }
@@ -103,9 +103,9 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
      *
      * @return true|false
      */
-    public function isPropertyOptionEmpty(AsyncApiMessageTransfer $asyncApiMessageTransfer): bool
+    protected function isPropertyOptionEmpty(AsyncApiMessageTransfer $asyncApiMessageTransfer): bool
     {
-        return ($asyncApiMessageTransfer->getPayloadTransferObjectName() === null && count($asyncApiMessageTransfer->getProperty()) === 0);
+        return $asyncApiMessageTransfer->getPayloadTransferObjectName() === null && count($asyncApiMessageTransfer->getProperty()) === 0;
     }
 
     /**
@@ -113,9 +113,9 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
      *
      * @return true|false
      */
-    public function isTransferOptionEmpty(AsyncApiMessageTransfer $asyncApiMessageTransfer): bool
+    protected function isTransferOptionEmpty(AsyncApiMessageTransfer $asyncApiMessageTransfer): bool
     {
-        return ($asyncApiMessageTransfer->getPayloadTransferObjectName() !== null && count($asyncApiMessageTransfer->getProperty()) > 0);
+        return $asyncApiMessageTransfer->getPayloadTransferObjectName() !== null && count($asyncApiMessageTransfer->getProperty()) > 0;
     }
 
     /**

@@ -33,7 +33,7 @@ class AsyncApiHelper extends Module
     /**
      * @var string
      */
-    public const CHANNEL_NAME = 'schemas';
+    public const CHANNEL_NAME = 'foo/bar';
 
     /**
      * @var string|null
@@ -394,13 +394,13 @@ class AsyncApiHelper extends Module
     public function haveAsyncApiMessagePropertyRequestTransfer(): AsyncApiMessageTransfer
     {
         $asyncApiChannelTransfer = new AsyncApiChannelTransfer();
-        $asyncApiChannelTransfer->setName(static::CHANNEL_NAME);
+        $asyncApiChannelTransfer->setName('schemas');
 
         $asyncApiMessageTransfer = new AsyncApiMessageTransfer();
         $asyncApiMessageTransfer
             ->setChannel($asyncApiChannelTransfer)
             ->setName('message')
-            ->setProperty(['firstName:string:required', 'lastName:string', 'phoneNumber:int:required'])
+            ->setProperty(['firstName:string:required', 'lastName:string', 'phoneNumber:int:required', 'email:string'])
             ->setContentType('object');
 
         return $asyncApiMessageTransfer;
@@ -414,7 +414,7 @@ class AsyncApiHelper extends Module
      *
      * @return void
      */
-    public function assertChannelProperty(string $targetFile, string $channelName, string $messageName, array $property): void
+    public function assertMessageInChannelHasProperty(string $targetFile, string $channelName, string $messageName, array $property): void
     {
         $asyncApi = Yaml::parseFile($targetFile);
 
@@ -443,14 +443,12 @@ class AsyncApiHelper extends Module
 
         if (in_array($property[0], $asyncApi['components'][$channelName][$messageName]['required'])) {
             $this->assertTrue($property[2], sprintf(
-                'Expected to have a "%s" property type in "%s" required but it does not exist.',
-                'required',
+                'Expected to have a required property type in "%s" but it does not exist.',
                 $property[0],
             ));
         } else {
             $this->assertFalse($property[2], sprintf(
-                'Expected to have a "%s" property type optional in "%s" but it does not exist.',
-                'Optional',
+                'Expected to have optional property type  in "%s" but it does not exist.',
                 $property[0],
             ));
         }
