@@ -12,7 +12,7 @@ use Generated\Shared\Transfer\ValidateResponseTransfer;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
 use SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface;
 
-class AsyncApiSchemaRequiredAttributesValidator implements FileValidatorInterface
+class DuplicateMessageValidator implements FileValidatorInterface
 {
     /**
      * @var \SprykerSdk\Zed\AppSdk\AppSdkConfig
@@ -41,23 +41,19 @@ class AsyncApiSchemaRequiredAttributesValidator implements FileValidatorInterfac
         ValidateResponseTransfer $validateResponseTransfer,
         ?array $context = null
     ): ValidateResponseTransfer {
-        if (!isset($data['components'])) {
-        }
-
-        if (!isset($data['components']['messages'])) {
-        }
-
-        $requiredOperationId = [];
-
-        foreach ($data['components']['messages'] as $value) {
-            if (!isset($value['operationId'])) {
-                $requiredOperationId[] = $value['name'];
+        if (isset($data['components']['messages'])) {
+            $messageNames = [];
+            foreach ($data['components']['messages'] as $message) {
+                if (isset($messageNames[$message['name']])) {
+                    $messageTransfer = new MessageTransfer();
+                    $messageTransfer->setMessage(sprintf('Async API file "%s" contains duplicate messages. Duplicate Messages: "%s".', $this->config->getDefaultAsyncApiFile(), $message['name']));
+                    $validateResponseTransfer->addError($messageTransfer);
+                }
+                $messageNames[$message['name']] = true;
             }
-        }
-
-        if (count($requiredOperationId)) {
+        } else {
             $messageTransfer = new MessageTransfer();
-            $messageTransfer->setMessage(sprintf('Async API file "%s" have missing operation ids. Missing Messages: "%s".', $this->config->getDefaultAsyncApiFile(), implode(', ', $requiredOperationId)));
+            $messageTransfer->setMessage(sprintf('Async API file "%s" does not contain messages', $this->config->getDefaultAsyncApiFile()));
             $validateResponseTransfer->addError($messageTransfer);
         }
 

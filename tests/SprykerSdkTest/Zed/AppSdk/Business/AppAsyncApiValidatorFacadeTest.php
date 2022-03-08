@@ -23,41 +23,6 @@ class AppAsyncApiValidatorFacadeTest extends Unit
     /**
      * @return void
      */
-    public function testValidateAsyncApiReturnsFailedResponseWhenFilesNotFound(): void
-    {
-        // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateAsyncApi(
-            $this->tester->haveValidateRequest(),
-        );
-
-        // Assert
-        $this->assertCount(1, $validateResponseTransfer->getErrors());
-
-        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('No manifest files found.', $expectedErrorMessage->getMessage());
-    }
-
-    /**
-     * @return void
-     */
-    public function testValidateAsyncApiReturnsFailedResponseWhenYAMLIsInvalid(): void
-    {
-        // Arrange
-        $this->tester->haveInvalidAsyncApiFile();
-
-        // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateAsyncApi(
-            $this->tester->haveValidateRequest(),
-        );
-
-        // Assert
-        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('AsyncApi file "vfs://root/config/app/manifest/en_US.json" contains invalid YAML. Error: "Syntax error".', $expectedErrorMessage->getMessage());
-    }
-
-    /**
-     * @return void
-     */
     public function testValidateAsyncApiReturnsSuccessfulResponseWhenFilesExistsAndContainValidData(): void
     {
         // Arrange
@@ -91,6 +56,59 @@ class AppAsyncApiValidatorFacadeTest extends Unit
 
         // Assert
         $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('Field "provider" must be present in the manifest file "en_US.json" but was not found.', $expectedErrorMessage->getMessage());
+        $this->assertSame('Field "operationId" must be present in the asyncapi file "asyncapi.yml" but was not found.', $expectedErrorMessage->getMessage());
+    }
+
+    /**
+     * @return void
+     */
+    public function testValidateAsyncApiReturnsFailedResponseWhenFilesExistsButHaveDuplicateMessage(): void
+    {
+        // Arrange
+        $this->tester->haveAsyncApiFileHaveDuplicateMessage();
+
+        // Act
+        $validateResponseTransfer = $this->tester->getFacade()->validateAsyncApi(
+            $this->tester->haveValidateRequest(),
+        );
+
+        // Assert
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('Async API file contains duplicate messages.', $expectedErrorMessage->getMessage());
+    }
+
+    /**
+     * @return void
+     */
+    public function testValidateAsyncApiReturnsFailedResponseWhenFilesNotFound(): void
+    {
+        // Act
+        $validateResponseTransfer = $this->tester->getFacade()->validateAsyncApi(
+            $this->tester->haveValidateRequest(),
+        );
+
+        // Assert
+        $this->assertCount(1, $validateResponseTransfer->getErrors());
+
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('No asyncapi files found.', $expectedErrorMessage->getMessage());
+    }
+
+    /**
+     * @return void
+     */
+    public function testValidateAsyncApiReturnsFailedResponseWhenSchemaIsInvalid(): void
+    {
+        // Arrange
+        $this->tester->haveInvalidAsyncApiFile();
+
+        // Act
+        $validateResponseTransfer = $this->tester->getFacade()->validateAsyncApi(
+            $this->tester->haveValidateRequest(),
+        );
+
+        // Assert
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('AsyncApi file "vfs://root/config/api/asyncapi/builder/asyncapi-empty.yml" contains invalid schema. Error: "Syntax error".', $expectedErrorMessage->getMessage());
     }
 }

@@ -23,8 +23,8 @@ use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\ReadinessCheckerInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoader;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoaderInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\AsyncApiValidator;
-use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiDuplicateSchemaValidator;
-use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiSchemaRequiredAttributesValidator;
+use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\DuplicateMessageValidator;
+use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\OperationIdValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Configuration\ConfigurationValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Finder\Finder;
@@ -237,24 +237,24 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     public function getAsyncApiValidators(): array
     {
         return [
-            $this->createAsyncApiDuplicateSchemaValidator(),
-            $this->createAsyncApiSchemaRequiredAttributesValidator(),
+            $this->createAsyncApiDuplicateMessageValidator(),
+            $this->createAsyncApiOperationIdValidator(),
         ];
     }
 
     /**
      * @return \SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface
      */
-    protected function createAsyncApiDuplicateSchemaValidator(): FileValidatorInterface
+    protected function createAsyncApiDuplicateMessageValidator(): FileValidatorInterface
     {
-        return new AsyncApiDuplicateSchemaValidator($this->getConfig());
+        return new DuplicateMessageValidator($this->getConfig());
     }
 
     /**
      * @return \SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface
      */
-    protected function createAsyncApiSchemaRequiredAttributesValidator(): FileValidatorInterface
+    protected function createAsyncApiOperationIdValidator(): FileValidatorInterface
     {
-        return new AsyncApiSchemaRequiredAttributesValidator($this->getConfig());
+        return new OperationIdValidator($this->getConfig());
     }
 }

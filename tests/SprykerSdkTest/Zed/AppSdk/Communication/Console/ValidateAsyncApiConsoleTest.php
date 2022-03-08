@@ -30,10 +30,10 @@ class ValidateAsyncApiConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testHaveValidAsyncApiFile(): void
+    public function testValidateAsyncApiReturnsSuccessCodeWhenValidationIsSuccessful(): void
     {
         // Arrange
-        $this->tester->haveInvalidAsyncApiFileWithDuplicatedMessageNames();
+        $this->tester->haveValidAsyncApiFile();
 
         $commandTester = $this->tester->getConsoleTester(ValidateAsyncApiConsole::class);
 

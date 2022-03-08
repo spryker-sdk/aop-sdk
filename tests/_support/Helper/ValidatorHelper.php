@@ -77,6 +77,7 @@ class ValidatorHelper extends Module
         $config = $this->getConfig() ?? new AppSdkConfig();
 
         $validateRequest = new ValidateRequestTransfer();
+        $validateRequest->setAsyncApiFile($config->getDefaultAsyncApiFile());
         $validateRequest->setManifestPath($config->getDefaultManifestPath());
         $validateRequest->setConfigurationFile($config->getDefaultConfigurationFile());
         $validateRequest->setTranslationFile($config->getDefaultTranslationFile());

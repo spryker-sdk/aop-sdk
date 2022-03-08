@@ -20,12 +20,12 @@ class ValidateAsyncApiConsole extends AbstractConsole
     /**
      * @var string
      */
-    public const ASYNC_API_PATH = 'asyncapi-path';
+    public const ASYNC_API_FILE = 'asyncapi-file';
 
     /**
      * @var string
      */
-    public const ASYNC_API_PATH_SHORT = 'a';
+    public const ASYNC_API_FILE_SHORT = 'a';
 
     /**
      * @return void
@@ -34,7 +34,7 @@ class ValidateAsyncApiConsole extends AbstractConsole
     {
         $this->setName('validate:asyncapi')
             ->setDescription('Validates the asyncapi files.')
-            ->addOption(static::ASYNC_API_PATH, static::ASYNC_API_PATH_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultAsyncApiFile());
+            ->addOption(static::ASYNC_API_FILE, static::ASYNC_API_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultAsyncApiFile());
     }
 
     /**
@@ -46,7 +46,7 @@ class ValidateAsyncApiConsole extends AbstractConsole
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $validateRequestTransfer = new ValidateRequestTransfer();
-        $validateRequestTransfer->setAsyncApiPath($input->getOption(static::ASYNC_API_PATH));
+        $validateRequestTransfer->setAsyncApiFile($input->getOption(static::ASYNC_API_FILE));
 
         $validateResponseTransfer = $this->getFacade()->validateAsyncApi($validateRequestTransfer);
 
