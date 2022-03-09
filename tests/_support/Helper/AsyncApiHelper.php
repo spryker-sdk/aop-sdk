@@ -10,7 +10,6 @@ namespace SprykerSdkTest\Helper;
 use Codeception\Module;
 use Codeception\Stub;
 use Codeception\Stub\Expected;
-use Generated\Shared\Transfer\AsyncApiBuilderTestTransfer;
 use Generated\Shared\Transfer\AsyncApiChannelTransfer;
 use Generated\Shared\Transfer\AsyncApiMessageTransfer;
 use Generated\Shared\Transfer\AsyncApiRequestTransfer;
@@ -115,7 +114,8 @@ class AsyncApiHelper extends Module
         $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
         $asyncApiRequestTransfer
             ->setTargetFile($config->getDefaultAsyncApiFile())
-            ->setAsyncApi($asyncApiTransfer);
+            ->setAsyncApi($asyncApiTransfer)
+            ->setPayloadTransferObjectName(AsyncApiMessageTransfer::class);
 
         return $asyncApiRequestTransfer;
     }
@@ -359,8 +359,11 @@ class AsyncApiHelper extends Module
         $asyncApiMessageTransfer = new AsyncApiMessageTransfer();
         $asyncApiMessageTransfer
             ->setChannel($asyncApiChannelTransfer)
-            ->setAddMetadata($withMetadata)
-            ->setPayloadTransferObjectName(AsyncApiBuilderTestTransfer::class);
+            ->setAddMetadata($withMetadata);
+
+        $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
+        $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
+        $asyncApiRequestTransfer->setPayloadTransferObjectName(AsyncApiMessageTransfer::class);
 
         if ($channelType === 'publish') {
             $asyncApiMessageTransfer->setIsPublish(true);
@@ -400,7 +403,7 @@ class AsyncApiHelper extends Module
         $asyncApiMessageTransfer
             ->setChannel($asyncApiChannelTransfer)
             ->setName('message')
-            ->setProperty(['firstName:string:required', 'lastName:string', 'phoneNumber:int:required', 'email:string'])
+            ->setProperties(['firstName:string:required', 'lastName:string', 'phoneNumber:int:required', 'email:string'])
             ->setContentType('object');
 
         return $asyncApiMessageTransfer;
@@ -446,11 +449,13 @@ class AsyncApiHelper extends Module
                 'Expected to have a required property type in "%s" but it does not exist.',
                 $property[0],
             ));
-        } else {
-            $this->assertFalse($property[2], sprintf(
-                'Expected to have optional property type  in "%s" but it does not exist.',
-                $property[0],
-            ));
+
+            return;
         }
+
+        $this->assertFalse($property[2], sprintf(
+            'Expected to have optional property type  in "%s" but it does not exist.',
+            $property[0],
+        ));
     }
 }

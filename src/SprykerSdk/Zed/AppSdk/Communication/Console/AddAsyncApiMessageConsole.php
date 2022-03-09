@@ -136,12 +136,12 @@ class AddAsyncApiMessageConsole extends AbstractConsole
             ->setChannel($asyncApiChannelTransfer)
             ->setName($input->getOption(static::OPTION_MESSAGE_NAME))
             ->setAddMetadata($input->getOption(static::OPTION_ADD_METADATA))
-            ->setPayloadTransferObjectName($input->getOption(static::OPTION_FROM_TRANSFER_CLASS))
-            ->setProperty($input->getOption(static::OPTION_PROPERTY))
             ->setIsPublish($input->getOption(static::OPTION_PUBLISH))
             ->setIsSubscribe($input->getOption(static::OPTION_SUBSCRIBE));
 
         $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
+        $asyncApiRequestTransfer->setPayloadTransferObjectName($input->getOption(static::OPTION_FROM_TRANSFER_CLASS));
+        $asyncApiRequestTransfer->setProperties($input->getOption(static::OPTION_PROPERTY));
         $asyncApiResponseTransfer = $this->getFacade()->addAsyncApiMessage($asyncApiRequestTransfer);
         if ($asyncApiResponseTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;
