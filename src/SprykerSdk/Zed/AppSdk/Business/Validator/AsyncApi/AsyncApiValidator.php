@@ -37,7 +37,7 @@ class AsyncApiValidator extends AbstractValidator
         }
 
         try {
-            $data = Yaml::parseFile($asyncApiFile);
+            $asyncApiFileContent = Yaml::parseFile($asyncApiFile);
         } catch (Exception $e) {
             $messageTransfer = new MessageTransfer();
             $messageTransfer->setMessage('Could not parse AsyncApi file.');
@@ -46,7 +46,7 @@ class AsyncApiValidator extends AbstractValidator
             return $validateResponseTransfer;
         }
 
-        if (!isset($data['components']['messages']) || count($data['components']['messages']) === 0) {
+        if (!isset($asyncApiFileContent['components']['messages']) || count($asyncApiFileContent['components']['messages']) === 0) {
             $messageTransfer = new MessageTransfer();
             $messageTransfer->setMessage('Async API file does not contain messages.');
             $validateResponseTransfer->addError($messageTransfer);
@@ -54,7 +54,7 @@ class AsyncApiValidator extends AbstractValidator
             return $validateResponseTransfer;
         }
 
-        $validateResponseTransfer = $this->validateFileData($data, $this->finder->getFile($asyncApiFile)->getFilename(), $validateResponseTransfer);
+        $validateResponseTransfer = $this->validateFileData($asyncApiFileContent, $this->finder->getFile($asyncApiFile)->getFilename(), $validateResponseTransfer);
 
         return $validateResponseTransfer;
     }

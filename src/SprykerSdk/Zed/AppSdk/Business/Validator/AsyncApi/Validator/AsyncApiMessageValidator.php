@@ -28,21 +28,21 @@ class AsyncApiMessageValidator implements FileValidatorInterface
     }
 
     /**
-     * @param array $data
-     * @param string $fileName
+     * @param array $asyncApiFileContent
+     * @param string $asyncApiFileName
      * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
      * @param array|null $context
      *
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
     public function validate(
-        array $data,
-        string $fileName,
+        array $asyncApiFileContent,
+        string $asyncApiFileName,
         ValidateResponseTransfer $validateResponseTransfer,
         ?array $context = null
     ): ValidateResponseTransfer {
         $messageNames = [];
-        foreach ($data['components']['messages'] as $message) {
+        foreach ($asyncApiFileContent['components']['messages'] as $message) {
             if (isset($messageNames[$message['name']])) {
                 $messageTransfer = new MessageTransfer();
                 $messageTransfer->setMessage('Async API file contains duplicate message names.');
