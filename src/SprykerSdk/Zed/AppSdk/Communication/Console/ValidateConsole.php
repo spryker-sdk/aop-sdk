@@ -24,7 +24,7 @@ class ValidateConsole extends AbstractConsole
     {
         $this->setName('validate:app')
             ->setDescription('Validates the translation file.')
-            ->addOption(ValidateAsyncApiConsole::ASYNC_API_FILE, ValidateAsyncApiConsole::ASYNC_API_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultManifestPath())
+            ->addOption(ValidateAsyncApiConsole::ASYNC_API_FILE, ValidateAsyncApiConsole::ASYNC_API_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultAsyncApiFile())
             ->addOption(ValidateConfigurationConsole::CONFIGURATION_FILE, ValidateConfigurationConsole::CONFIGURATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultConfigurationFile())
             ->addOption(ValidateManifestConsole::MANIFEST_PATH, ValidateManifestConsole::MANIFEST_PATH_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultManifestPath())
             ->addOption(ValidateTranslationConsole::TRANSLATION_FILE, ValidateTranslationConsole::TRANSLATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultTranslationFile());

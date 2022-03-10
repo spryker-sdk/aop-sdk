@@ -118,7 +118,6 @@ interface AppSdkFacadeInterface
 
     /**
      * Specification:
-     * - Reads an AsyncAPI file and builds code that is required.
      * - Reads an AsyncAPI file and validates it.
      *
      * @api

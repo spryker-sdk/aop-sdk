@@ -12,7 +12,7 @@ use Generated\Shared\Transfer\ValidateResponseTransfer;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
 use SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface;
 
-class OperationIdValidator implements FileValidatorInterface
+class AsyncApiMessageValidator implements FileValidatorInterface
 {
     /**
      * @var \SprykerSdk\Zed\AppSdk\AppSdkConfig
@@ -41,18 +41,14 @@ class OperationIdValidator implements FileValidatorInterface
         ValidateResponseTransfer $validateResponseTransfer,
         ?array $context = null
     ): ValidateResponseTransfer {
-        if (isset($data['components']['messages'])) {
-            foreach ($data['components']['messages'] as $message) {
-                if (!isset($message['operationId'])) {
-                    $messageTransfer = new MessageTransfer();
-                    $messageTransfer->setMessage(sprintf('Async API file "%s" have missing operation ids. Missing Messages: "%s".', $this->config->getDefaultAsyncApiFile(), $message['name']));
-                    $validateResponseTransfer->addError($messageTransfer);
-                }
+        $messageNames = [];
+        foreach ($data['components']['messages'] as $message) {
+            if (isset($messageNames[$message['name']])) {
+                $messageTransfer = new MessageTransfer();
+                $messageTransfer->setMessage('Async API file contains duplicate message names.');
+                $validateResponseTransfer->addError($messageTransfer);
             }
-        } else {
-            $messageTransfer = new MessageTransfer();
-            $messageTransfer->setMessage(sprintf('Async API file "%s" does not contain messages', $this->config->getDefaultAsyncApiFile()));
-            $validateResponseTransfer->addError($messageTransfer);
+            $messageNames[$message['name']] = true;
         }
 
         return $validateResponseTransfer;

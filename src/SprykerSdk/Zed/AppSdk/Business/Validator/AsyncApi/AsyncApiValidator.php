@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi;
 
-use Behat\Gherkin\Exception\ParserException;
 use Exception;
 use Generated\Shared\Transfer\MessageTransfer;
 use Generated\Shared\Transfer\ValidateRequestTransfer;
@@ -20,8 +19,6 @@ class AsyncApiValidator extends AbstractValidator
     /**
      * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
      * @param \Generated\Shared\Transfer\ValidateResponseTransfer|null $validateResponseTransfer
-     *
-     * @throws \Behat\Gherkin\Exception\ParserException
      *
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
@@ -40,14 +37,24 @@ class AsyncApiValidator extends AbstractValidator
         }
 
         try {
-            $validateResponseTransfer = $this->validateFileData(Yaml::parseFile($asyncApiFile), $this->finder->getFile($asyncApiFile)->getFilename(), $validateResponseTransfer);
+            $data = Yaml::parseFile($asyncApiFile);
         } catch (Exception $e) {
-            throw new ParserException(
-                sprintf('Could not parse AsyncApi file. Error: "%s".', $e->getMessage()),
-                0,
-                $e,
-            );
+            $messageTransfer = new MessageTransfer();
+            $messageTransfer->setMessage('Could not parse AsyncApi file.');
+            $validateResponseTransfer->addError($messageTransfer);
+
+            return $validateResponseTransfer;
         }
+
+        if (!isset($data['components']['messages']) || count($data['components']['messages']) === 0) {
+            $messageTransfer = new MessageTransfer();
+            $messageTransfer->setMessage('Async API file does not contain messages.');
+            $validateResponseTransfer->addError($messageTransfer);
+
+            return $validateResponseTransfer;
+        }
+
+        $validateResponseTransfer = $this->validateFileData($data, $this->finder->getFile($asyncApiFile)->getFilename(), $validateResponseTransfer);
 
         return $validateResponseTransfer;
     }

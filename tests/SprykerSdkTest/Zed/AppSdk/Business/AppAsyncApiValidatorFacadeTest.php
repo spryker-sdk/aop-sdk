@@ -23,10 +23,25 @@ class AppAsyncApiValidatorFacadeTest extends Unit
     /**
      * @return void
      */
-    public function testValidateAsyncApiReturnsSuccessfulResponseWhenFilesExistsAndContainValidData(): void
+    public function testValidateAsyncApiReturnsFailedResponseWhenFileNotFound(): void
+    {
+        // Act
+        $validateResponseTransfer = $this->tester->getFacade()->validateAsyncApi(
+            $this->tester->haveValidateRequest(),
+        );
+
+        // Assert
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertEquals('No AsyncAPI file given, you need to pass a valid filename.', $expectedErrorMessage->getMessage(), 'Async API file "vfs://root/config/api/asyncapi/asyncapi.yml" not found');
+    }
+
+    /**
+     * @return void
+     */
+    public function testValidateAsyncApiReturnsFailedResponseWhenFileHasSyntaxError(): void
     {
         // Arrange
-        $this->tester->haveValidAsyncApiFile();
+        $this->tester->haveAsyncApiFileSyntaxError();
 
         // Act
         $validateResponseTransfer = $this->tester->getFacade()->validateAsyncApi(
@@ -34,17 +49,32 @@ class AppAsyncApiValidatorFacadeTest extends Unit
         );
 
         // Assert
-        $this->assertCount(0, $validateResponseTransfer->getErrors(), sprintf(
-            'Expected that no validation errors given but there are errors. Errors: "%s"',
-            implode(', ', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer)),
-        ));
-        $this->assertCount(0, $validateResponseTransfer->getErrors(), 'Expected that validation was successful but was not.');
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertEquals('Could not parse AsyncApi file.', $expectedErrorMessage->getMessage(), 'AsyncApi file "vfs://root/config/api/asyncapi/valid/invalid_base_asyncapi.schema.yml" is invalid. Error: "Syntax error".');
     }
 
     /**
      * @return void
      */
-    public function testValidateAsyncApiReturnsFailedResponseWhenFilesExistsButARequiredFieldIsMissing(): void
+    public function testValidateAsyncApiReturnsFailedResponseWhenFileDoNotContainMessages(): void
+    {
+        // Arrange
+        $this->tester->haveAsyncApiFileWithNoMessages();
+
+        // Act
+        $validateResponseTransfer = $this->tester->getFacade()->validateAsyncApi(
+            $this->tester->haveValidateRequest(),
+        );
+
+        // Assert
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertEquals('Async API file does not contain messages.', $expectedErrorMessage->getMessage(), 'AsyncApi file "vfs://root/config/api/asyncapi/valid/invalid_base_asyncapi.schema.yml" does not contain messages.');
+    }
+
+    /**
+     * @return void
+     */
+    public function testValidateAsyncApiReturnsFailedResponseWhenFileExistsButARequiredFieldIsMissing(): void
     {
         // Arrange
         $this->tester->haveAsyncApiFileWithMissingRequiredFields();
@@ -55,17 +85,19 @@ class AppAsyncApiValidatorFacadeTest extends Unit
         );
 
         // Assert
-        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('Field "operationId" must be present in the asyncapi file "asyncapi.yml" but was not found.', $expectedErrorMessage->getMessage());
+        $this->assertContains('Async API file has missing operationId.', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer), sprintf(
+            'Field "operationId" must be present in the asyncapi file but was not found. Errors: "%s"',
+            implode(', ', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer)),
+        ));
     }
 
     /**
      * @return void
      */
-    public function testValidateAsyncApiReturnsFailedResponseWhenFilesExistsButHaveDuplicateMessage(): void
+    public function testValidateAsyncApiReturnsFailedResponseWhenMessageNameIsUsedMoreThanOnce(): void
     {
         // Arrange
-        $this->tester->haveAsyncApiFileHaveDuplicateMessage();
+        $this->tester->haveAsyncApiFileWithDuplicatedMessageNames();
 
         // Act
         $validateResponseTransfer = $this->tester->getFacade()->validateAsyncApi(
@@ -73,42 +105,9 @@ class AppAsyncApiValidatorFacadeTest extends Unit
         );
 
         // Assert
-        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('Async API file contains duplicate messages.', $expectedErrorMessage->getMessage());
-    }
-
-    /**
-     * @return void
-     */
-    public function testValidateAsyncApiReturnsFailedResponseWhenFilesNotFound(): void
-    {
-        // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateAsyncApi(
-            $this->tester->haveValidateRequest(),
-        );
-
-        // Assert
-        $this->assertCount(1, $validateResponseTransfer->getErrors());
-
-        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('No asyncapi files found.', $expectedErrorMessage->getMessage());
-    }
-
-    /**
-     * @return void
-     */
-    public function testValidateAsyncApiReturnsFailedResponseWhenSchemaIsInvalid(): void
-    {
-        // Arrange
-        $this->tester->haveInvalidAsyncApiFile();
-
-        // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateAsyncApi(
-            $this->tester->haveValidateRequest(),
-        );
-
-        // Assert
-        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('AsyncApi file "vfs://root/config/api/asyncapi/builder/asyncapi-empty.yml" contains invalid schema. Error: "Syntax error".', $expectedErrorMessage->getMessage());
+        $this->assertContains('Async API file contains duplicate message names.', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer), sprintf(
+            'Async API file contains duplicate messages. Errors: "%s"',
+            implode(', ', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer)),
+        ));
     }
 }

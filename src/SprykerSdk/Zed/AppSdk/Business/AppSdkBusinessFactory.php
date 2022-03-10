@@ -23,8 +23,8 @@ use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\ReadinessCheckerInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoader;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoaderInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\AsyncApiValidator;
-use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\DuplicateMessageValidator;
-use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\OperationIdValidator;
+use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiMessageValidator;
+use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiOperationIdValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Configuration\ConfigurationValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Finder\Finder;
@@ -237,7 +237,7 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     public function getAsyncApiValidators(): array
     {
         return [
-            $this->createAsyncApiDuplicateMessageValidator(),
+            $this->createAsyncApiMessageValidator(),
             $this->createAsyncApiOperationIdValidator(),
         ];
     }
@@ -245,9 +245,9 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface
      */
-    protected function createAsyncApiDuplicateMessageValidator(): FileValidatorInterface
+    protected function createAsyncApiMessageValidator(): FileValidatorInterface
     {
-        return new DuplicateMessageValidator($this->getConfig());
+        return new AsyncApiMessageValidator($this->getConfig());
     }
 
     /**
@@ -255,6 +255,6 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
      */
     protected function createAsyncApiOperationIdValidator(): FileValidatorInterface
     {
-        return new OperationIdValidator($this->getConfig());
+        return new AsyncApiOperationIdValidator($this->getConfig());
     }
 }
