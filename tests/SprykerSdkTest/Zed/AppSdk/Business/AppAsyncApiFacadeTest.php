@@ -201,7 +201,6 @@ class AppAsyncApiFacadeTest extends Unit
     {
         // Arrange
         $asyncApiMessageTransfer = $this->tester->haveAsyncApiMessagePropertyRequestTransfer();
-
         $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApi();
         $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
 

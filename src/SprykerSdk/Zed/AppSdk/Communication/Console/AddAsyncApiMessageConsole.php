@@ -143,6 +143,7 @@ class AddAsyncApiMessageConsole extends AbstractConsole
 
         $asyncApiRequestTransfer->setPayloadTransferObjectName($input->getOption(static::OPTION_FROM_TRANSFER_CLASS));
         $asyncApiRequestTransfer->setProperties($input->getOption(static::OPTION_PROPERTY));
+
         $asyncApiResponseTransfer = $this->getFacade()->addAsyncApiMessage($asyncApiRequestTransfer);
         if ($asyncApiResponseTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;
