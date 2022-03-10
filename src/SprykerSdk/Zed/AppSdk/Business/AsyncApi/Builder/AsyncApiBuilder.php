@@ -59,8 +59,6 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
     /**
      * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
      *
-     * @throws \SprykerSdk\Zed\AppSdk\Business\Exception\InvalidConfigurationException
-     *
      * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
      */
     public function addAsyncApiMessage(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer
@@ -74,15 +72,11 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
             return $asyncApiResponseTransfer;
         }
 
+        $this->validateRequest($asyncApiRequestTransfer);
+
         $asyncApi = Yaml::parseFile($targetFile);
 
         $asyncApiMessageTransfer = $asyncApiRequestTransfer->getAsyncApiMesssageOrFail();
-
-        if ($this->isPropertyOptionEmpty($asyncApiRequestTransfer) || $this->isTransferOptionEmpty($asyncApiRequestTransfer)) {
-            throw new InvalidConfigurationException(
-                sprintf('You either need to pass properties with the -P option or you need to pass a transfer class name for reverse engineering with the -t option.'),
-            );
-        }
 
         $messageName = $this->getMessageName($asyncApiMessageTransfer, $asyncApiRequestTransfer);
 
@@ -101,11 +95,33 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
     /**
      * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
      *
+     * @throws \SprykerSdk\Zed\AppSdk\Business\Exception\InvalidConfigurationException
+     *
+     * @return void
+     */
+    protected function validateRequest(AsyncApiRequestTransfer $asyncApiRequestTransfer): void
+    {
+        if ($this->isPropertyOptionEmpty($asyncApiRequestTransfer) && $this->isTransferOptionEmpty($asyncApiRequestTransfer)) {
+            throw new InvalidConfigurationException(
+                sprintf('You either need to pass properties with the `-P` option or you need to pass a transfer class name for reverse engineering with the `-t` option.'),
+            );
+        }
+
+        if (!$this->isPropertyOptionEmpty($asyncApiRequestTransfer) && !$this->isTransferOptionEmpty($asyncApiRequestTransfer)) {
+            throw new InvalidConfigurationException(
+                sprintf('You can only pass one of the options `-P` or `-t`, not both.'),
+            );
+        }
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
+     *
      * @return true|false
      */
     protected function isPropertyOptionEmpty(AsyncApiRequestTransfer $asyncApiRequestTransfer): bool
     {
-        return $asyncApiRequestTransfer->getPayloadTransferObjectName() === null && count($asyncApiRequestTransfer->getProperties()) === 0;
+        return count($asyncApiRequestTransfer->getProperties()) === 0;
     }
 
     /**
@@ -115,7 +131,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
      */
     protected function isTransferOptionEmpty(AsyncApiRequestTransfer $asyncApiRequestTransfer): bool
     {
-        return $asyncApiRequestTransfer->getPayloadTransferObjectName() !== null && count($asyncApiRequestTransfer->getProperties()) > 0;
+        return $asyncApiRequestTransfer->getPayloadTransferObjectName() === null;
     }
 
     /**
@@ -339,8 +355,6 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
                 $asyncApiMessageTransfer->setRequiredProperties($requiredFields);
                 $asyncApiMessageTransfer->setProperties($messageProperties);
             }
-
-            return $asyncApiMessageTransfer;
         }
 
         return $asyncApiMessageTransfer;
