@@ -2,6 +2,11 @@ asyncapi: 2.2.0
 info:
     title: 'Test File'
     version: 0.1.0
+channels:
+    foo/bar:
+        subscribe:
+        publish:
+
 components:
     schemas:
         headers:
