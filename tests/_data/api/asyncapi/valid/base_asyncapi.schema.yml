@@ -6,7 +6,6 @@ channels:
     foo/bar:
         subscribe:
         publish:
-
 components:
     schemas:
         headers:
