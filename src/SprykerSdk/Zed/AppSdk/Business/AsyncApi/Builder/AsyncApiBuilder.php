@@ -12,6 +12,7 @@ use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\MessageTransfer;
 use ReflectionClass;
+use SprykerSdk\Zed\AppSdk\Business\Exception\InvalidConfigurationException;
 use Symfony\Component\Yaml\Yaml;
 
 class AsyncApiBuilder implements AsyncApiBuilderInterface
@@ -71,13 +72,16 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
             return $asyncApiResponseTransfer;
         }
 
+        $this->validateRequest($asyncApiRequestTransfer);
+
         $asyncApi = Yaml::parseFile($targetFile);
 
         $asyncApiMessageTransfer = $asyncApiRequestTransfer->getAsyncApiMesssageOrFail();
-        $messageName = $this->getMessageName($asyncApiMessageTransfer);
+
+        $messageName = $this->getMessageName($asyncApiMessageTransfer, $asyncApiRequestTransfer);
 
         $asyncApi = $this->addComponentMessage($asyncApi, $messageName, $asyncApiMessageTransfer);
-        $asyncApi = $this->addComponentSchemaMessage($asyncApi, $messageName, $asyncApiMessageTransfer);
+        $asyncApi = $this->addComponentSchemaMessage($asyncApi, $messageName, $asyncApiMessageTransfer, $asyncApiRequestTransfer);
         $asyncApi = $this->addMessageToChannel($asyncApi, $messageName, $asyncApiMessageTransfer);
         $asyncApi = $this->addComponentMessageHeader($asyncApi, $messageName, $asyncApiMessageTransfer);
 
@@ -86,6 +90,48 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
         $this->writeToFile($targetFile, $asyncApi);
 
         return $asyncApiResponseTransfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
+     *
+     * @throws \SprykerSdk\Zed\AppSdk\Business\Exception\InvalidConfigurationException
+     *
+     * @return void
+     */
+    protected function validateRequest(AsyncApiRequestTransfer $asyncApiRequestTransfer): void
+    {
+        if ($this->isPropertyOptionEmpty($asyncApiRequestTransfer) && $this->isTransferOptionEmpty($asyncApiRequestTransfer)) {
+            throw new InvalidConfigurationException(
+                sprintf('You either need to pass properties with the `-P` option or you need to pass a transfer class name for reverse engineering with the `-t` option.'),
+            );
+        }
+
+        if (!$this->isPropertyOptionEmpty($asyncApiRequestTransfer) && !$this->isTransferOptionEmpty($asyncApiRequestTransfer)) {
+            throw new InvalidConfigurationException(
+                sprintf('You can only pass one of the options `-P` or `-t`, not both.'),
+            );
+        }
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
+     *
+     * @return bool
+     */
+    protected function isPropertyOptionEmpty(AsyncApiRequestTransfer $asyncApiRequestTransfer): bool
+    {
+        return count($asyncApiRequestTransfer->getProperties()) === 0;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
+     *
+     * @return bool
+     */
+    protected function isTransferOptionEmpty(AsyncApiRequestTransfer $asyncApiRequestTransfer): bool
+    {
+        return $asyncApiRequestTransfer->getPayloadTransferObjectName() === null;
     }
 
     /**
@@ -112,34 +158,19 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
      * @param array $asyncApi
      * @param string $messageName
      * @param \Generated\Shared\Transfer\AsyncApiMessageTransfer $asyncApiMessageTransfer
+     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
      *
      * @return array
      */
-    protected function addComponentSchemaMessage(array $asyncApi, string $messageName, AsyncApiMessageTransfer $asyncApiMessageTransfer): array
-    {
-        $messageAttributes = $this->getMessageAttributes($asyncApiMessageTransfer);
-        $messageProperties = [];
-        $requiredFields = [];
+    protected function addComponentSchemaMessage(
+        array $asyncApi,
+        string $messageName,
+        AsyncApiMessageTransfer $asyncApiMessageTransfer,
+        AsyncApiRequestTransfer $asyncApiRequestTransfer
+    ): array {
+        $messageAttributes = $this->getMessageAttributes($asyncApiMessageTransfer, $asyncApiRequestTransfer);
 
-        foreach ($messageAttributes as $propertyName => $propertyDefinition) {
-            if ($propertyDefinition['is_transfer']) {
-                continue;
-            }
-
-            if ($propertyDefinition['is_value_object']) {
-                continue;
-            }
-
-            $messageProperties[$propertyName] = [
-                'type' => $this->mapTransferTypeToAsyncyApiType($propertyDefinition['type']),
-            ];
-
-            if (!$propertyDefinition['is_nullable']) {
-                $requiredFields[] = $propertyName;
-            }
-        }
-
-        return $this->buildComponentSchemaMessage($asyncApi, $messageProperties, $requiredFields, $messageName);
+        return $this->buildComponentSchemaMessage($asyncApi, $messageAttributes->getProperties(), $messageAttributes->getRequiredProperties(), $messageName);
     }
 
     /**
@@ -260,16 +291,17 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
 
     /**
      * @param \Generated\Shared\Transfer\AsyncApiMessageTransfer $asyncApiMessageTransfer
+     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
      *
      * @return string
      */
-    protected function getMessageName(AsyncApiMessageTransfer $asyncApiMessageTransfer): string
+    protected function getMessageName(AsyncApiMessageTransfer $asyncApiMessageTransfer, AsyncApiRequestTransfer $asyncApiRequestTransfer): string
     {
         if (is_string($asyncApiMessageTransfer->getName())) {
             return $asyncApiMessageTransfer->getName();
         }
 
-        $transferObjectClassName = $asyncApiMessageTransfer->getPayloadTransferObjectNameOrFail();
+        $transferObjectClassName = $asyncApiRequestTransfer->getPayloadTransferObjectNameOrFail();
         $messageNameFragments = explode('\\', $transferObjectClassName);
 
         return str_replace('Transfer', '', array_pop($messageNameFragments));
@@ -277,20 +309,55 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
 
     /**
      * @param \Generated\Shared\Transfer\AsyncApiMessageTransfer $asyncApiMessageTransfer
+     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
      *
-     * @return array
+     * @return \Generated\Shared\Transfer\AsyncApiMessageTransfer
      */
-    protected function getMessageAttributes(AsyncApiMessageTransfer $asyncApiMessageTransfer): array
-    {
-        /** @var class-string<\Spryker\Shared\Kernel\Transfer\AbstractTransfer> $transferObjectClassName */
-        $transferObjectClassName = '\\' . ltrim($asyncApiMessageTransfer->getPayloadTransferObjectNameOrFail(), '\\');
+    protected function getMessageAttributes(
+        AsyncApiMessageTransfer $asyncApiMessageTransfer,
+        AsyncApiRequestTransfer $asyncApiRequestTransfer
+    ): AsyncApiMessageTransfer {
+        if ($asyncApiRequestTransfer->getProperties()) {
+            return $this->formatProperty($asyncApiMessageTransfer, $asyncApiRequestTransfer);
+        }
 
-        $transferObject = new $transferObjectClassName();
-        $transferObjectReflection = new ReflectionClass($transferObjectClassName);
-        $transferMetadataProperty = $transferObjectReflection->getProperty('transferMetadata');
-        $transferMetadataProperty->setAccessible(true);
+        if ($asyncApiRequestTransfer->getPayloadTransferObjectName()) {
+            /** @var class-string<\Spryker\Shared\Kernel\Transfer\AbstractTransfer> $transferObjectClassName */
+            $transferObjectClassName = '\\' . ltrim($asyncApiRequestTransfer->getPayloadTransferObjectNameOrFail(), '\\');
 
-        return $transferMetadataProperty->getValue($transferObject);
+            $transferObject = new $transferObjectClassName();
+            $transferObjectReflection = new ReflectionClass($transferObjectClassName);
+            $transferMetadataProperty = $transferObjectReflection->getProperty('transferMetadata');
+            $transferMetadataProperty->setAccessible(true);
+
+            $transferProperties = $transferMetadataProperty->getValue($transferObject);
+
+            $requiredFields = $asyncApiMessageTransfer->getRequiredProperties();
+            $messageProperties = $asyncApiMessageTransfer->getProperties();
+
+            foreach ($transferProperties as $propertyName => $propertyDefinition) {
+                if ($propertyDefinition['is_transfer']) {
+                    continue;
+                }
+
+                if ($propertyDefinition['is_value_object']) {
+                    continue;
+                }
+
+                $messageProperties[$propertyName] = [
+                    'type' => $this->mapTransferTypeToAsyncyApiType($propertyDefinition['type']),
+                ];
+
+                if (!$propertyDefinition['is_nullable']) {
+                    $requiredFields[] = $propertyName;
+                }
+
+                $asyncApiMessageTransfer->setRequiredProperties($requiredFields);
+                $asyncApiMessageTransfer->setProperties($messageProperties);
+            }
+        }
+
+        return $asyncApiMessageTransfer;
     }
 
     /**
@@ -390,6 +457,36 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
         $asyncApi = array_merge($asyncApi, $orderedElements);
 
         return $asyncApi;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\AsyncApiMessageTransfer $asyncApiMessageTransfer
+     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\AsyncApiMessageTransfer
+     */
+    protected function formatProperty(
+        AsyncApiMessageTransfer $asyncApiMessageTransfer,
+        AsyncApiRequestTransfer $asyncApiRequestTransfer
+    ): AsyncApiMessageTransfer {
+        $messageProperties = $asyncApiMessageTransfer->getProperties();
+        $requiredFields = $asyncApiMessageTransfer->getRequiredProperties();
+
+        foreach ($asyncApiRequestTransfer->getProperties() as $property) {
+            $propertyDefinition = explode(':', $property);
+
+            if (count($propertyDefinition) > 1) {
+                $messageProperties[$propertyDefinition[0]] = ['type' => $propertyDefinition[1]];
+            }
+
+            if (in_array('required', $propertyDefinition)) {
+                $requiredFields[] = $propertyDefinition[0];
+            }
+            $asyncApiMessageTransfer->setRequiredProperties($requiredFields);
+            $asyncApiMessageTransfer->setProperties($messageProperties);
+        }
+
+        return $asyncApiMessageTransfer;
     }
 
     /**
