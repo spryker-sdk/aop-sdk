@@ -117,7 +117,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
     /**
      * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
      *
-     * @return true|false
+     * @return bool
      */
     protected function isPropertyOptionEmpty(AsyncApiRequestTransfer $asyncApiRequestTransfer): bool
     {
@@ -127,7 +127,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
     /**
      * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
      *
-     * @return true|false
+     * @return bool
      */
     protected function isTransferOptionEmpty(AsyncApiRequestTransfer $asyncApiRequestTransfer): bool
     {
