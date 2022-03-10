@@ -59,8 +59,6 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
     /**
      * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
      *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
      * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
      */
     public function addAsyncApiMessage(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer

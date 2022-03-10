@@ -132,7 +132,6 @@ class AddAsyncApiMessageConsole extends AbstractConsole
         $asyncApiChannelTransfer->setName($input->getArgument(static::ARGUMENT_CHANNEL_NAME));
 
         $asyncApiMessageTransfer = new AsyncApiMessageTransfer();
-
         $asyncApiMessageTransfer
             ->setChannel($asyncApiChannelTransfer)
             ->setName($input->getOption(static::OPTION_MESSAGE_NAME))
@@ -146,6 +145,7 @@ class AddAsyncApiMessageConsole extends AbstractConsole
         $asyncApiRequestTransfer->setProperties($input->getOption(static::OPTION_PROPERTY));
 
         $asyncApiResponseTransfer = $this->getFacade()->addAsyncApiMessage($asyncApiRequestTransfer);
+
         if ($asyncApiResponseTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;
         }

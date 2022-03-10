@@ -32,7 +32,7 @@ class AsyncApiHelper extends Module
     /**
      * @var string
      */
-    public const CHANNEL_NAME = 'schemas';
+    public const CHANNEL_NAME = 'foo/bar';
 
     /**
      * @var string|null
@@ -104,7 +104,7 @@ class AsyncApiHelper extends Module
     public function haveAsyncApiAddRequestWithExistingAsyncApi(): AsyncApiRequestTransfer
     {
         $this->haveAsyncApiFile();
-       //dd($this->haveAsyncApiFile());
+
         $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
 
         $asyncApiTransfer = new AsyncApiTransfer();
