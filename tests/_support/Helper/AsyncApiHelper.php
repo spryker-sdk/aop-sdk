@@ -397,7 +397,7 @@ class AsyncApiHelper extends Module
     public function haveAsyncApiMessagePropertyRequestTransfer(): AsyncApiMessageTransfer
     {
         $asyncApiChannelTransfer = new AsyncApiChannelTransfer();
-        $asyncApiChannelTransfer->setName('schemas');
+        $asyncApiChannelTransfer->setName(static::CHANNEL_NAME);
 
         $asyncApiMessageTransfer = new AsyncApiMessageTransfer();
         $asyncApiMessageTransfer

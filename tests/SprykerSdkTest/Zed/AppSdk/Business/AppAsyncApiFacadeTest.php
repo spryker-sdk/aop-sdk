@@ -197,7 +197,7 @@ class AppAsyncApiFacadeTest extends Unit
     /**
      * @return void
      */
-    public function testAddAsyncApiMessagePropertyAdd(): void
+    public function testAddAsyncApiMessageAddsPropertyToMessage(): void
     {
         // Arrange
         $asyncApiMessageTransfer = $this->tester->haveAsyncApiMessagePropertyRequestTransfer();

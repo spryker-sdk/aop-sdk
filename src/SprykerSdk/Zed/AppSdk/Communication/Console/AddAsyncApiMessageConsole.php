@@ -140,6 +140,7 @@ class AddAsyncApiMessageConsole extends AbstractConsole
             ->setIsSubscribe($input->getOption(static::OPTION_SUBSCRIBE));
 
         $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
+
         $asyncApiRequestTransfer->setPayloadTransferObjectName($input->getOption(static::OPTION_FROM_TRANSFER_CLASS));
         $asyncApiRequestTransfer->setProperties($input->getOption(static::OPTION_PROPERTY));
         $asyncApiResponseTransfer = $this->getFacade()->addAsyncApiMessage($asyncApiRequestTransfer);
