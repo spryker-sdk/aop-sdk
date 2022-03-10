@@ -2,6 +2,10 @@ asyncapi: 2.2.0
 info:
     title: 'Test File'
     version: 0.1.0
+channels:
+    foo/bar:
+        subscribe:
+        publish:
 components:
     schemas:
         headers:
@@ -26,31 +30,15 @@ components:
         message:
             type: object
             properties:
-                name:
+                firstName:
                     type: string
-                summary:
+                lastName:
                     type: string
-                contentType:
+                email:
                     type: string
-                payloadTransferObjectName:
-                    type: string
-                property:
-                    type: array
-                addMetadata:
-                    type: bool
-                isPublish:
-                    type: bool
-                isSubscribe:
-                    type: bool
             required:
-                - name
-                - summary
-                - contentType
-                - payloadTransferObjectName
-                - property
-                - addMetadata
-                - isPublish
-                - isSubscribe
+                - firstName
+                - email
     messages:
         message:
             name: message

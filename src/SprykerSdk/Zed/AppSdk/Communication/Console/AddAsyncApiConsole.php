@@ -75,6 +75,7 @@ class AddAsyncApiConsole extends AbstractConsole
             return static::CODE_SUCCESS;
         }
 
+        // @codeCoverageIgnoreStart
         if ($output->isVerbose()) {
             foreach ($asyncApiResponseTransfer->getErrors() as $error) {
                 $output->writeln($error->getMessageOrFail());
@@ -82,5 +83,6 @@ class AddAsyncApiConsole extends AbstractConsole
         }
 
         return static::CODE_ERROR;
+        // @codeCoverageIgnoreEnd
     }
 }

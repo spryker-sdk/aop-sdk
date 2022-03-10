@@ -26,6 +26,8 @@
         <property name="asyncApi" type="AsyncApi"/>
         <property name="version" type="string"/>
         <property name="asyncApiMesssage" type="AsyncApiMessage"/>
+        <property name="payloadTransferObjectName" type="string"/>
+        <property name="properties" type="array"/>
     </transfer>
 
     <transfer name="AsyncApi">
@@ -41,8 +43,8 @@
         <property name="name" type="string"/>
         <property name="summary" type="string"/>
         <property name="contentType" type="string"/>
-        <property name="payloadTransferObjectName" type="string"/>
-        <property name="property" type="array"/>
+        <property name="properties" type="array"/>
+        <property name="requiredProperties" type="array"/>
         <property name="addMetadata" type="bool"/>
         <property name="channel" type="AsyncApiChannel"/>
         <property name="isPublish" type="bool"/>
