@@ -12,6 +12,7 @@ use Codeception\Stub;
 use Codeception\TestInterface;
 use Generated\Shared\Transfer\ValidateRequestTransfer;
 use Generated\Shared\Transfer\ValidateResponseTransfer;
+use org\bovigo\vfs\vfsStream;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
 use SprykerSdk\Zed\AppSdk\Business\AppSdkBusinessFactory;
 use SprykerSdk\Zed\AppSdk\Business\AppSdkFacade;
@@ -29,6 +30,45 @@ class ValidatorHelper extends Module
     public function mockRoot(string $rootPath): void
     {
         $this->rootPath = $rootPath;
+    }
+
+    /**
+     * @return void
+     */
+    public function haveValidConfigurations(): void
+    {
+        $structure = $this->getValidBaseStructure();
+
+        $root = vfsStream::setup('root', null, $structure);
+        $this->mockRoot($root->url());
+    }
+
+    /**
+     * @return array<array<array<\array>>>
+     */
+    protected function getValidBaseStructure(): array
+    {
+        return [
+            'config' => [
+                'app' => [
+                    'translation' => [
+                        'translation.json' => file_get_contents(codecept_data_dir('valid/translation/translation.json')),
+                    ],
+                    'manifest' => [
+                        'de_DE.json' => file_get_contents(codecept_data_dir('valid/manifest/de_DE.json')),
+                        'en_US.json' => file_get_contents(codecept_data_dir('valid/manifest/en_US.json')),
+                    ],
+                    'configuration' => [
+                        'configuration.json' => file_get_contents(codecept_data_dir('valid/configuration/translation.json')),
+                    ],
+                ],
+                'api' => [
+                    'asyncapi' => [
+                        'asyncapi.yml' => file_get_contents(codecept_data_dir('api/asyncapi/valid/base_asyncapi.schema.yml')),
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -77,6 +117,7 @@ class ValidatorHelper extends Module
         $config = $this->getConfig() ?? new AppSdkConfig();
 
         $validateRequest = new ValidateRequestTransfer();
+        $validateRequest->setAsyncApiFile($config->getDefaultAsyncApiFile());
         $validateRequest->setManifestPath($config->getDefaultManifestPath());
         $validateRequest->setConfigurationFile($config->getDefaultConfigurationFile());
         $validateRequest->setTranslationFile($config->getDefaultTranslationFile());

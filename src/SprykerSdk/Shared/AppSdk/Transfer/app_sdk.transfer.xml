@@ -8,6 +8,7 @@
         <property name="manifestPath" type="string"/>
         <property name="configurationFile" type="string"/>
         <property name="translationFile" type="string"/>
+        <property name="asyncApiFile" type="string"/>
     </transfer>
 
     <transfer name="ValidateResponse">

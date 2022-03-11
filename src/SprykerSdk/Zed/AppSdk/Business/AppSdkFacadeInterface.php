@@ -115,4 +115,16 @@ interface AppSdkFacadeInterface
      * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
      */
     public function buildFromAsyncApi(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer;
+
+    /**
+     * Specification:
+     * - Reads an AsyncAPI file and validates it.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $asyncApiRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
+     */
+    public function validateAsyncApi(ValidateRequestTransfer $asyncApiRequestTransfer): ValidateResponseTransfer;
 }

@@ -2,12 +2,8 @@ asyncapi: 2.2.0
 info:
     title: 'Test File'
     version: 0.1.0
-channels:
-    foo/bar:
-        subscribe:
-        publish:
 components:
-    schemas:
+    schemas
         headers:
             type: object
             required:
@@ -30,19 +26,34 @@ components:
         message:
             type: object
             properties:
-                firstName:
+                name:
                     type: string
-                lastName:
+                summary:
                     type: string
-                email:
+                contentType:
                     type: string
+                payloadTransferObjectName:
+                    type: string
+                property:
+                    type: array
+                addMetadata:
+                    type: bool
+                isPublish:
+                    type: bool
+                isSubscribe:
+                    type: bool
             required:
-                - firstName
-                - email
+                - name
+                - summary
+                - contentType
+                - payloadTransferObjectName
+                - property
+                - addMetadata
+                - isPublish
+                - isSubscribe
     messages:
         message:
             name: message
-            operationId: MyModule
             summary: ''
             payload:
                 $ref: '#/components/schemas/message'

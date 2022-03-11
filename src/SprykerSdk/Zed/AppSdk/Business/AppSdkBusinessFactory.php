@@ -22,6 +22,9 @@ use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\ReadinessChecker;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\ReadinessCheckerInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoader;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoaderInterface;
+use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\AsyncApiValidator;
+use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiMessageValidator;
+use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiOperationIdValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Configuration\ConfigurationValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Finder\Finder;
@@ -48,6 +51,7 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
             $this->createManifestValidator(),
             $this->createConfigurationValidator(),
             $this->createTranslationValidator(),
+            $this->createAsyncApiValidator(),
         ]);
     }
 
@@ -213,5 +217,44 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     public function createAsyncApiLoader(): AsyncApiLoaderInterface
     {
         return new AsyncApiLoader();
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\AsyncApiValidator
+     */
+    public function createAsyncApiValidator(): AsyncApiValidator
+    {
+        return new AsyncApiValidator(
+            $this->getConfig(),
+            $this->createFinder(),
+            $this->getAsyncApiValidators(),
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getAsyncApiValidators(): array
+    {
+        return [
+            $this->createAsyncApiMessageValidator(),
+            $this->createAsyncApiOperationIdValidator(),
+        ];
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface
+     */
+    protected function createAsyncApiMessageValidator(): FileValidatorInterface
+    {
+        return new AsyncApiMessageValidator($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface
+     */
+    protected function createAsyncApiOperationIdValidator(): FileValidatorInterface
+    {
+        return new AsyncApiOperationIdValidator($this->getConfig());
     }
 }
