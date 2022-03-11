@@ -42,6 +42,7 @@ components:
     messages:
         message:
             name: message
+            operationId: MyModule
             summary: ''
             payload:
                 $ref: '#/components/schemas/message'

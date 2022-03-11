@@ -28,6 +28,7 @@ class AsyncApiValidator extends AbstractValidator
     ): ValidateResponseTransfer {
         $validateResponseTransfer ??= new ValidateResponseTransfer();
         $asyncApiFile = $validateRequestTransfer->getAsyncApiFileOrFail();
+
         if (!$this->finder->hasFiles($asyncApiFile)) {
             $messageTransfer = new MessageTransfer();
             $messageTransfer->setMessage('No AsyncAPI file given, you need to pass a valid filename.');
@@ -54,7 +55,7 @@ class AsyncApiValidator extends AbstractValidator
             return $validateResponseTransfer;
         }
 
-        $validateResponseTransfer = $this->validateFileData($data, $this->finder->getFile($asyncApiFile)->getFilename(), $validateResponseTransfer);
+        $validateResponseTransfer = $this->validateFileData($data, $this->finder->getFile($asyncApiFile), $validateResponseTransfer);
 
         return $validateResponseTransfer;
     }
