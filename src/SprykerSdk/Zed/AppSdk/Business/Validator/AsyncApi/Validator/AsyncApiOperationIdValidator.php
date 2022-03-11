@@ -28,20 +28,20 @@ class AsyncApiOperationIdValidator implements FileValidatorInterface
     }
 
     /**
-     * @param array $data
-     * @param string $fileName
+     * @param array $asyncApi
+     * @param string $asyncApiFileName
      * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
      * @param array|null $context
      *
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
     public function validate(
-        array $data,
-        string $fileName,
+        array $asyncApi,
+        string $asyncApiFileName,
         ValidateResponseTransfer $validateResponseTransfer,
         ?array $context = null
     ): ValidateResponseTransfer {
-        foreach ($data['components']['messages'] as $message) {
+        foreach ($asyncApi['components']['messages'] as $message) {
             if (!isset($message['operationId'])) {
                 $messageTransfer = new MessageTransfer();
                 $messageTransfer->setMessage('Async API file has missing operationId.');
