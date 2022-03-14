@@ -467,7 +467,6 @@ class AsyncApiHelper extends Module
         }
     }
 
-
     /**
      * @param string $targetFile
      * @param string $channelName

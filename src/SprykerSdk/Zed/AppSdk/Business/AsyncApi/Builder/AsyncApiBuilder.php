@@ -112,7 +112,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
                 sprintf('You can only pass one of the options `-P` or `-t`, not both.'),
             );
         }
-        
+
         if (!$this->isOperationIdEmpty($asyncApiRequestTransfer)) {
             throw new InvalidConfigurationException(
                 sprintf('You must pass operationId to message with the option `-o`.'),
@@ -158,8 +158,12 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
      *
      * @return array
      */
-    protected function addComponentMessage(array $asyncApi, string $messageName, AsyncApiMessageTransfer $asyncApiMessageTransfer, AsyncApiRequestTransfer $asyncApiRequestTransfer): array
-    {
+    protected function addComponentMessage(
+        array $asyncApi,
+        string $messageName,
+        AsyncApiMessageTransfer $asyncApiMessageTransfer,
+        AsyncApiRequestTransfer $asyncApiRequestTransfer
+    ): array {
         $asyncApi['components']['messages'][$messageName] = [
             'name' => $messageName,
             'operationId' => $asyncApiRequestTransfer->getOperationId() ?? '',

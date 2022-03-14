@@ -94,6 +94,7 @@ class AppAsyncApiFacadeTest extends Unit
         $asyncApiMessageTransfer = $this->tester->havePublishMessageWithMetadata();
         $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApiAndPayloadTransferObject();
         $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
+        $asyncApiRequestTransfer->setOperationId('operationId');
 
         // Act
         $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApiMessage(
@@ -114,7 +115,7 @@ class AppAsyncApiFacadeTest extends Unit
         $asyncApiMessageTransfer = $this->tester->haveSubscribeMessageWithMetadata();
         $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApiAndPayloadTransferObject();
         $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
-
+        $asyncApiRequestTransfer->setOperationId('operationId');
         // Act
         $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApiMessage(
             $asyncApiRequestTransfer,
@@ -134,6 +135,7 @@ class AppAsyncApiFacadeTest extends Unit
         $asyncApiMessageTransfer = $this->tester->havePublishMessageWithMetadata();
         $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApiAndPayloadTransferObject();
         $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
+        $asyncApiRequestTransfer->setOperationId('operationId');
         $this->tester->getFacade()->addAsyncApiMessage($asyncApiRequestTransfer);
         $asyncApiRequestTransfer->getAsyncApiMesssage()->setName('AdditionalMessage');
 
@@ -157,6 +159,7 @@ class AppAsyncApiFacadeTest extends Unit
         $asyncApiMessageTransfer = $this->tester->havePublishMessageWithMetadata();
         $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApiAndPayloadTransferObject();
         $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
+        $asyncApiRequestTransfer->setOperationId('operationId');
         // Add additional method that creates `oneOf`
         $this->tester->getFacade()->addAsyncApiMessage($asyncApiRequestTransfer);
 
@@ -187,7 +190,7 @@ class AppAsyncApiFacadeTest extends Unit
         $asyncApiMessageTransfer = $this->tester->havePublishMessageWithMetadata(static::MESSAGE_NAME);
         $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApiAndProperties();
         $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
-
+        $asyncApiRequestTransfer->setOperationId('operationId');
         // Act
         $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApiMessage(
             $asyncApiRequestTransfer,
@@ -241,7 +244,6 @@ class AppAsyncApiFacadeTest extends Unit
         );
     }
 
-
     /**
      * @return void
      */
@@ -251,6 +253,7 @@ class AppAsyncApiFacadeTest extends Unit
         $asyncApiMessageTransfer = $this->tester->havePublishMessageWithMetadata(static::MESSAGE_NAME);
         $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequest();
         $asyncApiRequestTransfer->setProperties(['foo' => 'bar']);
+        $asyncApiRequestTransfer->setOperationId('testOperationId');
         $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
 
         // Act
