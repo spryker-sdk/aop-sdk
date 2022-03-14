@@ -28,6 +28,7 @@
         <property name="asyncApiMesssage" type="AsyncApiMessage"/>
         <property name="payloadTransferObjectName" type="string"/>
         <property name="properties" type="array"/>
+        <property name="operationId" type="string"/>
     </transfer>
 
     <transfer name="AsyncApi">

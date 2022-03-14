@@ -134,6 +134,7 @@ class AppAsyncApiFacadeTest extends Unit
         $asyncApiMessageTransfer = $this->tester->havePublishMessageWithMetadata();
         $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApiAndPayloadTransferObject();
         $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
+
         $this->tester->getFacade()->addAsyncApiMessage($asyncApiRequestTransfer);
         $asyncApiRequestTransfer->getAsyncApiMesssage()->setName('AdditionalMessage');
 
@@ -157,6 +158,7 @@ class AppAsyncApiFacadeTest extends Unit
         $asyncApiMessageTransfer = $this->tester->havePublishMessageWithMetadata();
         $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApiAndPayloadTransferObject();
         $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
+
         // Add additional method that creates `oneOf`
         $this->tester->getFacade()->addAsyncApiMessage($asyncApiRequestTransfer);
 
@@ -228,7 +230,6 @@ class AppAsyncApiFacadeTest extends Unit
         // Arrange
         $asyncApiMessageTransfer = $this->tester->havePublishMessageWithMetadata(static::MESSAGE_NAME);
         $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApi();
-        $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApi();
         $asyncApiRequestTransfer
             ->setPayloadTransferObjectName(null)
             ->setAsyncApiMesssage($asyncApiMessageTransfer);
@@ -238,6 +239,26 @@ class AppAsyncApiFacadeTest extends Unit
 
         // Act
         $this->tester->getFacade()->addAsyncApiMessage(
+            $asyncApiRequestTransfer,
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testAddAsyncApiThrowsExceptionWhenOperationIdIsMissionInAsyncApiRequest(): void
+    {
+        // Arrange
+        $asyncApiMessageTransfer = $this->tester->havePublishMessageWithMetadata(static::MESSAGE_NAME);
+        $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequest();
+        $asyncApiRequestTransfer->setProperties(['foo' => 'bar']);
+        $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
+
+        // Expect
+        $this->expectException(InvalidConfigurationException::class);
+
+        // Act
+        $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApiMessage(
             $asyncApiRequestTransfer,
         );
     }

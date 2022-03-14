@@ -80,7 +80,7 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
 
         $messageName = $this->getMessageName($asyncApiMessageTransfer, $asyncApiRequestTransfer);
 
-        $asyncApi = $this->addComponentMessage($asyncApi, $messageName, $asyncApiMessageTransfer);
+        $asyncApi = $this->addComponentMessage($asyncApi, $messageName, $asyncApiMessageTransfer, $asyncApiRequestTransfer);
         $asyncApi = $this->addComponentSchemaMessage($asyncApi, $messageName, $asyncApiMessageTransfer, $asyncApiRequestTransfer);
         $asyncApi = $this->addMessageToChannel($asyncApi, $messageName, $asyncApiMessageTransfer);
         $asyncApi = $this->addComponentMessageHeader($asyncApi, $messageName, $asyncApiMessageTransfer);
@@ -112,6 +112,12 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
                 sprintf('You can only pass one of the options `-P` or `-t`, not both.'),
             );
         }
+
+        if (!$this->isOperationIdEmpty($asyncApiRequestTransfer)) {
+            throw new InvalidConfigurationException(
+                sprintf('You must pass operationId to message with the option `-o`.'),
+            );
+        }
     }
 
     /**
@@ -135,16 +141,32 @@ class AsyncApiBuilder implements AsyncApiBuilderInterface
     }
 
     /**
+     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
+     *
+     * @return bool
+     */
+    protected function isOperationIdEmpty(AsyncApiRequestTransfer $asyncApiRequestTransfer): bool
+    {
+        return $asyncApiRequestTransfer->getOperationId() !== null && $asyncApiRequestTransfer->getOperationId() !== '';
+    }
+
+    /**
      * @param array $asyncApi
      * @param string $messageName
      * @param \Generated\Shared\Transfer\AsyncApiMessageTransfer $asyncApiMessageTransfer
+     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
      *
      * @return array
      */
-    protected function addComponentMessage(array $asyncApi, string $messageName, AsyncApiMessageTransfer $asyncApiMessageTransfer): array
-    {
+    protected function addComponentMessage(
+        array $asyncApi,
+        string $messageName,
+        AsyncApiMessageTransfer $asyncApiMessageTransfer,
+        AsyncApiRequestTransfer $asyncApiRequestTransfer
+    ): array {
         $asyncApi['components']['messages'][$messageName] = [
             'name' => $messageName,
+            'operationId' => $asyncApiRequestTransfer->getOperationId() ?? '',
             'summary' => $asyncApiMessageTransfer->getSummary() ?? '',
             'payload' => [
                 '$ref' => sprintf('#/components/schemas/%s', $messageName),

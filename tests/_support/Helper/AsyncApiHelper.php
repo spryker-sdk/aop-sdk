@@ -127,7 +127,8 @@ class AsyncApiHelper extends Module
     {
         $asyncApiRequestTransfer = $this->haveAsyncApiAddRequestWithExistingAsyncApi();
         $asyncApiRequestTransfer
-            ->setPayloadTransferObjectName(AsyncApiMessageTransfer::class);
+            ->setPayloadTransferObjectName(AsyncApiMessageTransfer::class)
+            ->setOperationId('operationId');
 
         return $asyncApiRequestTransfer;
     }
@@ -143,7 +144,8 @@ class AsyncApiHelper extends Module
     {
         $asyncApiRequestTransfer = $this->haveAsyncApiAddRequestWithExistingAsyncApi();
         $asyncApiRequestTransfer
-            ->setProperties($properties ?? ['firstName:string:required', 'lastName:string', 'phoneNumber:int:required', 'email:string']);
+            ->setProperties($properties ?? ['firstName:string:required', 'lastName:string', 'phoneNumber:int:required', 'email:string'])
+            ->setOperationId('operationId');
 
         return $asyncApiRequestTransfer;
     }
@@ -465,5 +467,25 @@ class AsyncApiHelper extends Module
                 $messageName,
             ));
         }
+    }
+
+    /**
+     * @param string $targetFile
+     * @param string $channelName
+     * @param string $channelType
+     * @param string $messageName
+     *
+     * @return void
+     */
+    public function assertMessageInChannelHasOperationId(string $targetFile, string $channelName, string $channelType, string $messageName): void
+    {
+        $asyncApi = Yaml::parseFile($targetFile);
+
+        $this->assertMessageInChannelType($asyncApi, $messageName, $channelName, $channelType);
+
+        $this->assertArrayHasKey('operationId', $asyncApi['components']['messages'][$messageName], sprintf(
+            'Expected to have a operationId in the message "%s" but it does not exist.',
+            $messageName,
+        ));
     }
 }

@@ -42,6 +42,7 @@ class AddAsyncApiMessageConsoleTest extends Unit
             [
                 AddAsyncApiMessageConsole::ARGUMENT_CHANNEL_NAME => 'test/channel',
                 '--' . AddAsyncApiMessageConsole::OPTION_FROM_TRANSFER_CLASS => AsyncApiBuilderTestTransfer::class,
+                '--' . AddAsyncApiMessageConsole::OPTION_OPERATION_ID => 'operationId',
             ],
         );
 
@@ -61,6 +62,7 @@ class AddAsyncApiMessageConsoleTest extends Unit
             [
                 AddAsyncApiMessageConsole::ARGUMENT_CHANNEL_NAME => 'test/channel',
                 '--' . AddAsyncApiMessageConsole::OPTION_FROM_TRANSFER_CLASS => AsyncApiBuilderTestTransfer::class,
+                '--' . AddAsyncApiMessageConsole::OPTION_OPERATION_ID => 'operationId',
             ],
             ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
         );
