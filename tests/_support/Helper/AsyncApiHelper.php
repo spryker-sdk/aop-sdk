@@ -127,7 +127,8 @@ class AsyncApiHelper extends Module
     {
         $asyncApiRequestTransfer = $this->haveAsyncApiAddRequestWithExistingAsyncApi();
         $asyncApiRequestTransfer
-            ->setPayloadTransferObjectName(AsyncApiMessageTransfer::class);
+            ->setPayloadTransferObjectName(AsyncApiMessageTransfer::class)
+            ->setOperationId('operationId');
 
         return $asyncApiRequestTransfer;
     }
@@ -143,7 +144,8 @@ class AsyncApiHelper extends Module
     {
         $asyncApiRequestTransfer = $this->haveAsyncApiAddRequestWithExistingAsyncApi();
         $asyncApiRequestTransfer
-            ->setProperties($properties ?? ['firstName:string:required', 'lastName:string', 'phoneNumber:int:required', 'email:string']);
+            ->setProperties($properties ?? ['firstName:string:required', 'lastName:string', 'phoneNumber:int:required', 'email:string'])
+            ->setOperationId('operationId');
 
         return $asyncApiRequestTransfer;
     }
