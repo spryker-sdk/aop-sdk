@@ -466,4 +466,25 @@ class AsyncApiHelper extends Module
             ));
         }
     }
+
+
+    /**
+     * @param string $targetFile
+     * @param string $channelName
+     * @param string $channelType
+     * @param string $messageName
+     *
+     * @return void
+     */
+    public function assertMessageInChannelHasOperationId(string $targetFile, string $channelName, string $channelType, string $messageName): void
+    {
+        $asyncApi = Yaml::parseFile($targetFile);
+
+        $this->assertMessageInChannelType($asyncApi, $messageName, $channelName, $channelType);
+
+        $this->assertArrayHasKey('operationId', $asyncApi['components']['messages'][$messageName], sprintf(
+            'Expected to have a operationId in the message "%s" but it does not exist.',
+            $messageName,
+        ));
+    }
 }

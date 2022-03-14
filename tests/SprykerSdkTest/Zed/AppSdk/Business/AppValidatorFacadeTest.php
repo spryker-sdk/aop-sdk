@@ -26,7 +26,7 @@ class AppValidatorFacadeTest extends Unit
     public function testValidateReturnsSuccessfulResponseWhenValidationIsSuccessful(): void
     {
         // Arrange
-        $this->tester->haveValidTranslationWithManifestAndConfiguration();
+        $this->tester->haveValidConfigurations();
 
         // Act
         $validateResponseTransfer = $this->tester->getFacade()->validate(

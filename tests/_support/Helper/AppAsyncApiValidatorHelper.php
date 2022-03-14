@@ -42,7 +42,7 @@ class AppAsyncApiValidatorHelper extends Module
     public function haveAsyncApiFileSyntaxError(): void
     {
         $files = [
-            'asyncapi.yml' => file_get_contents(codecept_data_dir('api/asyncapi/valid/syntax_error_asyncapi.schema.yml')),
+            'asyncapi.yml' => file_get_contents(codecept_data_dir('api/asyncapi/invalid/syntax_error_asyncapi.schema.yml')),
         ];
 
         $this->prepareAsyncApiSchema($files);
@@ -54,7 +54,7 @@ class AppAsyncApiValidatorHelper extends Module
     public function haveAsyncApiFileWithMissingRequiredFields(): void
     {
         $files = [
-            'asyncapi.yml' => file_get_contents(codecept_data_dir('api/asyncapi/valid/base_asyncapi.schema.yml')),
+            'asyncapi.yml' => file_get_contents(codecept_data_dir('api/asyncapi/invalid/asyncapi-with-missing-operation-id.yml')),
         ];
 
         $this->prepareAsyncApiSchema($files);
@@ -66,7 +66,7 @@ class AppAsyncApiValidatorHelper extends Module
     public function haveAsyncApiFileWithDuplicatedMessageNames(): void
     {
         $files = [
-            'asyncapi.yml' => file_get_contents(codecept_data_dir('api/asyncapi/validation/asyncapi-duplicated-message-names.yml')),
+            'asyncapi.yml' => file_get_contents(codecept_data_dir('api/asyncapi/invalid/asyncapi-duplicated-message-names.yml')),
         ];
 
         $this->prepareAsyncApiSchema($files);

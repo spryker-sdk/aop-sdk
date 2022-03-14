@@ -33,7 +33,7 @@ class ValidateConsoleTest extends Unit
     public function testValidateReturnsSuccessCodeWhenAllValidationsAreSuccessful(): void
     {
         // Arrange
-        $this->tester->haveValidTranslationWithManifestAndConfiguration();
+        $this->tester->haveValidConfigurations();
 
         $commandTester = $this->tester->getConsoleTester(ValidateConsole::class);
 

@@ -2,10 +2,6 @@ asyncapi: 2.2.0
 info:
     title: 'Test File'
     version: 0.1.0
-channels:
-    foo/bar:
-        subscribe:
-        publish:
 components:
     schemas:
         headers:
@@ -34,15 +30,11 @@ components:
                     type: string
                 lastName:
                     type: string
-                email:
-                    type: string
             required:
                 - firstName
-                - email
     messages:
         message:
             name: message
-            operationId: MyModule
             summary: ''
             payload:
                 $ref: '#/components/schemas/message'

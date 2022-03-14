@@ -228,7 +228,6 @@ class AppAsyncApiFacadeTest extends Unit
         // Arrange
         $asyncApiMessageTransfer = $this->tester->havePublishMessageWithMetadata(static::MESSAGE_NAME);
         $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApi();
-        $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequestWithExistingAsyncApi();
         $asyncApiRequestTransfer
             ->setPayloadTransferObjectName(null)
             ->setAsyncApiMesssage($asyncApiMessageTransfer);
@@ -240,5 +239,26 @@ class AppAsyncApiFacadeTest extends Unit
         $this->tester->getFacade()->addAsyncApiMessage(
             $asyncApiRequestTransfer,
         );
+    }
+
+
+    /**
+     * @return void
+     */
+    public function testAddAsyncApiThrowsExceptionWhenOperationIdIsMissionInAsyncApiRequest(): void
+    {
+        // Arrange
+        $asyncApiMessageTransfer = $this->tester->havePublishMessageWithMetadata(static::MESSAGE_NAME);
+        $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequest();
+        $asyncApiRequestTransfer->setProperties(['foo' => 'bar']);
+        $asyncApiRequestTransfer->setAsyncApiMesssage($asyncApiMessageTransfer);
+
+        // Act
+        $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApiMessage(
+            $asyncApiRequestTransfer,
+        );
+
+        $this->tester->assertAsyncApiResponseHasNoErrors($asyncApiResponseTransfer);
+        $this->tester->assertMessageInChannelHasOperationId($asyncApiRequestTransfer->getTargetFile(), $asyncApiMessageTransfer->getChannel()->getName(), 'publish', $asyncApiMessageTransfer->getName());
     }
 }

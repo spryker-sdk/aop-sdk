@@ -85,10 +85,7 @@ class AppAsyncApiValidatorFacadeTest extends Unit
         );
 
         // Assert
-        $this->assertContains('Async API file has missing operationId.', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer), sprintf(
-            'Field "operationId" must be present in the asyncapi file but was not found. Errors: "%s"',
-            implode(', ', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer)),
-        ));
+        $this->assertContains('Async API file has missing operationId.', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer));
     }
 
     /**
@@ -105,9 +102,6 @@ class AppAsyncApiValidatorFacadeTest extends Unit
         );
 
         // Assert
-        $this->assertContains('Async API file contains duplicate message names.', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer), sprintf(
-            'Async API file contains duplicate messages. Errors: "%s"',
-            implode(', ', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer)),
-        ));
+        $this->assertContains('Async API file contains duplicate message names.', $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer));
     }
 }
