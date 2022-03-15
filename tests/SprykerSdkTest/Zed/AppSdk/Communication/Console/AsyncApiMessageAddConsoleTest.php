@@ -19,9 +19,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @group AppSdk
  * @group Communication
  * @group Console
- * @group AddAsyncApiMessageConsoleTest
+ * @group AsyncApiMessageAddConsoleTest
  */
-class AddAsyncApiMessageConsoleTest extends Unit
+class AsyncApiMessageAddConsoleTest extends Unit
 {
     /**
      * @var \SprykerSdkTest\Zed\AppSdk\CommunicationTester

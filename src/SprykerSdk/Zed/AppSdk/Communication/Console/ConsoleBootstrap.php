@@ -43,9 +43,9 @@ class ConsoleBootstrap extends Application
     {
         return [
             new AsyncApiValidateConsole(),
-            new ManifestValidateConsole(),
-            new ConfigurationValidateConsole(),
-            new TranslationValidateConsole(),
+            new AppManifestValidateConsole(),
+            new AppConfigurationValidateConsole(),
+            new AppTranslationValidateConsole(),
             new ValidateConsole(),
         ];
     }

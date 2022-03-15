@@ -9,7 +9,7 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ConfigurationValidateConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppTranslationValidateConsole;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -18,9 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @group AppSdk
  * @group Communication
  * @group Console
- * @group ValidateConfigurationConsoleTest
+ * @group AppTranslationValidateConsoleTest
  */
-class ValidateConfigurationConsoleTest extends Unit
+class AppTranslationValidateConsoleTest extends Unit
 {
     /**
      * @var \SprykerSdkTest\Zed\AppSdk\CommunicationTester
@@ -30,12 +30,13 @@ class ValidateConfigurationConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testValidateConfigurationReturnsSuccessCodeWhenValidationIsSuccessful(): void
+    public function testValidateTranslationReturnsSuccessCodeWhenValidationIsSuccessful(): void
     {
         // Arrange
-        $this->tester->haveValidConfiguration();
+        $this->tester->haveValidTranslationWithManifestAndConfiguration();
 
-        $commandTester = $this->tester->getConsoleTester(ConfigurationValidateConsole::class);
+        $command = new AppTranslationValidateConsole();
+        $commandTester = $this->tester->getConsoleTester(AppTranslationValidateConsole::class);
 
         // Act
         $commandTester->execute([]);
@@ -47,9 +48,9 @@ class ValidateConfigurationConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testValidateConfigurationReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
+    public function testValidateTranslationReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
     {
-        $commandTester = $this->tester->getConsoleTester(new ConfigurationValidateConsole());
+        $commandTester = $this->tester->getConsoleTester(new AppTranslationValidateConsole());
 
         // Act
         $commandTester->execute([], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);

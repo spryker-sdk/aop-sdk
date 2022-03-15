@@ -25,9 +25,9 @@ class ValidateConsole extends AbstractConsole
         $this->setName('app:validate')
             ->setDescription('Validates the translation file.')
             ->addOption(AsyncApiValidateConsole::ASYNC_API_FILE, AsyncApiValidateConsole::ASYNC_API_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultAsyncApiFile())
-            ->addOption(ConfigurationValidateConsole::CONFIGURATION_FILE, ConfigurationValidateConsole::CONFIGURATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultConfigurationFile())
-            ->addOption(ManifestValidateConsole::MANIFEST_PATH, ManifestValidateConsole::MANIFEST_PATH_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultManifestPath())
-            ->addOption(TranslationValidateConsole::TRANSLATION_FILE, TranslationValidateConsole::TRANSLATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultTranslationFile());
+            ->addOption(AppConfigurationValidateConsole::CONFIGURATION_FILE, AppConfigurationValidateConsole::CONFIGURATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultConfigurationFile())
+            ->addOption(AppManifestValidateConsole::MANIFEST_PATH, AppManifestValidateConsole::MANIFEST_PATH_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultManifestPath())
+            ->addOption(AppTranslationValidateConsole::TRANSLATION_FILE, AppTranslationValidateConsole::TRANSLATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultTranslationFile());
     }
 
     /**
@@ -40,9 +40,9 @@ class ValidateConsole extends AbstractConsole
     {
         $validateRequestTransfer = new ValidateRequestTransfer();
         $validateRequestTransfer->setAsyncApiFile($input->getOption(AsyncApiValidateConsole::ASYNC_API_FILE));
-        $validateRequestTransfer->setManifestPath($input->getOption(ManifestValidateConsole::MANIFEST_PATH));
-        $validateRequestTransfer->setConfigurationFile($input->getOption(ConfigurationValidateConsole::CONFIGURATION_FILE));
-        $validateRequestTransfer->setTranslationFile($input->getOption(TranslationValidateConsole::TRANSLATION_FILE));
+        $validateRequestTransfer->setManifestPath($input->getOption(AppManifestValidateConsole::MANIFEST_PATH));
+        $validateRequestTransfer->setConfigurationFile($input->getOption(AppConfigurationValidateConsole::CONFIGURATION_FILE));
+        $validateRequestTransfer->setTranslationFile($input->getOption(AppTranslationValidateConsole::TRANSLATION_FILE));
 
         $validateResponseTransfer = $this->getFacade()->validate($validateRequestTransfer);
 

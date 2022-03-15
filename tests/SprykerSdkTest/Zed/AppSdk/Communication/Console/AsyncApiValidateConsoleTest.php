@@ -9,7 +9,7 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\TranslationValidateConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AsyncApiValidateConsole;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -18,9 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @group AppSdk
  * @group Communication
  * @group Console
- * @group ValidateTranslationConsoleTest
+ * @group AsyncApiValidateConsoleTest
  */
-class ValidateTranslationConsoleTest extends Unit
+class AsyncApiValidateConsoleTest extends Unit
 {
     /**
      * @var \SprykerSdkTest\Zed\AppSdk\CommunicationTester
@@ -30,13 +30,12 @@ class ValidateTranslationConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testValidateTranslationReturnsSuccessCodeWhenValidationIsSuccessful(): void
+    public function testValidateAsyncApiReturnsSuccessCodeWhenValidationIsSuccessful(): void
     {
         // Arrange
-        $this->tester->haveValidTranslationWithManifestAndConfiguration();
+        $this->tester->haveValidAsyncApiFile();
 
-        $command = new TranslationValidateConsole();
-        $commandTester = $this->tester->getConsoleTester(TranslationValidateConsole::class);
+        $commandTester = $this->tester->getConsoleTester(AsyncApiValidateConsole::class);
 
         // Act
         $commandTester->execute([]);
@@ -48,9 +47,10 @@ class ValidateTranslationConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testValidateTranslationReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
+    public function testValidateAsyncApiReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
     {
-        $commandTester = $this->tester->getConsoleTester(new TranslationValidateConsole());
+        // Arrange
+        $commandTester = $this->tester->getConsoleTester(new AsyncApiValidateConsole());
 
         // Act
         $commandTester->execute([], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);

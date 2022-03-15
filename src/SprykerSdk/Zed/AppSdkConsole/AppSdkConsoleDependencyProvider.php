@@ -9,14 +9,14 @@ namespace SprykerSdk\Zed\AppSdkConsole;
 
 use Spryker\Zed\Console\ConsoleDependencyProvider as SprykerConsoleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppConfigurationValidateConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppManifestValidateConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppTranslationValidateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AsyncApiCreateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AsyncApiMessageAddConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AsyncApiValidateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\BuildCodeFromAsyncApiConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\CheckReadinessConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ConfigurationValidateConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ManifestValidateConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\TranslationValidateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateConsole;
 
 /**
@@ -36,9 +36,9 @@ class AppSdkConsoleDependencyProvider extends SprykerConsoleDependencyProvider
             new AsyncApiMessageAddConsole(),
             new AsyncApiValidateConsole(),
             new ValidateConsole(),
-            new ManifestValidateConsole(),
-            new ConfigurationValidateConsole(),
-            new TranslationValidateConsole(),
+            new AppManifestValidateConsole(),
+            new AppConfigurationValidateConsole(),
+            new AppTranslationValidateConsole(),
             new CheckReadinessConsole(),
             new BuildCodeFromAsyncApiConsole(),
         ];

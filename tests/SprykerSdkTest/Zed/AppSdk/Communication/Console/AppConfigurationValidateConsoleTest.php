@@ -9,7 +9,7 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ManifestValidateConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppConfigurationValidateConsole;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -18,9 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @group AppSdk
  * @group Communication
  * @group Console
- * @group ValidateManifestConsoleTest
+ * @group AppConfigurationValidateConsoleTest
  */
-class ValidateManifestConsoleTest extends Unit
+class AppConfigurationValidateConsoleTest extends Unit
 {
     /**
      * @var \SprykerSdkTest\Zed\AppSdk\CommunicationTester
@@ -30,12 +30,12 @@ class ValidateManifestConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testValidateManifestReturnsSuccessCodeWhenValidationIsSuccessful(): void
+    public function testValidateConfigurationReturnsSuccessCodeWhenValidationIsSuccessful(): void
     {
         // Arrange
-        $this->tester->haveValidManifestFile();
+        $this->tester->haveValidConfiguration();
 
-        $commandTester = $this->tester->getConsoleTester(ManifestValidateConsole::class);
+        $commandTester = $this->tester->getConsoleTester(AppConfigurationValidateConsole::class);
 
         // Act
         $commandTester->execute([]);
@@ -47,10 +47,9 @@ class ValidateManifestConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testValidateManifestReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
+    public function testValidateConfigurationReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
     {
-        // Arrange
-        $commandTester = $this->tester->getConsoleTester(new ManifestValidateConsole());
+        $commandTester = $this->tester->getConsoleTester(new AppConfigurationValidateConsole());
 
         // Act
         $commandTester->execute([], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
