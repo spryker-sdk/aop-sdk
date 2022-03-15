@@ -9,15 +9,15 @@ namespace SprykerSdk\Zed\AppSdkConsole;
 
 use Spryker\Zed\Console\ConsoleDependencyProvider as SprykerConsoleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
-use SprykerSdk\Zed\AppSdk\Communication\Console\AddAsyncApiConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\AddAsyncApiMessageConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppConfigurationValidateConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppManifestValidateConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppTranslationValidateConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AsyncApiCreateConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AsyncApiMessageAddConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AsyncApiValidateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\BuildCodeFromAsyncApiConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\CheckReadinessConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateAsyncApiConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateConfigurationConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateManifestConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateTranslationConsole;
 
 /**
  * @method \SprykerSdk\Zed\AppSdkConsole\AppSdkConsoleConfig getConfig()
@@ -32,13 +32,13 @@ class AppSdkConsoleDependencyProvider extends SprykerConsoleDependencyProvider
     protected function getConsoleCommands(Container $container): array
     {
         return [
-            new AddAsyncApiConsole(),
-            new AddAsyncApiMessageConsole(),
-            new ValidateAsyncApiConsole(),
+            new AsyncApiCreateConsole(),
+            new AsyncApiMessageAddConsole(),
+            new AsyncApiValidateConsole(),
             new ValidateConsole(),
-            new ValidateManifestConsole(),
-            new ValidateConfigurationConsole(),
-            new ValidateTranslationConsole(),
+            new AppManifestValidateConsole(),
+            new AppConfigurationValidateConsole(),
+            new AppTranslationValidateConsole(),
             new CheckReadinessConsole(),
             new BuildCodeFromAsyncApiConsole(),
         ];

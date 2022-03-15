@@ -15,26 +15,28 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @method \SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface getFacade()
  */
-class ValidateAsyncApiConsole extends AbstractConsole
+class AppTranslationValidateConsole extends AbstractConsole
 {
     /**
      * @var string
      */
-    public const ASYNC_API_FILE = 'asyncapi-file';
+    public const TRANSLATION_FILE = 'translation-file';
 
     /**
      * @var string
      */
-    public const ASYNC_API_FILE_SHORT = 'a';
+    public const TRANSLATION_FILE_SHORT = 't';
 
     /**
      * @return void
      */
     protected function configure(): void
     {
-        $this->setName('validate:asyncapi')
-            ->setDescription('Validates the asyncapi files.')
-            ->addOption(static::ASYNC_API_FILE, static::ASYNC_API_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultAsyncApiFile());
+        $this->setName('app:translation:validate')
+            ->setDescription('Validates the translation file.')
+            ->addOption(static::TRANSLATION_FILE, static::TRANSLATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultTranslationFile())
+            ->addOption(AppManifestValidateConsole::MANIFEST_PATH, AppManifestValidateConsole::MANIFEST_PATH_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultManifestPath())
+            ->addOption(AppConfigurationValidateConsole::CONFIGURATION_FILE, AppConfigurationValidateConsole::CONFIGURATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultConfigurationFile());
     }
 
     /**
@@ -46,9 +48,11 @@ class ValidateAsyncApiConsole extends AbstractConsole
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $validateRequestTransfer = new ValidateRequestTransfer();
-        $validateRequestTransfer->setAsyncApiFile($input->getOption(static::ASYNC_API_FILE));
+        $validateRequestTransfer->setTranslationFile($input->getOption(static::TRANSLATION_FILE));
+        $validateRequestTransfer->setManifestPath($input->getOption(AppManifestValidateConsole::MANIFEST_PATH));
+        $validateRequestTransfer->setConfigurationFile($input->getOption(AppConfigurationValidateConsole::CONFIGURATION_FILE));
 
-        $validateResponseTransfer = $this->getFacade()->validateAsyncApi($validateRequestTransfer);
+        $validateResponseTransfer = $this->getFacade()->validateTranslation($validateRequestTransfer);
 
         if ($validateResponseTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;

@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @method \SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface getFacade()
  */
-class AddAsyncApiConsole extends AbstractConsole
+class AsyncApiCreateConsole extends AbstractConsole
 {
     /**
      * @var string
@@ -44,7 +44,7 @@ class AddAsyncApiConsole extends AbstractConsole
      */
     protected function configure(): void
     {
-        $this->setName('asyncapi:add')
+        $this->setName('asyncapi:create')
             ->setDescription('Adds an AsyncAPI file to the specified Async API schema file path.')
             ->addArgument(static::ARGUMENT_TITLE, InputArgument::REQUIRED, 'The name of the App.')
             ->addOption(static::OPTION_ASYNC_API_FILE, static::OPTION_ASYNC_API_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultAsyncApiFile())

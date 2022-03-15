@@ -15,26 +15,26 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @method \SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface getFacade()
  */
-class ValidateConfigurationConsole extends AbstractConsole
+class AppManifestValidateConsole extends AbstractConsole
 {
     /**
      * @var string
      */
-    public const CONFIGURATION_FILE = 'configuration-file';
+    public const MANIFEST_PATH = 'manifest-path';
 
     /**
      * @var string
      */
-    public const CONFIGURATION_FILE_SHORT = 'c';
+    public const MANIFEST_PATH_SHORT = 'm';
 
     /**
      * @return void
      */
     protected function configure(): void
     {
-        $this->setName('validate:configuration')
-            ->setDescription('Validates the configuration file.')
-            ->addOption(static::CONFIGURATION_FILE, static::CONFIGURATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultConfigurationFile());
+        $this->setName('app:manifest:validate')
+            ->setDescription('Validates the manifest files.')
+            ->addOption(static::MANIFEST_PATH, static::MANIFEST_PATH_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultManifestPath());
     }
 
     /**
@@ -46,9 +46,9 @@ class ValidateConfigurationConsole extends AbstractConsole
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $validateRequestTransfer = new ValidateRequestTransfer();
-        $validateRequestTransfer->setConfigurationFile($input->getOption(static::CONFIGURATION_FILE));
+        $validateRequestTransfer->setManifestPath($input->getOption(static::MANIFEST_PATH));
 
-        $validateResponseTransfer = $this->getFacade()->validateConfiguration($validateRequestTransfer);
+        $validateResponseTransfer = $this->getFacade()->validateManifest($validateRequestTransfer);
 
         if ($validateResponseTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;

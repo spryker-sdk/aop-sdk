@@ -9,7 +9,7 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateConfigurationConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppManifestValidateConsole;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -18,9 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @group AppSdk
  * @group Communication
  * @group Console
- * @group ValidateConfigurationConsoleTest
+ * @group AppManifestValidateConsoleTest
  */
-class ValidateConfigurationConsoleTest extends Unit
+class AppManifestValidateConsoleTest extends Unit
 {
     /**
      * @var \SprykerSdkTest\Zed\AppSdk\CommunicationTester
@@ -30,12 +30,12 @@ class ValidateConfigurationConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testValidateConfigurationReturnsSuccessCodeWhenValidationIsSuccessful(): void
+    public function testValidateManifestReturnsSuccessCodeWhenValidationIsSuccessful(): void
     {
         // Arrange
-        $this->tester->haveValidConfiguration();
+        $this->tester->haveValidManifestFile();
 
-        $commandTester = $this->tester->getConsoleTester(ValidateConfigurationConsole::class);
+        $commandTester = $this->tester->getConsoleTester(AppManifestValidateConsole::class);
 
         // Act
         $commandTester->execute([]);
@@ -47,9 +47,10 @@ class ValidateConfigurationConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testValidateConfigurationReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
+    public function testValidateManifestReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
     {
-        $commandTester = $this->tester->getConsoleTester(new ValidateConfigurationConsole());
+        // Arrange
+        $commandTester = $this->tester->getConsoleTester(new AppManifestValidateConsole());
 
         // Act
         $commandTester->execute([], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
