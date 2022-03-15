@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @method \SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface getFacade()
  */
-class AddAsyncApiMessageConsole extends AbstractConsole
+class AsyncApiMessageAddConsole extends AbstractConsole
 {
     /**
      * @var string
@@ -115,7 +115,7 @@ class AddAsyncApiMessageConsole extends AbstractConsole
      */
     protected function configure(): void
     {
-        $this->setName('asyncapi:add:message')
+        $this->setName('asyncapi:message:add')
             ->setDescription('Adds a message definition to a specified Async API schema file.')
             ->addArgument(static::ARGUMENT_CHANNEL_NAME, InputArgument::REQUIRED, 'The channel name to which the message should be added.')
             ->addOption(static::OPTION_ASYNC_API_FILE, static::OPTION_ASYNC_API_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultAsyncApiFile())

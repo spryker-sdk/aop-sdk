@@ -15,26 +15,28 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @method \SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface getFacade()
  */
-class ValidateConfigurationConsole extends AbstractConsole
+class TranslationValidateConsole extends AbstractConsole
 {
     /**
      * @var string
      */
-    public const CONFIGURATION_FILE = 'configuration-file';
+    public const TRANSLATION_FILE = 'translation-file';
 
     /**
      * @var string
      */
-    public const CONFIGURATION_FILE_SHORT = 'c';
+    public const TRANSLATION_FILE_SHORT = 't';
 
     /**
      * @return void
      */
     protected function configure(): void
     {
-        $this->setName('validate:configuration')
-            ->setDescription('Validates the configuration file.')
-            ->addOption(static::CONFIGURATION_FILE, static::CONFIGURATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultConfigurationFile());
+        $this->setName('app:translation:validate')
+            ->setDescription('Validates the translation file.')
+            ->addOption(static::TRANSLATION_FILE, static::TRANSLATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultTranslationFile())
+            ->addOption(ManifestValidateConsole::MANIFEST_PATH, ManifestValidateConsole::MANIFEST_PATH_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultManifestPath())
+            ->addOption(ConfigurationValidateConsole::CONFIGURATION_FILE, ConfigurationValidateConsole::CONFIGURATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultConfigurationFile());
     }
 
     /**
@@ -46,9 +48,11 @@ class ValidateConfigurationConsole extends AbstractConsole
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $validateRequestTransfer = new ValidateRequestTransfer();
-        $validateRequestTransfer->setConfigurationFile($input->getOption(static::CONFIGURATION_FILE));
+        $validateRequestTransfer->setTranslationFile($input->getOption(static::TRANSLATION_FILE));
+        $validateRequestTransfer->setManifestPath($input->getOption(ManifestValidateConsole::MANIFEST_PATH));
+        $validateRequestTransfer->setConfigurationFile($input->getOption(ConfigurationValidateConsole::CONFIGURATION_FILE));
 
-        $validateResponseTransfer = $this->getFacade()->validateConfiguration($validateRequestTransfer);
+        $validateResponseTransfer = $this->getFacade()->validateTranslation($validateRequestTransfer);
 
         if ($validateResponseTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;

@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @method \SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface getFacade()
  */
-class ValidateAsyncApiConsole extends AbstractConsole
+class AsyncApiValidateConsole extends AbstractConsole
 {
     /**
      * @var string
@@ -32,7 +32,7 @@ class ValidateAsyncApiConsole extends AbstractConsole
      */
     protected function configure(): void
     {
-        $this->setName('validate:asyncapi')
+        $this->setName('asyncapi:validate')
             ->setDescription('Validates the asyncapi files.')
             ->addOption(static::ASYNC_API_FILE, static::ASYNC_API_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultAsyncApiFile());
     }

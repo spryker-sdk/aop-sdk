@@ -9,7 +9,7 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateConfigurationConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\ConfigurationValidateConsole;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -35,7 +35,7 @@ class ValidateConfigurationConsoleTest extends Unit
         // Arrange
         $this->tester->haveValidConfiguration();
 
-        $commandTester = $this->tester->getConsoleTester(ValidateConfigurationConsole::class);
+        $commandTester = $this->tester->getConsoleTester(ConfigurationValidateConsole::class);
 
         // Act
         $commandTester->execute([]);
@@ -49,7 +49,7 @@ class ValidateConfigurationConsoleTest extends Unit
      */
     public function testValidateConfigurationReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
     {
-        $commandTester = $this->tester->getConsoleTester(new ValidateConfigurationConsole());
+        $commandTester = $this->tester->getConsoleTester(new ConfigurationValidateConsole());
 
         // Act
         $commandTester->execute([], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);

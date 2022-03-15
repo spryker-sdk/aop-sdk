@@ -9,7 +9,7 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateAsyncApiConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AsyncApiValidateConsole;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -35,7 +35,7 @@ class ValidateAsyncApiConsoleTest extends Unit
         // Arrange
         $this->tester->haveValidAsyncApiFile();
 
-        $commandTester = $this->tester->getConsoleTester(ValidateAsyncApiConsole::class);
+        $commandTester = $this->tester->getConsoleTester(AsyncApiValidateConsole::class);
 
         // Act
         $commandTester->execute([]);
@@ -50,7 +50,7 @@ class ValidateAsyncApiConsoleTest extends Unit
     public function testValidateAsyncApiReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
     {
         // Arrange
-        $commandTester = $this->tester->getConsoleTester(new ValidateAsyncApiConsole());
+        $commandTester = $this->tester->getConsoleTester(new AsyncApiValidateConsole());
 
         // Act
         $commandTester->execute([], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);

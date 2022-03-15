@@ -9,7 +9,7 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateManifestConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\ManifestValidateConsole;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -35,7 +35,7 @@ class ValidateManifestConsoleTest extends Unit
         // Arrange
         $this->tester->haveValidManifestFile();
 
-        $commandTester = $this->tester->getConsoleTester(ValidateManifestConsole::class);
+        $commandTester = $this->tester->getConsoleTester(ManifestValidateConsole::class);
 
         // Act
         $commandTester->execute([]);
@@ -50,7 +50,7 @@ class ValidateManifestConsoleTest extends Unit
     public function testValidateManifestReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
     {
         // Arrange
-        $commandTester = $this->tester->getConsoleTester(new ValidateManifestConsole());
+        $commandTester = $this->tester->getConsoleTester(new ManifestValidateConsole());
 
         // Act
         $commandTester->execute([], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);

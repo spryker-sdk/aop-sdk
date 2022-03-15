@@ -9,7 +9,7 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateTranslationConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\TranslationValidateConsole;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -35,8 +35,8 @@ class ValidateTranslationConsoleTest extends Unit
         // Arrange
         $this->tester->haveValidTranslationWithManifestAndConfiguration();
 
-        $command = new ValidateTranslationConsole();
-        $commandTester = $this->tester->getConsoleTester(ValidateTranslationConsole::class);
+        $command = new TranslationValidateConsole();
+        $commandTester = $this->tester->getConsoleTester(TranslationValidateConsole::class);
 
         // Act
         $commandTester->execute([]);
@@ -50,7 +50,7 @@ class ValidateTranslationConsoleTest extends Unit
      */
     public function testValidateTranslationReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
     {
-        $commandTester = $this->tester->getConsoleTester(new ValidateTranslationConsole());
+        $commandTester = $this->tester->getConsoleTester(new TranslationValidateConsole());
 
         // Act
         $commandTester->execute([], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
