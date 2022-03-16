@@ -9,6 +9,7 @@ namespace SprykerSdk\Zed\AppSdkConsole;
 
 use Spryker\Zed\Console\ConsoleDependencyProvider as SprykerConsoleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AddManifestConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AppConfigurationValidateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AppManifestValidateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AppTranslationValidateConsole;
@@ -41,6 +42,7 @@ class AppSdkConsoleDependencyProvider extends SprykerConsoleDependencyProvider
             new AppTranslationValidateConsole(),
             new CheckReadinessConsole(),
             new BuildCodeFromAsyncApiConsole(),
+            new AddManifestConsole(),
         ];
     }
 }

@@ -14,6 +14,8 @@ use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilderInterface;
+use SprykerSdk\Zed\AppSdk\Business\Manifest\Builder\ManifestBuilder;
+use SprykerSdk\Zed\AppSdk\Business\Manifest\Builder\ManifestBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\ComposerChecker;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\EnvChecker;
@@ -152,6 +154,14 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\Manifest\Builder\ManifestBuilderInterface
+     */
+    public function createManifestBuilder(): ManifestBuilderInterface
+    {
+        return new ManifestBuilder();
+    }
+
+    /**
      * @return \SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\ReadinessCheckerInterface
      */
     public function createReadinessChecker(): ReadinessCheckerInterface
@@ -256,5 +266,13 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     protected function createAsyncApiOperationIdValidator(): FileValidatorInterface
     {
         return new AsyncApiOperationIdValidator($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\Manifest\Builder\ManifestBuilderInterface
+     */
+    public function createManifestiBuilder(): ManifestBuilderInterface
+    {
+        return new ManifestBuilder();
     }
 }

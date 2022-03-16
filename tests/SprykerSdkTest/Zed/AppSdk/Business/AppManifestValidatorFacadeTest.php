@@ -105,11 +105,9 @@ class AppManifestValidatorFacadeTest extends Unit
             $this->tester->haveValidateRequest(),
         );
 
-        // Assert
-        $this->assertCount(1, $validateResponseTransfer->getErrors());
-
+        //Assert
         $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('No manifest files found.', $expectedErrorMessage->getMessage());
+        $this->assertEquals('Manifest file "/data/vendor/spryker-sdk/app-sdk/config/app/manifest/en_US.json" contains invalid JSON. Error: "Syntax error".', $expectedErrorMessage->getMessage(), 'Manifest API file "vfs://root/config/app/manifest/en_US.json" not found');
     }
 
     /**
