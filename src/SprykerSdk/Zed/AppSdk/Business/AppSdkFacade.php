@@ -13,6 +13,7 @@ use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessTransfer;
 use Generated\Shared\Transfer\ManifestRequestTransfer;
 use Generated\Shared\Transfer\ManifestResponseTransfer;
+use Generated\Shared\Transfer\ManifestTransfer;
 use Generated\Shared\Transfer\ValidateRequestTransfer;
 use Generated\Shared\Transfer\ValidateResponseTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
@@ -154,11 +155,12 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
       * @api
       *
       * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
+      * @param \Generated\Shared\Transfer\ManifestTransfer $manifestTransfer
       *
       * @return \Generated\Shared\Transfer\ManifestResponseTransfer
       */
-    public function addManifest(ManifestRequestTransfer $manifestRequestTransfer): ManifestResponseTransfer
+    public function createManifest(ManifestRequestTransfer $manifestRequestTransfer, ManifestTransfer $manifestTransfer): ManifestResponseTransfer
     {
-        return $this->getFactory()->createManifestBuilder()->addManifest($manifestRequestTransfer);
+        return $this->getFactory()->createManifestBuilder()->createManifest($manifestRequestTransfer, $manifestTransfer);
     }
 }

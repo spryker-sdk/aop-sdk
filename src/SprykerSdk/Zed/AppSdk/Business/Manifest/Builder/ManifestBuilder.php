@@ -9,33 +9,30 @@ namespace SprykerSdk\Zed\AppSdk\Business\Manifest\Builder;
 
 use Generated\Shared\Transfer\ManifestRequestTransfer;
 use Generated\Shared\Transfer\ManifestResponseTransfer;
+use Generated\Shared\Transfer\ManifestTransfer;
 
 class ManifestBuilder implements ManifestBuilderInterface
 {
     /**
-     * @var array<string>
-     */
-    protected $transferToManifestTypeMap = [
-        'int' => 'integer',
-    ];
-
-    /**
      * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
+     * @param \Generated\Shared\Transfer\ManifestTransfer $manifestTransfer
      *
      * @return \Generated\Shared\Transfer\ManifestResponseTransfer
      */
-    public function addManifest(ManifestRequestTransfer $manifestRequestTransfer): ManifestResponseTransfer
+    public function createManifest(ManifestRequestTransfer $manifestRequestTransfer, ManifestTransfer $manifestTransfer): ManifestResponseTransfer
     {
         $manifestResponseTransfer = new ManifestResponseTransfer();
+
+        $manifestTransfer = new ManifestTransfer();
 
         $targetFilePath = $manifestRequestTransfer->getManifestPathOrFail();
         $locale = $manifestRequestTransfer->getManifestOrFail()->getLocaleNameOrFail();
 
-        $targetFile = $targetFilePath . 'en_' . strtoupper($locale) . '.json';
+        $targetFile = $targetFilePath . $locale . '.json';
 
         $manifest = $this->addDefaults();
 
-        $manifest['name'] = $manifestRequestTransfer->getManifestOrFail()->getNameOrFail();
+        $manifest['name'] = $manifestTransfer->getName();
         $manifest['provider'] = $manifestRequestTransfer->getManifestOrFail()->getNameOrFail();
 
         $this->writeToFile($targetFile, $manifest);
@@ -44,13 +41,11 @@ class ManifestBuilder implements ManifestBuilderInterface
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     protected function addDefaults(): array
     {
         $manifest = [
-            'name' => 'Manifest',
-            'provider' => '',
             'description' => '',
             'descriptionShort' => '',
             'configureUrl' => '',

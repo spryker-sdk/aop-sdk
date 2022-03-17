@@ -10,7 +10,6 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AppManifestValidateConsole;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @group SprykerSdkTest
@@ -50,13 +49,15 @@ class AppManifestValidateConsoleTest extends Unit
     public function testValidateManifestReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
     {
         // Arrange
-        $commandTester = $this->tester->getConsoleTester(new AppManifestValidateConsole());
+        $this->tester->haveInvalidManifestFile();
+
+        $commandTester = $this->tester->getConsoleTester(AppManifestValidateConsole::class);
 
         // Act
-        $commandTester->execute([], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+        $commandTester->execute([]);
 
         // Assert
+
         $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
-        $this->assertNotEmpty($commandTester->getDisplay());
     }
 }

@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @method \SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface getFacade()
  */
-class AddManifestConsole extends AbstractConsole
+class CreateManifestConsole extends AbstractConsole
 {
     /**
      * @var string
@@ -45,10 +45,10 @@ class AddManifestConsole extends AbstractConsole
     protected function configure(): void
     {
         $this->setName('manifest:add')
-            ->setDescription('Adds an Manifest file to manifest path.')
+            ->setDescription('Adds a Manifest file to the manifest path.')
             ->addArgument(static::MANIFEST_NAME, InputArgument::REQUIRED, 'The name of the Manifest.')
-            ->addArgument(static::MANIFEST_LOCALE, InputOption::VALUE_REQUIRED, 'Two character geo of manifest like: US', 'US')
-            ->addOption(static::OPTION_MANIFEST_PATH, static::OPTION_MANIFEST_PATH_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultManifestPath());
+            ->addArgument(static::MANIFEST_LOCALE, InputOption::VALUE_REQUIRED, 'A valid locale e.g.: en_US', 'en_US')
+            ->addOption(static::OPTION_MANIFEST_PATH, static::OPTION_MANIFEST_PATH_SHORT, InputOption::VALUE_REQUIRED, '', null);
     }
 
     /**
@@ -65,11 +65,14 @@ class AddManifestConsole extends AbstractConsole
             ->setLocaleName($input->getArgument(static::MANIFEST_LOCALE));
 
         $manifestRequestTransfer = new ManifestRequestTransfer();
+
+        $targetManifestPath = $input->getOption(static::OPTION_MANIFEST_PATH) ?? $this->getConfig()->getDefaultManifestPath();
+
         $manifestRequestTransfer
             ->setManifest($manifestTransfer)
-            ->setManifestPath($this->getConfig()->getDefaultManifestPath());
+            ->setManifestPath($targetManifestPath);
 
-        $manifestRequestTransfer = $this->getFacade()->addManifest($manifestRequestTransfer);
+        $manifestRequestTransfer = $this->getFacade()->createManifest($manifestRequestTransfer, $manifestTransfer);
 
         if ($manifestRequestTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;

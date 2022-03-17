@@ -267,12 +267,4 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     {
         return new AsyncApiOperationIdValidator($this->getConfig());
     }
-
-    /**
-     * @return \SprykerSdk\Zed\AppSdk\Business\Manifest\Builder\ManifestBuilderInterface
-     */
-    public function createManifestiBuilder(): ManifestBuilderInterface
-    {
-        return new ManifestBuilder();
-    }
 }

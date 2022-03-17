@@ -34,11 +34,13 @@ class AppManifestFacadeTest extends Unit
     public function testAddManifestAddsANewManifestFile(): void
     {
         // Arrange
-        $manifestRequestTransfer = $this->tester->haveManifestAddRequest();
+        $manifestRequestTransfer = $this->tester->haveManifestCreateRequest();
+        $manifestTransfer = $this->tester->haveManifestCreateTransfer();
 
         // Act
-        $manifestResponseTransfer = $this->tester->getFacade()->addManifest(
+        $manifestResponseTransfer = $this->tester->getFacade()->createManifest(
             $manifestRequestTransfer,
+            $manifestTransfer,
         );
 
         // Assert

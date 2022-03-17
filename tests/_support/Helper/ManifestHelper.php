@@ -29,7 +29,7 @@ class ManifestHelper extends Module
     /**
      * @return \Generated\Shared\Transfer\ManifestRequestTransfer
      */
-    public function haveManifestAddRequest(): ManifestRequestTransfer
+    public function haveManifestCreateRequest(): ManifestRequestTransfer
     {
         $this->getValidatorHelper()->mockRoot($this->getRootUrl());
 
@@ -37,8 +37,8 @@ class ManifestHelper extends Module
 
         $manifestTransfer = new ManifestTransfer();
         $manifestTransfer
-            ->setName('Manifest3')
-            ->setLocaleName('ZZ');
+            ->setName('Manifest')
+            ->setLocaleName('en_US');
 
         $manifestRequestTransfer = new ManifestRequestTransfer();
         $manifestRequestTransfer
@@ -46,6 +46,23 @@ class ManifestHelper extends Module
             ->setManifest($manifestTransfer);
 
         return $manifestRequestTransfer;
+    }
+
+    /**
+     * @return \Generated\Shared\Transfer\ManifestTransfer
+     */
+    public function haveManifestCreateTransfer(): ManifestTransfer
+    {
+        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
+
+        $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
+
+        $manifestTransfer = new ManifestTransfer();
+        $manifestTransfer
+            ->setName('Manifest')
+            ->setLocaleName('en_US');
+
+        return $manifestTransfer;
     }
 
     /**
