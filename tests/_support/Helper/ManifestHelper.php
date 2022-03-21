@@ -49,23 +49,6 @@ class ManifestHelper extends Module
     }
 
     /**
-     * @return \Generated\Shared\Transfer\ManifestTransfer
-     */
-    public function haveManifestCreateTransfer(): ManifestTransfer
-    {
-        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
-
-        $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
-
-        $manifestTransfer = new ManifestTransfer();
-        $manifestTransfer
-            ->setName('Manifest')
-            ->setLocaleName('en_US');
-
-        return $manifestTransfer;
-    }
-
-    /**
      * @return string
      */
     protected function getRootUrl(): string

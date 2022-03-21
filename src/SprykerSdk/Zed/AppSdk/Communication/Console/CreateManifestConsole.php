@@ -26,6 +26,10 @@ class CreateManifestConsole extends AbstractConsole
 
     /**
      * @var string
+     *
+     * @Assert\Locale(
+     *     canonicalize = true
+     * )
      */
     public const MANIFEST_LOCALE = 'locale';
 
@@ -72,7 +76,7 @@ class CreateManifestConsole extends AbstractConsole
             ->setManifest($manifestTransfer)
             ->setManifestPath($targetManifestPath);
 
-        $manifestRequestTransfer = $this->getFacade()->createManifest($manifestRequestTransfer, $manifestTransfer);
+        $manifestRequestTransfer = $this->getFacade()->createManifest($manifestRequestTransfer);
 
         if ($manifestRequestTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;

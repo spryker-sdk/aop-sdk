@@ -13,7 +13,6 @@ use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessTransfer;
 use Generated\Shared\Transfer\ManifestRequestTransfer;
 use Generated\Shared\Transfer\ManifestResponseTransfer;
-use Generated\Shared\Transfer\ManifestTransfer;
 use Generated\Shared\Transfer\ValidateRequestTransfer;
 use Generated\Shared\Transfer\ValidateResponseTransfer;
 
@@ -138,9 +137,8 @@ interface AppSdkFacadeInterface
      * @api
      *
      * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
-     * @param \Generated\Shared\Transfer\ManifestTransfer $manifestTransfer
      *
      * @return \Generated\Shared\Transfer\ManifestResponseTransfer
      */
-    public function createManifest(ManifestRequestTransfer $manifestRequestTransfer, ManifestTransfer $manifestTransfer): ManifestResponseTransfer;
+    public function createManifest(ManifestRequestTransfer $manifestRequestTransfer): ManifestResponseTransfer;
 }

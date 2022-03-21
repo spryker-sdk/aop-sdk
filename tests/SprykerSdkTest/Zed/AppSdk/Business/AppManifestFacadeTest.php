@@ -8,6 +8,7 @@
 namespace SprykerSdkTest\Zed\AppSdk\Business;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Zed\AppSdk\Business\Exception\InvalidConfigurationException;
 
 /**
  * @group SprykerSdkTest
@@ -21,7 +22,7 @@ class AppManifestFacadeTest extends Unit
     /**
      * @var string
      */
-    public const MESSAGE_NAME = 'MyMessage';
+    public const LOCALE_NAME = 'en_U1';
 
     /**
      * @var \SprykerSdkTest\Zed\AppSdk\BusinesssTester
@@ -35,16 +36,32 @@ class AppManifestFacadeTest extends Unit
     {
         // Arrange
         $manifestRequestTransfer = $this->tester->haveManifestCreateRequest();
-        $manifestTransfer = $this->tester->haveManifestCreateTransfer();
 
         // Act
         $manifestResponseTransfer = $this->tester->getFacade()->createManifest(
             $manifestRequestTransfer,
-            $manifestTransfer,
         );
 
         // Assert
         $this->tester->assertManifestResponseHasNoErrors($manifestResponseTransfer);
         $this->assertFileExists($manifestRequestTransfer->getManifestPath());
+    }
+
+    /**
+     * @return void
+     */
+    public function testThrowsExceptionWhenInvalidLocaleNameInManifestRequest(): void
+    {
+        // Arrange
+        $manifestRequestTransfer = $this->tester->haveManifestCreateRequest();
+        $manifestRequestTransfer->getManifestOrFail()->setLocaleName(static::LOCALE_NAME);
+
+        // Expect
+        $this->expectException(InvalidConfigurationException::class);
+
+        // Act
+        $manifestResponseTransfer = $this->tester->getFacade()->createManifest(
+            $manifestRequestTransfer,
+        );
     }
 }

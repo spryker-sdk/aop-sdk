@@ -9,30 +9,29 @@ namespace SprykerSdk\Zed\AppSdk\Business\Manifest\Builder;
 
 use Generated\Shared\Transfer\ManifestRequestTransfer;
 use Generated\Shared\Transfer\ManifestResponseTransfer;
-use Generated\Shared\Transfer\ManifestTransfer;
+use SprykerSdk\Zed\AppSdk\Business\Exception\InvalidConfigurationException;
 
 class ManifestBuilder implements ManifestBuilderInterface
 {
     /**
      * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
-     * @param \Generated\Shared\Transfer\ManifestTransfer $manifestTransfer
      *
      * @return \Generated\Shared\Transfer\ManifestResponseTransfer
      */
-    public function createManifest(ManifestRequestTransfer $manifestRequestTransfer, ManifestTransfer $manifestTransfer): ManifestResponseTransfer
+    public function createManifest(ManifestRequestTransfer $manifestRequestTransfer): ManifestResponseTransfer
     {
         $manifestResponseTransfer = new ManifestResponseTransfer();
 
-        $manifestTransfer = new ManifestTransfer();
-
         $targetFilePath = $manifestRequestTransfer->getManifestPathOrFail();
         $locale = $manifestRequestTransfer->getManifestOrFail()->getLocaleNameOrFail();
+
+        $this->validateManifestLocale($locale);
 
         $targetFile = $targetFilePath . $locale . '.json';
 
         $manifest = $this->addDefaults();
 
-        $manifest['name'] = $manifestTransfer->getName();
+        $manifest['name'] = $manifestRequestTransfer->getManifestOrFail()->getNameOrFail();
         $manifest['provider'] = $manifestRequestTransfer->getManifestOrFail()->getNameOrFail();
 
         $this->writeToFile($targetFile, $manifest);
@@ -76,5 +75,33 @@ class ManifestBuilder implements ManifestBuilderInterface
         }
 
         file_put_contents($targetFile, $manifestSchemaJson);
+    }
+
+    /**
+     * @param string $locale
+     *
+     * @throws \SprykerSdk\Zed\AppSdk\Business\Exception\InvalidConfigurationException
+     *
+     * @return void
+     */
+    protected function validateManifestLocale(string $locale): void
+    {
+        if (!$this->isLocaleIsValid($locale)) {
+            throw new InvalidConfigurationException(
+                sprintf('You have to enter a valid Locale name ex: en_US '),
+            );
+        }
+    }
+
+    /**
+     * @param string $locale
+     *
+     * @return int|false
+     */
+    protected function isLocaleIsValid(string $locale)
+    {
+        $pattern = '/^[a-z]{2}(?:_[A-Z]{2})?$/';
+
+        return preg_match($pattern, $locale);
     }
 }

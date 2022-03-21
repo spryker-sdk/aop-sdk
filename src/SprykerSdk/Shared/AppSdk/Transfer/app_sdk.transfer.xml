@@ -90,6 +90,7 @@
         <property name="type" type="string"/>
         <property name="message" type="string"/>
     </transfer>
+    
     <transfer name="ManifestRequest">
         <property name="manifest" type="Manifest"/>
         <property name="manifestPath" type="string"/>
