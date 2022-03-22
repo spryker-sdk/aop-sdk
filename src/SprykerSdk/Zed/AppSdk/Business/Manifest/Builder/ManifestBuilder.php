@@ -36,10 +36,7 @@ class ManifestBuilder implements ManifestBuilderInterface
 
         $targetFile = $targetFilePath . $locale . '.json';
 
-        $manifest = $this->addDefaults();
-
-        $manifest['name'] = $manifestRequestTransfer->getManifestOrFail()->getNameOrFail();
-        $manifest['provider'] = $manifestRequestTransfer->getManifestOrFail()->getNameOrFail();
+        $manifest = $this->getManifest($manifestRequestTransfer);
 
         $this->writeToFile($targetFile, $manifest);
 
@@ -47,11 +44,17 @@ class ManifestBuilder implements ManifestBuilderInterface
     }
 
     /**
-     * @return array<string, mixed>
+     * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
+     *
+     * @return array
      */
-    protected function addDefaults(): array
+    protected function getManifest(ManifestRequestTransfer $manifestRequestTransfer): array
     {
+        $manifestTransfer = $manifestRequestTransfer->getManifestOrFail();
+
         $manifest = [
+            'name' => $manifestTransfer->getNameOrFail(),
+            'provider' => $manifestTransfer->getNameOrFail(),
             'description' => '',
             'descriptionShort' => '',
             'configureUrl' => '',
