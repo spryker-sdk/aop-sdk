@@ -103,7 +103,7 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
      */
     public function addAsyncApiMessage(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer
     {
-        return $this->getFactory()->createAppConfigurationBuilder()->addAsyncApiMessage($asyncApiRequestTransfer);
+        return $this->getFactory()->createAsyncApiBuilder()->addAsyncApiMessage($asyncApiRequestTransfer);
     }
 
     /**
