@@ -82,11 +82,8 @@ class CreateManifestConsole extends AbstractConsole
             return static::CODE_SUCCESS;
         }
 
-        // @codeCoverageIgnoreStart
-        if ($manifestRequestTransfer->getErrors()->count() != 0) {
-            foreach ($manifestRequestTransfer->getErrors() as $error) {
-                $output->writeln($error->getMessageOrFail());
-            }
+        foreach ($manifestRequestTransfer->getErrors() as $error) {
+            $output->writeln($error->getMessageOrFail());
         }
 
         return static::CODE_ERROR;
