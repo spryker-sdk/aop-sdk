@@ -132,7 +132,8 @@ interface AppSdkFacadeInterface
 
     /**
      * Specification:
-     * - Adds an Manifest file.
+     * - Adds a new Manifest file.
+     * - Validates the mandatory locale.
      *
      * @api
      *

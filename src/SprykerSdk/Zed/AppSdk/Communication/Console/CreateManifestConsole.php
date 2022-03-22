@@ -26,10 +26,6 @@ class CreateManifestConsole extends AbstractConsole
 
     /**
      * @var string
-     *
-     * @Assert\Locale(
-     *     canonicalize = true
-     * )
      */
     public const MANIFEST_LOCALE = 'locale';
 

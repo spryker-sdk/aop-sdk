@@ -25,9 +25,9 @@ class ManifestBuilder implements ManifestBuilderInterface
         $targetFilePath = $manifestRequestTransfer->getManifestPathOrFail();
         $locale = $manifestRequestTransfer->getManifestOrFail()->getLocaleNameOrFail();
 
-        if ($this->isLocaleIsValid($locale) === 0) {
+        if ($this->isLocaleIsValid($locale) === false) {
             $messageTransfer = new MessageTransfer();
-            $messageTransfer->setMessage('You have to enter a valid Locale name ex: en_US');
+            $messageTransfer->setMessage('You have to enter a valid locale, example: en_US');
 
             $manifestResponseTransfer->addError($messageTransfer);
 
@@ -87,12 +87,12 @@ class ManifestBuilder implements ManifestBuilderInterface
     /**
      * @param string $locale
      *
-     * @return int|false
+     * @return bool
      */
-    protected function isLocaleIsValid(string $locale)
+    protected function isLocaleIsValid(string $locale): bool
     {
         $pattern = '/^[a-z]{2}(?:_[A-Z]{2})?$/';
 
-        return preg_match($pattern, $locale);
+        return (bool)preg_match($pattern, $locale);
     }
 }
