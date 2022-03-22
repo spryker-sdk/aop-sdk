@@ -20,19 +20,19 @@ use Symfony\Component\Console\Question\Question;
 class AppConfigurationCreateConsole extends AbstractConsole
 {
  /**
-  * @var string
+  * @var array
   */
-    protected $properties;
+    protected $properties = [];
 
     /**
-     * @var string
+     * @var array
      */
-    protected $fieldset;
+    protected $fieldset = [];
 
     /**
-     * @var string
+     * @var array
      */
-    protected $required;
+    protected $required = [];
 
     /**
      * @var string
@@ -243,9 +243,9 @@ class AppConfigurationCreateConsole extends AbstractConsole
     }
 
     /**
-     * @return string
+     * @return array
      */
-    protected function getWidgetOptions(): string
+    protected function getWidgetOptions(): array
     {
         return ['Text', 'Radio', 'Checkbox'];
     }
@@ -389,7 +389,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
     /**
      * @return array
      */
-    protected function getWidgetTextAndRadioTypeOptions(): string
+    protected function getWidgetTextAndRadioTypeOptions(): array
     {
         return ['String', 'Integer'];
     }
@@ -397,7 +397,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
     /**
      * @return array
      */
-    protected function getWidgetCheckBoxTypeOptions(): string
+    protected function getWidgetCheckBoxTypeOptions(): array
     {
         return ['Array'];
     }
@@ -476,9 +476,9 @@ class AppConfigurationCreateConsole extends AbstractConsole
      * @param string $propertyName
      * @param string $item
      *
-     * @return void
+     * @return bool
      */
-    protected function checkPropertyRadioTypeValue(InputInterface $input, OutputInterface $output, string $propertyName, string $item): void
+    protected function checkPropertyRadioTypeValue(InputInterface $input, OutputInterface $output, string $propertyName, string $item): bool
     {
         if ($this->properties[$propertyName]['type'] === 'Integer' && !is_numeric($item)) {
             if ($this->askChoiceQuestion($input, $output, $this->getTypeSwitchQuestion(), $this->getConfirmationOptions(), 0) == 'Yes') {

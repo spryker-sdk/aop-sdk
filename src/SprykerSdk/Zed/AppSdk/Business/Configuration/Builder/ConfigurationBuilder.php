@@ -29,8 +29,8 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
         $appConfigurationResponseTransfer = new AppConfigurationResponseTransfer();
 
         $this->writeToFile(
-            $appConfigurationRequestTransfer->getConfigurationFile(),
-            json_encode($appConfigurationRequestTransfer->getProperties(), JSON_PRETTY_PRINT),
+            $appConfigurationRequestTransfer->getConfigurationFileOrFail(),
+            $appConfigurationRequestTransfer->getProperties(),
         );
 
         return $appConfigurationResponseTransfer;
@@ -38,11 +38,11 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
 
     /**
      * @param string $targetFile
-     * @param string $configurationFile
+     * @param array $configurationFile
      *
      * @return void
      */
-    protected function writeToFile(string $targetFile, string $configurationFile): void
+    protected function writeToFile(string $targetFile, array $configurationFile): void
     {
         $dirname = dirname($targetFile);
 
@@ -50,6 +50,6 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
             mkdir($dirname, 0770, true);
         }
 
-        file_put_contents($targetFile, $configurationFile);
+        file_put_contents($targetFile, json_encode($configurationFile, JSON_PRETTY_PRINT));
     }
 }
