@@ -107,7 +107,7 @@ class AppManifestValidatorFacadeTest extends Unit
 
     // Assert
         $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertEquals('No manifest files found.', $expectedErrorMessage->getMessage(), 'Manifest file "vfs://root/config/app/manifest/en_US.json" not found');
+        $this->assertSame('No manifest files found.', $expectedErrorMessage->getMessage(), 'Manifest file "vfs://root/config/app/manifest/en_US.json" not found');
     }
 
     /**
