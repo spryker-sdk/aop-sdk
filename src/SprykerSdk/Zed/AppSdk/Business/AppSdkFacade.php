@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business;
 
+use Generated\Shared\Transfer\AppConfigurationRequestTransfer;
+use Generated\Shared\Transfer\AppConfigurationResponseTransfer;
 use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
@@ -101,7 +103,7 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
      */
     public function addAsyncApiMessage(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer
     {
-        return $this->getFactory()->createAsyncApiBuilder()->addAsyncApiMessage($asyncApiRequestTransfer);
+        return $this->getFactory()->createAppConfigurationBuilder()->addAsyncApiMessage($asyncApiRequestTransfer);
     }
 
     /**
@@ -144,5 +146,19 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
     public function validateAsyncApi(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
     {
         return $this->getFactory()->createAsyncApiValidator()->validate($validateRequestTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer
+     */
+    public function appConfigurationCreate(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): AppConfigurationResponseTransfer
+    {
+        return $this->getFactory()->createConfigurationBuilder()->appConfigurationCreate($appConfigurationRequestTransfer);
     }
 }

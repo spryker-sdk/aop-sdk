@@ -1,0 +1,24 @@
+{
+    "properties": {
+        "pro": {
+            "placeholder": "pro",
+            "isRequired": true,
+            "widget": {
+                "id": "textline"
+            },
+            "type": "String"
+        }
+    },
+    "required": [
+        "pro"
+    ],
+    "fieldset": [
+        {
+            "id": "group",
+            "title": "group",
+            "fields": [
+                "pro"
+            ]
+        }
+    ]
+}
