@@ -100,12 +100,14 @@ class AppManifestValidatorFacadeTest extends Unit
      */
     public function testValidateManifestReturnsFailedResponseWhenFilesNotFound(): void
     {
-       // Act
+        // Act
         $validateResponseTransfer = $this->tester->getFacade()->validateManifest(
             $this->tester->haveValidateRequest(),
         );
 
-    // Assert
+        // Assert
+        $this->assertCount(1, $validateResponseTransfer->getErrors());
+
         $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
         $this->assertSame('No manifest files found.', $expectedErrorMessage->getMessage(), 'Manifest file "vfs://root/config/app/manifest/en_US.json" not found');
     }

@@ -46,7 +46,7 @@ class ManifestBuilder implements ManifestBuilderInterface
     /**
      * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
      *
-     * @return array
+     * @return array<string, mixed>
      */
     protected function getManifest(ManifestRequestTransfer $manifestRequestTransfer): array
     {

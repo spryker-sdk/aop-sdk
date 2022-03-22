@@ -55,15 +55,15 @@ class AppManifestFacadeTest extends Unit
         $manifestRequestTransfer = $this->tester->haveManifestCreateRequest();
         $manifestRequestTransfer->getManifestOrFail()->setLocaleName(static::INVALID_LOCALE);
 
-        // // Act
+        // Act
         $manifestResponseTransfer = $this->tester->getFacade()->createManifest(
             $manifestRequestTransfer,
         );
 
         // Assert
-        $this->assertSame(
-            'en_U',
-            $manifestRequestTransfer->getManifestOrFail()->getLocaleName(),
+        $this->assertCount(
+            1,
+            $manifestResponseTransfer->getErrors(),
             sprintf(
                 'Expected to get exactly "1" error, got "%s". Either there is no error or you have more than expected',
                 $manifestResponseTransfer->getErrors()->count(),
