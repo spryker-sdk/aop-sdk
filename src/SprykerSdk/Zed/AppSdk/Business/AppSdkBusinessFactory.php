@@ -14,6 +14,8 @@ use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilderInterface;
+use SprykerSdk\Zed\AppSdk\Business\OpenApi\Builder\OpenApiBuilder;
+use SprykerSdk\Zed\AppSdk\Business\OpenApi\Builder\OpenApiBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\ComposerChecker;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\EnvChecker;
@@ -256,5 +258,13 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     protected function createAsyncApiOperationIdValidator(): FileValidatorInterface
     {
         return new AsyncApiOperationIdValidator($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\OpenApi\Builder\OpenApiBuilderInterface
+     */
+    public function createOpenApiBuilder(): OpenApiBuilderInterface
+    {
+        return new OpenApiBuilder();
     }
 }

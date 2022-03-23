@@ -11,6 +11,8 @@ use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessTransfer;
+use Generated\Shared\Transfer\OpenApiRequestTransfer;
+use Generated\Shared\Transfer\OpenApiResponseTransfer;
 use Generated\Shared\Transfer\ValidateRequestTransfer;
 use Generated\Shared\Transfer\ValidateResponseTransfer;
 
@@ -127,4 +129,16 @@ interface AppSdkFacadeInterface
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
     public function validateAsyncApi(ValidateRequestTransfer $asyncApiRequestTransfer): ValidateResponseTransfer;
+
+    /**
+     * Specification:
+     * - Adds an OpenAPI file.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\OpenApiRequestTransfer $openApiRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
+     */
+    public function createOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer;
 }
