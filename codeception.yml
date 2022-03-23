@@ -24,6 +24,7 @@ suites:
                 - \SprykerSdkTest\Helper\AppTranslationValidatorHelper
                 - \SprykerSdkTest\Helper\ValidatorHelper
                 - \SprykerSdkTest\Helper\AsyncApiHelper
+                - \SprykerSdkTest\Helper\OpenApiHelper
                 - \SprykerTest\Zed\Testify\Helper\Business\BusinessHelper
                 - \SprykerTest\Shared\Testify\Helper\ConfigHelper
                 - \SprykerSdkTest\Helper\ManifestHelper
@@ -39,6 +40,7 @@ suites:
                 - \SprykerSdkTest\Helper\ValidatorHelper
                 - \SprykerSdkTest\Helper\AsyncApiHelper
                 - \SprykerSdkTest\Helper\ManifestHelper
+                - \SprykerSdkTest\Helper\OpenApiHelper
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
