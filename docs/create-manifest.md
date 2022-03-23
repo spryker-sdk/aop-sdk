@@ -2,28 +2,26 @@
 
 The following console commands are available:
 
-- `vendor/bin/app-sdk manifest:add`
+- `vendor/bin/app-sdk app:manifest:create`
 
 ## Adding an Manifest file
 
-The `vendor/bin/app-sdk manifest:add` adds a minimal Manifest file.
+The `vendor/bin/app-sdk app:manifest:create` adds a minimal Manifest file.
 
-### Arguments and Options
-
-#### Arguments
+### Arguments
 
 - `name`
 
-`vendor/bin/app-sdk manifest:add "Your Manifest name"` will set the name of your Manifest file.
+`vendor/bin/app-sdk app:manifest:create "Your Manifest name"` will set the name parameter of your Manifest file.
 
 
 - `local`
 
-`vendor/bin/app-sdk manifest:add "Your Manifest name" Locale ` will set the name and locale of your Manifest file.
+`vendor/bin/app-sdk app:manifest:create "Your Manifest name" Locale ` will set the name parameter of your Manifest file and locale will set your manifest file name .
 
-```
+Locale.json
 ...
-info:
     name: 'Your Manifest name'
 ...
-```
+
+

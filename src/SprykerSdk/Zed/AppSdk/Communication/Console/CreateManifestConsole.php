@@ -44,7 +44,7 @@ class CreateManifestConsole extends AbstractConsole
      */
     protected function configure(): void
     {
-        $this->setName('manifest:add')
+        $this->setName('app:manifest:create')
             ->setDescription('Adds a Manifest file to the manifest path.')
             ->addArgument(static::MANIFEST_NAME, InputArgument::REQUIRED, 'The name of the Manifest.')
             ->addArgument(static::MANIFEST_LOCALE, InputOption::VALUE_REQUIRED, 'A valid locale e.g.: en_US', 'en_US')
