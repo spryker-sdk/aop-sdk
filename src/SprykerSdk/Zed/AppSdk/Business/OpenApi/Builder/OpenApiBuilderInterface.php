@@ -13,9 +13,9 @@ use Generated\Shared\Transfer\OpenApiResponseTransfer;
 interface OpenApiBuilderInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\OpenApiRequestTransfer $OpenApiRequestTransfer
+     * @param \Generated\Shared\Transfer\OpenApiRequestTransfer $openApiRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
      */
-    public function addOpenApi(OpenApiRequestTransfer $OpenApiRequestTransfer): OpenApiResponseTransfer;
+    public function createOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer;
 }

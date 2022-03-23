@@ -94,7 +94,6 @@
     <transfer name="OpenApiRequest">
         <property name="targetFile" type="string"/>
         <property name="openApi" type="OpenApi"/>
-        <property name="version" type="string"/>
     </transfer>
 
     <transfer name="OpenApi">

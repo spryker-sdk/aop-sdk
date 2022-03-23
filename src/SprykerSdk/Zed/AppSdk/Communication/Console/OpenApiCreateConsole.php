@@ -69,7 +69,7 @@ class OpenApiCreateConsole extends AbstractConsole
             ->setTargetFile($input->getOption(static::OPTION_OPEN_API_FILE))
             ->setOpenApi($openApiTransfer);
 
-        $openApiResponseTransfer = $this->getFacade()->addOpenApi($openApiRequestTransfer);
+        $openApiResponseTransfer = $this->getFacade()->createOpenApi($openApiRequestTransfer);
 
         if ($openApiResponseTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;

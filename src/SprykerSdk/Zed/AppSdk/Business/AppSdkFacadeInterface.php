@@ -140,5 +140,5 @@ interface AppSdkFacadeInterface
      *
      * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
      */
-    public function addOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer;
+    public function createOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer;
 }

@@ -14,27 +14,27 @@ use Symfony\Component\Yaml\Yaml;
 class OpenApiBuilder implements OpenApiBuilderInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\OpenApiRequestTransfer $OpenApiRequestTransfer
+     * @param \Generated\Shared\Transfer\OpenApiRequestTransfer $openApiRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
      */
-    public function addOpenApi(OpenApiRequestTransfer $OpenApiRequestTransfer): OpenApiResponseTransfer
+    public function createOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer
     {
-        $OpenApiResponseTransfer = new OpenApiResponseTransfer();
+        $openApiResponseTransfer = new OpenApiResponseTransfer();
 
-        $OpenApi = [
+        $openApi = [
             'openapi' => '3.0.0',
             'info' => [
-                'title' => $OpenApiRequestTransfer->getOpenApiOrFail()->getTitleOrFail(),
-                'version' => $OpenApiRequestTransfer->getOpenApiOrFail()->getVersionOrFail(),
+                'title' => $openApiRequestTransfer->getOpenApiOrFail()->getTitleOrFail(),
+                'version' => $openApiRequestTransfer->getOpenApiOrFail()->getVersionOrFail(),
             ],
         ];
 
-        $targetFilePath = $OpenApiRequestTransfer->getTargetFileOrFail();
+        $targetFilePath = $openApiRequestTransfer->getTargetFileOrFail();
 
-        $this->writeToFile($targetFilePath, $OpenApi);
+        $this->writeToFile($targetFilePath, $openApi);
 
-        return $OpenApiResponseTransfer;
+        return $openApiResponseTransfer;
     }
 
     /**

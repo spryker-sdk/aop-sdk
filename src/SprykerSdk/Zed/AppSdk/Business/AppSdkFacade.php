@@ -157,8 +157,8 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
      *
      * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
      */
-    public function addOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer
+    public function createOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer
     {
-        return $this->getFactory()->createOpenApiBuilder()->addOpenApi($openApiRequestTransfer);
+        return $this->getFactory()->createOpenApiBuilder()->createOpenApi($openApiRequestTransfer);
     }
 }

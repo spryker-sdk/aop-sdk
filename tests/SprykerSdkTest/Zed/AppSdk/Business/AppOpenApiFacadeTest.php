@@ -26,13 +26,13 @@ class AppOpenApiFacadeTest extends Unit
     /**
      * @return void
      */
-    public function testAddOpenApiAddsANewOpenApiFile(): void
+    public function testCreateOpenApiAddsANewOpenApiFile(): void
     {
         // Arrange
         $openApiRequestTransfer = $this->tester->haveOpenApiAddRequest();
 
         // Act
-        $openApiResponseTransfer = $this->tester->getFacade()->addOpenApi(
+        $openApiResponseTransfer = $this->tester->getFacade()->createOpenApi(
             $openApiRequestTransfer,
         );
 
