@@ -12,16 +12,28 @@ The `vendor/bin/app-sdk app:manifest:create` adds a minimal Manifest file.
 
 - `name`
 
-`vendor/bin/app-sdk app:manifest:create "Your Manifest name"` will set the name parameter of your Manifest file.
+`vendor/bin/app-sdk app:manifest:create "Your company name"` will set the name parameter of your Manifest file.
 
 
-- `local`
+- `locale`
 
-`vendor/bin/app-sdk app:manifest:create "Your Manifest name" Locale ` will set the name parameter of your Manifest file and locale will set your manifest file name .
+`vendor/bin/app-sdk app:manifest:create "Your company name" en_US ` will set the name parameter of your Manifest file and the locale will define the manifest file name.
 
-Locale.json
-...
-    name: 'Your Manifest name'
-...
+Example:
 
+path/to/manifest/en_US.json
 
+```
+{
+    "name": "Your company name",
+    "provider": "Your company name",
+    "description": "",
+    "descriptionShort": "",
+    "configureUrl": "",
+    "categories": [],
+    "assets": [],
+    "resources": [],
+    "pages": [],
+    "label": []
+}    
+```
