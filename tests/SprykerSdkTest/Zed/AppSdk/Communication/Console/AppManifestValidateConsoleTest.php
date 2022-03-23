@@ -43,4 +43,21 @@ class AppManifestValidateConsoleTest extends Unit
         $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
         $this->assertNotEmpty($commandTester->getDisplay());
     }
+
+    /**
+     * @return void
+     */
+    public function testValidateManifestReturnsSuccessCodeWhenValidationIsSuccessful(): void
+    {
+        // Arrange
+        $this->tester->haveValidManifestFile();
+
+        $commandTester = $this->tester->getConsoleTester(AppManifestValidateConsole::class);
+
+        // Act
+        $commandTester->execute([]);
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
+    }
 }
