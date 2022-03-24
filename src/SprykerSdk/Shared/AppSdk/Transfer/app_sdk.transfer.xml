@@ -90,15 +90,18 @@
         <property name="type" type="string"/>
         <property name="message" type="string"/>
     </transfer>
-
-    <transfer name="AppConfigurationRequest">
-        <property name="properties" type="array"/>
-        <property name="required" type="array"/>
-        <property name="fieldsets" type="array"/>
-        <property name="configurationFile" type="string"/>
+    
+    <transfer name="ManifestRequest">
+        <property name="manifest" type="Manifest"/>
+        <property name="manifestPath" type="string"/>
     </transfer>
 
-    <transfer name="AppConfigurationResponse">
+    <transfer name="Manifest">
+        <property name="name" type="string"/>
+        <property name="localeName" type="string"/>
+    </transfer>
+    
+    <transfer name="ManifestResponse">
         <property name="errors" type="Message[]" singular="error"/>
         <property name="messages" type="Message[]" singular="message"/>
     </transfer>
@@ -114,6 +117,18 @@
     </transfer>
 
     <transfer name="OpenApiResponse">
+        <property name="errors" type="Message[]" singular="error"/>
+        <property name="messages" type="Message[]" singular="message"/>
+    </transfer>
+
+    <transfer name="AppConfigurationRequest">
+        <property name="properties" type="array"/>
+        <property name="required" type="array"/>
+        <property name="fieldsets" type="array"/>
+        <property name="configurationFile" type="string"/>
+    </transfer>
+
+    <transfer name="AppConfigurationResponse">
         <property name="errors" type="Message[]" singular="error"/>
         <property name="messages" type="Message[]" singular="message"/>
     </transfer>
