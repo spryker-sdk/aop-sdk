@@ -11,6 +11,8 @@ use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessTransfer;
+use Generated\Shared\Transfer\ManifestRequestTransfer;
+use Generated\Shared\Transfer\ManifestResponseTransfer;
 use Generated\Shared\Transfer\OpenApiRequestTransfer;
 use Generated\Shared\Transfer\OpenApiResponseTransfer;
 use Generated\Shared\Transfer\ValidateRequestTransfer;
@@ -129,6 +131,19 @@ interface AppSdkFacadeInterface
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
     public function validateAsyncApi(ValidateRequestTransfer $asyncApiRequestTransfer): ValidateResponseTransfer;
+
+    /**
+     * Specification:
+     * - Adds a new Manifest file.
+     * - Validates the mandatory locale.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\ManifestResponseTransfer
+     */
+    public function createManifest(ManifestRequestTransfer $manifestRequestTransfer): ManifestResponseTransfer;
 
     /**
      * Specification:

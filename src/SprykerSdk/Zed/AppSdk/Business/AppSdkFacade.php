@@ -11,6 +11,8 @@ use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessTransfer;
+use Generated\Shared\Transfer\ManifestRequestTransfer;
+use Generated\Shared\Transfer\ManifestResponseTransfer;
 use Generated\Shared\Transfer\OpenApiRequestTransfer;
 use Generated\Shared\Transfer\OpenApiResponseTransfer;
 use Generated\Shared\Transfer\ValidateRequestTransfer;
@@ -146,6 +148,20 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
     public function validateAsyncApi(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
     {
         return $this->getFactory()->createAsyncApiValidator()->validate($validateRequestTransfer);
+    }
+
+     /**
+      * {@inheritDoc}
+      *
+      * @api
+      *
+      * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
+      *
+      * @return \Generated\Shared\Transfer\ManifestResponseTransfer
+      */
+    public function createManifest(ManifestRequestTransfer $manifestRequestTransfer): ManifestResponseTransfer
+    {
+        return $this->getFactory()->createManifestBuilder()->createManifest($manifestRequestTransfer);
     }
 
     /**

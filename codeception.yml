@@ -27,6 +27,7 @@ suites:
                 - \SprykerSdkTest\Helper\OpenApiHelper
                 - \SprykerTest\Zed\Testify\Helper\Business\BusinessHelper
                 - \SprykerTest\Shared\Testify\Helper\ConfigHelper
+                - \SprykerSdkTest\Helper\ManifestHelper
     Businesss:
         path: SprykerSdkTest/Zed/AppSdk/Business
         class_name: BusinesssTester
@@ -38,6 +39,7 @@ suites:
                 - \SprykerSdkTest\Helper\AppTranslationValidatorHelper
                 - \SprykerSdkTest\Helper\ValidatorHelper
                 - \SprykerSdkTest\Helper\AsyncApiHelper
+                - \SprykerSdkTest\Helper\ManifestHelper
                 - \SprykerSdkTest\Helper\OpenApiHelper
 extensions:
     enabled:
