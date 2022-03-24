@@ -176,4 +176,24 @@ class AppSdkConfig extends AbstractBundleConfig
     {
         return APP_SDK_ROOT_DIR;
     }
+
+    /**
+     * @api
+     *
+     * @throws \Exception
+     *
+     * @return string
+     */
+    public function getDefaultOpenApiFile(): string
+    {
+        $pathFragments = [
+            $this->getProjectRootPath(),
+            'config',
+            'api',
+            'openapi',
+            'openapi.yml',
+        ];
+
+        return implode(DIRECTORY_SEPARATOR, $pathFragments);
+    }
 }

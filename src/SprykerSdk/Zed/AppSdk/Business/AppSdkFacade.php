@@ -13,6 +13,8 @@ use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessTransfer;
+use Generated\Shared\Transfer\OpenApiRequestTransfer;
+use Generated\Shared\Transfer\OpenApiResponseTransfer;
 use Generated\Shared\Transfer\ValidateRequestTransfer;
 use Generated\Shared\Transfer\ValidateResponseTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
@@ -153,6 +155,16 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
      *
      * @api
      *
+     * @param \Generated\Shared\Transfer\OpenApiRequestTransfer $openApiRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
+     */
+    public function createOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer
+    {
+        return $this->getFactory()->createOpenApiBuilder()->createOpenApi($openApiRequestTransfer);
+    }
+
+    /**
      * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
      *
      * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer

@@ -102,5 +102,20 @@
         <property name="errors" type="Message[]" singular="error"/>
         <property name="messages" type="Message[]" singular="message"/>
     </transfer>
+    
+    <transfer name="OpenApiRequest">
+        <property name="targetFile" type="string"/>
+        <property name="openApi" type="OpenApi"/>
+    </transfer>
+
+    <transfer name="OpenApi">
+        <property name="title" type="string"/>
+        <property name="version" type="string"/>
+    </transfer>
+
+    <transfer name="OpenApiResponse">
+        <property name="errors" type="Message[]" singular="error"/>
+        <property name="messages" type="Message[]" singular="message"/>
+    </transfer>
 
 </transfers>
