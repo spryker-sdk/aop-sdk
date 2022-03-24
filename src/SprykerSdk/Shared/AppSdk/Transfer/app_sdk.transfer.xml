@@ -93,8 +93,8 @@
 
     <transfer name="AppConfigurationRequest">
         <property name="properties" type="array"/>
-        <property name="fieldsets" type="array"/>
         <property name="required" type="array"/>
+        <property name="fieldsets" type="array"/>
         <property name="configurationFile" type="string"/>
     </transfer>
 

@@ -165,6 +165,10 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
      * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
      *
      * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer

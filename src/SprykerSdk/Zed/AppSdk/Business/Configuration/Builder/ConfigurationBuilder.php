@@ -30,10 +30,83 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
 
         $this->writeToFile(
             $appConfigurationRequestTransfer->getConfigurationFileOrFail(),
-            $appConfigurationRequestTransfer->getProperties(),
+            [
+                'properties' => $this->getFormattedProperties($appConfigurationRequestTransfer),
+                'fieldsets' => $this->getFormattedFieldsets($appConfigurationRequestTransfer),
+                'required' => $appConfigurationRequestTransfer->getRequired(),
+            ],
         );
 
         return $appConfigurationResponseTransfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
+     *
+     * @return array
+     */
+    public function getFormattedProperties(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): array
+    {
+        $properties = [];
+
+        $requiredFields = $appConfigurationRequestTransfer->getRequired();
+
+        foreach ($appConfigurationRequestTransfer->getProperties() as $name => $property) {
+            $properties[$name] = ['type' => strtolower($property['type'])];
+            $properties[$name]['widget']['id'] = strtolower($property['widget']);
+
+            if ($property['widget'] == 'Text') {
+                $properties[$name]['placeholder'] = $name;
+                $properties[$name]['widget']['id'] = 'textline';
+            }
+
+            if (in_array($name, $requiredFields)) {
+                $properties[$name]['isRequired'] = true;
+            }
+
+            if ($property['widget'] == 'Checkbox') {
+                $properties[$name]['items']['type'] = strtolower($property['itemsType']);
+                $properties[$name]['items']['widget']['id'] = strtolower($property['itemsType']);
+
+                foreach ($property['items'] as $item) {
+                    $properties[$name]['items']['oneOf'][] = [
+                        'description' => $item,
+                        'enum' => [$item],
+                    ];
+                }
+            }
+
+            if ($property['widget'] == 'Radio') {
+                foreach ($property['items'] as $item) {
+                    $properties[$name]['oneOf'][] = [
+                        'description' => $item,
+                        'enum' => [$item],
+                    ];
+                }
+            }
+        }
+
+        return $properties;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
+     *
+     * @return array
+     */
+    public function getFormattedFieldsets(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): array
+    {
+        $fieldsets = [];
+
+        foreach ($appConfigurationRequestTransfer->getFieldsets() as $group => $fields) {
+            $fieldsets[] = [
+                'id' => $group,
+                'title' => $group,
+                'fields' => $fields,
+            ];
+        }
+
+        return $fieldsets;
     }
 
     /**

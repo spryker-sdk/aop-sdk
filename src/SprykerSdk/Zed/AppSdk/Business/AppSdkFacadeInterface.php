@@ -145,7 +145,8 @@ interface AppSdkFacadeInterface
     public function createOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer;
 
     /**
-     * - Reads an AsyncAPI file and validates it.
+     * Specification:
+     * - Adds Configuration file.
      *
      * @api
      *

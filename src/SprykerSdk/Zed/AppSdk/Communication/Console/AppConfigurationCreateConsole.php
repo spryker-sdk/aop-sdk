@@ -19,20 +19,20 @@ use Symfony\Component\Console\Question\Question;
  */
 class AppConfigurationCreateConsole extends AbstractConsole
 {
- /**
-  * @var array
-  */
+    /**
+     * @var array
+     */
     protected $properties = [];
 
     /**
      * @var array
      */
-    protected $fieldset = [];
+    protected $requiredFields = [];
 
     /**
      * @var array
      */
-    protected $required = [];
+    protected $fieldsets = [];
 
     /**
      * @var string
@@ -70,10 +70,11 @@ class AppConfigurationCreateConsole extends AbstractConsole
 
         $this->getFieldsetInput($input, $output);
 
-        $appConfigurationRequestTransfer->setProperties([
-            'properties' => $this->properties,
-            'required' => $this->required,
-            'fieldsets' => $this->fieldset]);
+        $appConfigurationRequestTransfer->setProperties($this->properties);
+
+        $appConfigurationRequestTransfer->setRequired($this->requiredFields);
+
+        $appConfigurationRequestTransfer->setFieldsets($this->fieldsets);
 
         $appConfigurationResponseTransfer = $this->getFacade()->appConfigurationCreate($appConfigurationRequestTransfer);
 
@@ -127,6 +128,21 @@ class AppConfigurationCreateConsole extends AbstractConsole
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @param string $questionText
+     *
+     * @return string
+     */
+    protected function askForConfirmation(
+        InputInterface $input,
+        OutputInterface $output,
+        string $questionText
+    ): string {
+        return $this->getHelper('question')->ask($input, $output, new ChoiceQuestion($questionText, ['Yes', 'No'], 0));
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param string $questionText
      * @param array $questionOptions
      * @param string|int $defaultSelected
      *
@@ -154,56 +170,20 @@ class AppConfigurationCreateConsole extends AbstractConsole
     protected function getPropertiesInput(InputInterface $input, OutputInterface $output): void
     {
         do {
-            $propertyName = $this->setPropertyName($this->askTextQuestion($input, $output, $this->getPropertyNameQuestion()));
+            $propertyName = $this->askTextQuestion($input, $output, 'Please enter a name: ');
 
             $this->setIsRequired(
                 $propertyName,
-                $this->askChoiceQuestion($input, $output, $this->getIsRequiredQuestion(), $this->getConfirmationOptions(), 0),
+                $this->askForConfirmation($input, $output, 'Is this a required field?'),
             );
 
             $this->setWidget(
                 $input,
                 $output,
                 $propertyName,
-                $this->askChoiceQuestion($input, $output, $this->getWidgetQuestion(), $this->getWidgetOptions(), 0),
+                $this->askChoiceQuestion($input, $output, 'Please select a widget: ', ['Text', 'Radio', 'Checkbox'], 0),
             );
-        } while ($this->askChoiceQuestion($input, $output, $this->getNewConfigurationConfirmation(), $this->getConfirmationOptions(), 0) == 'Yes');
-    }
-
-    /**
-     * @return array
-     */
-    protected function getConfirmationOptions(): array
-    {
-        return ['Yes', 'No'];
-    }
-
-    /**
-     * @return string
-     */
-    protected function getPropertyNameQuestion(): string
-    {
-        return 'Please enter a name: ';
-    }
-
-    /**
-     * @param string $propertyName
-     *
-     * @return string
-     */
-    protected function setPropertyName(string $propertyName): string
-    {
-        $this->properties[$propertyName] = ['placeholder' => $propertyName];
-
-        return $propertyName;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getIsRequiredQuestion(): string
-    {
-        return 'Is this a required field?';
+        } while ($this->askForConfirmation($input, $output, 'Do you want to add more configurations?') == 'Yes');
     }
 
     /**
@@ -214,40 +194,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
      */
     protected function setIsRequired(string $propertyName, string $required): void
     {
-        $this->properties[$propertyName]['isRequired'] = ($required == 'Yes') ? true : false;
-        $this->required[] = $propertyName;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getWidgetQuestion(): string
-    {
-        return 'Please select a widget: ';
-    }
-
-    /**
-     * @return string
-     */
-    protected function getMoreOptionConfirmation(): string
-    {
-        return 'Do you want to add more options?';
-    }
-
-    /**
-     * @return string
-     */
-    protected function getNewConfigurationConfirmation(): string
-    {
-        return 'Do you want to add more configurations?';
-    }
-
-    /**
-     * @return array
-     */
-    protected function getWidgetOptions(): array
-    {
-        return ['Text', 'Radio', 'Checkbox'];
+        $this->requiredFields[] = $propertyName;
     }
 
     /**
@@ -260,18 +207,18 @@ class AppConfigurationCreateConsole extends AbstractConsole
      */
     protected function setWidget(InputInterface $input, OutputInterface $output, string $propertyName, string $widget): void
     {
-        $this->properties[$propertyName]['widget']['id'] = $widget;
+        $this->properties[$propertyName]['widget'] = $widget;
         switch ($widget) {
             case 'Checkbox':
-                $this->getWidgetCheckBoxOptions($input, $output, $propertyName);
+                $this->getTypeForCheckboxWidget($input, $output, $propertyName);
 
                 break;
             case 'Radio':
-                $this->getWidgetRadioOptions($input, $output, $propertyName);
+                $this->getTypeForRadioWidget($input, $output, $propertyName);
 
                 break;
             case 'Text':
-                $this->getWidgetTextOption($input, $output, $propertyName);
+                $this->getTypeForTextWidget($input, $output, $propertyName);
 
                 break;
         }
@@ -284,26 +231,19 @@ class AppConfigurationCreateConsole extends AbstractConsole
      *
      * @return void
      */
-    protected function getWidgetCheckBoxOptions(InputInterface $input, OutputInterface $output, string $propertyName): void
+    protected function getTypeForCheckboxWidget(InputInterface $input, OutputInterface $output, string $propertyName): void
     {
-        $this->setPropertyType(
+        $this->setWidgetType(
             $propertyName,
-            $this->askChoiceQuestion($input, $output, $this->getWidgetTypeQuestion(), $this->getWidgetCheckBoxTypeOptions(), 0),
+            $this->askChoiceQuestion($input, $output, 'Please select a type: ', ['Array'], 0),
         );
 
         $this->setItemsType(
             $propertyName,
-            $this->askChoiceQuestion($input, $output, $this->getItemTypeQuestion(), $this->getWidgetTextAndRadioTypeOptions(), 0),
+            $this->getWidgetTypeOption($input, $output),
         );
 
-        do {
-            $this->setWidgetCheckBoxTypeItem(
-                $input,
-                $output,
-                $propertyName,
-                $this->askTextQuestion($input, $output, $this->getWidgetOptionInputQuestion()),
-            );
-        } while ($this->askChoiceQuestion($input, $output, $this->getMoreOptionConfirmation(), $this->getConfirmationOptions(), 0) == 'Yes');
+        $this->getWidgetOptions($input, $output, $propertyName);
     }
 
     /**
@@ -313,21 +253,14 @@ class AppConfigurationCreateConsole extends AbstractConsole
      *
      * @return void
      */
-    protected function getWidgetRadioOptions(InputInterface $input, OutputInterface $output, string $propertyName): void
+    protected function getTypeForRadioWidget(InputInterface $input, OutputInterface $output, string $propertyName): void
     {
-        $this->setPropertyType(
+        $this->setWidgetType(
             $propertyName,
-            $this->askChoiceQuestion($input, $output, $this->getWidgetTypeQuestion(), $this->getWidgetTextAndRadioTypeOptions(), 0),
+            $this->getWidgetTypeOption($input, $output),
         );
 
-        do {
-            $this->setWidgetRadioTypeItem(
-                $input,
-                $output,
-                $propertyName,
-                $this->askTextQuestion($input, $output, $this->getWidgetOptionInputQuestion()),
-            );
-        } while ($this->askChoiceQuestion($input, $output, $this->getMoreOptionConfirmation(), $this->getConfirmationOptions(), 0) == 'Yes');
+        $this->getWidgetOptions($input, $output, $propertyName);
     }
 
     /**
@@ -337,14 +270,42 @@ class AppConfigurationCreateConsole extends AbstractConsole
      *
      * @return void
      */
-    protected function getWidgetTextOption(InputInterface $input, OutputInterface $output, string $propertyName): void
+    protected function getTypeForTextWidget(InputInterface $input, OutputInterface $output, string $propertyName): void
     {
-        $this->setPropertyType(
+        $this->setWidgetType(
             $propertyName,
-            $this->askChoiceQuestion($input, $output, $this->getWidgetTypeQuestion(), $this->getWidgetTextAndRadioTypeOptions(), 0),
+            $this->getWidgetTypeOption($input, $output),
         );
+    }
 
-        $this->setTextTypeItem($propertyName, 'textline');
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return string
+     */
+    protected function getWidgetTypeOption(InputInterface $input, OutputInterface $output): string
+    {
+        return $this->askChoiceQuestion($input, $output, 'Please select a type: ', ['String', 'Int'], 0);
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param string $propertyName
+     *
+     * @return void
+     */
+    protected function getWidgetOptions(InputInterface $input, OutputInterface $output, string $propertyName): void
+    {
+        do {
+            $this->setWidgetOptions(
+                $input,
+                $output,
+                $propertyName,
+                $this->askTextQuestion($input, $output, 'Please enter an option: '),
+            );
+        } while ($this->askForConfirmation($input, $output, 'Do you want to add more options?') == 'Yes');
     }
 
     /**
@@ -353,7 +314,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
      *
      * @return void
      */
-    protected function setPropertyType(string $propertyName, string $type): void
+    protected function setWidgetType(string $propertyName, string $type): void
     {
         $this->properties[$propertyName]['type'] = $type;
     }
@@ -366,48 +327,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
      */
     protected function setItemsType(string $propertyName, string $type): void
     {
-        $this->properties[$propertyName]['items']['type'] = $type;
-        $this->properties[$propertyName]['items']['widget']['id'] = $type;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getWidgetTypeQuestion(): string
-    {
-        return 'Please select a type: ';
-    }
-
-    /**
-     * @return string
-     */
-    protected function getItemTypeQuestion(): string
-    {
-        return 'Please select a item type: ';
-    }
-
-    /**
-     * @return array
-     */
-    protected function getWidgetTextAndRadioTypeOptions(): array
-    {
-        return ['String', 'Integer'];
-    }
-
-    /**
-     * @return array
-     */
-    protected function getWidgetCheckBoxTypeOptions(): array
-    {
-        return ['Array'];
-    }
-
-    /**
-     * @return string
-     */
-    protected function getWidgetOptionInputQuestion(): string
-    {
-        return 'Please enter an option: ';
+        $this->properties[$propertyName]['itemsType'] = $type;
     }
 
     /**
@@ -418,13 +338,10 @@ class AppConfigurationCreateConsole extends AbstractConsole
      *
      * @return void
      */
-    protected function setWidgetCheckBoxTypeItem(InputInterface $input, OutputInterface $output, string $propertyName, string $item): void
+    protected function setWidgetOptions(InputInterface $input, OutputInterface $output, string $propertyName, string $item): void
     {
-        if ($this->checkPropertyCheckboxTypeValue($input, $output, $propertyName, $item) === true) {
-            $this->properties[$propertyName]['items']['oneOf'][] = [
-                'description' => $item,
-                'enum' => [$item],
-            ];
+        if ($this->checkWidgetOptionValueType($input, $output, $propertyName, $item) === true) {
+            $this->properties[$propertyName]['items'][] = $item;
         }
     }
 
@@ -436,13 +353,13 @@ class AppConfigurationCreateConsole extends AbstractConsole
      *
      * @return bool
      */
-    protected function checkPropertyCheckboxTypeValue(InputInterface $input, OutputInterface $output, string $propertyName, string $item): bool
+    protected function checkWidgetOptionValueType(InputInterface $input, OutputInterface $output, string $propertyName, string $item): bool
     {
-        if ($this->properties[$propertyName]['items']['type'] === 'Integer' && !is_numeric($item)) {
-            if ($this->askChoiceQuestion($input, $output, $this->getTypeSwitchQuestion(), $this->getConfirmationOptions(), 0) == 'Yes') {
+        if (($this->properties[$propertyName]['type'] === 'Int' || (isset($this->properties[$propertyName]['itemsType']) && $this->properties[$propertyName]['itemsType'] === 'Int')) && !is_numeric($item)) {
+            if ($this->askForConfirmation($input, $output, 'You entered string value while int expected. Do you want to switch type?') == 'Yes') {
                 $this->setItemsType(
                     $propertyName,
-                    $this->askChoiceQuestion($input, $output, $this->getItemTypeQuestion(), $this->getWidgetTextAndRadioTypeOptions(), 0),
+                    $this->getWidgetTypeOption($input, $output),
                 );
             }
 
@@ -450,67 +367,6 @@ class AppConfigurationCreateConsole extends AbstractConsole
         }
 
         return true;
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param string $propertyName
-     * @param string $item
-     *
-     * @return void
-     */
-    protected function setWidgetRadioTypeItem(InputInterface $input, OutputInterface $output, string $propertyName, string $item): void
-    {
-        if ($this->checkPropertyRadioTypeValue($input, $output, $propertyName, $item) === true) {
-            $this->properties[$propertyName]['oneOf'][] = [
-                'description' => $item,
-                'enum' => [$item],
-            ];
-        }
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param string $propertyName
-     * @param string $item
-     *
-     * @return bool
-     */
-    protected function checkPropertyRadioTypeValue(InputInterface $input, OutputInterface $output, string $propertyName, string $item): bool
-    {
-        if ($this->properties[$propertyName]['type'] === 'Integer' && !is_numeric($item)) {
-            if ($this->askChoiceQuestion($input, $output, $this->getTypeSwitchQuestion(), $this->getConfirmationOptions(), 0) == 'Yes') {
-                $this->setPropertyType(
-                    $propertyName,
-                    $this->askChoiceQuestion($input, $output, $this->getWidgetTypeQuestion(), $this->getWidgetTextAndRadioTypeOptions(), 0),
-                );
-            }
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getTypeSwitchQuestion(): string
-    {
-        return 'You entered string value while int expected. Do you want to switch type?';
-    }
-
-    /**
-     * @param string $propertyName
-     * @param string $type
-     *
-     * @return void
-     */
-    protected function setTextTypeItem(string $propertyName, string $type): void
-    {
-        $this->properties[$propertyName]['widget']['id'] = $type;
     }
 
     /**
@@ -521,75 +377,26 @@ class AppConfigurationCreateConsole extends AbstractConsole
      */
     protected function getFieldsetInput(InputInterface $input, OutputInterface $output): void
     {
-        if ($this->askChoiceQuestion($input, $output, $this->getGroupConfirmationQuestion(), $this->getConfirmationOptions(), 0) == 'Yes') {
+        if ($this->askForConfirmation($input, $output, 'Do you want to group the configurations?') == 'Yes') {
             $fieldsetOptions = array_keys($this->properties);
 
             do {
-                $groupIndex = $this->setGroupName($this->askTextQuestion($input, $output, $this->getGroupNameQuestion()));
-
                 $fieldsetOptions = array_diff($fieldsetOptions, $this->setGroupFields(
-                    $groupIndex,
-                    $this->askMultipleChoiceQuestion($input, $output, $this->getGroupSelectFieldsQuestion(), $fieldsetOptions, ''),
+                    $this->askTextQuestion($input, $output, 'Please enter a group name: '),
+                    $this->askMultipleChoiceQuestion($input, $output, 'Please select all fields that should be in this group', $fieldsetOptions, ''),
                 ));
-            } while ($fieldsetOptions && $this->askChoiceQuestion($input, $output, $this->getAddMoreGroupConfigurationQuestion(), $this->getConfirmationOptions(), 0) == 'Yes');
+            } while ($fieldsetOptions && $this->askForConfirmation($input, $output, 'Do you want to add more group configurations?') == 'Yes');
         }
     }
 
     /**
-     * @return string
-     */
-    protected function getGroupConfirmationQuestion(): string
-    {
-        return 'Do you want to group the configurations?';
-    }
-
-    /**
-     * @return string
-     */
-    protected function getGroupNameQuestion(): string
-    {
-        return 'Please enter a group name: ';
-    }
-
-    /**
-     * @return string
-     */
-    protected function getGroupSelectFieldsQuestion(): string
-    {
-        return 'Please select all fields that should be in this group';
-    }
-
-    /**
-     * @return string
-     */
-    protected function getAddMoreGroupConfigurationQuestion(): string
-    {
-        return 'Do you want to add more group configurations?';
-    }
-
-    /**
      * @param string $groupName
-     *
-     * @return int
-     */
-    protected function setGroupName(string $groupName): int
-    {
-        $this->fieldset[] = [
-            'id' => $groupName,
-            'title' => $groupName,
-        ];
-
-        return count($this->fieldset) - 1;
-    }
-
-    /**
-     * @param int $groupIndex
      * @param array $fields
      *
      * @return array
      */
-    protected function setGroupFields(int $groupIndex, array $fields): array
+    protected function setGroupFields(string $groupName, array $fields): array
     {
-        return $this->fieldset[$groupIndex]['fields'] = $fields;
+        return $this->fieldsets[$groupName] = $fields;
     }
 }
