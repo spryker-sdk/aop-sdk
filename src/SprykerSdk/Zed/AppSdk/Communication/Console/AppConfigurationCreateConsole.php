@@ -66,6 +66,17 @@ class AppConfigurationCreateConsole extends AbstractConsole
 
         $appConfigurationRequestTransfer->setConfigurationFile($input->getOption(static::CONFIGURATION_FILE));
 
+        $output->writeln([
+            'Welcome to the App configuration builder.',
+            '',
+            'For each configuration you will be prompted to enter details.',
+            'When the process is done a configuration file will be created in: ' . $appConfigurationRequestTransfer->getConfigurationFile(),
+            'When you have a typo or anything else you\'d like to change you can do that manually in the created file after this process is finished.',
+            '',
+            'Only use translation keys for names. These fields need to be displayed in different languages.',
+            '',
+        ]);
+
         $this->getPropertiesInput($input, $output);
 
         $this->getFieldsetInput($input, $output);
@@ -136,7 +147,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
         OutputInterface $output,
         string $questionText
     ): string {
-        return $this->getHelper('question')->ask($input, $output, new ChoiceQuestion($questionText, ['Yes', 'No'], 0));
+        return $this->getHelper('question')->ask($input, $output, new ChoiceQuestion($questionText, [1 => 'Yes', 2 => 'No'], 1));
     }
 
     /**
@@ -170,7 +181,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
     protected function getPropertiesInput(InputInterface $input, OutputInterface $output): void
     {
         do {
-            $propertyName = $this->askTextQuestion($input, $output, 'Please enter a name: ');
+            $propertyName = $this->getPropertyName($input, $output);
 
             $this->setIsRequired(
                 $propertyName,
@@ -181,9 +192,26 @@ class AppConfigurationCreateConsole extends AbstractConsole
                 $input,
                 $output,
                 $propertyName,
-                $this->askChoiceQuestion($input, $output, 'Please select a widget: ', ['Text', 'Radio', 'Checkbox'], 0),
+                $this->askChoiceQuestion($input, $output, 'Please select a widget: ', [1 => 'Text', 2 => 'Radio', 3 => 'Checkbox'], 1),
             );
         } while ($this->askForConfirmation($input, $output, 'Do you want to add more configurations?') == 'Yes');
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return string
+     */
+    protected function getPropertyName(InputInterface $input, OutputInterface $output): string
+    {
+        $propertyName = $this->askTextQuestion($input, $output, 'Please enter a name: ', null);
+
+        if (array_key_exists($propertyName, $this->properties) && ($this->askForConfirmation($input, $output, 'You have already defined this configuration do you want to override it?') == 'No')) {
+            $propertyName = $this->getPropertyName($input, $output);
+        }
+
+        return $propertyName;
     }
 
     /**
@@ -235,7 +263,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
     {
         $this->setWidgetType(
             $propertyName,
-            $this->askChoiceQuestion($input, $output, 'Please select a type: ', ['Array'], 0),
+            $this->askChoiceQuestion($input, $output, 'Please select a type: ', [1 => 'Array'], 1),
         );
 
         $this->setItemsType(
@@ -286,7 +314,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
      */
     protected function getWidgetTypeOption(InputInterface $input, OutputInterface $output): string
     {
-        return $this->askChoiceQuestion($input, $output, 'Please select a type: ', ['String', 'Int'], 0);
+        return $this->askChoiceQuestion($input, $output, 'Please select a type: ', [1 => 'String', 2 => 'Int'], 1);
     }
 
     /**
@@ -298,6 +326,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
      */
     protected function getWidgetOptions(InputInterface $input, OutputInterface $output, string $propertyName): void
     {
+        $output->writeln(['', 'You selected a widget that requires options. For each option you will be prompted to enter details.', '']);
         do {
             $this->setWidgetOptions(
                 $input,
@@ -341,7 +370,9 @@ class AppConfigurationCreateConsole extends AbstractConsole
     protected function setWidgetOptions(InputInterface $input, OutputInterface $output, string $propertyName, string $item): void
     {
         if ($this->checkWidgetOptionValueType($input, $output, $propertyName, $item) === true) {
-            $this->properties[$propertyName]['items'][] = $item;
+            if (!isset($this->properties[$propertyName]['items']) || !in_array($item, $this->properties[$propertyName]['items'])) {
+                $this->properties[$propertyName]['items'][] = $item;
+            }
         }
     }
 

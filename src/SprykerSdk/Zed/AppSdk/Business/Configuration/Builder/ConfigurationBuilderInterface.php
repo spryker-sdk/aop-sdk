@@ -18,18 +18,4 @@ interface ConfigurationBuilderInterface
      * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer
      */
     public function appConfigurationCreate(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): AppConfigurationResponseTransfer;
-
-    /**
-     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
-     *
-     * @return array
-     */
-    public function getFormattedProperties(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): array;
-
-    /**
-     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
-     *
-     * @return array
-     */
-    public function getFormattedFieldsets(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): array;
 }

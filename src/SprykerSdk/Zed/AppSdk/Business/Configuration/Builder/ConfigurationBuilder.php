@@ -45,7 +45,7 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
      *
      * @return array
      */
-    public function getFormattedProperties(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): array
+    protected function getFormattedProperties(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): array
     {
         $properties = [];
 
@@ -94,7 +94,7 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
      *
      * @return array
      */
-    public function getFormattedFieldsets(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): array
+    protected function getFormattedFieldsets(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): array
     {
         $fieldsets = [];
 
