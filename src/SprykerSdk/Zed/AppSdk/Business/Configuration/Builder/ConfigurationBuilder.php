@@ -12,12 +12,6 @@ use Generated\Shared\Transfer\AppConfigurationResponseTransfer;
 
 class ConfigurationBuilder implements ConfigurationBuilderInterface
 {
-    /**
-     * @var array<string>
-     */
-    protected $transferToAsyncApiTypeMap = [
-        'int' => 'integer',
-    ];
 
     /**
      * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
