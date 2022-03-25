@@ -12,12 +12,11 @@ use Generated\Shared\Transfer\AppConfigurationResponseTransfer;
 
 class ConfigurationBuilder implements ConfigurationBuilderInterface
 {
-
-    /**
-     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer
-     */
+ /**
+  * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
+  *
+  * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer
+  */
     public function appConfigurationCreate(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): AppConfigurationResponseTransfer
     {
         $appConfigurationResponseTransfer = new AppConfigurationResponseTransfer();
