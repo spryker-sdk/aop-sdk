@@ -14,6 +14,8 @@ use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilderInterface;
+use SprykerSdk\Zed\AppSdk\Business\Manifest\Builder\ManifestBuilder;
+use SprykerSdk\Zed\AppSdk\Business\Manifest\Builder\ManifestBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\OpenApi\Builder\OpenApiBuilder;
 use SprykerSdk\Zed\AppSdk\Business\OpenApi\Builder\OpenApiBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface;
@@ -153,6 +155,14 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     public function createAsyncApiBuilder(): AsyncApiBuilderInterface
     {
         return new AsyncApiBuilder();
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\Manifest\Builder\ManifestBuilderInterface
+     */
+    public function createManifestBuilder(): ManifestBuilderInterface
+    {
+        return new ManifestBuilder();
     }
 
     /**

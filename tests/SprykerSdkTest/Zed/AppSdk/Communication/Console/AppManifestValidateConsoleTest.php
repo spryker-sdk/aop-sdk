@@ -30,6 +30,23 @@ class AppManifestValidateConsoleTest extends Unit
     /**
      * @return void
      */
+    public function testValidateManifestReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
+    {
+        // Arrange
+        $this->tester->haveInvalidManifestFile();
+        $commandTester = $this->tester->getConsoleTester(AppManifestValidateConsole::class);
+
+        // Act
+        $commandTester->execute([], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+        $this->assertNotEmpty($commandTester->getDisplay());
+    }
+
+    /**
+     * @return void
+     */
     public function testValidateManifestReturnsSuccessCodeWhenValidationIsSuccessful(): void
     {
         // Arrange
@@ -42,21 +59,5 @@ class AppManifestValidateConsoleTest extends Unit
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
-    }
-
-    /**
-     * @return void
-     */
-    public function testValidateManifestReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
-    {
-        // Arrange
-        $commandTester = $this->tester->getConsoleTester(new AppManifestValidateConsole());
-
-        // Act
-        $commandTester->execute([], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
-
-        // Assert
-        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
-        $this->assertNotEmpty($commandTester->getDisplay());
     }
 }
