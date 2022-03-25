@@ -106,4 +106,14 @@
         <property name="messages" type="Message[]" singular="message"/>
     </transfer>
 
+    <transfer name="AppTranslationRequest">
+        <property name="translations" type="array"/>
+        <property name="configurationFile" type="string"/>
+    </transfer>
+
+    <transfer name="AppTranslationResponse">
+        <property name="errors" type="Message[]" singular="error"/>
+        <property name="messages" type="Message[]" singular="message"/>
+    </transfer>
+
 </transfers>

@@ -50,6 +50,16 @@ class AppTranslationValidatorHelper extends Module
     /**
      * @return void
      */
+    public function haveValidAppTranslation(): void
+    {
+        $structure = $this->getValidBaseStructure('valid/app/translation.json');
+
+        $this->prepareTranslation($structure);
+    }
+
+    /**
+     * @return void
+     */
     public function haveValidTranslationWithoutManifest(): void
     {
         $structure = [

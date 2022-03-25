@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business;
 
+use Generated\Shared\Transfer\AppTranslationRequestTransfer;
+use Generated\Shared\Transfer\AppTranslationResponseTransfer;
 use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
@@ -160,5 +162,19 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
     public function createOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer
     {
         return $this->getFactory()->createOpenApiBuilder()->createOpenApi($openApiRequestTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AppTranslationRequestTransfer $appTranslationRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\AppTranslationResponseTransfer
+     */
+    public function appTranslationCreate(AppTranslationRequestTransfer $appTranslationRequestTransfer): AppTranslationResponseTransfer
+    {
+        return $this->getFactory()->createAppTranslationBuilder()->appTranslationCreate($appTranslationRequestTransfer);
     }
 }

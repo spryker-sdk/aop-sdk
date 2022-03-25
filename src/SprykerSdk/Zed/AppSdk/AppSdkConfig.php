@@ -196,4 +196,23 @@ class AppSdkConfig extends AbstractBundleConfig
 
         return implode(DIRECTORY_SEPARATOR, $pathFragments);
     }
+
+    /**
+     * @api
+     *
+     * @throws \Exception
+     *
+     * @return string
+     */
+    public function getDefaultAppTranslationFile(): string
+    {
+        $pathFragments = [
+            $this->getProjectRootPath(),
+            'config',
+            'app',
+            'translation.json',
+        ];
+
+        return implode(DIRECTORY_SEPARATOR, $pathFragments);
+    }
 }
