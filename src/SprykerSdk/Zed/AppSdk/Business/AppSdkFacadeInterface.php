@@ -128,11 +128,11 @@ interface AppSdkFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $asyncApiRequestTransfer
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateAsyncApi(ValidateRequestTransfer $asyncApiRequestTransfer): ValidateResponseTransfer;
+    public function validateAsyncApi(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
 
     /**
      * Specification:
