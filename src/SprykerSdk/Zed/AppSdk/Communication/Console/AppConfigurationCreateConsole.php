@@ -205,7 +205,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
      */
     protected function getPropertyName(InputInterface $input, OutputInterface $output): string
     {
-        $propertyName = $this->askTextQuestion($input, $output, 'Please enter a name: ', null);
+        $propertyName = $this->askTextQuestion($input, $output, 'Please enter a name: ');
 
         if (array_key_exists($propertyName, $this->properties) && ($this->askForConfirmation($input, $output, 'You have already defined this configuration do you want to override it?') == 'No')) {
             $propertyName = $this->getPropertyName($input, $output);
