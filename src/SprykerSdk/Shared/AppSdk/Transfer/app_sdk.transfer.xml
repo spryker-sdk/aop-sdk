@@ -9,6 +9,7 @@
         <property name="configurationFile" type="string"/>
         <property name="translationFile" type="string"/>
         <property name="asyncApiFile" type="string"/>
+        <property name="openApiFile" type="string"/>
     </transfer>
 
     <transfer name="ValidateResponse">

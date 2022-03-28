@@ -152,6 +152,20 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
         return $this->getFactory()->createAsyncApiValidator()->validate($validateRequestTransfer);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
+     */
+    public function validateOpenApi(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
+    {
+        return $this->getFactory()->createOpenApiValidator()->validate($validateRequestTransfer);
+    }
+
      /**
       * {@inheritDoc}
       *

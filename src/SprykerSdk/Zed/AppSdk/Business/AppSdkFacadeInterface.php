@@ -136,6 +136,18 @@ interface AppSdkFacadeInterface
 
     /**
      * Specification:
+     * - Reads an OpenAPI file and validates it.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $openApiRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
+     */
+    public function validateOpenApi(ValidateRequestTransfer $openApiRequestTransfer): ValidateResponseTransfer;
+
+    /**
+     * Specification:
      * - Adds a new Manifest file.
      * - Validates the mandatory locale.
      *

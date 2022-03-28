@@ -35,7 +35,7 @@ class OpenApiCreateConsoleTest extends Unit
         $commandTester = $this->tester->getConsoleTester(new OpenApiCreateConsole());
 
         // Act
-        $commandTester->execute([OpenApiCreateConsole::ARGUMENT_TITLE => 'Test File'], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+        $commandTester->execute([OpenApiCreateConsole::ARGUMENT_TITLE => 'Test File', '--' . OpenApiCreateConsole::OPTION_OPEN_API_FILE => 'config/example/openapi.yml'], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());

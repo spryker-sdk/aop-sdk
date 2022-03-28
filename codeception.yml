@@ -28,6 +28,7 @@ suites:
                 - \SprykerTest\Zed\Testify\Helper\Business\BusinessHelper
                 - \SprykerTest\Shared\Testify\Helper\ConfigHelper
                 - \SprykerSdkTest\Helper\ManifestHelper
+                - \SprykerSdkTest\Helper\AppOpenApiValidatorHelper
     Businesss:
         path: SprykerSdkTest/Zed/AppSdk/Business
         class_name: BusinesssTester
