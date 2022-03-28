@@ -194,7 +194,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
                 $propertyName,
                 $this->askChoiceQuestion($input, $output, 'Please select a widget: ', [1 => 'Text', 2 => 'Radio', 3 => 'Checkbox'], 1),
             );
-        } while ($this->askForConfirmation($input, $output, 'Do you want to add more configurations?') == 'Yes');
+        } while ($this->askForConfirmation($input, $output, 'Do you want to add more configurations?') === 'Yes');
     }
 
     /**
@@ -207,7 +207,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
     {
         $propertyName = $this->askTextQuestion($input, $output, 'Please enter a name: ');
 
-        if (array_key_exists($propertyName, $this->properties) && ($this->askForConfirmation($input, $output, 'You have already defined this configuration do you want to override it?') == 'No')) {
+        if (array_key_exists($propertyName, $this->properties) && ($this->askForConfirmation($input, $output, 'You have already defined this configuration do you want to override it?') === 'No')) {
             $propertyName = $this->getPropertyName($input, $output);
         }
 
@@ -222,7 +222,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
      */
     protected function setIsRequired(string $propertyName, string $required): void
     {
-        if ($required == 'Yes') {
+        if ($required === 'Yes') {
             $this->requiredFields[] = $propertyName;
         }
     }
@@ -336,7 +336,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
                 $propertyName,
                 $this->askTextQuestion($input, $output, 'Please enter an option: '),
             );
-        } while ($this->askForConfirmation($input, $output, 'Do you want to add more options?') == 'Yes');
+        } while ($this->askForConfirmation($input, $output, 'Do you want to add more options?') === 'Yes');
     }
 
     /**
@@ -389,7 +389,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
     protected function checkWidgetOptionValueType(InputInterface $input, OutputInterface $output, string $propertyName, string $item): bool
     {
         if (($this->properties[$propertyName]['type'] === 'Int' || (isset($this->properties[$propertyName]['itemsType']) && $this->properties[$propertyName]['itemsType'] === 'Int')) && !is_numeric($item)) {
-            if ($this->askForConfirmation($input, $output, 'You entered string value while int expected. Do you want to switch type?') == 'Yes') {
+            if ($this->askForConfirmation($input, $output, 'You entered string value while int expected. Do you want to switch type?') === 'Yes') {
                 $this->setItemsType(
                     $propertyName,
                     $this->getWidgetTypeOption($input, $output),
@@ -410,7 +410,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
      */
     protected function getFieldsetInput(InputInterface $input, OutputInterface $output): void
     {
-        if ($this->askForConfirmation($input, $output, 'Do you want to group the configurations?') == 'Yes') {
+        if ($this->askForConfirmation($input, $output, 'Do you want to group the configurations?') === 'Yes') {
             $fieldsetOptions = array_keys($this->properties);
 
             do {
@@ -418,7 +418,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
                     $this->askTextQuestion($input, $output, 'Please enter a group name: '),
                     $this->askMultipleChoiceQuestion($input, $output, 'Please select all fields that should be in this group', $fieldsetOptions, ''),
                 ));
-            } while ($fieldsetOptions && $this->askForConfirmation($input, $output, 'Do you want to add more group configurations?') == 'Yes');
+            } while ($fieldsetOptions && $this->askForConfirmation($input, $output, 'Do you want to add more group configurations?') === 'Yes');
         }
     }
 
