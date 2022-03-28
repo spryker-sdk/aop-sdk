@@ -222,7 +222,9 @@ class AppConfigurationCreateConsole extends AbstractConsole
      */
     protected function setIsRequired(string $propertyName, string $required): void
     {
-        $this->requiredFields[] = $propertyName;
+        if ($required == 'Yes') {
+            $this->requiredFields[] = $propertyName;
+        }
     }
 
     /**
