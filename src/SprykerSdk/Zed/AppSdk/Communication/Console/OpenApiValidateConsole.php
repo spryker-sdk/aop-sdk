@@ -33,7 +33,7 @@ class OpenApiValidateConsole extends AbstractConsole
     protected function configure(): void
     {
         $this->setName('openapi:validate')
-            ->setDescription('Validates the openapi files.')
+            ->setDescription('Validates an OpenAPI file.')
             ->addOption(static::OPEN_API_FILE, static::OPEN_API_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultOpenApiFile());
     }
 

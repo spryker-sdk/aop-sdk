@@ -134,7 +134,7 @@ interface AppSdkFacadeInterface
 
     /**
      * Specification:
-     * - Reads an AsyncAPI file and validates it.
+     * - Reads an OpenAPI file and validates it.
      *
      * @api
      *
