@@ -26,6 +26,8 @@ use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\ReadinessChecker;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\ReadinessCheckerInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoader;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoaderInterface;
+use SprykerSdk\Zed\AppSdk\Business\Translation\Builder\AppTranslationBuilder;
+use SprykerSdk\Zed\AppSdk\Business\Translation\Builder\AppTranslationBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\AsyncApiValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiMessageValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiOperationIdValidator;
@@ -288,5 +290,13 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     public function createOpenApiBuilder(): OpenApiBuilderInterface
     {
         return new OpenApiBuilder();
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\Translation\Builder\AppTranslationBuilderInterface
+     */
+    public function createAppTranslationBuilder(): AppTranslationBuilderInterface
+    {
+        return new AppTranslationBuilder();
     }
 }
