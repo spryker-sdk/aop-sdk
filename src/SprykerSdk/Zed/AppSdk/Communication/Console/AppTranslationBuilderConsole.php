@@ -20,9 +20,9 @@ use Symfony\Component\Console\Question\Question;
 class AppTranslationBuilderConsole extends AbstractConsole
 {
     /**
-     * @var array
+     * @var array<string, string>
      */
-    protected $translations = [];
+    protected array $translations = [];
 
     /**
      * @var string
@@ -40,7 +40,7 @@ class AppTranslationBuilderConsole extends AbstractConsole
     protected function configure(): void
     {
         $this->setName('app:translation:create')
-        ->setDescription('Create translation file.')
+        ->setDescription('Create a translation file.')
         ->addOption(static::TRANSLATION_FILE, static::TRANSLATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultAppTranslationFile());
     }
 
@@ -54,21 +54,21 @@ class AppTranslationBuilderConsole extends AbstractConsole
     {
         $appTranslationRequestTransfer = new AppTranslationRequestTransfer();
 
-        $appTranslationRequestTransfer->setConfigurationFile($input->getOption(static::TRANSLATION_FILE));
+        $appTranslationRequestTransfer->setTranslationFile($input->getOption(static::TRANSLATION_FILE));
 
         $this->getTranslationsInput($input, $output);
 
         $appTranslationRequestTransfer->setTranslations($this->translations);
 
-        $appConfigurationResponseTransfer = $this->getFacade()->appTranslationCreate($appTranslationRequestTransfer);
+        $appTranslationResponseTransfer = $this->getFacade()->appTranslationCreate($appTranslationRequestTransfer);
 
-        if ($appConfigurationResponseTransfer->getErrors()->count() === 0) {
+        if ($appTranslationResponseTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;
         }
 
         // @codeCoverageIgnoreStart
         if ($output->isVerbose()) {
-            foreach ($appConfigurationResponseTransfer->getErrors() as $error) {
+            foreach ($appTranslationResponseTransfer->getErrors() as $error) {
                 $output->writeln($error->getMessageOrFail());
             }
         }
@@ -105,7 +105,7 @@ class AppTranslationBuilderConsole extends AbstractConsole
                 $output,
                 $translationKey,
             );
-        } while ($this->askForConfirmation($input, $output, 'Do you want to add more translation?') == 'Yes');
+        } while ($this->askForConfirmation($input, $output, 'Do you want to add more translations?') == 'Yes');
     }
 
     /**
@@ -118,11 +118,11 @@ class AppTranslationBuilderConsole extends AbstractConsole
     protected function setLocale(InputInterface $input, OutputInterface $output, string $translationKey): void
     {
         do {
-            $localeName = $this->askTextQuestion($input, $output, 'Please enter Locale name: ');
-            $translationValue = $this->askTextQuestion($input, $output, 'Please enter translation value: ');
+            $localeName = $this->askTextQuestion($input, $output, 'Please enter a locale name: ');
+            $translationValue = $this->askTextQuestion($input, $output, 'Please enter a translation value: ');
 
             $this->translations[$translationKey][$localeName] = $translationValue;
-        } while ($this->askForConfirmation($input, $output, 'Do you want to add more Locale?') == 'Yes');
+        } while ($this->askForConfirmation($input, $output, 'Do you want to add more locales?') == 'Yes');
     }
 
     /**

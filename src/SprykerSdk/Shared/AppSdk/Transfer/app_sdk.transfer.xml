@@ -124,7 +124,7 @@
 
     <transfer name="AppTranslationRequest">
         <property name="translations" type="array"/>
-        <property name="configurationFile" type="string"/>
+        <property name="translationFile" type="string"/>
     </transfer>
 
     <transfer name="AppTranslationResponse">
