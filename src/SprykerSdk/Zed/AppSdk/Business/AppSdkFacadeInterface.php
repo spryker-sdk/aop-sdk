@@ -173,7 +173,7 @@ interface AppSdkFacadeInterface
 
     /**
      * Specification:
-     * - create a translation file.
+     * - Creates a translation file.
      *
      * @api
      *
