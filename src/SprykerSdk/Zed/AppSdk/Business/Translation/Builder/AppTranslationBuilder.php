@@ -22,7 +22,7 @@ class AppTranslationBuilder implements AppTranslationBuilderInterface
         $appTranslationResponseTransfer = new AppTranslationResponseTransfer();
 
         $this->writeToFile(
-            $appTranslationRequestTransfer->getConfigurationFileOrFail(),
+            $appTranslationRequestTransfer->getTranslationFileOrFail(),
             $appTranslationRequestTransfer->getTranslations(),
         );
 

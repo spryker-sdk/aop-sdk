@@ -20,7 +20,7 @@ use Symfony\Component\Console\Question\Question;
 class AppTranslationBuilderConsole extends AbstractConsole
 {
     /**
-     * @var array<string, string>
+     * @var array
      */
     protected array $translations = [];
 
@@ -121,7 +121,9 @@ class AppTranslationBuilderConsole extends AbstractConsole
             $localeName = $this->askTextQuestion($input, $output, 'Please enter a locale name: ');
             $translationValue = $this->askTextQuestion($input, $output, 'Please enter a translation value: ');
 
-            $this->translations[$translationKey][$localeName] = $translationValue;
+            if ($localeName !== null) {
+                $this->translations[$translationKey][$localeName] = $translationValue;
+            }
         } while ($this->askForConfirmation($input, $output, 'Do you want to add more locales?') == 'Yes');
     }
 
