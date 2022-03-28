@@ -36,6 +36,7 @@ use SprykerSdk\Zed\AppSdk\Business\Validator\Finder\FinderInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Manifest\ManifestValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Manifest\Validator\PagesFileValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Manifest\Validator\RequiredFieldsFileValidator;
+use SprykerSdk\Zed\AppSdk\Business\Validator\OpenApi\OpenApiValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Translation\TranslationValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Translation\Validator\TranslationFileValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Validator;
@@ -252,6 +253,17 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
             $this->createAsyncApiMessageValidator(),
             $this->createAsyncApiOperationIdValidator(),
         ];
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\Validator\OpenApi\OpenApiValidator
+     */
+    public function createOpenApiValidator(): OpenApiValidator
+    {
+        return new OpenApiValidator(
+            $this->getConfig(),
+            $this->createFinder(),
+        );
     }
 
     /**
