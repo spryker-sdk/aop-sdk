@@ -388,7 +388,18 @@ class AppConfigurationCreateConsole extends AbstractConsole
      */
     protected function checkWidgetOptionValueType(InputInterface $input, OutputInterface $output, string $propertyName, string $item): bool
     {
-        if (($this->properties[$propertyName]['type'] === 'Int' || (isset($this->properties[$propertyName]['itemsType']) && $this->properties[$propertyName]['itemsType'] === 'Int')) && !is_numeric($item)) {
+        if (($this->properties[$propertyName]['type'] === 'Int') && !is_numeric($item)) {
+            if ($this->askForConfirmation($input, $output, 'You entered string value while int expected. Do you want to switch type?') === 'Yes') {
+                $this->setWidgetType(
+                    $propertyName,
+                    $this->getWidgetTypeOption($input, $output),
+                );
+            }
+
+            return false;
+        }
+
+        if ((isset($this->properties[$propertyName]['itemsType']) && $this->properties[$propertyName]['itemsType'] === 'Int') && !is_numeric($item)) {
             if ($this->askForConfirmation($input, $output, 'You entered string value while int expected. Do you want to switch type?') === 'Yes') {
                 $this->setItemsType(
                     $propertyName,

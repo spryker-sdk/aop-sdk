@@ -18,7 +18,7 @@ class AppConfigurationValidatorHelper extends Module
     public function haveValidConfiguration(): void
     {
         $files = [
-            'configuration.json' => file_get_contents(codecept_data_dir('valid/configuration/configuration.json')),
+            'configuration.json' => file_get_contents(codecept_data_dir('app/configuration/configuration.json')),
         ];
 
         $this->prepareConfiguration($files);
