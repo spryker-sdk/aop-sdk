@@ -111,9 +111,9 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
      * @param string $targetFile
      * @param array $configurationFile
      *
-     * @return string|bool
+     * @return bool
      */
-    protected function writeToFile(string $targetFile, array $configurationFile)
+    protected function writeToFile(string $targetFile, array $configurationFile):bool
     {
         $dirname = dirname($targetFile);
 
@@ -121,6 +121,6 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
             mkdir($dirname, 0770, true);
         }
 
-        return file_put_contents($targetFile, json_encode($configurationFile, JSON_PRETTY_PRINT));
+        return (bool)file_put_contents($targetFile, json_encode($configurationFile, JSON_PRETTY_PRINT));
     }
 }

@@ -38,9 +38,9 @@ class AppTranslationBuilder implements AppTranslationBuilderInterface
      * @param string $targetFile
      * @param array $translations
      *
-     * @return string|bool
+     * @return bool
      */
-    protected function writeToFile(string $targetFile, array $translations)
+    protected function writeToFile(string $targetFile, array $translations): bool
     {
         $dirname = dirname($targetFile);
 
@@ -48,6 +48,6 @@ class AppTranslationBuilder implements AppTranslationBuilderInterface
             mkdir($dirname, 0770, true);
         }
 
-        return file_put_contents($targetFile, json_encode($translations, JSON_PRETTY_PRINT));
+        return (bool)file_put_contents($targetFile, json_encode($translations, JSON_PRETTY_PRINT));
     }
 }
