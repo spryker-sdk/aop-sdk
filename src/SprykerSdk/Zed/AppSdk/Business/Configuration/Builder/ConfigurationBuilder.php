@@ -26,9 +26,9 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
             $this->writeToFile(
                 $appConfigurationRequestTransfer->getConfigurationFileOrFail(),
                 [
-                'properties' => $this->getFormattedProperties($appConfigurationRequestTransfer),
-                'fieldsets' => $this->getFormattedFieldsets($appConfigurationRequestTransfer),
-                'required' => $appConfigurationRequestTransfer->getRequired(),
+                    'properties' => $this->getFormattedProperties($appConfigurationRequestTransfer),
+                    'fieldsets' => $this->getFormattedFieldsets($appConfigurationRequestTransfer),
+                    'required' => $appConfigurationRequestTransfer->getRequired(),
                 ],
             ) === false
         ) {
