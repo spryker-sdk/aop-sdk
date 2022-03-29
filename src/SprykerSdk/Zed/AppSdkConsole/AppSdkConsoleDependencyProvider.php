@@ -12,6 +12,7 @@ use Spryker\Zed\Kernel\Container;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AppConfigurationCreateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AppConfigurationValidateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AppManifestValidateConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppTranslationBuilderConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AppTranslationValidateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AsyncApiCreateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AsyncApiMessageAddConsole;
@@ -48,6 +49,7 @@ class AppSdkConsoleDependencyProvider extends SprykerConsoleDependencyProvider
             new BuildCodeFromAsyncApiConsole(),
             new CreateManifestConsole(),
             new OpenApiCreateConsole(),
+            new AppTranslationBuilderConsole(),
             new OpenApiValidateConsole(),
         ];
     }
