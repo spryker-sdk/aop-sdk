@@ -53,7 +53,7 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
             $properties[$name] = ['type' => strtolower($property['type'])];
             $properties[$name]['widget']['id'] = strtolower($property['widget']);
 
-            if ($property['widget'] == 'Text') {
+            if ($property['widget'] === 'Text') {
                 $properties[$name]['placeholder'] = $name;
                 $properties[$name]['widget']['id'] = 'textline';
             }
