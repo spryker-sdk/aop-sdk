@@ -18,6 +18,7 @@ suites:
         modules:
             enabled:
                 - \SprykerSdkTest\Helper\CommandHelper
+                - \SprykerSdkTest\Helper\AppConfigurationCreateHelper
                 - \SprykerSdkTest\Helper\AppConfigurationValidatorHelper
                 - \SprykerSdkTest\Helper\AppManifestValidatorHelper
                 - \SprykerSdkTest\Helper\AppAsyncApiValidatorHelper

@@ -63,6 +63,11 @@ class AppTranslationBuilderConsole extends AbstractConsole
         $appTranslationResponseTransfer = $this->getFacade()->appTranslationCreate($appTranslationRequestTransfer);
 
         if ($appTranslationResponseTransfer->getErrors()->count() === 0) {
+            $output->writeln([
+                '',
+                'Translation file written to ' . $appTranslationRequestTransfer->getTranslationFile() . ' successfully',
+            ]);
+
             return static::CODE_SUCCESS;
         }
 

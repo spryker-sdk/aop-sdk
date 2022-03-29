@@ -9,6 +9,7 @@ namespace SprykerSdk\Zed\AppSdk\Business\Translation\Builder;
 
 use Generated\Shared\Transfer\AppTranslationRequestTransfer;
 use Generated\Shared\Transfer\AppTranslationResponseTransfer;
+use Generated\Shared\Transfer\MessageTransfer;
 
 class AppTranslationBuilder implements AppTranslationBuilderInterface
 {
@@ -21,10 +22,14 @@ class AppTranslationBuilder implements AppTranslationBuilderInterface
     {
         $appTranslationResponseTransfer = new AppTranslationResponseTransfer();
 
-        $this->writeToFile(
-            $appTranslationRequestTransfer->getTranslationFileOrFail(),
-            $appTranslationRequestTransfer->getTranslations(),
-        );
+        if (
+            $this->writeToFile(
+                $appTranslationRequestTransfer->getTranslationFileOrFail(),
+                $appTranslationRequestTransfer->getTranslations(),
+            ) === false
+        ) {
+            $appTranslationResponseTransfer->addError((new MessageTransfer())->setMessage(sprintf('Failed to write translation file to "%s".', $appTranslationRequestTransfer->getTranslationFileOrFail())));
+        }
 
         return $appTranslationResponseTransfer;
     }
@@ -33,9 +38,9 @@ class AppTranslationBuilder implements AppTranslationBuilderInterface
      * @param string $targetFile
      * @param array $translations
      *
-     * @return void
+     * @return bool
      */
-    protected function writeToFile(string $targetFile, array $translations): void
+    protected function writeToFile(string $targetFile, array $translations): bool
     {
         $dirname = dirname($targetFile);
 
@@ -43,6 +48,6 @@ class AppTranslationBuilder implements AppTranslationBuilderInterface
             mkdir($dirname, 0770, true);
         }
 
-        file_put_contents($targetFile, json_encode($translations, JSON_PRETTY_PRINT));
+        return (bool)file_put_contents($targetFile, json_encode($translations, JSON_PRETTY_PRINT));
     }
 }

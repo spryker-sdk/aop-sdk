@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business;
 
+use Generated\Shared\Transfer\AppConfigurationRequestTransfer;
+use Generated\Shared\Transfer\AppConfigurationResponseTransfer;
 use Generated\Shared\Transfer\AppTranslationRequestTransfer;
 use Generated\Shared\Transfer\AppTranslationResponseTransfer;
 use Generated\Shared\Transfer\AsyncApiRequestTransfer;
@@ -206,5 +208,19 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
     public function appTranslationCreate(AppTranslationRequestTransfer $appTranslationRequestTransfer): AppTranslationResponseTransfer
     {
         return $this->getFactory()->createAppTranslationBuilder()->appTranslationCreate($appTranslationRequestTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer
+     */
+    public function appConfigurationCreate(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): AppConfigurationResponseTransfer
+    {
+        return $this->getFactory()->createConfigurationBuilder()->appConfigurationCreate($appConfigurationRequestTransfer);
     }
 }

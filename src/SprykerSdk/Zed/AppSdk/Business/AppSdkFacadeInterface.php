@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business;
 
+use Generated\Shared\Transfer\AppConfigurationRequestTransfer;
+use Generated\Shared\Transfer\AppConfigurationResponseTransfer;
 use Generated\Shared\Transfer\AppTranslationRequestTransfer;
 use Generated\Shared\Transfer\AppTranslationResponseTransfer;
 use Generated\Shared\Transfer\AsyncApiRequestTransfer;
@@ -125,14 +127,17 @@ interface AppSdkFacadeInterface
     /**
      * Specification:
      * - Reads an AsyncAPI file and validates it.
+     * - Validates that an AsyncAPI file contains at least one message.
+     * - Validates that an AsyncAPI file does not contain duplicated messages.
+     * - Validates that all messages in the AsyncAPI file have an operationId.
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $asyncApiRequestTransfer
+     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateAsyncApi(ValidateRequestTransfer $asyncApiRequestTransfer): ValidateResponseTransfer;
+    public function validateAsyncApi(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
 
     /**
      * Specification:
@@ -170,6 +175,18 @@ interface AppSdkFacadeInterface
      * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
      */
     public function createOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer;
+
+    /**
+     * Specification:
+     * - Adds a Configuration file.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer
+     */
+    public function appConfigurationCreate(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): AppConfigurationResponseTransfer;
 
     /**
      * Specification:
