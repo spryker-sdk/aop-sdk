@@ -127,10 +127,9 @@ interface AppSdkFacadeInterface
     /**
      * Specification:
      * - Reads an AsyncAPI file and validates it.
-     * - Validate schema of AsyncAPI file.
-     * - Check if AsyncAPI file contains message
-     * - Check if AsyncAPI contains duplicate message
-     * - Check if AsyncAPI contains message with missing operationId
+     * - Validates that an AsyncAPI file contains at least one message.
+     * - Validates that an AsyncAPI file does not contain duplicated messages.
+     * - Validates that all messages in the AsyncAPI file have an operationId.
      *
      * @api
      *
