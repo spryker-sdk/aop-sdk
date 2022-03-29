@@ -28,7 +28,7 @@ class AppTranslationBuilder implements AppTranslationBuilderInterface
                 $appTranslationRequestTransfer->getTranslations(),
             ) === false
         ) {
-            $appTranslationResponseTransfer->addError((new MessageTransfer())->setMessage(sprintf('Translation file has been failed to write on "%s".', $appTranslationResponseTransfer->getTranslationFileOrFail())));
+            $appTranslationResponseTransfer->addError((new MessageTransfer())->setMessage(sprintf('Translation file has been failed to write on "%s".', $appTranslationRequestTransfer->getTranslationFileOrFail())));
         }
 
         return $appTranslationResponseTransfer;
