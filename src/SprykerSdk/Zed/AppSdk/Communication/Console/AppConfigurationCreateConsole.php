@@ -90,6 +90,11 @@ class AppConfigurationCreateConsole extends AbstractConsole
         $appConfigurationResponseTransfer = $this->getFacade()->appConfigurationCreate($appConfigurationRequestTransfer);
 
         if ($appConfigurationResponseTransfer->getErrors()->count() === 0) {
+            $output->writeln([
+                '',
+                'Configuration file written to ' . $appConfigurationRequestTransfer->getConfigurationFile() . ' successfully',
+            ]);
+
             return static::CODE_SUCCESS;
         }
 

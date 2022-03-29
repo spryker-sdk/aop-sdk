@@ -8,7 +8,6 @@
 namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AppConfigurationCreateConsole;
 
 /**
@@ -79,10 +78,10 @@ class AppConfigurationCreateConsoleTest extends Unit
 
         // Act
         $commandTester->execute([
-            '--' . AppConfigurationCreateConsole::CONFIGURATION_FILE => 'tests/_data/app/configuration/configuration.json',
+            '--' . AppConfigurationCreateConsole::CONFIGURATION_FILE => $this->tester->getRootUrl() . '/app/configuration/configuration.json',
         ]);
 
         // Assert
-        $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
+        $this->assertFileEquals(codecept_data_dir('valid/configuration/console-test-configuration.json'), $this->tester->getRootUrl() . '/app/configuration/configuration.json');
     }
 }

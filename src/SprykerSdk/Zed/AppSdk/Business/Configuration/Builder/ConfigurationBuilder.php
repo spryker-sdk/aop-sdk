@@ -9,6 +9,7 @@ namespace SprykerSdk\Zed\AppSdk\Business\Configuration\Builder;
 
 use Generated\Shared\Transfer\AppConfigurationRequestTransfer;
 use Generated\Shared\Transfer\AppConfigurationResponseTransfer;
+use Generated\Shared\Transfer\MessageTransfer;
 
 class ConfigurationBuilder implements ConfigurationBuilderInterface
 {
@@ -21,14 +22,18 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
     {
         $appConfigurationResponseTransfer = new AppConfigurationResponseTransfer();
 
-        $this->writeToFile(
-            $appConfigurationRequestTransfer->getConfigurationFileOrFail(),
-            [
+        if (
+            $this->writeToFile(
+                $appConfigurationRequestTransfer->getConfigurationFileOrFail(),
+                [
                 'properties' => $this->getFormattedProperties($appConfigurationRequestTransfer),
                 'fieldsets' => $this->getFormattedFieldsets($appConfigurationRequestTransfer),
                 'required' => $appConfigurationRequestTransfer->getRequired(),
-            ],
-        );
+                ],
+            ) === false
+        ) {
+            $appConfigurationResponseTransfer->addError((new MessageTransfer())->setMessage(sprintf('Configuration file has been failed to write on "%s".', $appConfigurationRequestTransfer->getConfigurationFileOrFail())));
+        }
 
         return $appConfigurationResponseTransfer;
     }
@@ -106,9 +111,9 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
      * @param string $targetFile
      * @param array $configurationFile
      *
-     * @return void
+     * @return string|bool
      */
-    protected function writeToFile(string $targetFile, array $configurationFile): void
+    protected function writeToFile(string $targetFile, array $configurationFile)
     {
         $dirname = dirname($targetFile);
 
@@ -116,6 +121,6 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
             mkdir($dirname, 0770, true);
         }
 
-        file_put_contents($targetFile, json_encode($configurationFile, JSON_PRETTY_PRINT));
+        return file_put_contents($targetFile, json_encode($configurationFile, JSON_PRETTY_PRINT));
     }
 }
