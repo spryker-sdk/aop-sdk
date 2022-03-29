@@ -113,7 +113,7 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
      *
      * @return bool
      */
-    protected function writeToFile(string $targetFile, array $configurationFile):bool
+    protected function writeToFile(string $targetFile, array $configurationFile): bool
     {
         $dirname = dirname($targetFile);
 
