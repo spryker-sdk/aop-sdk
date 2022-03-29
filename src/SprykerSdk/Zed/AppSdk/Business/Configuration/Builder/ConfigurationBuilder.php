@@ -32,7 +32,7 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
                 ],
             ) === false
         ) {
-            $appConfigurationResponseTransfer->addError((new MessageTransfer())->setMessage(sprintf('Configuration file has been failed to write on "%s".', $appConfigurationRequestTransfer->getConfigurationFileOrFail())));
+            $appConfigurationResponseTransfer->addError((new MessageTransfer())->setMessage(sprintf('Failed to write the configuration file to "%s".', $appConfigurationRequestTransfer->getConfigurationFileOrFail())));
         }
 
         return $appConfigurationResponseTransfer;
