@@ -74,7 +74,7 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
                 }
             }
 
-            if ($property['widget'] == 'Radio') {
+            if ($property['widget'] === 'Radio') {
                 foreach ($property['items'] as $item) {
                     $properties[$name]['oneOf'][] = [
                         'description' => $item,
