@@ -178,7 +178,7 @@ interface AppSdkFacadeInterface
 
     /**
      * Specification:
-     * - Adds Configuration file.
+     * - Adds a Configuration file.
      *
      * @api
      *
