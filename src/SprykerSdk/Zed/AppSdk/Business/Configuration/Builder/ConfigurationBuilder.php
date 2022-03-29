@@ -62,7 +62,7 @@ class ConfigurationBuilder implements ConfigurationBuilderInterface
                 $properties[$name]['isRequired'] = true;
             }
 
-            if ($property['widget'] == 'Checkbox') {
+            if ($property['widget'] === 'Checkbox') {
                 $properties[$name]['items']['type'] = strtolower($property['itemsType']);
                 $properties[$name]['items']['widget']['id'] = strtolower($property['itemsType']);
 
