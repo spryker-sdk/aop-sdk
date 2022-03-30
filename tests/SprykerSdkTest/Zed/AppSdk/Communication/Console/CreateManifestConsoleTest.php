@@ -35,7 +35,14 @@ class CreateManifestConsoleTest extends Unit
         $commandTester = $this->tester->getConsoleTester(new CreateManifestConsole());
 
         // Act
-        $commandTester->execute([CreateManifestConsole::MANIFEST_NAME => 'Manifest', CreateManifestConsole::MANIFEST_LOCALE => 'en_DE', '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => codecept_data_dir('app/manifest/')], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+        $commandTester->execute(
+            [
+                CreateManifestConsole::MANIFEST_NAME => 'Manifest',
+                CreateManifestConsole::MANIFEST_LOCALE => 'en_DE',
+                '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => codecept_data_dir('app/manifest/'),
+            ],
+            ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
+        );
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
@@ -49,7 +56,14 @@ class CreateManifestConsoleTest extends Unit
         $commandTester = $this->tester->getConsoleTester(new CreateManifestConsole());
 
         // Act
-        $commandTester->execute([CreateManifestConsole::MANIFEST_NAME => 'Manifest', CreateManifestConsole::MANIFEST_LOCALE => 'en_DE', '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => codecept_data_dir('app/manifest/')], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+        $commandTester->execute(
+            [
+                CreateManifestConsole::MANIFEST_NAME => 'Manifest',
+                CreateManifestConsole::MANIFEST_LOCALE => 'en_DE',
+                '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => codecept_data_dir('app/manifest/'),
+            ],
+            ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
+        );
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
