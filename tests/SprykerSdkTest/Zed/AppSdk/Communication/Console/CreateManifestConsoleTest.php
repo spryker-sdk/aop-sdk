@@ -50,7 +50,7 @@ class CreateManifestConsoleTest extends Unit
 
         // Act
         $commandTester->execute([CreateManifestConsole::MANIFEST_NAME => 'Manifest', '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => codecept_data_dir('invalid/manifest/en_IN.json')], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
-        
+
         // Assert
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
     }
