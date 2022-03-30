@@ -35,23 +35,24 @@ class CreateManifestConsoleTest extends Unit
         $commandTester = $this->tester->getConsoleTester(new CreateManifestConsole());
 
         // Act
-        $commandTester->execute([CreateManifestConsole::MANIFEST_NAME => 'Manifest', '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => 'config/example/en_US.json'], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+        $commandTester->execute([CreateManifestConsole::MANIFEST_NAME => 'Manifest', CreateManifestConsole::MANIFEST_LOCALE => 'en_DE', '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => codecept_data_dir('app/manifest/')], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
     }
 
-        /**
-         * @return void
-         */
+    /**
+     * @return void
+     */
     public function testCreateManifestConsoleWithFileExists(): void
     {
         $commandTester = $this->tester->getConsoleTester(new CreateManifestConsole());
 
         // Act
-        $commandTester->execute([CreateManifestConsole::MANIFEST_NAME => 'Manifest', '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => codecept_data_dir('invalid/manifest/en_IN.json')], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+        $commandTester->execute([CreateManifestConsole::MANIFEST_NAME => 'Manifest', CreateManifestConsole::MANIFEST_LOCALE => 'en_DE', '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => codecept_data_dir('app/manifest/')], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
 
         // Assert
-        $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+        $this->assertStringContainsString('File "' . codecept_data_dir('app/manifest/') . 'en_DE.json" already exists.', trim($commandTester->getDisplay()));
     }
 }

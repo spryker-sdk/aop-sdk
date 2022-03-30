@@ -48,7 +48,7 @@ class CreateManifestConsole extends AbstractConsole
             ->setDescription('Adds a Manifest file to the manifest path.')
             ->addArgument(static::MANIFEST_NAME, InputArgument::REQUIRED, 'The name of the Manifest.')
             ->addArgument(static::MANIFEST_LOCALE, InputOption::VALUE_REQUIRED, 'A valid locale e.g.: en_US', 'en_US')
-            ->addOption(static::OPTION_MANIFEST_PATH, static::OPTION_MANIFEST_PATH_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultManifestPath());
+            ->addOption(static::OPTION_MANIFEST_PATH, static::OPTION_MANIFEST_PATH_SHORT, InputOption::VALUE_REQUIRED, '');
     }
 
     /**
@@ -66,7 +66,7 @@ class CreateManifestConsole extends AbstractConsole
 
         $manifestRequestTransfer = new ManifestRequestTransfer();
 
-        $targetManifestPath = $input->getOption(static::OPTION_MANIFEST_PATH);
+        $targetManifestPath = $input->getOption(static::OPTION_MANIFEST_PATH) ?? $this->getConfig()->getDefaultManifestPath();
 
         $manifestRequestTransfer
             ->setManifest($manifestTransfer)
