@@ -40,4 +40,18 @@ class CreateManifestConsoleTest extends Unit
         // Assert
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
     }
+
+        /**
+         * @return void
+         */
+    public function testCreateManifestConsoleWithFileExists(): void
+    {
+        $commandTester = $this->tester->getConsoleTester(new CreateManifestConsole());
+
+        // Act
+        $commandTester->execute([CreateManifestConsole::MANIFEST_NAME => 'Manifest', '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => codecept_data_dir('invalid/manifest/en_IN.json')], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+    }
 }
