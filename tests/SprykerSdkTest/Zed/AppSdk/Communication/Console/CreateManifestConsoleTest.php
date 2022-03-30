@@ -9,7 +9,7 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\CreateManifestConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppManifestCreateConsole;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -32,10 +32,10 @@ class CreateManifestConsoleTest extends Unit
      */
     public function testCreateManifestConsole(): void
     {
-        $commandTester = $this->tester->getConsoleTester(new CreateManifestConsole());
+        $commandTester = $this->tester->getConsoleTester(new AppManifestCreateConsole());
 
         // Act
-        $commandTester->execute([CreateManifestConsole::MANIFEST_NAME => 'Manifest', '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => 'config/example/en_US.json'], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+        $commandTester->execute([AppManifestCreateConsole::MANIFEST_NAME => 'Manifest', '--' . AppManifestCreateConsole::OPTION_MANIFEST_PATH => 'config/example/en_US.json'], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());

@@ -29,7 +29,7 @@ class AppManifestValidatorFacadeTest extends Unit
         $this->tester->haveValidManifestFile();
 
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateManifest(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppManifest(
             $this->tester->haveValidateRequest(),
         );
 
@@ -50,7 +50,7 @@ class AppManifestValidatorFacadeTest extends Unit
         $this->tester->haveManifestFileWithMissingRequiredFields();
 
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateManifest(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppManifest(
             $this->tester->haveValidateRequest(),
         );
 
@@ -68,7 +68,7 @@ class AppManifestValidatorFacadeTest extends Unit
         $this->tester->haveManifestFileWithMissingRequiredFieldsInPageBlock();
 
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateManifest(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppManifest(
             $this->tester->haveValidateRequest(),
         );
 
@@ -86,7 +86,7 @@ class AppManifestValidatorFacadeTest extends Unit
         $this->tester->haveManifestFileWithInvalidPageBlockType();
 
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateManifest(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppManifest(
             $this->tester->haveValidateRequest(),
         );
 
@@ -101,7 +101,7 @@ class AppManifestValidatorFacadeTest extends Unit
     public function testValidateManifestReturnsFailedResponseWhenFilesNotFound(): void
     {
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateManifest(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppManifest(
             $this->tester->haveValidateRequest(),
         );
 
@@ -121,7 +121,7 @@ class AppManifestValidatorFacadeTest extends Unit
         $this->tester->haveInvalidManifestFile();
 
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateManifest(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppManifest(
             $this->tester->haveValidateRequest(),
         );
 

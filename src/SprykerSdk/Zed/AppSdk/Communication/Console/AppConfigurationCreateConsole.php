@@ -63,7 +63,6 @@ class AppConfigurationCreateConsole extends AbstractConsole
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $appConfigurationRequestTransfer = new AppConfigurationRequestTransfer();
-
         $appConfigurationRequestTransfer->setConfigurationFile($input->getOption(static::CONFIGURATION_FILE));
 
         $output->writeln([
@@ -78,22 +77,19 @@ class AppConfigurationCreateConsole extends AbstractConsole
         ]);
 
         $this->getPropertiesInput($input, $output);
-
         $this->getFieldsetInput($input, $output);
 
-        $appConfigurationRequestTransfer->setProperties($this->properties);
+        $appConfigurationRequestTransfer
+            ->setProperties($this->properties)
+            ->setRequired($this->requiredFields)
+            ->setFieldsets($this->fieldsets);
 
-        $appConfigurationRequestTransfer->setRequired($this->requiredFields);
-
-        $appConfigurationRequestTransfer->setFieldsets($this->fieldsets);
-
-        $appConfigurationResponseTransfer = $this->getFacade()->appConfigurationCreate($appConfigurationRequestTransfer);
+        $appConfigurationResponseTransfer = $this->getFacade()->createAppConfiguration($appConfigurationRequestTransfer);
 
         if ($appConfigurationResponseTransfer->getErrors()->count() === 0) {
-            $output->writeln([
-                '',
-                'Configuration file written to ' . $appConfigurationRequestTransfer->getConfigurationFile() . ' successfully',
-            ]);
+            $output->writeln(
+                sprintf('Configuration file written to %s', $appConfigurationRequestTransfer->getConfigurationFile()),
+            );
 
             return static::CODE_SUCCESS;
         }

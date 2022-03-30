@@ -18,7 +18,7 @@ class AppTranslationBuilder implements AppTranslationBuilderInterface
      *
      * @return \Generated\Shared\Transfer\AppTranslationResponseTransfer
      */
-    public function appTranslationCreate(AppTranslationRequestTransfer $appTranslationRequestTransfer): AppTranslationResponseTransfer
+    public function createTranslation(AppTranslationRequestTransfer $appTranslationRequestTransfer): AppTranslationResponseTransfer
     {
         $appTranslationResponseTransfer = new AppTranslationResponseTransfer();
 
