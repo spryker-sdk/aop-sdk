@@ -25,6 +25,14 @@ class ManifestBuilder implements ManifestBuilderInterface
         $targetFilePath = $manifestRequestTransfer->getManifestPathOrFail();
         $locale = $manifestRequestTransfer->getManifestOrFail()->getLocaleNameOrFail();
 
+        $targetFile = $targetFilePath . $locale . '.json';
+
+        if (file_exists($targetFile)) {
+            $manifestResponseTransfer->addError((new MessageTransfer())->setMessage(sprintf('File "%s" already exists.', $targetFile)));
+
+            return $manifestResponseTransfer;
+        }
+
         if ($this->isLocaleIsValid($locale) === false) {
             $messageTransfer = new MessageTransfer();
             $messageTransfer->setMessage('You have to enter a valid locale, example: en_US');
@@ -33,8 +41,6 @@ class ManifestBuilder implements ManifestBuilderInterface
 
             return $manifestResponseTransfer;
         }
-
-        $targetFile = $targetFilePath . $locale . '.json';
 
         $manifest = $this->getManifest($manifestRequestTransfer);
 
