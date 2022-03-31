@@ -110,6 +110,7 @@
     <transfer name="OpenApiRequest">
         <property name="targetFile" type="string"/>
         <property name="openApi" type="OpenApi"/>
+        <property name="organization" type="string"/>
     </transfer>
 
     <transfer name="OpenApi">
