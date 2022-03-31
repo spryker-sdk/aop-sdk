@@ -13,6 +13,7 @@ use Generated\Shared\Transfer\OpenApiResponseTransfer;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
 use Symfony\Component\Process\Process;
 use OpenAPI\Parser;
+use OpenAPI\Schema\V3\OpenAPI;
 
 class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
 {
@@ -42,8 +43,9 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     public function build(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer
     {
         $openApiResponseTransfer = new OpenApiResponseTransfer();
-        $this->load($openApiRequestTransfer->getTargetFileOrFail());
+        $openApi = $this->load($openApiRequestTransfer->getTargetFileOrFail());
 
+        dd($openApi);
         $organization = $openApiRequestTransfer->getOrganizationOrFail();
 
         if ($organization === 'Spryker') {
@@ -64,14 +66,11 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     /**
      * @param string $openApiFilePath
      *
-     * @return void
+     * @return \OpenAPI\Schema\V3\OpenAPI
      */
-    public function load(string $openApiFilePath): void
+    public function load(string $openApiFilePath): OpenAPI
     {
-        $OpenAPI = Parser::parse($openApiFilePath);
-
-        dd($OpenAPI);
-        // return $openApiResponseTransfer;
+        return Parser::parse($openApiFilePath);
     }
 
     /**

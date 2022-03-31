@@ -1,4 +1,642 @@
 openapi: 3.0.0
 info:
-    title: baseOpenApi
-    version: 0.1.0
+    title: 'App Tenant Registry Service (ATRS)'
+    description: 'The App Tenant Registry Service is capable of managing Apps, Tenants and connection and configureation between them.'
+    version: 0.2.3
+
+servers:
+    - url: https://glue.trs.demo-spryker.com
+      description: 'Main (production) server'
+    - url: https://glue.trs-staging.demo-spryker.com
+      description: 'Internal staging server for testing'
+    - url: http://glue.registry.spryker.local
+      description: 'Internal development server'
+
+paths:
+    /apps:
+        post:
+            summary: 'Registers an App within the Registry service'
+
+            requestBody:
+                description: 'Contains all required data to register an App within the Registry service.'
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AppRegistrationUpdateRequest'
+            responses:
+                201:
+                    description: 'App is registered.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AppRegistrationResponse'
+                400:
+                    description: 'Invalid request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+                default:
+                    description: 'Expected response to a bad request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+
+        get:
+            summary: 'Lists all available apps for a given locale.'
+            parameters:
+                - name: Accept-Language
+                  in: header
+                  description: 'Locale to be used to get the localised details.'
+                  example: 'en'
+                  schema:
+                      type: string
+                - name: x-tenant-id
+                  in: header
+                  required: true
+                  description: 'Tenant ID'
+                  example: 'tenantUuid'
+                  schema:
+                      type: string
+                - $ref: '#/components/parameters/IncludeTenantApp'
+            responses:
+                200:
+                    description: 'Expected response to a valid request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestAppsCollectionResponse'
+                400:
+                    description: 'Invalid request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+                default:
+                    description: 'Expected response to a bad request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+    /apps/{appId}:
+        get:
+            summary: 'Expose the details of a single app.'
+            parameters:
+                - name: appId
+                  in: path
+                  required: true
+                  description: 'UUID of the app.'
+                  example: 'UUID_app123'
+                  schema:
+                      type: string
+                - name: Accept-Language
+                  in: header
+                  description: 'Locale to be used to get the Localised details.'
+                  example: 'en'
+                  schema:
+                      type: string
+                - name: x-tenant-id
+                  in: header
+                  required: true
+                  description: 'Tenant ID'
+                  example: 'tenantUuid'
+                  schema:
+                      type: string
+                - $ref: '#/components/parameters/IncludeTenantApp'
+            responses:
+                200:
+                    description: 'Expected response to a valid request'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestAppsDetailResponse'
+
+                400:
+                    description: 'Invalid request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+                404:
+                    description: 'Resource not found.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+
+                default:
+                    description: 'Expected response to a bad request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+
+        patch:
+            summary: 'Updates App registry information'
+            parameters:
+                -   name: appId
+                    in: path
+                    required: true
+                    description: 'UUID of the app.'
+                    example: 'UUID_app123'
+                    schema:
+                        type: string
+
+            requestBody:
+                description: 'Contains all required data to register an App within the Registry service.'
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AppRegistrationUpdateRequest'
+            responses:
+                204:
+                    description: 'App is updated.'
+                404:
+                    description: 'Resource not found.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+
+                400:
+                    description: 'Invalid request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+                default:
+                    description: 'Expected response to a bad request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+
+
+    /users/{userid}/address:
+        parameters:
+            - name: userid
+              in: path
+              required: true
+              description: the user identifier, as userId
+              schema:
+                  type: string
+        # linked operation
+        get:
+            operationId: getUserAddress
+            responses:
+                '200':
+                    description: the user's address
+
+    /apps/{appId}/connect:
+        post:
+            summary: 'Posts a connect request'
+            parameters:
+                - name: appId
+                  in: path
+                  required: true
+                  description: 'UUID of the app.'
+                  example: 'UUID_app123'
+                  schema:
+                      type: string
+                - name: x-tenant-id
+                  in: header
+                  required: true
+                  description: 'Tenant ID'
+                  example: 'tenantUuid'
+                  schema:
+                      type: string
+                - name: Accept-Language
+                  in: header
+                  description: 'Locale to be used to get the Localised details.'
+                  example: 'en'
+                  schema:
+                      type: string
+
+            responses:
+                200:
+                    description: 'Expected response to a valid request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestAppsConnectDisconnectResponse'
+                400:
+                    description: 'Invalid request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessages'
+                default:
+                    description: 'Expected response to a bad request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+
+    /apps/{appId}/disconnect:
+        post:
+            summary: 'Posts a disconnect request'
+            parameters:
+                - name: appId
+                  in: path
+                  required: true
+                  description: 'UUID of the app.'
+                  example: 'UUID_app123'
+                  schema:
+                      type: string
+                - name: x-tenant-id
+                  in: header
+                  required: true
+                  description: 'Tenant ID'
+                  example: 'tenantUuid'
+                  schema:
+                      type: string
+                - name: Accept-Language
+                  in: header
+                  description: 'Locale to be used to get the Localised details.'
+                  example: 'en'
+                  schema:
+                      type: string
+
+            responses:
+                200:
+                    description: 'Expected response to a valid request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestAppsConnectDisconnectResponse'
+                400:
+                    description: 'Invalid request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessages'
+                default:
+                    description: 'Expected response to a bad request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+
+    /apps/{appId}/configuration:
+        get:
+            summary: 'Gets the configuration for the App.'
+            parameters:
+                - name: appId
+                  in: path
+                  required: true
+                  description: 'UUID of the app.'
+                  example: 'UUID_app123'
+                  schema:
+                      type: string
+                - name: x-tenant-id
+                  in: header
+                  required: true
+                  description: 'UUID of the tenant.'
+                  example: 'UUID_tenant123'
+                  schema:
+                      type: string
+                - name: Accept-Language
+                  in: header
+                  description: 'Locale to be used to get the Localised details.'
+                  example: 'en'
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: 'Expected response to a valid request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestAppsConfigurationResponse'
+                400:
+                    description: 'Invalid request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestConfigurationErrorMessage'
+                404:
+                    description: 'Resource not found.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+                default:
+                    description: 'Expected response to a bad request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+
+        post:
+            summary: 'Posts the configuration for the App.'
+            parameters:
+                - name: appId
+                  in: path
+                  required: true
+                  description: 'UUID of the app.'
+                  example: 'UUID_app123'
+                  schema:
+                      type: string
+                - name: x-tenant-id
+                  in: header
+                  required: true
+                  description: 'UUID of the tenant.'
+                  example: 'UUID_tenant123'
+                  schema:
+                      type: string
+                - name: Accept-Language
+                  in: header
+                  description: 'Locale to be used to get the Localised details.'
+                  example: 'en'
+                  schema:
+                      type: string
+            requestBody:
+                description: 'Used to configure an App for a Tenant.'
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RestAppCofigurationRequest'
+            responses:
+                200:
+                    description: 'Expected response to a valid request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestAppsConfigurationResponse'
+                400:
+                    description: 'Invalid request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestConfigurationErrorMessage'
+                default:
+                    description: 'Expected response to a bad request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+
+###
+# Components
+###
+components:
+    schemas:
+        AppRegistrationUpdateRequest:
+            properties:
+                data:
+                    $ref: '#/components/schemas/AppRegistrationUpdateRequestAttributes'
+
+        AppRegistrationUpdateRequestAttributes:
+            properties:
+                type:
+                    type: string
+                    example: 'apps'
+
+                attributes:
+                    $ref: '#/components/schemas/AppRegistrationUpdateRequestAttributesData'
+
+        AppRegistrationUpdateRequestAttributesData:
+            properties:
+                api:
+                    type: string
+                    example: '{
+                        "connect": "https://some-url",
+                        "disconnect": "https://some-url",
+                        "configuration": "https://some-url"
+                    }'
+                manifest:
+                    type: string
+                    example: '{
+                        "en_US", {},
+                        "de_DE", {},
+                        }'
+                configuration:
+                    type: string
+                    example: '{"type": "object", "title": "title", "description": "description", "properties": {"username": {"type": "string","title": "username"}}}'
+                translation:
+                    type: string
+                    example: '{"username": {"de_DE": "Benutzername","en_US": "Username"}}'
+            required:
+                - manifest
+
+        AppRegistrationResponse:
+            properties:
+                data:
+                    $ref: '#/components/schemas/AppRegistrationResponseData'
+
+        AppRegistrationResponseData:
+            properties:
+                type:
+                    type: string
+                    example: 'apps'
+                id:
+                    type: string
+                    example: 'UUID_app123'
+
+
+        ConnectionStatus:
+            type: string
+            enum: ['not connected', 'disconnected', 'connection pending', 'waiting for configuration', 'connected']
+        ### Apps ###
+        RestAppsCollectionResponse:
+            properties:
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/RestAppsCollectionResponseData'
+                included:
+                    $ref: '#/components/schemas/RestTenantAppIncluded'
+        RestAppsCollectionResponseData:
+            properties:
+                type:
+                    type: string
+                    example: 'apps'
+                id:
+                    type: string
+                    example: 'UUID_app123'
+                    
+                attributes:
+                    $ref: '#/components/schemas/RestAppsAttributes'
+        
+        RestAppsAttributes:
+            properties:
+                id:
+                    type: string
+                    example: 'UUID_app123'
+                name:
+                    type: string
+                    example: 'Spryker App'
+                description:
+                    type: string
+                    example: 'App short description'
+                status:
+                    $ref: '#/components/schemas/ConnectionStatus'
+                categories:
+                    type: array
+                    items:
+                        type: string
+                    example: ['Category A', 'Category B']
+                labels:
+                    type: array
+                    items:
+                        type: string
+                    example: ['Label A', 'Label B']
+                iconUrl:
+                    type: string
+                    example: 'https://app.com/icon/app.png'
+
+        RestAppsDetailResponse:
+            properties:
+                data:
+                    $ref: '#/components/schemas/RestAppsDetailResponseData'
+                included:
+                    $ref: '#/components/schemas/RestTenantAppIncluded'
+        RestAppsDetailResponseData:
+            properties:
+                type:
+                    type: string
+                    example: 'apps'
+                id:
+                    type: string
+                    example: 'UUID_app123'
+                attributes:
+                    $ref: '#/components/schemas/RestAppsDetailAttributes'
+
+        RestAppsDetailAttributes:
+            properties:
+                id:
+                    type: string
+                    example: 'UUID_app123'
+                name:
+                    type: string
+                    example: 'Spryker App'
+                description:
+                    type: string
+                    example: 'App short description'
+                status:
+                    $ref: '#/components/schemas/ConnectionStatus'
+                categories:
+                    type: array
+                    items:
+                        type: string
+                    example: ['Category A', 'Category B']
+                labels:
+                    type: array
+                    items:
+                        type: string
+                    example: ['Label A', 'Label B']
+                iconUrl:
+                    type: string
+                    example: 'https://app.com/icon/app.png'
+                manifest:
+                    type: string
+                    example: '{"name": "Spryker App", "etc": "etc"}'
+                configuration:
+                    type: string
+                    example: '{"type": "object", "title": "Credentials", "description": "Security area", "properties": {"username": {"type": "string","title": "username"}}}'
+        RestTenantAppIncluded:
+            items:
+                oneOf:
+                    -
+                        $ref: '#/components/schemas/RestTenantAppResponseData'
+            type: array
+        RestTenantAppResponseData:
+            properties:
+                type:
+                    type: string
+                    enum:
+                        - tenant-app
+                attributes:
+                    $ref: '#/components/schemas/RestTenantAppAttributes'
+
+        RestTenantAppAttributes:
+            properties:
+                status:
+                    $ref: '#/components/schemas/ConnectionStatus'
+
+        RestAppsConfigurationResponse:
+            properties:
+                data:
+                    $ref: '#/components/schemas/RestAppsConfigurationResponseData'
+
+        RestAppsConfigurationResponseData:
+            properties:
+                type:
+                    type: string
+                    example: 'apps'
+                id:
+                    type: string
+                    example: 'UUID_app123'
+                attributes:
+                    $ref: '#/components/schemas/RestAppsConfigurationAttributes'
+
+        RestAppsConfigurationAttributes:
+            properties:
+                configuration:
+                    type: string
+                    example: '{"credentials": {"username": "Foo bar"}, "other-data": {}}'
+
+        RestAppCofigurationRequest:
+            properties:
+                data:
+                    $ref: '#/components/schemas/RestAppCofigurationRequestData'
+
+        RestAppCofigurationRequestData:
+            properties:
+                type:
+                    type: 'string'
+                    example: 'configuration'
+                attributes:
+                    $ref: '#/components/schemas/RestAppsConfigurationAttributes'
+
+        RestAppsConnectDisconnectResponse:
+            properties:
+                type:
+                    type: string
+                    example: 'apps'
+                id:
+                    type: string
+                    example: 'UUID_app123'
+                attributes:
+                    $ref: '#/components/schemas/RestAppsAttributes'
+
+        ### General components ###
+        RestConfigurationErrorMessage:
+            properties:
+                code:
+                    type: string
+                detail:
+                    type: string
+                    example: '{"username": ["Error A", "Error B"]}'
+                status:
+                    type: integer
+        RestErrorMessage:
+            properties:
+                code:
+                    type: string
+                detail:
+                    type: string
+                status:
+                    type: integer
+        RestErrorMessages:
+            properties:
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/RestErrorMessage'
+
+    parameters:
+        IncludeTenantApp:
+                name: include
+                in: query
+                required: false
+                schema:
+                    type: array
+                    example:
+                        - tenant-app
+                    items:
+                        type: string
