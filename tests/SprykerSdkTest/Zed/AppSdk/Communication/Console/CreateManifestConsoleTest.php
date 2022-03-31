@@ -8,6 +8,7 @@
 namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
+use org\bovigo\vfs\vfsStream;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\CreateManifestConsole;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,14 +33,17 @@ class CreateManifestConsoleTest extends Unit
      */
     public function testCreateManifestConsole(): void
     {
+        // Arrange
         $commandTester = $this->tester->getConsoleTester(new CreateManifestConsole());
+
+        $filePath = sprintf('%s/config/app/manifest/', vfsStream::setup('root')->url());
 
         // Act
         $commandTester->execute(
             [
                 CreateManifestConsole::MANIFEST_NAME => 'Manifest',
-                CreateManifestConsole::MANIFEST_LOCALE => 'en_DE',
-                '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => codecept_data_dir('app/manifest/'),
+                CreateManifestConsole::MANIFEST_LOCALE => 'en_US',
+                '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => $filePath,
             ],
             ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
         );
@@ -59,7 +63,7 @@ class CreateManifestConsoleTest extends Unit
         $commandTester->execute(
             [
                 CreateManifestConsole::MANIFEST_NAME => 'Manifest',
-                CreateManifestConsole::MANIFEST_LOCALE => 'en_DE',
+                CreateManifestConsole::MANIFEST_LOCALE => 'en_US',
                 '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => codecept_data_dir('app/manifest/'),
             ],
             ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
@@ -67,6 +71,6 @@ class CreateManifestConsoleTest extends Unit
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
-        $this->assertStringContainsString('File "' . codecept_data_dir('app/manifest/') . 'en_DE.json" already exists.', trim($commandTester->getDisplay()));
+        $this->assertStringContainsString('File "' . codecept_data_dir('app/manifest/') . 'en_US.json" already exists.', trim($commandTester->getDisplay()));
     }
 }
