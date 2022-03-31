@@ -32,12 +32,44 @@ class OpenApiCreateConsoleTest extends Unit
      */
     public function testOpenApiCreateConsole(): void
     {
-        $commandTester = $this->tester->getConsoleTester(new OpenApiCreateConsole());
+        $commandTester = $this->tester->getConsoleTester(OpenApiCreateConsole::class);
 
         // Act
-        $commandTester->execute([OpenApiCreateConsole::ARGUMENT_TITLE => 'Test File', '--' . OpenApiCreateConsole::OPTION_OPEN_API_FILE => 'config/example/openapi.yml'], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+        $commandTester->execute(
+            [
+                OpenApiCreateConsole::ARGUMENT_TITLE => 'Test File',
+                '--' . OpenApiCreateConsole::OPTION_OPEN_API_FILE => $this->tester->getRootUrl() . '/api/openapi/openapi.yml',
+            ],
+            [
+                'verbosity' => OutputInterface::VERBOSITY_VERBOSE,
+            ],
+        );
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateOpenApiConsoleWithFileExists(): void
+    {
+        $commandTester = $this->tester->getConsoleTester(new OpenApiCreateConsole());
+
+        // Act
+        $commandTester->execute(
+            [
+                OpenApiCreateConsole::ARGUMENT_TITLE => 'Test File',
+                '--' . OpenApiCreateConsole::OPTION_OPEN_API_FILE => $this->tester->getRootUrl() . '/api/openapi/openapi.yml',
+            ],
+            [
+                'verbosity' => OutputInterface::VERBOSITY_VERBOSE,
+            ],
+        );
+
+        // Assert
+
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+        $this->assertStringContainsString('File "vfs://root/api/openapi/openapi.yml"' . ' already exists.', $commandTester->getDisplay());
     }
 }
