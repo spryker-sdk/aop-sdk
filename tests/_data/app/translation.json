@@ -1,0 +1,14 @@
+{
+    "credentials": {
+        "de_DE": "Referenzen",
+        "en_US": "Credentials"
+    },
+    "credentials_clientName": {
+        "de_DE": "Kundenname",
+        "en_US": "Client Name"
+    },
+    "credentials_siteId": {
+        "de_DE": "Site ID",
+        "en_US": "Site ID"
+    }
+}
