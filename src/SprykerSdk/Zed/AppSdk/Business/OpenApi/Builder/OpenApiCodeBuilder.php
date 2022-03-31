@@ -10,9 +10,9 @@ namespace SprykerSdk\Zed\AppSdk\Business\OpenApi\Builder;
 use Generated\Shared\Transfer\MessageTransfer;
 use Generated\Shared\Transfer\OpenApiRequestTransfer;
 use Generated\Shared\Transfer\OpenApiResponseTransfer;
-use OpenAPI\Parser;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
 use Symfony\Component\Process\Process;
+use OpenAPI\Parser;
 
 class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
 {
