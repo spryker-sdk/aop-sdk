@@ -51,9 +51,9 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
      *
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateManifest(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
+    public function validateAppManifest(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
     {
-        return $this->getFactory()->createManifestValidator()->validate($validateRequestTransfer);
+        return $this->getFactory()->createAppManifestValidator()->validate($validateRequestTransfer);
     }
 
     /**
@@ -65,9 +65,9 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
      *
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateConfiguration(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
+    public function validateAppTranslation(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
     {
-        return $this->getFactory()->createConfigurationValidator()->validate($validateRequestTransfer);
+        return $this->getFactory()->createAppTranslationValidator()->validate($validateRequestTransfer);
     }
 
     /**
@@ -79,9 +79,51 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
      *
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateTranslation(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
+    public function validateAppConfiguration(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
     {
-        return $this->getFactory()->createTranslationValidator()->validate($validateRequestTransfer);
+        return $this->getFactory()->createAppConfigurationValidator()->validate($validateRequestTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\ManifestResponseTransfer
+     */
+    public function createAppManifest(ManifestRequestTransfer $manifestRequestTransfer): ManifestResponseTransfer
+    {
+        return $this->getFactory()->createAppManifestBuilder()->createManifest($manifestRequestTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AppTranslationRequestTransfer $appTranslationRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\AppTranslationResponseTransfer
+     */
+    public function createAppTranslation(AppTranslationRequestTransfer $appTranslationRequestTransfer): AppTranslationResponseTransfer
+    {
+        return $this->getFactory()->createAppTranslationBuilder()->createTranslation($appTranslationRequestTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer
+     */
+    public function createAppConfiguration(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): AppConfigurationResponseTransfer
+    {
+        return $this->getFactory()->createAppConfigurationBuilder()->createConfiguration($appConfigurationRequestTransfer);
     }
 
     /**
@@ -182,20 +224,6 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
         return $this->getFactory()->createOpenApiValidator()->validate($validateRequestTransfer);
     }
 
-     /**
-      * {@inheritDoc}
-      *
-      * @api
-      *
-      * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
-      *
-      * @return \Generated\Shared\Transfer\ManifestResponseTransfer
-      */
-    public function createManifest(ManifestRequestTransfer $manifestRequestTransfer): ManifestResponseTransfer
-    {
-        return $this->getFactory()->createManifestBuilder()->createManifest($manifestRequestTransfer);
-    }
-
     /**
      * {@inheritDoc}
      *
@@ -208,33 +236,5 @@ class AppSdkFacade extends AbstractFacade implements AppSdkFacadeInterface
     public function createOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer
     {
         return $this->getFactory()->createOpenApiBuilder()->createOpenApi($openApiRequestTransfer);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\AppTranslationRequestTransfer $appTranslationRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\AppTranslationResponseTransfer
-     */
-    public function appTranslationCreate(AppTranslationRequestTransfer $appTranslationRequestTransfer): AppTranslationResponseTransfer
-    {
-        return $this->getFactory()->createAppTranslationBuilder()->appTranslationCreate($appTranslationRequestTransfer);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer
-     */
-    public function appConfigurationCreate(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): AppConfigurationResponseTransfer
-    {
-        return $this->getFactory()->createConfigurationBuilder()->appConfigurationCreate($appConfigurationRequestTransfer);
     }
 }

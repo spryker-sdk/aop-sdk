@@ -48,7 +48,7 @@ class AppManifestValidateConsole extends AbstractConsole
         $validateRequestTransfer = new ValidateRequestTransfer();
         $validateRequestTransfer->setManifestPath($input->getOption(static::MANIFEST_PATH));
 
-        $validateResponseTransfer = $this->getFacade()->validateManifest($validateRequestTransfer);
+        $validateResponseTransfer = $this->getFacade()->validateAppManifest($validateRequestTransfer);
 
         if ($validateResponseTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;

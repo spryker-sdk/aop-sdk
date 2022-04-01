@@ -17,7 +17,7 @@ use Symfony\Component\Console\Question\Question;
 /**
  * @method \SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface getFacade()
  */
-class AppTranslationBuilderConsole extends AbstractConsole
+class AppTranslationCreateConsole extends AbstractConsole
 {
     /**
      * @var array
@@ -60,13 +60,12 @@ class AppTranslationBuilderConsole extends AbstractConsole
 
         $appTranslationRequestTransfer->setTranslations($this->translations);
 
-        $appTranslationResponseTransfer = $this->getFacade()->appTranslationCreate($appTranslationRequestTransfer);
+        $appTranslationResponseTransfer = $this->getFacade()->createAppTranslation($appTranslationRequestTransfer);
 
         if ($appTranslationResponseTransfer->getErrors()->count() === 0) {
-            $output->writeln([
-                '',
-                'Translation file written to ' . $appTranslationRequestTransfer->getTranslationFile() . ' successfully',
-            ]);
+            $output->writeln(
+                sprintf('Translation file written to "%s"', $appTranslationRequestTransfer->getTranslationFile()),
+            );
 
             return static::CODE_SUCCESS;
         }

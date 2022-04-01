@@ -11,7 +11,7 @@ use Generated\Shared\Transfer\ManifestRequestTransfer;
 use Generated\Shared\Transfer\ManifestResponseTransfer;
 use Generated\Shared\Transfer\MessageTransfer;
 
-class ManifestBuilder implements ManifestBuilderInterface
+class AppManifestBuilder implements AppManifestBuilderInterface
 {
     /**
      * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
