@@ -40,7 +40,6 @@ class CreateManifestConsoleTest extends Unit
             [
                 CreateManifestConsole::MANIFEST_NAME => 'Manifest',
                 CreateManifestConsole::MANIFEST_LOCALE => 'de_DE',
-                '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => $this->tester->getRootUrl() . '/config/app/manifest/',
             ],
             ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
         );
@@ -56,14 +55,13 @@ class CreateManifestConsoleTest extends Unit
     {
         // Arrange
         $commandTester = $this->tester->getConsoleTester(CreateManifestConsole::class);
-        $this->tester->haveManifestFile();
+        $this->tester->haveManifestFile(); // This creates a manifest named en_US.json
 
         // Act
         $commandTester->execute(
             [
                 CreateManifestConsole::MANIFEST_NAME => 'Manifest',
                 CreateManifestConsole::MANIFEST_LOCALE => 'en_US',
-                '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => $this->tester->getRootUrl() . '/config/app/manifest/',
             ],
             ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
         );

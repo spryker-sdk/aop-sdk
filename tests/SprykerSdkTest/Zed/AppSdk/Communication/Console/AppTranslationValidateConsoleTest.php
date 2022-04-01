@@ -35,7 +35,6 @@ class AppTranslationValidateConsoleTest extends Unit
         // Arrange
         $this->tester->haveValidTranslationWithManifestAndConfiguration();
 
-        $command = new AppTranslationValidateConsole();
         $commandTester = $this->tester->getConsoleTester(AppTranslationValidateConsole::class);
 
         // Act

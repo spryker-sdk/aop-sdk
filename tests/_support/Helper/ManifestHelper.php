@@ -11,29 +11,19 @@ use Codeception\Module;
 use Generated\Shared\Transfer\ManifestRequestTransfer;
 use Generated\Shared\Transfer\ManifestResponseTransfer;
 use Generated\Shared\Transfer\ManifestTransfer;
-use org\bovigo\vfs\vfsStream;
-use SprykerSdk\Zed\AppSdk\AppSdkConfig;
 use SprykerTest\Shared\Testify\Helper\ConfigHelperTrait;
 use SprykerTest\Zed\Testify\Helper\Business\BusinessHelperTrait;
 
 class ManifestHelper extends Module
 {
-    use BusinessHelperTrait;
-    use ConfigHelperTrait;
-
-    /**
-     * @var string|null
-     */
-    protected ?string $rootUrl = null;
+    use AppSdkHelperTrait;
 
     /**
      * @return \Generated\Shared\Transfer\ManifestRequestTransfer
      */
     public function haveManifestCreateRequest(): ManifestRequestTransfer
     {
-        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
-
-        $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
+        $config = $this->getAppSdkHelper()->getConfig();
 
         $manifestTransfer = new ManifestTransfer();
         $manifestTransfer
@@ -46,18 +36,6 @@ class ManifestHelper extends Module
             ->setManifest($manifestTransfer);
 
         return $manifestRequestTransfer;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getRootUrl(): string
-    {
-        if (!$this->rootUrl) {
-            $this->rootUrl = vfsStream::setup('root')->url();
-        }
-
-        return $this->rootUrl;
     }
 
     /**
@@ -77,31 +55,12 @@ class ManifestHelper extends Module
      */
     protected function prepareManifestFile(string $pathToManifest): void
     {
-        $filePath = sprintf('%s/config/app/manifest/en_US.json', $this->getRootUrl());
+        $filePath = sprintf('%s/config/app/manifest/en_US.json', $this->getAppSdkHelper()->getRootPath());
 
         if (!is_dir(dirname($filePath))) {
             mkdir(dirname($filePath), 0770, true);
         }
         file_put_contents($filePath, file_get_contents($pathToManifest));
-
-        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
-    }
-
-    /**
-     * @return void
-     */
-    public function mockRootPath(): void
-    {
-        $root = vfsStream::setup('root');
-        $this->getValidatorHelper()->mockRoot($root->url());
-    }
-
-    /**
-     * @return \SprykerSdkTest\Helper\ValidatorHelper
-     */
-    protected function getValidatorHelper(): ValidatorHelper
-    {
-        return $this->getModule('\\' . ValidatorHelper::class);
     }
 
     /**

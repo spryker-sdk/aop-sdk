@@ -249,6 +249,7 @@ class AppAsyncApiFacadeTest extends Unit
     public function testAddAsyncApiThrowsExceptionWhenOperationIdIsMissionInAsyncApiRequest(): void
     {
         // Arrange
+        $this->tester->haveAsyncApiFileWithMissingRequiredFields();
         $asyncApiMessageTransfer = $this->tester->havePublishMessageWithMetadata(static::MESSAGE_NAME);
         $asyncApiRequestTransfer = $this->tester->haveAsyncApiAddRequest();
         $asyncApiRequestTransfer->setProperties(['foo' => 'bar']);
@@ -258,7 +259,7 @@ class AppAsyncApiFacadeTest extends Unit
         $this->expectException(InvalidConfigurationException::class);
 
         // Act
-        $asyncApiResponseTransfer = $this->tester->getFacade()->addAsyncApiMessage(
+        $this->tester->getFacade()->addAsyncApiMessage(
             $asyncApiRequestTransfer,
         );
     }
