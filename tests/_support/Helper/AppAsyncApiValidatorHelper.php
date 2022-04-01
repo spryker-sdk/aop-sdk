@@ -8,10 +8,11 @@
 namespace SprykerSdkTest\Helper;
 
 use Codeception\Module;
-use org\bovigo\vfs\vfsStream;
 
 class AppAsyncApiValidatorHelper extends Module
 {
+    use AppSdkHelperTrait;
+
     /**
      * @return void
      */
@@ -86,16 +87,7 @@ class AppAsyncApiValidatorHelper extends Module
                 ],
             ],
         ];
-        $root = vfsStream::setup('root', null, $structure);
 
-        $this->getValidatorHelper()->mockRoot($root->url());
-    }
-
-    /**
-     * @return \SprykerSdkTest\Helper\ValidatorHelper
-     */
-    protected function getValidatorHelper(): ValidatorHelper
-    {
-        return $this->getModule('\\' . ValidatorHelper::class);
+        $this->getAppSdkHelper()->mockDirectoryStructure($structure);
     }
 }

@@ -17,6 +17,7 @@ suites:
         class_name: CommunicationTester
         modules:
             enabled:
+                - \SprykerSdkTest\Helper\AppSdkHelper
                 - \SprykerSdkTest\Helper\CommandHelper
                 - \SprykerSdkTest\Helper\AppConfigurationCreateHelper
                 - \SprykerSdkTest\Helper\AppConfigurationValidatorHelper
@@ -35,6 +36,7 @@ suites:
         class_name: BusinesssTester
         modules:
             enabled:
+                - \SprykerSdkTest\Helper\AppSdkHelper
                 - \SprykerSdkTest\Helper\AppConfigurationValidatorHelper
                 - \SprykerSdkTest\Helper\AppManifestValidatorHelper
                 - \SprykerSdkTest\Helper\AppAsyncApiValidatorHelper
