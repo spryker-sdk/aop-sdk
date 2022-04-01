@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @method \SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface getFacade()
  */
-class CreateManifestConsole extends AbstractConsole
+class AppManifestCreateConsole extends AbstractConsole
 {
     /**
      * @var string
@@ -72,13 +72,17 @@ class CreateManifestConsole extends AbstractConsole
             ->setManifest($manifestTransfer)
             ->setManifestPath($targetManifestPath);
 
-        $manifestRequestTransfer = $this->getFacade()->createManifest($manifestRequestTransfer);
+        $manifestResponseTransfer = $this->getFacade()->createAppManifest($manifestRequestTransfer);
 
-        if ($manifestRequestTransfer->getErrors()->count() === 0) {
+        if ($manifestResponseTransfer->getErrors()->count() === 0) {
+            $output->writeln(
+                sprintf('Manifest file written to %s%s', $manifestRequestTransfer->getManifestPath(), $manifestTransfer->getLocaleName()),
+            );
+
             return static::CODE_SUCCESS;
         }
 
-        foreach ($manifestRequestTransfer->getErrors() as $error) {
+        foreach ($manifestResponseTransfer->getErrors() as $error) {
             $output->writeln($error->getMessageOrFail());
         }
 

@@ -46,7 +46,7 @@ interface AppSdkFacadeInterface
      *
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateManifest(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
+    public function validateAppManifest(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
 
     /**
      * Specification:
@@ -58,7 +58,7 @@ interface AppSdkFacadeInterface
      *
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateConfiguration(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
+    public function validateAppConfiguration(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
 
     /**
      * Specification:
@@ -70,7 +70,44 @@ interface AppSdkFacadeInterface
      *
      * @return \Generated\Shared\Transfer\ValidateResponseTransfer
      */
-    public function validateTranslation(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
+    public function validateAppTranslation(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
+
+    /**
+     * Specification:
+     * - Adds a new Manifest file.
+     * - Validates the mandatory locale.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\ManifestResponseTransfer
+     */
+    public function createAppManifest(ManifestRequestTransfer $manifestRequestTransfer): ManifestResponseTransfer;
+
+    /**
+     * Specification:
+     * - Adds a Configuration file.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer
+     */
+    public function createAppConfiguration(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): AppConfigurationResponseTransfer;
+
+    /**
+     * Specification:
+     * - Creates a translation file.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AppTranslationRequestTransfer $appTranslationRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\AppTranslationResponseTransfer
+     */
+    public function createAppTranslation(AppTranslationRequestTransfer $appTranslationRequestTransfer): AppTranslationResponseTransfer;
 
     /**
      * Specification:
@@ -153,19 +190,6 @@ interface AppSdkFacadeInterface
 
     /**
      * Specification:
-     * - Adds a new Manifest file.
-     * - Validates the mandatory locale.
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\ManifestResponseTransfer
-     */
-    public function createManifest(ManifestRequestTransfer $manifestRequestTransfer): ManifestResponseTransfer;
-
-    /**
-     * Specification:
      * - Adds an OpenAPI file.
      *
      * @api
@@ -175,28 +199,4 @@ interface AppSdkFacadeInterface
      * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
      */
     public function createOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer;
-
-    /**
-     * Specification:
-     * - Adds a Configuration file.
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer
-     */
-    public function appConfigurationCreate(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): AppConfigurationResponseTransfer;
-
-    /**
-     * Specification:
-     * - Creates a translation file.
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\AppTranslationRequestTransfer $appTranslationRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\AppTranslationResponseTransfer
-     */
-    public function appTranslationCreate(AppTranslationRequestTransfer $appTranslationRequestTransfer): AppTranslationResponseTransfer;
 }

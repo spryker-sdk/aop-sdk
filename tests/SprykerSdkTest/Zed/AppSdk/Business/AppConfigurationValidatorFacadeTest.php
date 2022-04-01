@@ -29,7 +29,7 @@ class AppConfigurationValidatorFacadeTest extends Unit
         $this->tester->haveValidConfiguration();
 
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateConfiguration(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppConfiguration(
             $this->tester->haveValidateRequest(),
         );
 
@@ -47,7 +47,7 @@ class AppConfigurationValidatorFacadeTest extends Unit
     public function testValidateConfigurationReturnsFailedResponseWhenConfigurationFileNotFound(): void
     {
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateConfiguration(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppConfiguration(
             $this->tester->haveValidateRequest(),
         );
 
@@ -67,7 +67,7 @@ class AppConfigurationValidatorFacadeTest extends Unit
         $this->tester->haveInvalidConfigurationFile();
 
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateConfiguration(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppConfiguration(
             $this->tester->haveValidateRequest(),
         );
 

@@ -10,12 +10,12 @@ namespace SprykerSdk\Zed\AppSdk\Business\Configuration\Builder;
 use Generated\Shared\Transfer\AppConfigurationRequestTransfer;
 use Generated\Shared\Transfer\AppConfigurationResponseTransfer;
 
-interface ConfigurationBuilderInterface
+interface AppConfigurationBuilderInterface
 {
     /**
      * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
      *
      * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer
      */
-    public function appConfigurationCreate(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): AppConfigurationResponseTransfer;
+    public function createConfiguration(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): AppConfigurationResponseTransfer;
 }
