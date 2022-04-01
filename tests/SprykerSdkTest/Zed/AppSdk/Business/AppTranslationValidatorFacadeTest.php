@@ -29,7 +29,7 @@ class AppTranslationValidatorFacadeTest extends Unit
         $this->tester->haveValidTranslationWithManifestAndConfiguration();
 
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateTranslation(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppTranslation(
             $this->tester->haveValidateRequest(),
         );
 
@@ -50,7 +50,7 @@ class AppTranslationValidatorFacadeTest extends Unit
         $this->tester->haveValidTranslationWithoutManifest();
 
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateTranslation(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppTranslation(
             $this->tester->haveValidateRequest(),
         );
 
@@ -70,7 +70,7 @@ class AppTranslationValidatorFacadeTest extends Unit
         $this->tester->haveValidTranslationWithManifestAndWithoutConfiguration();
 
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateTranslation(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppTranslation(
             $this->tester->haveValidateRequest(),
         );
 
@@ -90,7 +90,7 @@ class AppTranslationValidatorFacadeTest extends Unit
         $this->tester->haveMissingTranslationValueTranslationFile();
 
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateTranslation(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppTranslation(
             $this->tester->haveValidateRequest(),
         );
 
@@ -107,7 +107,7 @@ class AppTranslationValidatorFacadeTest extends Unit
     public function testValidateTranslationReturnsFailedResponseWhenTranslationFileNotFound(): void
     {
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateTranslation(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppTranslation(
             $this->tester->haveValidateRequest(),
         );
 
@@ -127,7 +127,7 @@ class AppTranslationValidatorFacadeTest extends Unit
         $this->tester->haveInvalidTranslationFile();
 
         // Act
-        $validateResponseTransfer = $this->tester->getFacade()->validateTranslation(
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppTranslation(
             $this->tester->haveValidateRequest(),
         );
 

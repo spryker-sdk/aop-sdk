@@ -9,7 +9,7 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\AppTranslationBuilderConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppTranslationCreateConsole;
 
 /**
  * @group SprykerSdkTest
@@ -31,8 +31,8 @@ class AppTranslationBuilderConsoleTest extends Unit
      */
     public function testAppTranslationCreateFile(): void
     {
-        $command = new AppTranslationBuilderConsole();
-        $commandTester = $this->tester->getConsoleTester(AppTranslationBuilderConsole::class);
+        $command = new AppTranslationCreateConsole();
+        $commandTester = $this->tester->getConsoleTester(AppTranslationCreateConsole::class);
 
         $commandTester->setInputs(['credentials', 'de_DE', 'Referenzen', 'Yes', 'de_US', 'Referenzen', 'No', 'No']);
 

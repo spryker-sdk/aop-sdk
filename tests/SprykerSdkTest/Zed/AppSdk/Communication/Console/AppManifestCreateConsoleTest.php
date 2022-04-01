@@ -9,7 +9,7 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\CreateManifestConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppManifestCreateConsole;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @group Console
  * @group CreateManifestConsoleTest
  */
-class CreateManifestConsoleTest extends Unit
+class AppManifestCreateConsoleTest extends Unit
 {
     /**
      * @var \SprykerSdkTest\Zed\AppSdk\CommunicationTester
@@ -33,13 +33,13 @@ class CreateManifestConsoleTest extends Unit
     public function testCreateManifestConsole(): void
     {
         // Arrange
-        $commandTester = $this->tester->getConsoleTester(CreateManifestConsole::class);
+        $commandTester = $this->tester->getConsoleTester(AppManifestCreateConsole::class);
 
         // Act
         $commandTester->execute(
             [
-                CreateManifestConsole::MANIFEST_NAME => 'Manifest',
-                CreateManifestConsole::MANIFEST_LOCALE => 'de_DE',
+                AppManifestCreateConsole::MANIFEST_NAME => 'Manifest',
+                AppManifestCreateConsole::MANIFEST_LOCALE => 'de_DE',
             ],
             ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
         );
@@ -54,14 +54,14 @@ class CreateManifestConsoleTest extends Unit
     public function testCreateManifestConsoleWithFileExists(): void
     {
         // Arrange
-        $commandTester = $this->tester->getConsoleTester(CreateManifestConsole::class);
+        $commandTester = $this->tester->getConsoleTester(AppManifestCreateConsole::class);
         $this->tester->haveManifestFile(); // This creates a manifest named en_US.json
 
         // Act
         $commandTester->execute(
             [
-                CreateManifestConsole::MANIFEST_NAME => 'Manifest',
-                CreateManifestConsole::MANIFEST_LOCALE => 'en_US',
+                AppManifestCreateConsole::MANIFEST_NAME => 'Manifest',
+                AppManifestCreateConsole::MANIFEST_LOCALE => 'en_US',
             ],
             ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
         );

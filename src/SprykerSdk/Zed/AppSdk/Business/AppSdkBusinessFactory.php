@@ -14,10 +14,10 @@ use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilderInterface;
-use SprykerSdk\Zed\AppSdk\Business\Configuration\Builder\ConfigurationBuilder;
-use SprykerSdk\Zed\AppSdk\Business\Configuration\Builder\ConfigurationBuilderInterface;
-use SprykerSdk\Zed\AppSdk\Business\Manifest\Builder\ManifestBuilder;
-use SprykerSdk\Zed\AppSdk\Business\Manifest\Builder\ManifestBuilderInterface;
+use SprykerSdk\Zed\AppSdk\Business\Configuration\Builder\AppConfigurationBuilder;
+use SprykerSdk\Zed\AppSdk\Business\Configuration\Builder\AppConfigurationBuilderInterface;
+use SprykerSdk\Zed\AppSdk\Business\Manifest\Builder\AppManifestBuilder;
+use SprykerSdk\Zed\AppSdk\Business\Manifest\Builder\AppManifestBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\OpenApi\Builder\OpenApiBuilder;
 use SprykerSdk\Zed\AppSdk\Business\OpenApi\Builder\OpenApiBuilderInterface;
 use SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface;
@@ -33,15 +33,15 @@ use SprykerSdk\Zed\AppSdk\Business\Translation\Builder\AppTranslationBuilderInte
 use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\AsyncApiValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiMessageValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\AsyncApi\Validator\AsyncApiOperationIdValidator;
-use SprykerSdk\Zed\AppSdk\Business\Validator\Configuration\ConfigurationValidator;
+use SprykerSdk\Zed\AppSdk\Business\Validator\Configuration\AppConfigurationValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\FileValidatorInterface;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Finder\Finder;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Finder\FinderInterface;
-use SprykerSdk\Zed\AppSdk\Business\Validator\Manifest\ManifestValidator;
+use SprykerSdk\Zed\AppSdk\Business\Validator\Manifest\AppManifestValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Manifest\Validator\PagesFileValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Manifest\Validator\RequiredFieldsFileValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\OpenApi\OpenApiValidator;
-use SprykerSdk\Zed\AppSdk\Business\Validator\Translation\TranslationValidator;
+use SprykerSdk\Zed\AppSdk\Business\Validator\Translation\AppTranslationValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Translation\Validator\TranslationFileValidator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\Validator;
 use SprykerSdk\Zed\AppSdk\Business\Validator\ValidatorInterface;
@@ -57,9 +57,9 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     public function createValidator(): Validator
     {
         return new Validator([
-            $this->createManifestValidator(),
-            $this->createConfigurationValidator(),
-            $this->createTranslationValidator(),
+            $this->createAppManifestValidator(),
+            $this->createAppConfigurationValidator(),
+            $this->createAppTranslationValidator(),
             $this->createAsyncApiValidator(),
         ]);
     }
@@ -67,9 +67,9 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerSdk\Zed\AppSdk\Business\Validator\ValidatorInterface
      */
-    public function createManifestValidator(): ValidatorInterface
+    public function createAppManifestValidator(): ValidatorInterface
     {
-        return new ManifestValidator(
+        return new AppManifestValidator(
             $this->getConfig(),
             $this->createFinder(),
             $this->getManifestFileValidators(),
@@ -106,9 +106,9 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerSdk\Zed\AppSdk\Business\Validator\ValidatorInterface
      */
-    public function createConfigurationValidator(): ValidatorInterface
+    public function createAppConfigurationValidator(): ValidatorInterface
     {
-        return new ConfigurationValidator(
+        return new AppConfigurationValidator(
             $this->getConfig(),
             $this->createFinder(),
         );
@@ -125,9 +125,9 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerSdk\Zed\AppSdk\Business\Validator\ValidatorInterface
      */
-    public function createTranslationValidator(): ValidatorInterface
+    public function createAppTranslationValidator(): ValidatorInterface
     {
-        return new TranslationValidator(
+        return new AppTranslationValidator(
             $this->getConfig(),
             $this->createFinder(),
             $this->getTranslationFileValidators(),
@@ -158,14 +158,6 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     public function createAsyncApiBuilder(): AsyncApiBuilderInterface
     {
         return new AsyncApiBuilder();
-    }
-
-    /**
-     * @return \SprykerSdk\Zed\AppSdk\Business\Manifest\Builder\ManifestBuilderInterface
-     */
-    public function createManifestBuilder(): ManifestBuilderInterface
-    {
-        return new ManifestBuilder();
     }
 
     /**
@@ -295,11 +287,19 @@ class AppSdkBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerSdk\Zed\AppSdk\Business\Configuration\Builder\ConfigurationBuilder
+     * @return \SprykerSdk\Zed\AppSdk\Business\Manifest\Builder\AppManifestBuilderInterface
      */
-    public function createConfigurationBuilder(): ConfigurationBuilderInterface
+    public function createAppManifestBuilder(): AppManifestBuilderInterface
     {
-        return new ConfigurationBuilder();
+        return new AppManifestBuilder();
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AppSdk\Business\Configuration\Builder\AppConfigurationBuilderInterface
+     */
+    public function createAppConfigurationBuilder(): AppConfigurationBuilderInterface
+    {
+        return new AppConfigurationBuilder();
     }
 
     /**

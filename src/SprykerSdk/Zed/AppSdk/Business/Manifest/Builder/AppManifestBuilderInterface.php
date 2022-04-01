@@ -10,7 +10,7 @@ namespace SprykerSdk\Zed\AppSdk\Business\Manifest\Builder;
 use Generated\Shared\Transfer\ManifestRequestTransfer;
 use Generated\Shared\Transfer\ManifestResponseTransfer;
 
-interface ManifestBuilderInterface
+interface AppManifestBuilderInterface
 {
     /**
      * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer

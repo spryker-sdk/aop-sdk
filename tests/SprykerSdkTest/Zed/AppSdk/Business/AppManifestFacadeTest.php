@@ -37,7 +37,7 @@ class AppManifestFacadeTest extends Unit
         $manifestRequestTransfer = $this->tester->haveManifestCreateRequest();
 
         // Act
-        $manifestResponseTransfer = $this->tester->getFacade()->createManifest(
+        $manifestResponseTransfer = $this->tester->getFacade()->createAppManifest(
             $manifestRequestTransfer,
         );
 
@@ -56,7 +56,7 @@ class AppManifestFacadeTest extends Unit
         $manifestRequestTransfer->getManifestOrFail()->setLocaleName(static::INVALID_LOCALE);
 
         // Act
-        $manifestResponseTransfer = $this->tester->getFacade()->createManifest(
+        $manifestResponseTransfer = $this->tester->getFacade()->createAppManifest(
             $manifestRequestTransfer,
         );
 
