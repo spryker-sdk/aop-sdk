@@ -8,7 +8,6 @@
 namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
-use org\bovigo\vfs\vfsStream;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\CreateManifestConsole;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,16 +33,14 @@ class CreateManifestConsoleTest extends Unit
     public function testCreateManifestConsole(): void
     {
         // Arrange
-        $commandTester = $this->tester->getConsoleTester(new CreateManifestConsole());
-
-        $filePath = sprintf('%s/config/app/manifest/', vfsStream::setup('root')->url());
+        $commandTester = $this->tester->getConsoleTester(CreateManifestConsole::class);
 
         // Act
         $commandTester->execute(
             [
                 CreateManifestConsole::MANIFEST_NAME => 'Manifest',
-                CreateManifestConsole::MANIFEST_LOCALE => 'en_US',
-                '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => $filePath,
+                CreateManifestConsole::MANIFEST_LOCALE => 'de_DE',
+                '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => $this->tester->getRootUrl() . '/config/app/manifest/',
             ],
             ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
         );
@@ -57,20 +54,21 @@ class CreateManifestConsoleTest extends Unit
      */
     public function testCreateManifestConsoleWithFileExists(): void
     {
-        $commandTester = $this->tester->getConsoleTester(new CreateManifestConsole());
+        // Arrange
+        $commandTester = $this->tester->getConsoleTester(CreateManifestConsole::class);
+        $this->tester->haveManifestFile();
 
         // Act
         $commandTester->execute(
             [
                 CreateManifestConsole::MANIFEST_NAME => 'Manifest',
                 CreateManifestConsole::MANIFEST_LOCALE => 'en_US',
-                '--' . CreateManifestConsole::OPTION_MANIFEST_PATH => codecept_data_dir('app/manifest/'),
             ],
             ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
         );
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
-        $this->assertStringContainsString('File "' . codecept_data_dir('app/manifest/') . 'en_US.json" already exists.', trim($commandTester->getDisplay()));
+        $this->assertStringContainsString('File "vfs://root/config/app/manifest/en_US.json" already exists.', trim($commandTester->getDisplay()));
     }
 }

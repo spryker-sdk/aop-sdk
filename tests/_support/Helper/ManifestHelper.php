@@ -67,7 +67,7 @@ class ManifestHelper extends Module
      */
     public function haveManifestFile(): void
     {
-        $this->prepareManifestFile(codecept_data_dir('app/manifest/valid/manifest_base.json'));
+        $this->prepareManifestFile(codecept_data_dir('valid/manifest/valid/manifest_base.json'));
     }
 
     /**
