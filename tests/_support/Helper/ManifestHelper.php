@@ -11,8 +11,6 @@ use Codeception\Module;
 use Generated\Shared\Transfer\ManifestRequestTransfer;
 use Generated\Shared\Transfer\ManifestResponseTransfer;
 use Generated\Shared\Transfer\ManifestTransfer;
-use SprykerTest\Shared\Testify\Helper\ConfigHelperTrait;
-use SprykerTest\Zed\Testify\Helper\Business\BusinessHelperTrait;
 
 class ManifestHelper extends Module
 {
