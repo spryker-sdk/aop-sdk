@@ -1,0 +1,33 @@
+{
+    "name": "Example US",
+    "provider": "Example",
+    "description": "A long description.",
+    "descriptionShort": "A short description.",
+    "configurationUrl": "https://example.spryker.local/configure",
+    "categories": [
+        {
+            "key": "category-key-a"
+        }
+    ],
+    "pages": {
+        "Overview": [
+            {
+                "title": "Features",
+                "type": "list",
+                "data": [
+                    "Feature A"
+                ]
+            },
+            {
+                "title": "Headline one",
+                "type": "text",
+                "data": "Lorem ipsum"
+            }
+        ]
+    },
+    "labels": [
+        {
+            "key": "Label A"
+        }
+    ]
+}
