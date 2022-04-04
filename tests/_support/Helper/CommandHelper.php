@@ -8,7 +8,6 @@
 namespace SprykerSdkTest\Helper;
 
 use Codeception\Module;
-use SprykerSdk\Zed\AppSdk\AppSdkConfig;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\CheckReadinessConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\ConsoleBootstrap;
@@ -18,6 +17,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class CommandHelper extends Module
 {
+    use AppSdkHelperTrait;
     use BusinessHelperTrait;
     use ConfigHelperTrait;
 
@@ -29,7 +29,7 @@ class CommandHelper extends Module
     public function getConsoleTester($command): CommandTester
     {
         if (!($command instanceof AbstractConsole)) {
-            $command = new $command(null, $this->getConfig());
+            $command = new $command(null, $this->getAppSdkHelper()->getConfig());
         }
 
         $application = new ConsoleBootstrap();
@@ -51,21 +51,5 @@ class CommandHelper extends Module
         $checkReadinessConsole->setFacade($facade);
 
         return $checkReadinessConsole;
-    }
-
-    /**
-     * @return \SprykerSdk\Zed\AppSdk\AppSdkConfig
-     */
-    protected function getConfig(): AppSdkConfig
-    {
-        return $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
-    }
-
-    /**
-     * @return \SprykerSdkTest\Helper\ValidatorHelper
-     */
-    protected function getValidatorHelper(): ValidatorHelper
-    {
-        return $this->getModule('\\' . ValidatorHelper::class);
     }
 }

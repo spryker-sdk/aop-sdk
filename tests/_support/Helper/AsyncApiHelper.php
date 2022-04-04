@@ -15,9 +15,7 @@ use Generated\Shared\Transfer\AsyncApiMessageTransfer;
 use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\AsyncApiTransfer;
-use org\bovigo\vfs\vfsStream;
 use SprykerSdk\AsyncApi\Loader\AsyncApiLoader;
-use SprykerSdk\Zed\AppSdk\AppSdkConfig;
 use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
 use SprykerSdk\Zed\AppSdk\Communication\Console\BuildCodeFromAsyncApiConsole;
 use SprykerTest\Shared\Testify\Helper\ConfigHelperTrait;
@@ -26,6 +24,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class AsyncApiHelper extends Module
 {
+    use AppSdkHelperTrait;
     use BusinessHelperTrait;
     use ConfigHelperTrait;
 
@@ -35,19 +34,10 @@ class AsyncApiHelper extends Module
     public const CHANNEL_NAME = 'foo/bar';
 
     /**
-     * @var string|null
-     */
-    protected ?string $rootUrl = null;
-
-    /**
      * @return \Generated\Shared\Transfer\AsyncApiRequestTransfer
      */
     public function haveAsyncApiAddRequest(): AsyncApiRequestTransfer
     {
-        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
-
-        $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
-
         $asyncApiTransfer = new AsyncApiTransfer();
         $asyncApiTransfer
             ->setTitle('Test title')
@@ -55,7 +45,7 @@ class AsyncApiHelper extends Module
 
         $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
         $asyncApiRequestTransfer
-            ->setTargetFile($config->getDefaultAsyncApiFile())
+            ->setTargetFile($this->getAppSdkHelper()->getConfig()->getDefaultAsyncApiFile())
             ->setAsyncApi($asyncApiTransfer);
 
         return $asyncApiRequestTransfer;
@@ -69,10 +59,6 @@ class AsyncApiHelper extends Module
      */
     public function haveAsyncApiUpdateVersionRequest(): AsyncApiRequestTransfer
     {
-        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
-
-        $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
-
         $asyncApiTransfer = new AsyncApiTransfer();
         $asyncApiTransfer
             ->setTitle('Test title')
@@ -80,22 +66,10 @@ class AsyncApiHelper extends Module
 
         $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
         $asyncApiRequestTransfer
-            ->setTargetFile($config->getDefaultAsyncApiFile())
+            ->setTargetFile($this->getAppSdkHelper()->getConfig()->getDefaultAsyncApiFile())
             ->setAsyncApi($asyncApiTransfer);
 
         return $asyncApiRequestTransfer;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getRootUrl(): string
-    {
-        if (!$this->rootUrl) {
-            $this->rootUrl = vfsStream::setup('root')->url();
-        }
-
-        return $this->rootUrl;
     }
 
     /**
@@ -105,8 +79,6 @@ class AsyncApiHelper extends Module
     {
         $this->haveAsyncApiFile();
 
-        $config = $this->getValidatorHelper()->getConfig() ?? new AppSdkConfig();
-
         $asyncApiTransfer = new AsyncApiTransfer();
         $asyncApiTransfer
             ->setTitle('Test title')
@@ -114,7 +86,7 @@ class AsyncApiHelper extends Module
 
         $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
         $asyncApiRequestTransfer
-            ->setTargetFile($config->getDefaultAsyncApiFile())
+            ->setTargetFile($this->getAppSdkHelper()->getConfig()->getDefaultAsyncApiFile())
             ->setAsyncApi($asyncApiTransfer);
 
         return $asyncApiRequestTransfer;
@@ -167,14 +139,13 @@ class AsyncApiHelper extends Module
      */
     protected function prepareAsyncApiFile(string $pathToAsyncApi): void
     {
-        $filePath = sprintf('%s/config/api/asyncapi/asyncapi.yml', $this->getRootUrl());
+        $filePath = sprintf('%s/config/api/asyncapi/asyncapi.yml', $this->getAppSdkHelper()->getRootPath());
 
         if (!is_dir(dirname($filePath))) {
             mkdir(dirname($filePath), 0770, true);
         }
-        file_put_contents($filePath, file_get_contents($pathToAsyncApi));
 
-        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
+        file_put_contents($filePath, file_get_contents($pathToAsyncApi));
     }
 
     /**
@@ -191,23 +162,6 @@ class AsyncApiHelper extends Module
         }
 
         return $messages;
-    }
-
-    /**
-     * @return void
-     */
-    public function mockRootPath(): void
-    {
-        $root = vfsStream::setup('root');
-        $this->getValidatorHelper()->mockRoot($root->url());
-    }
-
-    /**
-     * @return \SprykerSdkTest\Helper\ValidatorHelper
-     */
-    protected function getValidatorHelper(): ValidatorHelper
-    {
-        return $this->getModule('\\' . ValidatorHelper::class);
     }
 
     /**
@@ -421,9 +375,16 @@ class AsyncApiHelper extends Module
      */
     public function getAsyncApiBuilderConsoleMock(): BuildCodeFromAsyncApiConsole
     {
-        $asyncApiCodeBuilderStub = Stub::construct(AsyncApiCodeBuilder::class, [$this->getConfigHelper()->getModuleConfig(), new AsyncApiLoader()], [
-            'runCommandLines' => Expected::atLeastOnce(),
-        ]);
+        $asyncApiCodeBuilderStub = Stub::construct(
+            AsyncApiCodeBuilder::class,
+            [
+                $this->getConfigHelper()->getModuleConfig(),
+                new AsyncApiLoader(),
+            ],
+            [
+                'runCommandLines' => Expected::atLeastOnce(),
+            ],
+        );
         $this->getBusinessHelper()->mockFactoryMethod('createAsyncApiCodeBuilder', $asyncApiCodeBuilderStub);
         $facade = $this->getBusinessHelper()->getFacade();
         $buildFromAsyncApiConsole = new BuildCodeFromAsyncApiConsole();
