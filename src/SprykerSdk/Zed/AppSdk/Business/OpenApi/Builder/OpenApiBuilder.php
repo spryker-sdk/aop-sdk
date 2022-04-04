@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Zed\AppSdk\Business\OpenApi\Builder;
 
+use Generated\Shared\Transfer\MessageTransfer;
 use Generated\Shared\Transfer\OpenApiRequestTransfer;
 use Generated\Shared\Transfer\OpenApiResponseTransfer;
 use Symfony\Component\Yaml\Yaml;
@@ -31,6 +32,12 @@ class OpenApiBuilder implements OpenApiBuilderInterface
         ];
 
         $targetFilePath = $openApiRequestTransfer->getTargetFileOrFail();
+
+        if (file_exists($targetFilePath)) {
+            $openApiResponseTransfer->addError((new MessageTransfer())->setMessage(sprintf('File "%s" already exists.', $targetFilePath)));
+
+            return $openApiResponseTransfer;
+        }
 
         $this->writeToFile($targetFilePath, $openApi);
 

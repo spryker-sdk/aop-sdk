@@ -50,7 +50,7 @@ class OpenApiValidateConsoleTest extends Unit
     public function testValidateOpenApiReturnsErrorCodeAndPrintsErrorMessagesWhenValidationFailed(): void
     {
         // Arrange
-        $commandTester = $this->tester->getConsoleTester(new OpenApiValidateConsole());
+        $commandTester = $this->tester->getConsoleTester(OpenApiValidateConsole::class);
 
         // Act
         $commandTester->execute([], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
