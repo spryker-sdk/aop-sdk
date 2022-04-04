@@ -48,7 +48,7 @@ class AppConfigurationValidateConsole extends AbstractConsole
         $validateRequestTransfer = new ValidateRequestTransfer();
         $validateRequestTransfer->setConfigurationFile($input->getOption(static::CONFIGURATION_FILE));
 
-        $validateResponseTransfer = $this->getFacade()->validateConfiguration($validateRequestTransfer);
+        $validateResponseTransfer = $this->getFacade()->validateAppConfiguration($validateRequestTransfer);
 
         if ($validateResponseTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;

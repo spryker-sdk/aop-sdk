@@ -8,10 +8,11 @@
 namespace SprykerSdkTest\Helper;
 
 use Codeception\Module;
-use org\bovigo\vfs\vfsStream;
 
 class AppTranslationValidatorHelper extends Module
 {
+    use AppSdkHelperTrait;
+
     /**
      * @param string $translationFile
      *
@@ -137,15 +138,6 @@ class AppTranslationValidatorHelper extends Module
      */
     protected function prepareTranslation(array $structure): void
     {
-        $root = vfsStream::setup('root', null, $structure);
-        $this->getValidatorHelper()->mockRoot($root->url());
-    }
-
-    /**
-     * @return \SprykerSdkTest\Helper\ValidatorHelper
-     */
-    protected function getValidatorHelper(): ValidatorHelper
-    {
-        return $this->getModule('\\' . ValidatorHelper::class);
+        $this->getAppSdkHelper()->mockDirectoryStructure($structure);
     }
 }

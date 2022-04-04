@@ -11,15 +11,15 @@ use Spryker\Zed\Console\ConsoleDependencyProvider as SprykerConsoleDependencyPro
 use Spryker\Zed\Kernel\Container;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AppConfigurationCreateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AppConfigurationValidateConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppManifestCreateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AppManifestValidateConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\AppTranslationBuilderConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppTranslationCreateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AppTranslationValidateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AsyncApiCreateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AsyncApiMessageAddConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AsyncApiValidateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\BuildCodeFromAsyncApiConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\CheckReadinessConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\CreateManifestConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\OpenApiCreateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\OpenApiValidateConsole;
 use SprykerSdk\Zed\AppSdk\Communication\Console\ValidateConsole;
@@ -47,9 +47,9 @@ class AppSdkConsoleDependencyProvider extends SprykerConsoleDependencyProvider
             new AppTranslationValidateConsole(),
             new CheckReadinessConsole(),
             new BuildCodeFromAsyncApiConsole(),
-            new CreateManifestConsole(),
+            new AppManifestCreateConsole(),
             new OpenApiCreateConsole(),
-            new AppTranslationBuilderConsole(),
+            new AppTranslationCreateConsole(),
             new OpenApiValidateConsole(),
         ];
     }

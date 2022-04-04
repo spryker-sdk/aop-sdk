@@ -77,11 +77,9 @@ class AppConfigurationCreateConsoleTest extends Unit
         ]);
 
         // Act
-        $commandTester->execute([
-            '--' . AppConfigurationCreateConsole::CONFIGURATION_FILE => $this->tester->getRootUrl() . '/app/configuration/configuration.json',
-        ]);
+        $commandTester->execute([]);
 
         // Assert
-        $this->assertFileEquals(codecept_data_dir('valid/configuration/console-test-configuration.json'), $this->tester->getRootUrl() . '/app/configuration/configuration.json');
+        $this->assertFileEquals(codecept_data_dir('valid/configuration/console-test-configuration.json'), $this->tester->getRootPath() . '/config/app/configuration/configuration.json');
     }
 }

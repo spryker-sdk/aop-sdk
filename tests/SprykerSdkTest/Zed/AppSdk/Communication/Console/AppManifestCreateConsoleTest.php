@@ -9,7 +9,7 @@ namespace SprykerSdkTest\Zed\AppSdk\Communication\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AppSdk\Communication\Console\AbstractConsole;
-use SprykerSdk\Zed\AppSdk\Communication\Console\OpenApiCreateConsole;
+use SprykerSdk\Zed\AppSdk\Communication\Console\AppManifestCreateConsole;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -18,9 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @group AppSdk
  * @group Communication
  * @group Console
- * @group OpenApiCreateConsoleTest
+ * @group CreateManifestConsoleTest
  */
-class OpenApiCreateConsoleTest extends Unit
+class AppManifestCreateConsoleTest extends Unit
 {
     /**
      * @var \SprykerSdkTest\Zed\AppSdk\CommunicationTester
@@ -30,19 +30,18 @@ class OpenApiCreateConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testOpenApiCreateConsole(): void
+    public function testCreateManifestConsole(): void
     {
         // Arrange
-        $commandTester = $this->tester->getConsoleTester(OpenApiCreateConsole::class);
+        $commandTester = $this->tester->getConsoleTester(AppManifestCreateConsole::class);
 
         // Act
         $commandTester->execute(
             [
-                OpenApiCreateConsole::ARGUMENT_TITLE => 'Test File',
+                AppManifestCreateConsole::MANIFEST_NAME => 'Manifest',
+                AppManifestCreateConsole::MANIFEST_LOCALE => 'de_DE',
             ],
-            [
-                'verbosity' => OutputInterface::VERBOSITY_VERBOSE,
-            ],
+            ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
         );
 
         // Assert
@@ -52,24 +51,23 @@ class OpenApiCreateConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testCreateOpenApiConsoleWithFileExists(): void
+    public function testCreateManifestConsoleWithFileExists(): void
     {
         // Arrange
-        $commandTester = $this->tester->getConsoleTester(OpenApiCreateConsole::class);
-        $this->tester->haveOpenApiFile();
+        $commandTester = $this->tester->getConsoleTester(AppManifestCreateConsole::class);
+        $this->tester->haveManifestFile(); // This creates a manifest named en_US.json
 
         // Act
         $commandTester->execute(
             [
-                OpenApiCreateConsole::ARGUMENT_TITLE => 'Test File',
+                AppManifestCreateConsole::MANIFEST_NAME => 'Manifest',
+                AppManifestCreateConsole::MANIFEST_LOCALE => 'en_US',
             ],
-            [
-                'verbosity' => OutputInterface::VERBOSITY_VERBOSE,
-            ],
+            ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
         );
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
-        $this->assertStringContainsString('File "vfs://root/config/api/openapi/openapi.yml" already exists.', $commandTester->getDisplay());
+        $this->assertStringContainsString('File "vfs://root/config/app/manifest/en_US.json" already exists.', trim($commandTester->getDisplay()));
     }
 }

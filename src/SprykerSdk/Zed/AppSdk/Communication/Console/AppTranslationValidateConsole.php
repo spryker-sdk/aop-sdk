@@ -52,7 +52,7 @@ class AppTranslationValidateConsole extends AbstractConsole
         $validateRequestTransfer->setManifestPath($input->getOption(AppManifestValidateConsole::MANIFEST_PATH));
         $validateRequestTransfer->setConfigurationFile($input->getOption(AppConfigurationValidateConsole::CONFIGURATION_FILE));
 
-        $validateResponseTransfer = $this->getFacade()->validateTranslation($validateRequestTransfer);
+        $validateResponseTransfer = $this->getFacade()->validateAppTranslation($validateRequestTransfer);
 
         if ($validateResponseTransfer->getErrors()->count() === 0) {
             return static::CODE_SUCCESS;

@@ -12,7 +12,7 @@ use Generated\Shared\Transfer\ValidateRequestTransfer;
 use Generated\Shared\Transfer\ValidateResponseTransfer;
 use SprykerSdk\Zed\AppSdk\Business\Validator\AbstractValidator;
 
-class ManifestValidator extends AbstractValidator
+class AppManifestValidator extends AbstractValidator
 {
     /**
      * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
