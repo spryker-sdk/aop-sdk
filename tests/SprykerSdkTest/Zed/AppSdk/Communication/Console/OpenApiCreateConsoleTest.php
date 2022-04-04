@@ -32,6 +32,7 @@ class OpenApiCreateConsoleTest extends Unit
      */
     public function testOpenApiCreateConsole(): void
     {
+        // Arrange
         $commandTester = $this->tester->getConsoleTester(OpenApiCreateConsole::class);
 
         // Act
@@ -54,13 +55,14 @@ class OpenApiCreateConsoleTest extends Unit
      */
     public function testCreateOpenApiConsoleWithFileExists(): void
     {
+        // Arrange
         $commandTester = $this->tester->getConsoleTester(new OpenApiCreateConsole());
+        $this->tester->haveOpenApiFile();
 
         // Act
         $commandTester->execute(
             [
                 OpenApiCreateConsole::ARGUMENT_TITLE => 'Test File',
-                '--' . OpenApiCreateConsole::OPTION_OPEN_API_FILE => $this->tester->getRootUrl() . '/api/openapi/openapi.yml',
             ],
             [
                 'verbosity' => OutputInterface::VERBOSITY_VERBOSE,
@@ -68,8 +70,7 @@ class OpenApiCreateConsoleTest extends Unit
         );
 
         // Assert
-
         $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
-        $this->assertStringContainsString('File "vfs://root/api/openapi/openapi.yml"' . ' already exists.', $commandTester->getDisplay());
+        $this->assertStringContainsString('File "/data/vendor/spryker-sdk/app-sdk/config/api/openapi/openapi.yml" already exists.', $commandTester->getDisplay());
     }
 }

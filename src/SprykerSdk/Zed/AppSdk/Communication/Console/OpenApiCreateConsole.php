@@ -76,8 +76,10 @@ class OpenApiCreateConsole extends AbstractConsole
         }
 
         // @codeCoverageIgnoreStart
-        foreach ($openApiResponseTransfer->getErrors() as $error) {
-            $output->writeln($error->getMessageOrFail());
+        if ($output->isVerbose()) {
+            foreach ($openApiResponseTransfer->getErrors() as $error) {
+                $output->writeln($error->getMessageOrFail());
+            }
         }
 
         return static::CODE_ERROR;

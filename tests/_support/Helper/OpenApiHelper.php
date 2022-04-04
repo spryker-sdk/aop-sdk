@@ -66,4 +66,31 @@ class OpenApiHelper extends Module
     {
         return $this->getModule('\\' . ValidatorHelper::class);
     }
+
+    /**
+     * return void
+     *
+     * @return void
+     */
+    public function haveOpenApiFile(): void
+    {
+        $this->prepareOpenApiFile(codecept_data_dir('api/openapi/valid/valid_openapi.yml'));
+    }
+
+    /**
+     * @param string $pathToOpenApi
+     *
+     * @return void
+     */
+    protected function prepareOpenApiFile(string $pathToOpenApi): void
+    {
+        $filePath = sprintf('%s/config/api/openapi/openapi.yml', $this->getRootUrl());
+
+        if (!is_dir(dirname($filePath))) {
+            mkdir(dirname($filePath), 0770, true);
+        }
+        file_put_contents($filePath, file_get_contents($pathToOpenApi));
+
+        $this->getValidatorHelper()->mockRoot($this->getRootUrl());
+    }
 }
