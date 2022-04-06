@@ -11,7 +11,7 @@ use Codeception\Module;
 
 class AppManifestValidatorHelper extends Module
 {
-    use AppSdkHelperTrait;
+    use AopSdkHelperTrait;
 
     /**
      * @return void
@@ -87,6 +87,6 @@ class AppManifestValidatorHelper extends Module
                 ],
             ],
         ];
-        $this->getAppSdkHelper()->mockDirectoryStructure($structure);
+        $this->getAopSdkHelper()->mockDirectoryStructure($structure);
     }
 }

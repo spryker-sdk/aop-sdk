@@ -15,7 +15,7 @@ use SprykerTest\Zed\Testify\Helper\Business\BusinessHelperTrait;
 
 class OpenApiHelper extends Module
 {
-    use AppSdkHelperTrait;
+    use AopSdkHelperTrait;
     use BusinessHelperTrait;
     use ConfigHelperTrait;
 
@@ -24,7 +24,7 @@ class OpenApiHelper extends Module
      */
     public function haveOpenApiAddRequest(): OpenApiRequestTransfer
     {
-        $config = $this->getAppSdkHelper()->getConfig();
+        $config = $this->getAopSdkHelper()->getConfig();
 
         $openApiTransfer = new OpenApiTransfer();
         $openApiTransfer
@@ -56,7 +56,7 @@ class OpenApiHelper extends Module
      */
     protected function prepareOpenApiFile(string $pathToOpenApi): void
     {
-        $filePath = sprintf('%s/config/api/openapi/openapi.yml', $this->getAppSdkHelper()->getRootPath());
+        $filePath = sprintf('%s/config/api/openapi/openapi.yml', $this->getAopSdkHelper()->getRootPath());
 
         if (!is_dir(dirname($filePath))) {
             mkdir(dirname($filePath), 0770, true);

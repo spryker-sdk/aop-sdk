@@ -1,3 +1,3 @@
 # AppSdk Changelog
 
-[Release Changelog](https://github.com/spryker-sdk/app-sdk/releases)
+[Release Changelog](https://github.com/spryker-sdk/aop-sdk/releases)

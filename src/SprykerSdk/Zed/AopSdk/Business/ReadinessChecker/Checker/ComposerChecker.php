@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker;
+
+use Composer\InstalledVersions;
+use Composer\Semver\VersionParser;
+use Generated\Shared\Transfer\CheckConfigurationTransfer;
+use Generated\Shared\Transfer\CheckerMessageTransfer;
+use Generated\Shared\Transfer\RecipeTransfer;
+
+class ComposerChecker implements CheckerInterface
+{
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return 'composer';
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\RecipeTransfer $recipeTransfer
+     * @param \Generated\Shared\Transfer\CheckConfigurationTransfer $checkConfigurationTransfer
+     *
+     * @return \Generated\Shared\Transfer\RecipeTransfer
+     */
+    public function check(RecipeTransfer $recipeTransfer, CheckConfigurationTransfer $checkConfigurationTransfer): RecipeTransfer
+    {
+        foreach ($checkConfigurationTransfer->getCheckConfiguration() as $package => $expectedVersion) {
+            if (!InstalledVersions::isInstalled($package)) {
+                $checkerMessageTransfer = new CheckerMessageTransfer();
+                $checkerMessageTransfer->setType('error')
+                    ->setMessage(sprintf('Required package "%1$s" was not found. Please install it with "composer install %1$s".', $package));
+
+                $recipeTransfer->addCheckerMessage($checkerMessageTransfer);
+
+                return $recipeTransfer;
+            }
+
+            if (!InstalledVersions::satisfies(new VersionParser(), $package, $expectedVersion)) {
+                $checkerMessageTransfer = new CheckerMessageTransfer();
+                $checkerMessageTransfer->setType('error')
+                    ->setMessage(sprintf('Required package "%s" does not satisfy the expected version "%s". Please update your composer dependencies.', $package, $expectedVersion));
+
+                $recipeTransfer->addCheckerMessage($checkerMessageTransfer);
+            }
+        }
+
+        return $recipeTransfer;
+    }
+}

@@ -16,15 +16,15 @@ use Generated\Shared\Transfer\AsyncApiRequestTransfer;
 use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\AsyncApiTransfer;
 use SprykerSdk\AsyncApi\Loader\AsyncApiLoader;
-use SprykerSdk\Zed\AppSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
-use SprykerSdk\Zed\AppSdk\Communication\Console\BuildCodeFromAsyncApiConsole;
+use SprykerSdk\Zed\AopSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
+use SprykerSdk\Zed\AopSdk\Communication\Console\BuildCodeFromAsyncApiConsole;
 use SprykerTest\Shared\Testify\Helper\ConfigHelperTrait;
 use SprykerTest\Zed\Testify\Helper\Business\BusinessHelperTrait;
 use Symfony\Component\Yaml\Yaml;
 
 class AsyncApiHelper extends Module
 {
-    use AppSdkHelperTrait;
+    use AopSdkHelperTrait;
     use BusinessHelperTrait;
     use ConfigHelperTrait;
 
@@ -45,7 +45,7 @@ class AsyncApiHelper extends Module
 
         $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
         $asyncApiRequestTransfer
-            ->setTargetFile($this->getAppSdkHelper()->getConfig()->getDefaultAsyncApiFile())
+            ->setTargetFile($this->getAopSdkHelper()->getConfig()->getDefaultAsyncApiFile())
             ->setAsyncApi($asyncApiTransfer);
 
         return $asyncApiRequestTransfer;
@@ -53,7 +53,7 @@ class AsyncApiHelper extends Module
 
     /**
      * We assume that an AsyncApi file with version 0.1.0 exists when `\SprykerSdkTest\Helper\AsyncApiHelper::haveAsyncApiFile()`
-     * was called before `\SprykerSdk\Zed\AppSdk\Business\AppSdkFacadeInterface::addAsyncApi()` is executed.
+     * was called before `\SprykerSdk\Zed\AopSdk\Business\AopSdkFacadeInterface::addAsyncApi()` is executed.
      *
      * @return \Generated\Shared\Transfer\AsyncApiRequestTransfer
      */
@@ -66,7 +66,7 @@ class AsyncApiHelper extends Module
 
         $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
         $asyncApiRequestTransfer
-            ->setTargetFile($this->getAppSdkHelper()->getConfig()->getDefaultAsyncApiFile())
+            ->setTargetFile($this->getAopSdkHelper()->getConfig()->getDefaultAsyncApiFile())
             ->setAsyncApi($asyncApiTransfer);
 
         return $asyncApiRequestTransfer;
@@ -86,7 +86,7 @@ class AsyncApiHelper extends Module
 
         $asyncApiRequestTransfer = new AsyncApiRequestTransfer();
         $asyncApiRequestTransfer
-            ->setTargetFile($this->getAppSdkHelper()->getConfig()->getDefaultAsyncApiFile())
+            ->setTargetFile($this->getAopSdkHelper()->getConfig()->getDefaultAsyncApiFile())
             ->setAsyncApi($asyncApiTransfer);
 
         return $asyncApiRequestTransfer;
@@ -139,7 +139,7 @@ class AsyncApiHelper extends Module
      */
     protected function prepareAsyncApiFile(string $pathToAsyncApi): void
     {
-        $filePath = sprintf('%s/config/api/asyncapi/asyncapi.yml', $this->getAppSdkHelper()->getRootPath());
+        $filePath = sprintf('%s/config/api/asyncapi/asyncapi.yml', $this->getAopSdkHelper()->getRootPath());
 
         if (!is_dir(dirname($filePath))) {
             mkdir(dirname($filePath), 0770, true);
@@ -371,7 +371,7 @@ class AsyncApiHelper extends Module
     }
 
     /**
-     * @return \SprykerSdk\Zed\AppSdk\Communication\Console\BuildCodeFromAsyncApiConsole
+     * @return \SprykerSdk\Zed\AopSdk\Communication\Console\BuildCodeFromAsyncApiConsole
      */
     public function getAsyncApiBuilderConsoleMock(): BuildCodeFromAsyncApiConsole
     {

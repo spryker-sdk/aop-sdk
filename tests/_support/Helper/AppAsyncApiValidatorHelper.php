@@ -11,7 +11,7 @@ use Codeception\Module;
 
 class AppAsyncApiValidatorHelper extends Module
 {
-    use AppSdkHelperTrait;
+    use AopSdkHelperTrait;
 
     /**
      * @return void
@@ -88,6 +88,6 @@ class AppAsyncApiValidatorHelper extends Module
             ],
         ];
 
-        $this->getAppSdkHelper()->mockDirectoryStructure($structure);
+        $this->getAopSdkHelper()->mockDirectoryStructure($structure);
     }
 }
