@@ -1,5 +1,5 @@
 {
-    "name": "spryker-sdk/app-sdk",
+    "name": "spryker-sdk/aop-sdk",
     "type": "library",
     "description": "SDK for Apps.",
     "license": "proprietary",
