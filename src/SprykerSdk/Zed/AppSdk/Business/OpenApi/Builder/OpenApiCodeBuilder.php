@@ -11,7 +11,12 @@ use Generated\Shared\Transfer\MessageTransfer;
 use Generated\Shared\Transfer\OpenApiRequestTransfer;
 use Generated\Shared\Transfer\OpenApiResponseTransfer;
 use OpenAPI\Parser;
-use OpenAPI\Schema\ObjectInterface;
+use OpenAPI\Schema\V3\Paths;
+use OpenAPI\Schema\V3\PathItem;
+use OpenAPI\Schema\V3\Operation;
+use OpenAPI\Schema\V3\Parameter;
+use OpenAPI\Schema\V3\Response;
+use OpenAPI\Schema\V3\Schema;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
 use Symfony\Component\Process\Process;
 
@@ -21,6 +26,11 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      * @var \SprykerSdk\Zed\AppSdk\AppSdkConfig
      */
     protected AppSdkConfig $config;
+
+    /**
+     * @var array
+     */
+    protected $openApi;
 
     /**
      * @var string
@@ -43,16 +53,15 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     public function build(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer
     {
         $openApiResponseTransfer = new OpenApiResponseTransfer();
-        $openApi = $this->load($openApiRequestTransfer->getTargetFileOrFail());
+        $this->load($openApiRequestTransfer->getTargetFileOrFail());
 
-        dd($openApi);
         $organization = $openApiRequestTransfer->getOrganizationOrFail();
 
         if ($organization === 'Spryker') {
             $this->sprykMode = 'core';
         }
 
-        // $openApiResponseTransfer = $this->buildCodeForPublishMessagesChannels($openApi, $openApiResponseTransfer, $organization);
+        $openApiResponseTransfer = $this->buildCodeForPublishMessagesChannels($openApiResponseTransfer, $organization);
 
         if ($openApiResponseTransfer->getMessages()->count() === 0) {
             $messageTransfer = new MessageTransfer();
@@ -65,12 +74,149 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
 
     /**
      * @param string $openApiFilePath
-     *
-     * @return \OpenAPI\Schema\ObjectInterface
      */
-    public function load(string $openApiFilePath): ObjectInterface
+    public function load(string $openApiFilePath)
     {
-        return Parser::parse($openApiFilePath);
+        $this->openApi = Parser::parse($openApiFilePath)->getAllValidFields();
+    }
+
+    /**
+     * @param array $openApi
+     * @param \Generated\Shared\Transfer\OpenApiResponseTransfer $openApiResponseTransfer
+     * @param string $projectNamespace
+     *
+     * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
+     */
+    protected function buildCodeForPublishMessagesChannels(
+        OpenApiResponseTransfer $openApiResponseTransfer,
+        string $projectNamespace
+    ): OpenApiResponseTransfer {
+        
+        $commandLines = [];
+
+        foreach($this->getOpenApiPathItems($this->getOpenApiPaths()) as $path => $pathItem){
+            foreach ($this->getOperation($pathItem) as $method => $operation) {
+                foreach ($this->getOperationParameters($operation) as $key => $parameter) {
+                    $this->getParameterSchema($parameter);
+                }
+
+                foreach ($this->getOperationResponses($operation) as $response) {
+                    dd($response);
+                    $this->getParameterSchema($response);
+                }
+            }
+        }
+
+        dd($this->openApi);
+
+        // foreach ($this->getSchemas($openApi) as $className => $schema) {
+        //     $transferPropertiesToAdd = [];
+
+        //     foreach ($schema->properties->getPatternedFields() as $fields) {
+        //         $transferPropertiesToAdd[] = $fields;
+        //     }
+
+        //     $commandLines[] = [
+        //         'vendor/bin/spryk-run',
+        //         'AddSharedTransferProperty',
+        //         '--mode', $this->sprykMode,
+        //         '--organization', $projectNamespace,
+        //         '--module', $className,
+        //         '--name', $className,
+        //         '--propertyName', implode(',', $transferPropertiesToAdd),
+        //         '-n',
+        //         '-v',
+        //     ];
+        //     $messageTransfer = new MessageTransfer();
+        //     $messageTransfer->setMessage(sprintf('Added transfer property for "%s" to the module "%s".', $className, $className));
+        //     $openApiResponseTransfer->addMessage($messageTransfer);
+        // }
+
+        // dd($commandLines);
+
+        // $this->runCommandLines($commandLines);
+    
+        return $openApiResponseTransfer;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getOpenApiVersion(): string{
+        return $this->openApip['openapi'];
+    }
+
+    /**
+     * @return object
+     */
+    protected function getOpenApiInfo(): array{
+        return $this->openApi['info'];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getOpenApiServers(): array{
+        return $this->openApi['servers'];
+    }
+
+    /**
+     * @return \OpenAPI\Schema\V3\Paths
+     */
+    protected function getOpenApiPaths(): Paths{
+        return $this->openApi['paths'];
+    }
+
+    /**
+     * @param \OpenAPI\Schema\V3\Paths
+     * 
+     * @return itrable \OpenAPI\Schema\V3\PathItem
+     */
+    protected function getOpenApiPathItems(Paths $paths): iterable{
+        return $paths->getPatternedFields();
+    }
+
+    /**
+     * @return array
+     */
+    protected function getOpenApiConponents(): array{
+        return $this->openApi['components'];
+    }
+
+    /**
+     * @param \OpenAPI\Schema\V3\PathIten
+     * 
+     * @return itrable \OpenAPI\Schema\V3\Operation
+     */
+    protected function getOperation(PathItem $pathItem): iterable{
+        return $pathItem->getAllValidFields();
+    }
+
+    /**
+     * @param \OpenAPI\Schema\V3\Operation
+     * 
+     * @return itrable \OpenAPI\Schema\V3\Parameter
+     */
+    protected function getOperationParameters(Operation $operation): iterable{
+        return $operation->parameters;
+    }
+
+    /**
+     * @param \OpenAPI\Schema\V3\Parameter
+     * 
+     * @return \OpenAPI\Schema\V3\Schema
+     */
+    protected function getParameterSchema(Parameter $parameter): Schema{
+        return $parameter->schema;
+    }
+    
+    /**
+     * @param \OpenAPI\Schema\V3\Operation
+     * 
+     * @return itrable \OpenAPI\Schema\V3\Response
+     */
+    protected function getOperationResponses(Operation $operation): iterable{
+        return $operation->responses;
     }
 
     /**
