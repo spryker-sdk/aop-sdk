@@ -61,7 +61,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
             $this->sprykMode = 'core';
         }
 
-        $openApiResponseTransfer = $this->buildCodeForPublishMessagesChannels($openApiResponseTransfer, $organization);
+        $openApiResponseTransfer = $this->buildCodeForOpenApi($openApiResponseTransfer, $organization);
 
         if ($openApiResponseTransfer->getMessages()->count() === 0) {
             $messageTransfer = new MessageTransfer();
@@ -87,7 +87,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      *
      * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
      */
-    protected function buildCodeForPublishMessagesChannels(
+    protected function buildCodeForOpenApi(
         OpenApiResponseTransfer $openApiResponseTransfer,
         string $projectNamespace
     ): OpenApiResponseTransfer {
