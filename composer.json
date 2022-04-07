@@ -39,7 +39,7 @@
         }
     },
     "bin": [
-        "bin/app-sdk"
+        "bin/aop-sdk"
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
