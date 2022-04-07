@@ -1,6 +1,6 @@
 # Readiness Check
 
-AppSdk has a console command to check if a Project or an App is ready to be used with specific modules. It uses recipes that contains a description of things that need to be done to be ready.
+AopSdk has a console command to check if a Project or an App is ready to be used with specific modules. It uses recipes that contains a description of things that need to be done to be ready.
 
 ## Command execution
 `vendor/bin/app-sdk check:readiness {recipe-name-a} [--project-namespace FooBar (-p FooBar)] [--root-path /root/path/ (-r /root/path/)]`
