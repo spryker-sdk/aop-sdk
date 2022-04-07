@@ -105,16 +105,22 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
             foreach ($pathItem->getOperations() as $method => $operation) {
                 /** @var Parameter|Reference $parameter */
                 foreach ($operation->parameters as $parameterKey => $parameter) {
-                    $parseData[$path][$method]["Parameters"][$parameterKey] = json_decode(json_encode($parameter->getSerializableData()), true);;
+                    $parseData[$path][$method]["Parameters"][$parameterKey]["Params"] = json_decode(json_encode($parameter->getSerializableData()), true);
+                    $parseData[$path][$method]["Parameters"][$parameterKey]["Reference"] = $parameter->getDocumentPosition()->getPath();
                 }
-
+                
+                /** @var RequestBody $parameter */
                 if($operation->requestBody){
-                    $parseData[$path][$method]["RequestBody"] = json_decode(json_encode($operation->requestBody->getSerializableData()), true);
+                    foreach ($operation->requestBody->content as $contentType => $mediaType) {
+                        $parseData[$path][$method]["RequestBody"]["ContentType"] = $contentType;
+                        $parseData[$path][$method]["RequestBody"]["RequestData"] = $this->parseParameters($mediaType->schema);
+                    }
                 }
 
                 /** @var Response|Reference $response */
                 foreach ($operation->responses as $status => $response) {
-                    $parseData[$path][$method]["Responses"][$status] = json_decode(json_encode($response->getSerializableData()), true);
+                    $parseData[$path][$method]["Responses"][$status]["Response"] = json_decode(json_encode($response->getSerializableData()), true);
+                    $parseData[$path][$method]["Responses"][$status]["Reference"] = $response->getDocumentPosition()->getPath();
                 }
             }
         }
@@ -122,6 +128,19 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         dd($parseData);
 
         return $openApiResponseTransfer;
+    }
+
+
+    protected function parseParameters($schema){
+        $response = [];
+        
+        foreach ($schema->properties as $schemaObject) {
+            $response["Params"] = $this->parseParameters($schemaObject);
+            $response["Properties"] = $schemaObject->getSerializableData();
+            $response["Reference"] = $schema->getDocumentPosition()->getPath();
+        }
+
+        return $response;
     }
 
     /**
