@@ -1,7 +1,7 @@
 {
-    "name": "spryker-sdk/app-sdk",
+    "name": "spryker-sdk/aop-sdk",
     "type": "library",
-    "description": "SDK for Apps.",
+    "description": "SDK for AOP.",
     "license": "proprietary",
     "require": {
         "php": ">=7.4",
@@ -40,7 +40,7 @@
         }
     },
     "bin": [
-        "bin/app-sdk"
+        "bin/aop-sdk"
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
