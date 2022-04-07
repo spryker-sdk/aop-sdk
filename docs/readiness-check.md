@@ -1,9 +1,9 @@
 # Readiness Check
 
-AppSdk has a console command to check if a Project or an App is ready to be used with specific modules. It uses recipes that contains a description of things that need to be done to be ready.
+AopSdk has a console command to check if a Project or an App is ready to be used with specific modules. It uses recipes that contains a description of things that need to be done to be ready.
 
 ## Command execution
-`vendor/bin/app-sdk check:readiness {recipe-name-a} [--project-namespace FooBar (-p FooBar)] [--root-path /root/path/ (-r /root/path/)]`
+`vendor/bin/aop-sdk check:readiness {recipe-name-a} [--project-namespace FooBar (-p FooBar)] [--root-path /root/path/ (-r /root/path/)]`
 
 ### Command options
 
@@ -12,13 +12,13 @@ AppSdk has a console command to check if a Project or an App is ready to be used
 The recipe Argument is the first argument of the console command. Recipes are (currently) placed in 'config/CheckRecipes/' and use the YML format.
 A recipe thats located in `config/CheckRecipe/my-check-recipe.yml` can be executed by running:
 
-`vendor/bin/app-sdk check:readiness my-check-recipe`
+`vendor/bin/aop-sdk check:readiness my-check-recipe`
 
 #### Project namespace Option
 
 This option is used to tell the check tools for which project namespace it should be executed. This is only used when you need to get classes from the project.
 
-An example can be found in the `\SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\PluginsChecker`.
+An example can be found in the `\SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\PluginsChecker`.
 
 Example configuration:
 
@@ -41,7 +41,7 @@ TODO: Implement Twig template finder.
 
 ## Recipes
 
-Recipes are written in YML and will contain any kind of configuration for the checker tools. The root key inside of the YML points to a `\SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface`. The checker classes have a method `getName()` which is used to map from the YML file to this checker.
+Recipes are written in YML and will contain any kind of configuration for the checker tools. The root key inside of the YML points to a `\SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\CheckerInterface`. The checker classes have a method `getName()` which is used to map from the YML file to this checker.
 
 ## Checker
 
@@ -85,11 +85,11 @@ plugins:
 
 ## Adding a checker
 
-To create a new checker you need to create a class in `src/SprykerSdk/Zed/AppSdk/Business/ReadinessChecker/Checker` that implements the `SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface`.
+To create a new checker you need to create a class in `src/SprykerSdk/Zed/AopSdk/Business/ReadinessChecker/Checker` that implements the `SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\CheckerInterface`.
 
-This class needs to be added to `\SprykerSdk\Zed\AppSdk\Business\AppSdkBusinessFactory::getReadinessChecker()` to be accesible by the check tool.
+This class needs to be added to `\SprykerSdk\Zed\AopSdk\Business\AopSdkBusinessFactory::getReadinessChecker()` to be accesible by the check tool.
 
-The `\SprykerSdk\Zed\AppSdk\Business\ReadinessChecker\Checker\CheckerInterface::check()` method will get a `RecipeTransfer` and a `CheckConfigurationTransfer`. The method must return the `RecipeTransfer` after it was executed.
+The `\SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\CheckerInterface::check()` method will get a `RecipeTransfer` and a `CheckConfigurationTransfer`. The method must return the `RecipeTransfer` after it was executed.
 
 ### Adding messages
 

@@ -2,17 +2,17 @@
 
 The following console commands are available:
 
-- `vendor/bin/app-sdk app:configuration:create`
+- `vendor/bin/aop-sdk app:configuration:create`
 
 ## Adding an Configuration file
 
-The `vendor/bin/app-sdk app:configuration:create` adds a minimal Configuration file.
+The `vendor/bin/aop-sdk app:configuration:create` adds a minimal Configuration file.
 
 #### Options
 
 - `configuration-file`
 
-`vendor/bin/app-sdk app:configuration:create --configuration-file "path/to/configuration.json"` will override the default file location (config/app/configuration/configuration.json).
+`vendor/bin/aop-sdk app:configuration:create --configuration-file "path/to/configuration.json"` will override the default file location (config/app/configuration/configuration.json).
 
 For each configuration you will be prompted to enter details.
 When the process is done a configuration file will be created in: "path/to/configuration.json"
