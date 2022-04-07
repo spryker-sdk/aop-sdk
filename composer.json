@@ -5,7 +5,7 @@
     "license": "proprietary",
     "require": {
         "php": ">=7.4",
-        "allansun/openapi-parser": "2.1.5.1",
+        "cebe/php-openapi": "^1.6",
         "spryker-sdk/async-api": "1.0.x-dev",
         "spryker-sdk/spryk": "*",
         "spryker/console": "^4.10",

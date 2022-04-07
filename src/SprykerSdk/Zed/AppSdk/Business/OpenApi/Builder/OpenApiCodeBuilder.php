@@ -10,13 +10,14 @@ namespace SprykerSdk\Zed\AppSdk\Business\OpenApi\Builder;
 use Generated\Shared\Transfer\MessageTransfer;
 use Generated\Shared\Transfer\OpenApiRequestTransfer;
 use Generated\Shared\Transfer\OpenApiResponseTransfer;
-use OpenAPI\Parser;
-use OpenAPI\Schema\V3\Paths;
-use OpenAPI\Schema\V3\PathItem;
-use OpenAPI\Schema\V3\Operation;
-use OpenAPI\Schema\V3\Parameter;
-use OpenAPI\Schema\V3\Response;
-use OpenAPI\Schema\V3\Schema;
+use cebe\openapi\Reader;
+use cebe\openapi\spec\Paths;
+use cebe\openapi\spec\PathItem;
+use cebe\openapi\spec\Operation;
+use cebe\openapi\spec\Parameter;
+use cebe\openapi\spec\RequestBody;
+use cebe\openapi\spec\Response;
+use cebe\openapi\spec\Schema;
 use SprykerSdk\Zed\AppSdk\AppSdkConfig;
 use Symfony\Component\Process\Process;
 
@@ -77,7 +78,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     public function load(string $openApiFilePath)
     {
-        $this->openApi = Parser::parse($openApiFilePath)->getAllValidFields();
+        $this->openApi = Reader::readFromYamlFile($openApiFilePath);
     }
 
     /**
@@ -94,129 +95,27 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         
         $commandLines = [];
 
-        foreach($this->getOpenApiPathItems($this->getOpenApiPaths()) as $path => $pathItem){
-            foreach ($this->getOperation($pathItem) as $method => $operation) {
-                foreach ($this->getOperationParameters($operation) as $key => $parameter) {
-                    $this->getParameterSchema($parameter);
+        $parseData = [];
+
+        foreach($this->openApi->paths->getPaths() as $path => $pathItem){
+            foreach ($pathItem->getOperations() as $method => $operation) {
+                foreach ($operation->parameters as $parameterKey => $parameter) {
+                    $parseData[$path][$method]["Parameters"][$parameterKey] = json_decode(json_encode($parameter->getSerializableData()), true);;
+                }
+                
+                if($operation->requestBody){
+                    $parseData[$path][$method]["RequestBody"] = json_decode(json_encode($operation->requestBody->getSerializableData()), true);
                 }
 
-                foreach ($this->getOperationResponses($operation) as $response) {
-                    dd($response);
-                    $this->getParameterSchema($response);
+                foreach ($operation->responses as $status => $response) {
+                    $parseData[$path][$method]["Responses"][$status] = json_decode(json_encode($response->getSerializableData()), true);
                 }
             }
         }
 
-        dd($this->openApi);
-
-        // foreach ($this->getSchemas($openApi) as $className => $schema) {
-        //     $transferPropertiesToAdd = [];
-
-        //     foreach ($schema->properties->getPatternedFields() as $fields) {
-        //         $transferPropertiesToAdd[] = $fields;
-        //     }
-
-        //     $commandLines[] = [
-        //         'vendor/bin/spryk-run',
-        //         'AddSharedTransferProperty',
-        //         '--mode', $this->sprykMode,
-        //         '--organization', $projectNamespace,
-        //         '--module', $className,
-        //         '--name', $className,
-        //         '--propertyName', implode(',', $transferPropertiesToAdd),
-        //         '-n',
-        //         '-v',
-        //     ];
-        //     $messageTransfer = new MessageTransfer();
-        //     $messageTransfer->setMessage(sprintf('Added transfer property for "%s" to the module "%s".', $className, $className));
-        //     $openApiResponseTransfer->addMessage($messageTransfer);
-        // }
-
-        // dd($commandLines);
-
-        // $this->runCommandLines($commandLines);
-    
+        dd($parseData);
+        
         return $openApiResponseTransfer;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getOpenApiVersion(): string{
-        return $this->openApip['openapi'];
-    }
-
-    /**
-     * @return object
-     */
-    protected function getOpenApiInfo(): array{
-        return $this->openApi['info'];
-    }
-
-    /**
-     * @return array
-     */
-    protected function getOpenApiServers(): array{
-        return $this->openApi['servers'];
-    }
-
-    /**
-     * @return \OpenAPI\Schema\V3\Paths
-     */
-    protected function getOpenApiPaths(): Paths{
-        return $this->openApi['paths'];
-    }
-
-    /**
-     * @param \OpenAPI\Schema\V3\Paths
-     * 
-     * @return itrable \OpenAPI\Schema\V3\PathItem
-     */
-    protected function getOpenApiPathItems(Paths $paths): iterable{
-        return $paths->getPatternedFields();
-    }
-
-    /**
-     * @return array
-     */
-    protected function getOpenApiConponents(): array{
-        return $this->openApi['components'];
-    }
-
-    /**
-     * @param \OpenAPI\Schema\V3\PathIten
-     * 
-     * @return itrable \OpenAPI\Schema\V3\Operation
-     */
-    protected function getOperation(PathItem $pathItem): iterable{
-        return $pathItem->getAllValidFields();
-    }
-
-    /**
-     * @param \OpenAPI\Schema\V3\Operation
-     * 
-     * @return itrable \OpenAPI\Schema\V3\Parameter
-     */
-    protected function getOperationParameters(Operation $operation): iterable{
-        return $operation->parameters;
-    }
-
-    /**
-     * @param \OpenAPI\Schema\V3\Parameter
-     * 
-     * @return \OpenAPI\Schema\V3\Schema
-     */
-    protected function getParameterSchema(Parameter $parameter): Schema{
-        return $parameter->schema;
-    }
-    
-    /**
-     * @param \OpenAPI\Schema\V3\Operation
-     * 
-     * @return itrable \OpenAPI\Schema\V3\Response
-     */
-    protected function getOperationResponses(Operation $operation): iterable{
-        return $operation->responses;
     }
 
     /**
