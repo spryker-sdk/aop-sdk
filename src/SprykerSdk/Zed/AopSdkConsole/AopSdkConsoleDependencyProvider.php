@@ -19,11 +19,11 @@ use SprykerSdk\Zed\AopSdk\Communication\Console\AsyncApiCreateConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\AsyncApiMessageAddConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\AsyncApiValidateConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\BuildCodeFromAsyncApiConsole;
+use SprykerSdk\Zed\AopSdk\Communication\Console\BuildCodeFromOpenApiConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\CheckReadinessConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\OpenApiCreateConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\OpenApiValidateConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\ValidateConsole;
-use SprykerSdk\Zed\AopSdk\Communication\Console\BuildCodeFromOpenApiConsole;
 
 /**
  * @method \SprykerSdk\Zed\AopSdkConsole\AopSdkConsoleConfig getConfig()

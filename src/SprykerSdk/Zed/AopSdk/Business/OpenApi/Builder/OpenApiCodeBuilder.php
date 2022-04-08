@@ -7,19 +7,11 @@
 
 namespace SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder;
 
-use cebe\openapi\spec\OpenApi;
-use cebe\openapi\spec\Reference;
+use cebe\openapi\Reader;
+use cebe\openapi\spec\Schema;
 use Generated\Shared\Transfer\MessageTransfer;
 use Generated\Shared\Transfer\OpenApiRequestTransfer;
 use Generated\Shared\Transfer\OpenApiResponseTransfer;
-use cebe\openapi\Reader;
-use cebe\openapi\spec\Paths;
-use cebe\openapi\spec\PathItem;
-use cebe\openapi\spec\Operation;
-use cebe\openapi\spec\Parameter;
-use cebe\openapi\spec\RequestBody;
-use cebe\openapi\spec\Response;
-use cebe\openapi\spec\Schema;
 use SprykerSdk\Zed\AopSdk\AopSdkConfig;
 use Symfony\Component\Process\Process;
 
@@ -77,6 +69,8 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
 
     /**
      * @param string $openApiFilePath
+     *
+     * @return void
      */
     public function load(string $openApiFilePath)
     {
@@ -84,8 +78,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     }
 
     /**
-     * @param array $openApi
-     * @param \Generated\Shared\Transfer\OpenApiResponseTransfer $openApiResponseTransfer
+     * @param \Generated\Shared\Transfer\OpenApiResponseTransfer|string $openApiResponseTransfer
      * @param string $projectNamespace
      *
      * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
@@ -94,34 +87,39 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         OpenApiResponseTransfer $openApiResponseTransfer,
         string $projectNamespace
     ): OpenApiResponseTransfer {
-
         $commandLines = [];
 
         $parseData = [];
 
-        /** @var PathItem $pathItem */
-        foreach($this->openApi->paths->getPaths() as $path => $pathItem){
-            /** @var Operation $operation */
+        /** @var \cebe\openapi\spec\PathItem $pathItem */
+        foreach ($this->openApi->paths->getPaths() as $path => $pathItem) {
+            /** @var \cebe\openapi\spec\Operation $operation */
             foreach ($pathItem->getOperations() as $method => $operation) {
-                /** @var Parameter|Reference $parameter */
+
+                /** @var \cebe\openapi\spec\Parameter|\cebe\openapi\spec\Reference $parameter */
                 foreach ($operation->parameters as $parameterKey => $parameter) {
-                    $parseData[$path][$method]["Parameters"][$parameterKey]["Params"] = json_decode(json_encode($parameter->getSerializableData()), true);
-                    $parseData[$path][$method]["Parameters"][$parameterKey]["Reference"] = $parameter->getDocumentPosition();
-                }
-                
-                /** @var RequestBody $parameter */
-                if($operation->requestBody){
-                    foreach ($operation->requestBody->content as $contentType => $mediaType) {
-                        $parseData[$path][$method]["RequestBody"]["ContentType"] = $contentType;
-                        $parseData[$path][$method]["RequestBody"]["RequestData"] = $this->parseParameters($mediaType->schema);
+                    $parseData[$path][$method]['Parameters'][$parameterKey] = json_decode(json_encode($parameter->getSerializableData()), true);
+                    $referencePath = $parameter->getDocumentPosition()->getPath();
+                    if (in_array('components', $referencePath)) {
+                        $parseData[$path][$method]['Parameters'][$parameterKey]['Reference'] = end($referencePath);
                     }
                 }
 
-                /** @var Response|Reference $response */
+                if ($operation->requestBody) {
+                    /** @var \cebe\openapi\spec\RequestBody $mediaType */
+                    foreach ($operation->requestBody->content as $contentType => $mediaType) {
+                        $parseData[$path][$method]['RequestBody'] = $this->parseParameters($mediaType->schema);
+                    }
+                }
+
+                /** @var \cebe\openapi\spec\Response|\cebe\openapi\spec\Reference $content */
                 foreach ($operation->responses as $status => $content) {
-                    foreach ($content->content as $contentType => $response) {
-                        $parseData[$path][$method]["Responses"][$status]["ContentType"] = $contentType;
-                        $parseData[$path][$method]["Responses"][$status]["ResponseData"] = $this->parseParameters($response->schema);
+                    if ($content->content) {
+                        foreach ($content->content as $contentType => $response) {
+                            $parseData[$path][$method]['Responses'][$status] = $this->parseParameters($response->schema);
+                        }
+                    } else {
+                        $parseData[$path][$method]['Responses'][$status] = $content->description;
                     }
                 }
             }
@@ -132,25 +130,26 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         return $openApiResponseTransfer;
     }
 
-
     /**
      * @param \cebe\openapi\spec\Schema $schema
      *
      * @return array
      */
-    protected function parseParameters(Schema $schema): array{
+    protected function parseParameters(Schema $schema): array
+    {
         $response = [];
 
         $referencePath = $schema->getDocumentPosition()->getPath();
-        $response["Reference"] = end($referencePath);
+        $reference = end($referencePath);
 
         foreach ($schema->properties as $key => $schemaObject) {
-            if($schemaObject->properties){
-                $response[$key] = $this->parseParameters($schemaObject);
-            }else{
-                $response[$key] = $schemaObject->type;
+            if ($schemaObject->properties) {
+                $response[$reference][$key] = $this->parseParameters($schemaObject);
+            } else {
+                $response[$reference][$key] = $schemaObject->type;
             }
         }
+
         return $response;
     }
 
