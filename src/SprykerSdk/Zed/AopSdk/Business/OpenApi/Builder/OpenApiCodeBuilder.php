@@ -104,10 +104,10 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
             /** @var Operation $operation */
             foreach ($pathItem->getOperations() as $method => $operation) {
                 /** @var Parameter|Reference $parameter */
-                // foreach ($operation->parameters as $parameterKey => $parameter) {
-                //     $parseData[$path][$method]["Parameters"][$parameterKey]["Params"] = json_decode(json_encode($parameter->getSerializableData()), true);
-                //     $parseData[$path][$method]["Parameters"][$parameterKey]["Reference"] = $parameter->getDocumentPosition()->getPath();
-                // }
+                foreach ($operation->parameters as $parameterKey => $parameter) {
+                    $parseData[$path][$method]["Parameters"][$parameterKey]["Params"] = json_decode(json_encode($parameter->getSerializableData()), true);
+                    $parseData[$path][$method]["Parameters"][$parameterKey]["Reference"] = $parameter->getDocumentPosition();
+                }
                 
                 /** @var RequestBody $parameter */
                 if($operation->requestBody){
