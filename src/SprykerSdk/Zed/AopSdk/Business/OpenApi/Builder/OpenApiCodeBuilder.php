@@ -8,12 +8,14 @@
 namespace SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder;
 
 use cebe\openapi\Reader;
+use cebe\openapi\spec\OpenApi;
 use cebe\openapi\spec\Schema;
 use Generated\Shared\Transfer\MessageTransfer;
 use Generated\Shared\Transfer\OpenApiRequestTransfer;
 use Generated\Shared\Transfer\OpenApiResponseTransfer;
 use SprykerSdk\Zed\AopSdk\AopSdkConfig;
 use Symfony\Component\Process\Process;
+use function Symfony\Component\String\u;
 
 class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
 {
@@ -21,11 +23,6 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      * @var \SprykerSdk\Zed\AopSdk\AopSdkConfig
      */
     protected AopSdkConfig $config;
-
-    /**
-     * @var array
-     */
-    protected $openApi;
 
     /**
      * @var string
@@ -48,15 +45,15 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     public function build(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer
     {
         $openApiResponseTransfer = new OpenApiResponseTransfer();
-        $this->load($openApiRequestTransfer->getTargetFileOrFail());
-
+        $openApi = $this->load($openApiRequestTransfer->getTargetFileOrFail());
+        
         $organization = $openApiRequestTransfer->getOrganizationOrFail();
 
         if ($organization === 'Spryker') {
             $this->sprykMode = 'core';
         }
 
-        $openApiResponseTransfer = $this->buildCodeForOpenApi($openApiResponseTransfer, $organization);
+        $openApiResponseTransfer = $this->buildCodeForOpenApi($openApi, $openApiResponseTransfer, $organization);
 
         if ($openApiResponseTransfer->getMessages()->count() === 0) {
             $messageTransfer = new MessageTransfer();
@@ -74,41 +71,55 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     public function load(string $openApiFilePath)
     {
-        $this->openApi = Reader::readFromYamlFile(realpath($openApiFilePath));
+        return Reader::readFromYamlFile(realpath($openApiFilePath));
     }
 
     /**
+     * @param \cebe\openapi\spec\OpenApi $openApi
      * @param \Generated\Shared\Transfer\OpenApiResponseTransfer|string $openApiResponseTransfer
      * @param string $projectNamespace
      *
      * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
      */
     protected function buildCodeForOpenApi(
+        OpenApi $openApi,
         OpenApiResponseTransfer $openApiResponseTransfer,
         string $projectNamespace
     ): OpenApiResponseTransfer {
-        $commandLines = [];
-
         $parseData = [];
 
         /** @var \cebe\openapi\spec\PathItem $pathItem */
-        foreach ($this->openApi->paths->getPaths() as $path => $pathItem) {
+        foreach ($openApi->paths->getPaths() as $path => $pathItem) {
+            $resources = explode("/", trim($path,"/"));
+            $moduleName = ucwords(current($resources));
+            $controllerName = "AppsResource";
+
+            $lastResource = end($resources);
+
+            if(count($resources) > 1 && is_string($lastResource) && strpos($lastResource, "{") === false){
+                $controllerName = u($lastResource)->camel()->title()->toString();
+            }
+
             /** @var \cebe\openapi\spec\Operation $operation */
             foreach ($pathItem->getOperations() as $method => $operation) {
 
+                $parseData[$path][$method]["moduleName"] = "{$moduleName}Api";
+                $parseData[$path][$method]["controllerName"] = "{$controllerName}Controller";
+
                 /** @var \cebe\openapi\spec\Parameter|\cebe\openapi\spec\Reference $parameter */
                 foreach ($operation->parameters as $parameterKey => $parameter) {
-                    $parseData[$path][$method]['Parameters'][$parameterKey] = json_decode(json_encode($parameter->getSerializableData()), true);
+                    $parseData[$path][$method]['parameters'][$parameterKey] = json_decode(json_encode($parameter->getSerializableData()), true);
                     $referencePath = $parameter->getDocumentPosition()->getPath();
                     if (in_array('components', $referencePath)) {
-                        $parseData[$path][$method]['Parameters'][$parameterKey]['Reference'] = end($referencePath);
+                        $parseData[$path][$method]['parameters'][$parameterKey]['reference'] = end($referencePath);
                     }
                 }
 
                 if ($operation->requestBody) {
                     /** @var \cebe\openapi\spec\RequestBody $mediaType */
                     foreach ($operation->requestBody->content as $contentType => $mediaType) {
-                        $parseData[$path][$method]['RequestBody'] = $this->parseParameters($mediaType->schema);
+                        $referencePath = $mediaType->schema->getDocumentPosition()->getPath();
+                        $parseData[$path][$method]['requestBody'] = $this->parseParameters($mediaType->schema, end($referencePath));
                     }
                 }
 
@@ -116,14 +127,17 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
                 foreach ($operation->responses as $status => $content) {
                     if ($content->content) {
                         foreach ($content->content as $contentType => $response) {
-                            $parseData[$path][$method]['Responses'][$status] = $this->parseParameters($response->schema);
+                            $referencePath = $response->schema->getDocumentPosition()->getPath();
+                            $parseData[$path][$method]['responses'][$status] = $this->parseParameters($response->schema, end($referencePath));
                         }
                     } else {
-                        $parseData[$path][$method]['Responses'][$status] = $content->description;
+                        $parseData[$path][$method]['responses'][$status] = $content->description;
                     }
                 }
             }
         }
+
+        $this->generateCommands($parseData, $projectNamespace);
 
         dd($parseData);
 
@@ -132,25 +146,77 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
 
     /**
      * @param \cebe\openapi\spec\Schema $schema
+     * @param string $className
      *
      * @return array
      */
-    protected function parseParameters(Schema $schema): array
+    protected function parseParameters(Schema $schema, string $className): array
     {
         $response = [];
 
-        $referencePath = $schema->getDocumentPosition()->getPath();
-        $reference = end($referencePath);
-
         foreach ($schema->properties as $key => $schemaObject) {
             if ($schemaObject->properties) {
-                $response[$reference][$key] = $this->parseParameters($schemaObject);
+                return $this->parseParameters($schemaObject, $className);
             } else {
-                $response[$reference][$key] = $schemaObject->type;
+                $response[$className][] = "{$key}:{$schemaObject->type}";
             }
         }
 
         return $response;
+    }
+
+    /**
+     * @param array $parseData
+     * @param string $projectNamespace
+     *
+     * @return void
+     */
+    protected function generateCommands(array $parseData, string $projectNamespace): void
+    {
+        $commandLines = [];
+
+        foreach ($parseData as $uri => $operations) {
+            foreach ($operations as $method => $data) {
+                if(isset($data["requestBody"])){
+                    foreach ($data["requestBody"]  as $command => $parameters) {
+                        $commandLines[$command] = [
+                            'vendor/bin/spryk-run',
+                            'AddSharedTransferProperty',
+                            '--mode', $this->sprykMode,
+                            '--organization', $projectNamespace,
+                            '--module', $data['moduleName'],
+                            '--name', "{$command}Transfer",
+                            '--propertyName', implode(',', $parameters),
+                            '-n',
+                            '-v',
+                        ];
+                    }
+                }
+                
+                if(isset($data["responses"])){
+                    foreach ($data["responses"] as $response) {
+                        if(is_array($response)){
+                            foreach ($response as $command => $parameters) {
+                                $commandLines[$command] = [
+                                    'vendor/bin/spryk-run',
+                                    'AddSharedTransferProperty',
+                                    '--mode', $this->sprykMode,
+                                    '--organization', $projectNamespace,
+                                    '--module', $data['moduleName'],
+                                    '--name', "{$command}Transfer",
+                                    '--propertyName', implode(',', $parameters),
+                                    '-n',
+                                    '-v',
+                                ];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        dd(array_values($commandLines));
+
     }
 
     /**
