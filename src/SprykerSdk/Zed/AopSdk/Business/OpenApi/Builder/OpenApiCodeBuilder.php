@@ -12,12 +12,13 @@ use cebe\openapi\spec\OpenApi;
 use cebe\openapi\spec\Operation;
 use cebe\openapi\spec\PathItem;
 use cebe\openapi\spec\Schema;
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 use Generated\Shared\Transfer\MessageTransfer;
 use Generated\Shared\Transfer\OpenApiRequestTransfer;
 use Generated\Shared\Transfer\OpenApiResponseTransfer;
 use SprykerSdk\Zed\AopSdk\AopSdkConfig;
 use Symfony\Component\Process\Process;
-use function Symfony\Component\String\u;
 
 class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
 {
@@ -35,6 +36,11 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      * @var string
      */
     protected const CORE = 'core';
+
+    /**
+     * @var string
+     */
+    protected const ATTRIBUTE_SUFFIX = 'Attributes';
 
     /**
      * @var \SprykerSdk\Zed\AopSdk\AopSdkConfig
@@ -100,15 +106,15 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     /**
      * @param string $openApiFilePath
      *
-     * @return void
+     * @return \cebe\openapi\spec\OpenApi
      */
-    public function load(string $openApiFilePath)
+    public function load(string $openApiFilePath): OpenApi
     {
         return Reader::readFromYamlFile(realpath($openApiFilePath));
     }
 
     /**
-     * @param array|string $resourceUri
+     * @param string $resourceUri
      *
      * @return string
      */
@@ -133,25 +139,23 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         $lastResource = end($resources);
 
         if (count($resources) > 1 && is_string($lastResource) && strpos($lastResource, '{') === false) {
-            $controllerName = $this->convertStringToTitle($lastResource);
+            $controllerName = $this->getInflectorFactory()->classify($lastResource);
         }
 
         return "{$controllerName}Controller";
     }
 
-     /**
-      * @param string $resource
-      *
-      * @return string
-      */
-    protected function convertStringToTitle(string $resource): string
+    /**
+     * @return \Doctrine\Inflector\Inflector
+     */
+    protected function getInflectorFactory(): Inflector
     {
-        return u($resource)->camel()->title()->toString();
+        return InflectorFactory::create()->build();
     }
 
     /**
      * @param \cebe\openapi\spec\OpenApi $openApi
-     * @param \Generated\Shared\Transfer\OpenApiResponseTransfer|string $openApiResponseTransfer
+     * @param \Generated\Shared\Transfer\OpenApiResponseTransfer $openApiResponseTransfer
      *
      * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
      */
@@ -207,26 +211,40 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     {
         /** @var \cebe\openapi\spec\RequestBody $mediaType */
         foreach ($operation->requestBody->content as $mediaType) {
-            $this->requestBodyParser($mediaType->schema, $this->getPathUsingSchema($mediaType->schema), $path, $method);
+            $this->parsedData[$path][$method]['requestBody'][$this->getPathUsingSchema($mediaType->schema)] = $this->requestBodyParser($mediaType->schema);
         }
     }
 
     /**
      * @param \cebe\openapi\spec\Schema $schema
-     * @param string $className
-     * @param string $path
-     * @param string $method
      *
-     * @return void
+     * @return array
      */
-    protected function requestBodyParser(Schema $schema, string $className, string $path, string $method): void
+    protected function requestBodyParser(Schema $schema): array
     {
+        $response = [];
+
         foreach ($schema->properties as $key => $schemaObject) {
             if ($schemaObject->properties) {
-                $this->requestBodyParser($schemaObject, $className, $path, $method);
+                return $this->requestBodyParser($schemaObject);
             }
-            $this->parsedData[$path][$method]['requestBody'][$className][] = "{$key}:{$schemaObject->type}";
         }
+
+        foreach ($schema->properties as $key => $schemaObject) {
+            if ($schemaObject->type == 'array') {
+                if (isset($schemaObject->items->properties['type'])) {
+                    $response[$key] = 'array[]:' . $schemaObject->items->properties['type']->type;
+                } elseif (isset($schemaObject->items->type)) {
+                    $response[$key] = 'array[]:' . $schemaObject->items->type;
+                } else {
+                    $response[$this->getInflectorFactory()->camelize($this->getPathUsingSchema($schema))] = $this->getPathUsingSchema($schemaObject->items) . '[]:' . $this->getInflectorFactory()->camelize($this->getPathUsingSchema($schemaObject->items));
+                }
+            } else {
+                $response[$key] = $schemaObject->type;
+            }
+        }
+
+        return $response;
     }
 
     /**
@@ -242,7 +260,8 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         foreach ($operation->responses as $status => $content) {
             if ($content->content) {
                 foreach ($content->content as $response) {
-                    $this->responseParser($response->schema, $this->getPathUsingSchema($response->schema), $path, $method);
+                    $this->parsedData[$path][$method]['responses'][$this->getPathUsingSchema($response->schema)] =
+                    $this->responseBodyParser($response->schema);
                 }
             }
         }
@@ -250,20 +269,32 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
 
     /**
      * @param \cebe\openapi\spec\Schema $schema
-     * @param string $className
-     * @param string $path
-     * @param string $method
      *
-     * @return void
+     * @return array
      */
-    protected function responseParser(Schema $schema, string $className, string $path, string $method): void
+    protected function responseBodyParser(Schema $schema): array
     {
+        $response = [];
+
         foreach ($schema->properties as $key => $schemaObject) {
             if ($schemaObject->properties) {
-                $this->responseParser($schemaObject, $className, $path, $method);
+                return $this->responseBodyParser($schemaObject);
             }
-            $this->parsedData[$path][$method]['responses'][$className][] = "{$key}:{$schemaObject->type}";
+
+            if ($schemaObject->type == 'array') {
+                if (isset($schemaObject->items->properties['type'])) {
+                    $response[$key] = 'array[]:' . $schemaObject->items->properties['type']->type;
+                } elseif (isset($schemaObject->items->type)) {
+                    $response[$key] = 'array[]:' . $schemaObject->items->type;
+                } else {
+                    $response[$this->getInflectorFactory()->camelize($this->getPathUsingSchema($schema))] = $this->getPathUsingSchema($schemaObject->items) . '[]:' . $this->getInflectorFactory()->camelize($this->getPathUsingSchema($schemaObject->items));
+                }
+            } else {
+                $response[$key] = $schemaObject->type;
+            }
         }
+
+        return $response;
     }
 
     /**
@@ -276,6 +307,21 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         $referencePath = $schema->getDocumentPosition()->getPath();
 
         return end($referencePath);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return array
+     */
+    protected function generateParameters(array $parameters): array
+    {
+        $response = [];
+        foreach ($parameters as $key => $value) {
+            $response[] = "{$key}:{$value}";
+        }
+
+        return $response;
     }
 
     /**
@@ -296,7 +342,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
                             '--organization', $this->organization,
                             '--module', $data['moduleName'],
                             '--name', $command,
-                            '--propertyName', implode(',', $parameters),
+                            '--propertyName', implode(',', $this->generateParameters($parameters)),
                             '-n',
                             '-v',
                         ];
@@ -312,7 +358,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
                             '--organization', $this->organization,
                             '--module', $data['moduleName'],
                             '--name', $command,
-                            '--propertyName', implode(',', $parameters),
+                            '--propertyName', implode(',', $this->generateParameters($parameters)),
                             '-n',
                             '-v',
                         ];

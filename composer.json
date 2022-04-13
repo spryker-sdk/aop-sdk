@@ -6,6 +6,7 @@
     "require": {
         "php": ">=7.4",
         "cebe/php-openapi": "^1.6",
+        "doctrine/inflector": "^2.0",
         "spryker-sdk/async-api": "1.0.x-dev",
         "spryker-sdk/spryk": "*",
         "spryker/console": "^4.10",
