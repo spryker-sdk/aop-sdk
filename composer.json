@@ -5,7 +5,7 @@
     "license": "proprietary",
     "require": {
         "php": ">=7.4",
-        "spryker-sdk/async-api": "1.0.x-dev",
+        "spryker-sdk/async-api": "^0.1.0",
         "spryker-sdk/spryk": "*",
         "spryker/console": "^4.10",
         "spryker/kernel": "^3.61",
