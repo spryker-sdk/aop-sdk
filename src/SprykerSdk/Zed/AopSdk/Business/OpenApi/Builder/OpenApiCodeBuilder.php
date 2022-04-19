@@ -211,9 +211,10 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     {
         /** @var \cebe\openapi\spec\RequestBody $mediaType */
         foreach ($this->getRequestBodyContent($operation) as $mediaType) {
-            if (!isset($mediaType->schema)) {
-                return;
-            }
+            // if (!isset($mediaType->schema)) {
+            //     return;
+            // }
+            
             if ($mediaType->schema instanceof Schema) {
                 $this->parsedData[$path][$method]['requestBody'][$this->getPathUsingSchema($mediaType->schema)] = $this->requestBodyParserBySchema($mediaType->schema);
             }
@@ -268,18 +269,21 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     protected function requestBodyParserBySchema(Schema $schema): array
     {
+        
         $response = [];
-        foreach ($this->getPropertiesBySchema($schema) as $key => $schemaObject) {
-            if (isset($schemaObject->properties) && ($schemaObject instanceof Schema)) {
+        foreach ($schema->properties as $key => $schemaObject) {
+            if ($schemaObject instanceof Schema && isset(($schemaObject->properties)) && !empty($schemaObject->properties)) {
                 return $this->requestBodyParserBySchema($schemaObject);
             }
-            if (isset($schemaObject->properties) && ($schemaObject instanceof Reference)) {
+            if ($schemaObject instanceof Reference && isset(($schemaObject->properties)) && !empty($schemaObject->properties)) {
                 return $this->requestBodyParserByReference($schemaObject);
             }
         }
+     
 
-        foreach ($this->getPropertiesBySchema($schema) as $key => $schemaObject) {
-            if (!isset($schemaObject->type) || !isset($schemaObject->items)) {
+        foreach ($schema->properties as $key => $schemaObject) {
+            
+            if (!isset($schemaObject->type) && !isset($schemaObject->items)) {
                 continue;
             }
             if ($schemaObject->type !== 'array') {
@@ -318,18 +322,19 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     protected function requestBodyParserByReference(Reference $schema): array
     {
+    
         $response = [];
-        foreach ($this->getPropertiesByReference($schema) as $key => $schemaObject) {
-            if (isset($schemaObject->properties) && ($schemaObject instanceof Schema)) {
+        foreach ($schema->properties as $key => $schemaObject) {
+            if ($schemaObject instanceof Schema && isset(($schemaObject->properties)) && !empty($schemaObject->properties)) {
                 return $this->requestBodyParserBySchema($schemaObject);
             }
-            if (isset($schemaObject->properties) && ($schemaObject instanceof Reference)) {
+            if ($schemaObject instanceof Reference && isset(($schemaObject->properties)) && !empty($schemaObject->properties)) {
                 return $this->requestBodyParserByReference($schemaObject);
             }
         }
 
         foreach ($this->getPropertiesByReference($schema) as $key => $schemaObject) {
-            if (!isset($schemaObject->type) || !isset($schemaObject->items)) {
+            if (!isset($schemaObject->type) && !isset($schemaObject->items)) {
                 continue;
             }
             if ($schemaObject->type !== 'array') {
@@ -364,7 +369,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     {
         /** @var \cebe\openapi\spec\Response|\cebe\openapi\spec\Reference $content */
         foreach ($this->getResponses($operation) as $status => $content) {
-            if (isset($content->content)) {
+            if (isset($content->content) && !empty($content->content)) {
                 foreach ($content->content as $response) {
                     if (!isset($response->schema)) {
                         continue;
@@ -400,14 +405,14 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         $response = [];
 
         foreach ($this->getPropertiesBySchema($schema) as $key => $schemaObject) {
-            if (isset($schemaObject->properties) && ($schemaObject instanceof Schema)) {
+            if ($schemaObject instanceof Schema && isset($schemaObject->properties) && !empty($schemaObject->properties)) {
                 return $this->responseBodyParserBySchema($schemaObject);
             }
-            if (isset($schemaObject->properties) && ($schemaObject instanceof Reference)) {
+            if ($schemaObject instanceof Reference && isset($schemaObject->properties) && !empty($schemaObject->properties)) {
                 return $this->responseBodyParserByReference($schemaObject);
             }
 
-            if (!isset($schemaObject->type) || !isset($schemaObject->items)) {
+            if (!isset($schemaObject->type) && !isset($schemaObject->items)) {
                 continue;
             }
 
@@ -450,11 +455,15 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         $response = [];
 
         foreach ($this->getPropertiesByReference($schema) as $key => $schemaObject) {
-            if (isset($schemaObject->properties) && ($schemaObject instanceof Schema)) {
+            if ($schemaObject instanceof Schema && isset($schemaObject->properties) && !empty($schemaObject->properties)) {
                 return $this->responseBodyParserBySchema($schemaObject);
             }
-            if (isset($schemaObject->properties) && ($schemaObject instanceof Reference)) {
+            if ($schemaObject instanceof Reference && isset($schemaObject->properties) && !empty($schemaObject->properties)) {
                 return $this->responseBodyParserByReference($schemaObject);
+            }
+
+            if (!isset($schemaObject->type) && !isset($schemaObject->items)) {
+                continue;
             }
 
             if ($schemaObject->type !== 'array') {
