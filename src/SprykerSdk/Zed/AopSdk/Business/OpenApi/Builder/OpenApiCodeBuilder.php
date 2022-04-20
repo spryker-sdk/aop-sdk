@@ -577,7 +577,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
             }
         }
 
-        dd(array_values($commandLines));
+        $this->runCommandLines(array_values($commandLines));
     }
 
     /**
