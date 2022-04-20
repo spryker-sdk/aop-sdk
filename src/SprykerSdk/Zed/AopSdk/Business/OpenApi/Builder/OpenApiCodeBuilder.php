@@ -211,14 +211,10 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     {
         /** @var \cebe\openapi\spec\RequestBody $mediaType */
         foreach ($this->getRequestBodyContent($operation) as $mediaType) {
-            // if (!isset($mediaType->schema)) {
-            //     return;
-            // }
-            
-            if ($mediaType->schema instanceof Schema) {
+            if (isset($mediaType->schema) && $mediaType->schema instanceof Schema) {
                 $this->parsedData[$path][$method]['requestBody'][$this->getPathUsingSchema($mediaType->schema)] = $this->requestBodyParserBySchema($mediaType->schema);
             }
-            if ($mediaType->schema instanceof Reference) {
+            if (isset($mediaType->schema) && $mediaType->schema instanceof Reference) {
                 $this->parsedData[$path][$method]['requestBody'][$this->getPathUsingReference($mediaType->schema)] = $this->requestBodyParserByReference($mediaType->schema);
             }
         }
@@ -269,7 +265,6 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     protected function requestBodyParserBySchema(Schema $schema): array
     {
-        
         $response = [];
         foreach ($schema->properties as $key => $schemaObject) {
             if ($schemaObject instanceof Schema && isset(($schemaObject->properties)) && !empty($schemaObject->properties)) {
@@ -279,16 +274,15 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
                 return $this->requestBodyParserByReference($schemaObject);
             }
         }
-     
 
         foreach ($schema->properties as $key => $schemaObject) {
-            
-            if (!isset($schemaObject->type) && !isset($schemaObject->items)) {
-                continue;
-            }
-            if ($schemaObject->type !== 'array') {
+            if (isset($schemaObject->type) && $schemaObject->type !== 'array') {
                 $response[$key] = $schemaObject->type;
 
+                continue;
+            }
+
+            if (!isset($schemaObject->items)) {
                 continue;
             }
 
@@ -322,26 +316,29 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     protected function requestBodyParserByReference(Reference $schema): array
     {
-    
         $response = [];
-        foreach ($schema->properties as $key => $schemaObject) {
-            if ($schemaObject instanceof Schema && isset(($schemaObject->properties)) && !empty($schemaObject->properties)) {
-                return $this->requestBodyParserBySchema($schemaObject);
-            }
-            if ($schemaObject instanceof Reference && isset(($schemaObject->properties)) && !empty($schemaObject->properties)) {
-                return $this->requestBodyParserByReference($schemaObject);
+        if (isset($schema->properties)) {
+            foreach ($schema->properties as $key => $schemaObject) {
+                if ($schemaObject instanceof Schema && isset(($schemaObject->properties)) && !empty($schemaObject->properties)) {
+                    return $this->requestBodyParserBySchema($schemaObject);
+                }
+                if ($schemaObject instanceof Reference && isset(($schemaObject->properties)) && !empty($schemaObject->properties)) {
+                    return $this->requestBodyParserByReference($schemaObject);
+                }
             }
         }
 
         foreach ($this->getPropertiesByReference($schema) as $key => $schemaObject) {
-            if (!isset($schemaObject->type) && !isset($schemaObject->items)) {
-                continue;
-            }
-            if ($schemaObject->type !== 'array') {
+            if (isset($schemaObject->type) && $schemaObject->type !== 'array') {
                 $response[$key] = $schemaObject->type;
 
                 continue;
             }
+
+            if (!isset($schemaObject->items)) {
+                continue;
+            }
+
             if (isset($schemaObject->items->type)) {
                 $response[$key] = 'array[]:' . $schemaObject->items->type;
 
@@ -412,15 +409,16 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
                 return $this->responseBodyParserByReference($schemaObject);
             }
 
-            if (!isset($schemaObject->type) && !isset($schemaObject->items)) {
-                continue;
-            }
-
-            if ($schemaObject->type !== 'array') {
+            if (isset($schemaObject->type) && $schemaObject->type !== 'array') {
                 $response[$key] = $schemaObject->type;
 
                 continue;
             }
+
+            if (!isset($schemaObject->items)) {
+                continue;
+            }
+
             if (isset($schemaObject->items->type)) {
                 $response[$key] = 'array[]:' . $schemaObject->items->type;
 
@@ -462,15 +460,16 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
                 return $this->responseBodyParserByReference($schemaObject);
             }
 
-            if (!isset($schemaObject->type) && !isset($schemaObject->items)) {
-                continue;
-            }
-
-            if ($schemaObject->type !== 'array') {
+            if (isset($schemaObject->type) && $schemaObject->type !== 'array') {
                 $response[$key] = $schemaObject->type;
 
                 continue;
             }
+
+            if (!isset($schemaObject->items)) {
+                continue;
+            }
+
             if (isset($schemaObject->items) && isset($schemaObject->items->type)) {
                 $response[$key] = 'array[]:' . $schemaObject->items->type;
 
@@ -545,39 +544,75 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
             foreach ($operations as $method => $data) {
                 if (isset($data['requestBody'])) {
                     foreach ($data['requestBody'] as $command => $parameters) {
-                        $commandLines[$command] = [
-                            'vendor/bin/spryk-run',
-                            'AddSharedTransferProperty',
-                            '--mode', $this->sprykMode,
-                            '--organization', $this->organization,
-                            '--module', $data['moduleName'],
-                            '--name', $command,
-                            '--propertyName', implode(',', $this->generateParameters($parameters)),
-                            '-n',
-                            '-v',
-                        ];
+                        $commandLines[$command] = $this->createCommand($parameters, $command, $data['moduleName']);
                     }
                 }
 
                 if (isset($data['responses'])) {
                     foreach ($data['responses'] as $command => $parameters) {
-                        $commandLines[$command] = [
-                            'vendor/bin/spryk-run',
-                            'AddSharedTransferProperty',
-                            '--mode', $this->sprykMode,
-                            '--organization', $this->organization,
-                            '--module', $data['moduleName'],
-                            '--name', $command,
-                            '--propertyName', implode(',', $this->generateParameters($parameters)),
-                            '-n',
-                            '-v',
-                        ];
+                        $commandLines[$command] = $this->createCommand($parameters, $command, $data['moduleName']);
                     }
                 }
             }
         }
 
         $this->runCommandLines(array_values($commandLines));
+    }
+
+    /**
+     * @param array $parameters
+     * @param string $command
+     * @param string $moduleName
+     *
+     * @return array
+     */
+    protected function createCommand(array $parameters, string $command, string $moduleName): array
+    {
+        if (count($parameters) === 1) {
+            $propertyName = array_key_first($parameters);
+            $propertyTypes = explode(':', $parameters[$propertyName]);
+
+            if (count($propertyTypes) === 1) {
+                return [
+                    'vendor/bin/spryk-run',
+                    'AddSharedTransferProperty',
+                    '--mode', $this->sprykMode,
+                    '--organization', $this->organization,
+                    '--module', $moduleName,
+                    '--name', $command,
+                    '--propertyName', $propertyName,
+                    '--propertyType', current($propertyTypes),
+                    '-n',
+                    '-v',
+                ];
+            }
+
+            return [
+                'vendor/bin/spryk-run',
+                'AddSharedTransferProperty',
+                '--mode', $this->sprykMode,
+                '--organization', $this->organization,
+                '--module', $moduleName,
+                '--name', $command,
+                '--propertyName', $propertyName,
+                '--propertyType', current($propertyTypes),
+                '--singular', end($propertyTypes),
+                '-n',
+                '-v',
+            ];
+        }
+
+        return [
+            'vendor/bin/spryk-run',
+            'AddSharedTransferProperty',
+            '--mode', $this->sprykMode,
+            '--organization', $this->organization,
+            '--module', $moduleName,
+            '--name', $command,
+            '--propertyName', implode(',', $this->generateParameters($parameters)),
+            '-n',
+            '-v',
+        ];
     }
 
     /**
