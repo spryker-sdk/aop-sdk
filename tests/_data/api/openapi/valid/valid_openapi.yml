@@ -16,33 +16,32 @@ paths:
     /apps:
         post:
             summary: 'Registers an App within the Registry service'
-
             requestBody:
                 description: 'Contains all required data to register an App within the Registry service.'
                 required: true
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/AppRegistrationUpdateRequest'
+                            $ref: '#/components/schemas/AppRegistrationApiRequest'
             responses:
                 201:
                     description: 'App is registered.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/AppRegistrationResponse'
+                                $ref: '#/components/schemas/AppRegistrationApiResponse'
                 400:
                     description: 'Invalid request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
                 default:
                     description: 'Expected response to a bad request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
 
         get:
             summary: 'Lists all available apps for a given locale.'
@@ -60,26 +59,25 @@ paths:
                   example: 'tenantUuid'
                   schema:
                       type: string
-                - $ref: '#/components/parameters/IncludeTenantApp'
             responses:
                 200:
                     description: 'Expected response to a valid request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestAppsCollectionResponse'
+                                $ref: '#/components/schemas/AppCollectionApiResponse'
                 400:
                     description: 'Invalid request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
                 default:
                     description: 'Expected response to a bad request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
     /apps/{appId}:
         get:
             summary: 'Expose the details of a single app.'
@@ -104,37 +102,36 @@ paths:
                   example: 'tenantUuid'
                   schema:
                       type: string
-                - $ref: '#/components/parameters/IncludeTenantApp'
             responses:
                 200:
                     description: 'Expected response to a valid request'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestAppsDetailResponse'
+                                $ref: '#/components/schemas/AppApiResponse'
 
                 400:
                     description: 'Invalid request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
                 404:
                     description: 'Resource not found.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
 
                 default:
                     description: 'Expected response to a bad request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
 
         patch:
-            summary: 'Updates App registry information'
+            summary: 'Updates App information'
             parameters:
                 -   name: appId
                     in: path
@@ -150,7 +147,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/AppRegistrationUpdateRequest'
+                            $ref: '#/components/schemas/AppRegistrationApiRequest'
             responses:
                 204:
                     description: 'App is updated.'
@@ -159,36 +156,21 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
 
                 400:
                     description: 'Invalid request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessages'
                 default:
                     description: 'Expected response to a bad request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
 
-
-    /users/{userid}/address:
-        parameters:
-            - name: userid
-              in: path
-              required: true
-              description: the user identifier, as userId
-              schema:
-                  type: string
-        # linked operation
-        get:
-            operationId: getUserAddress
-            responses:
-                '200':
-                    description: the user's address
 
     /apps/{appId}/connect:
         post:
@@ -221,19 +203,19 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestAppsConnectDisconnectResponse'
+                                $ref: '#/components/schemas/AppConnectionApiResponse'
                 400:
                     description: 'Invalid request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessages'
+                                $ref: '#/components/schemas/ApiErrorMessages'
                 default:
                     description: 'Expected response to a bad request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
 
     /apps/{appId}/disconnect:
         post:
@@ -266,19 +248,19 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestAppsConnectDisconnectResponse'
+                                $ref: '#/components/schemas/AppConnectionApiResponse'
                 400:
                     description: 'Invalid request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessages'
+                                $ref: '#/components/schemas/ApiErrorMessages'
                 default:
                     description: 'Expected response to a bad request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
 
     /apps/{appId}/configuration:
         get:
@@ -310,28 +292,29 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestAppsConfigurationResponse'
+                                $ref: '#/components/schemas/AppConfigurationApiResponse'
                 400:
                     description: 'Invalid request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestConfigurationErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
                 404:
                     description: 'Resource not found.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
                 default:
                     description: 'Expected response to a bad request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
 
         post:
             summary: 'Posts the configuration for the App.'
+            operationId: 'AppsApi.Configuration' # Module.Controller
             parameters:
                 - name: appId
                   in: path
@@ -359,47 +342,52 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/RestAppCofigurationRequest'
+                            $ref: '#/components/schemas/AppConfigurationApiRequest'
             responses:
                 200:
                     description: 'Expected response to a valid request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestAppsConfigurationResponse'
+                                $ref: '#/components/schemas/AppConfigurationApiResponse'
                 400:
                     description: 'Invalid request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestConfigurationErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
                 default:
                     description: 'Expected response to a bad request.'
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RestErrorMessage'
+                                $ref: '#/components/schemas/ApiErrorMessage'
 
 ###
 # Components
 ###
 components:
     schemas:
-        AppRegistrationUpdateRequest:
+        ### Registration ###
+
+        ################################################
+        # Apps Registration Request
+        ################################################
+        AppRegistrationApiRequest:
             properties:
                 data:
-                    $ref: '#/components/schemas/AppRegistrationUpdateRequestAttributes'
+                    $ref: '#/components/schemas/AppRegistrationApiRequestData'
 
-        AppRegistrationUpdateRequestAttributes:
+        AppRegistrationApiRequestData:
             properties:
                 type:
                     type: string
                     example: 'apps'
 
                 attributes:
-                    $ref: '#/components/schemas/AppRegistrationUpdateRequestAttributesData'
+                    $ref: '#/components/schemas/AppRegistrationApiRequestAttributes'
 
-        AppRegistrationUpdateRequestAttributesData:
+        AppRegistrationApiRequestAttributes:
             properties:
                 api:
                     type: string
@@ -422,13 +410,18 @@ components:
                     example: '{"username": {"de_DE": "Benutzername","en_US": "Username"}}'
             required:
                 - manifest
+        #-----------------------------------------------
 
-        AppRegistrationResponse:
+
+        ################################################
+        # Apps Registration Response
+        ################################################
+        AppRegistrationApiResponse:
             properties:
                 data:
-                    $ref: '#/components/schemas/AppRegistrationResponseData'
+                    $ref: '#/components/schemas/AppRegistrationApiResponseData'
 
-        AppRegistrationResponseData:
+        AppRegistrationApiResponseData:
             properties:
                 type:
                     type: string
@@ -437,65 +430,51 @@ components:
                     type: string
                     example: 'UUID_app123'
 
-
-        ConnectionStatus:
-            type: string
-            enum: ['not connected', 'disconnected', 'connection pending', 'waiting for configuration', 'connected']
-        ### Apps ###
-        RestAppsCollectionResponse:
-            properties:
-                data:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/RestAppsCollectionResponseData'
-                included:
-                    $ref: '#/components/schemas/RestTenantAppIncluded'
-        RestAppsCollectionResponseData:
-            properties:
-                type:
-                    type: string
-                    example: 'apps'
-                id:
-                    type: string
-                    example: 'UUID_app123'
-                    
                 attributes:
-                    $ref: '#/components/schemas/RestAppsAttributes'
-        
-        RestAppsAttributes:
-            properties:
-                id:
-                    type: string
-                    example: 'UUID_app123'
-                name:
-                    type: string
-                    example: 'Spryker App'
-                description:
-                    type: string
-                    example: 'App short description'
-                status:
-                    $ref: '#/components/schemas/ConnectionStatus'
-                categories:
-                    type: array
-                    items:
-                        type: string
-                    example: ['Category A', 'Category B']
-                labels:
-                    type: array
-                    items:
-                        type: string
-                    example: ['Label A', 'Label B']
-                iconUrl:
-                    type: string
-                    example: 'https://app.com/icon/app.png'
+                    $ref: '#/components/schemas/AppRegistrationApiResponseAttributes'
 
-        RestAppsDetailResponse:
+        AppRegistrationApiResponseAttributes:
+            properties:
+                connectionStatus:
+                    type: string
+                    enum: ['not connected', 'disconnected', 'connection pending', 'waiting for configuration', 'connected']
+        #-----------------------------------------------
+
+        ################################################
+        # Apps Collection Request
+        ################################################
+        # This is defined only by path arguments and headers. No request content.
+        #-----------------------------------------------
+
+        ################################################
+        # Apps Collection Response
+        ################################################
+        AppCollectionApiResponse:
             properties:
                 data:
-                    $ref: '#/components/schemas/RestAppsDetailResponseData'
-                included:
-                    $ref: '#/components/schemas/RestTenantAppIncluded'
-        RestAppsDetailResponseData:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AppCollectionApiResponseData'
+
+        AppCollectionApiResponseData:
+            properties:
+                type:
+                    type: string
+                    example: 'App Collection'
+                items:
+                    $ref: '#/components/schemas/AppApiResponseAttributes'
+        #-----------------------------------------------
+
+
+        ################################################
+        # Apps Detail Response - detailed response data
+        ################################################
+        AppApiResponse:
+            properties:
+                data:
+                    $ref: '#/components/schemas/AppApiResponseData'
+
+        AppApiResponseData:
             properties:
                 type:
                     type: string
@@ -504,9 +483,9 @@ components:
                     type: string
                     example: 'UUID_app123'
                 attributes:
-                    $ref: '#/components/schemas/RestAppsDetailAttributes'
+                    $ref: '#/components/schemas/AppApiResponseAttributes'
 
-        RestAppsDetailAttributes:
+        AppApiResponseAttributes:
             properties:
                 id:
                     type: string
@@ -538,62 +517,42 @@ components:
                 configuration:
                     type: string
                     example: '{"type": "object", "title": "Credentials", "description": "Security area", "properties": {"username": {"type": "string","title": "username"}}}'
-        RestTenantAppIncluded:
-            items:
-                oneOf:
-                    -
-                        $ref: '#/components/schemas/RestTenantAppResponseData'
-            type: array
-        RestTenantAppResponseData:
-            properties:
-                type:
-                    type: string
-                    enum:
-                        - tenant-app
-                attributes:
-                    $ref: '#/components/schemas/RestTenantAppAttributes'
+        #-----------------------------------------------
 
-        RestTenantAppAttributes:
-            properties:
-                status:
-                    $ref: '#/components/schemas/ConnectionStatus'
 
-        RestAppsConfigurationResponse:
+        ################################################
+        # App Configuration Request
+        ################################################
+        AppConfigurationApiRequest:
             properties:
                 data:
-                    $ref: '#/components/schemas/RestAppsConfigurationResponseData'
+                    $ref: '#/components/schemas/AppConfigurationApiRequestData'
 
-        RestAppsConfigurationResponseData:
-            properties:
-                type:
-                    type: string
-                    example: 'apps'
-                id:
-                    type: string
-                    example: 'UUID_app123'
-                attributes:
-                    $ref: '#/components/schemas/RestAppsConfigurationAttributes'
-
-        RestAppsConfigurationAttributes:
-            properties:
-                configuration:
-                    type: string
-                    example: '{"credentials": {"username": "Foo bar"}, "other-data": {}}'
-
-        RestAppCofigurationRequest:
-            properties:
-                data:
-                    $ref: '#/components/schemas/RestAppCofigurationRequestData'
-
-        RestAppCofigurationRequestData:
+        AppConfigurationApiRequestData:
             properties:
                 type:
                     type: 'string'
                     example: 'configuration'
                 attributes:
-                    $ref: '#/components/schemas/RestAppsConfigurationAttributes'
+                    $ref: '#/components/schemas/AppConfigurationApiRequestAttributes'
 
-        RestAppsConnectDisconnectResponse:
+        AppConfigurationApiRequestAttributes:
+            properties:
+                configuration:
+                    type: 'string'
+                    example: '{"credentials": {"username": "Foo bar"}, "other-data": {}}'
+        #-----------------------------------------------
+
+
+        ################################################
+        # App Configuration Response
+        ################################################
+        AppConfigurationApiResponse:
+            properties:
+                data:
+                    $ref: '#/components/schemas/AppConfigurationApiResponseData'
+
+        AppConfigurationApiResponseData:
             properties:
                 type:
                     type: string
@@ -602,41 +561,70 @@ components:
                     type: string
                     example: 'UUID_app123'
                 attributes:
-                    $ref: '#/components/schemas/RestAppsAttributes'
+                    $ref: '#/components/schemas/AppConfigurationApiResponseAttributes'
+
+        AppConfigurationApiResponseAttributes:
+            properties:
+                configuration:
+                    type: string
+                    example: '{"credentials": {"username": "Foo bar"}, "other-data": {}}'
+        #-----------------------------------------------
+
+        ################################################
+        # App Connect/Disconnect Request
+        ################################################
+        # This is defined only by path arguments and headers. No request content.
+        #-----------------------------------------------
+
+        ################################################
+        # App Connect/Disconnect Response
+        ################################################
+        AppConnectionApiResponse:
+            properties:
+                data:
+                    $ref: '#/components/schemas/AppConnectionApiResponseData'
+
+        AppConnectionApiResponseData:
+            properties:
+                type:
+                    type: 'string'
+                    example: 'Disconnect'
+                attributes:
+                    $ref: '#/components/schemas/AppConnectionApiResponseAttributes'
+
+        AppConnectionApiResponseAttributes:
+            $ref: '#/components/schemas/AppApiResponseAttributes'
+        #-----------------------------------------------
+
+        ConnectionStatus:
+            type: string
+            enum: [ 'not connected', 'disconnected', 'connection pending', 'waiting for configuration', 'connected' ]
 
         ### General components ###
-        RestConfigurationErrorMessage:
-            properties:
-                code:
-                    type: string
-                detail:
-                    type: string
-                    example: '{"username": ["Error A", "Error B"]}'
-                status:
-                    type: integer
-        RestErrorMessage:
-            properties:
-                code:
-                    type: string
-                detail:
-                    type: string
-                status:
-                    type: integer
-        RestErrorMessages:
+        ApiErrorMessages:
             properties:
                 data:
                     type: array
                     items:
-                        $ref: '#/components/schemas/RestErrorMessage'
+                        $ref: '#/components/schemas/ApiErrorMessage'
+
+        ApiErrorMessage:
+            properties:
+                code:
+                    type: string
+                detail:
+                    type: string
+                status:
+                    type: integer
 
     parameters:
         IncludeTenantApp:
-                name: include
-                in: query
-                required: false
-                schema:
-                    type: array
-                    example:
-                        - tenant-app
-                    items:
-                        type: string
+            name: include
+            in: query
+            required: false
+            schema:
+                type: array
+                example:
+                    - tenant-app
+                items:
+                    type: string
