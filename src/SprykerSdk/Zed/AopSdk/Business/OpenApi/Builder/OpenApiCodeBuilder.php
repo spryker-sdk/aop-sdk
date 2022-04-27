@@ -320,7 +320,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         $responseParameters = [];
         //Loop over properties for Schema/Reference instances
         //Loop to handle only one specific case - Example: "AppApiResponses" => "AppApiResponse[]:AppApiResponse"
-        foreach ($this->getPropertiesFromSchema($schema) as $key => $schemaObject) {
+        foreach ($this->getPropertiesFromSchema($schema) as $schemaObject) {
             //If properties from Schema/Reference instance is not found, then continue for next iteration
             if (!isset(($schemaObject->properties)) || empty($schemaObject->properties)) {
                 continue;
@@ -355,7 +355,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
 
         //Loop over properties for Schema/Reference instances
         //Loop to handle only one specific case - Example: "AppApiResponses" => "AppApiResponse[]:AppApiResponse"
-        foreach ($this->getPropertiesFromReference($schema) as $key => $schemaObject) {
+        foreach ($this->getPropertiesFromReference($schema) as $schemaObject) {
             //If properties from Schema/Reference instance is not found, then continue for next iteration
             if (!isset(($schemaObject->properties)) || empty($schemaObject->properties)) {
                 continue;
@@ -503,7 +503,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     protected function getReponseParametersForSchema(Schema $schema, array $rootType): array
     {
         //Loop over properties fetched from Schema instance
-        foreach ($this->getPropertiesFromSchema($schema) as $key => $schemaObject) {
+        foreach ($this->getPropertiesFromSchema($schema) as $schemaObject) {
             //Check for schema properties and recursively calling for instance of Schema
             if ($schemaObject instanceof Schema && isset($schemaObject->properties) && !empty($schemaObject->properties)) {
                 $rootType[] = false;
@@ -558,7 +558,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         $response = [];
 
         //Loop over properties from Reference instance
-        foreach ($this->getPropertiesFromReference($schema) as $key => $schemaObject) {
+        foreach ($this->getPropertiesFromReference($schema) as $schemaObject) {
             //Check for schema properties and recursively calling for instance of Schema
             if ($schemaObject instanceof Schema && isset($schemaObject->properties) && !empty($schemaObject->properties)) {
                 $rootType[] = false;
