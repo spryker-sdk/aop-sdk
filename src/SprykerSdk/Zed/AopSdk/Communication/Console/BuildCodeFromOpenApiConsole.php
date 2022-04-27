@@ -31,6 +31,16 @@ class BuildCodeFromOpenApiConsole extends AbstractConsole
     /**
      * @var string
      */
+    public const APPLICATION_TYPE = 'application-type';
+
+    /**
+     * @var string
+     */
+    public const APPLICATION_TYPE_SHORT = 't';
+
+    /**
+     * @var string
+     */
     public const OPTION_ORGANIZATION = 'organization';
 
     /**
@@ -46,6 +56,7 @@ class BuildCodeFromOpenApiConsole extends AbstractConsole
         $this->setName('build:from:openapi')
             ->setDescription('Builds code from an OpenAPI file definition.')
             ->addOption(static::OPTION_OPEN_API_FILE, static::OPTION_OPEN_API_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultOpenApiFile())
+            ->addOption(static::APPLICATION_TYPE, static::APPLICATION_TYPE_SHORT, InputOption::VALUE_REQUIRED, '', 'backend')
             ->addOption(static::OPTION_ORGANIZATION, static::OPTION_ORGANIZATION_SHORT, InputOption::VALUE_REQUIRED, 'Namespace that should be used for the code builder. When set to Spryker code will be generated in the core modules.', 'App');
     }
 
@@ -60,6 +71,7 @@ class BuildCodeFromOpenApiConsole extends AbstractConsole
         $openApiRequestTransfer = new OpenApiRequestTransfer();
         $openApiRequestTransfer
             ->setTargetFile($input->getOption(static::OPTION_OPEN_API_FILE))
+            ->setApplicationType($input->getOption(static::APPLICATION_TYPE))
             ->setOrganization($input->getOption(static::OPTION_ORGANIZATION));
 
         $openApiResponseTransfer = $this->getFacade()->buildFromOpenApi($openApiRequestTransfer);
