@@ -322,9 +322,14 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         //Loop to handle only one specific case - Example: "AppApiResponses" => "AppApiResponse[]:AppApiResponse"
         foreach ($this->getPropertiesFromSchema($schema) as $schemaObject) {
             //If properties from Schema/Reference instance is not found, then continue for next iteration
-            if (!isset(($schemaObject->properties)) || empty($schemaObject->properties)) {
+            if (!isset(($schemaObject->properties))) {
                 continue;
             }
+
+            if (empty($schemaObject->properties)) {
+                continue;
+            }
+
             if ($schemaObject instanceof Schema) {
                 //Checking for Schema instance
                 //Parsing request body parameter for schema instance
@@ -350,16 +355,18 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     protected function parseRequestBodyParametersFromReference(Reference $schema): array
     {
-        //Initialize array
-        $responseParameters = [];
-
         //Loop over properties for Schema/Reference instances
         //Loop to handle only one specific case - Example: "AppApiResponses" => "AppApiResponse[]:AppApiResponse"
         foreach ($this->getPropertiesFromReference($schema) as $schemaObject) {
             //If properties from Schema/Reference instance is not found, then continue for next iteration
-            if (!isset(($schemaObject->properties)) || empty($schemaObject->properties)) {
+            if (!isset(($schemaObject->properties))) {
                 continue;
             }
+
+            if (empty($schemaObject->properties)) {
+                continue;
+            }
+
             if ($schemaObject instanceof Schema) {
                 //Checking for Schema instance
                 //Parsing request body parameter for schema instance
@@ -539,11 +546,11 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
             //To set instances array to parsed data
             //Example: [ .. "AppApiResponses" => "AppApiResponse[]:AppApiResponse" .. ]
             return $this->setResponseParameterForReferenceClass($this->getClassNameFromSchema($schema));
-        } else {
-            //To set array of key value pair to parsed data
-            //Example: [ .. "id" => "string" .. ]
-            return $this->setResponseParameterForKeyAndValue($this->getPropertiesFromSchema($schema));
         }
+
+        //To set array of key value pair to parsed data
+        //Example: [ .. "id" => "string" .. ]
+        return $this->setResponseParameterForKeyAndValue($this->getPropertiesFromSchema($schema));
     }
 
     /**
@@ -554,9 +561,6 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     protected function getReponseParametersForReference(Reference $schema, array $rootType): array
     {
-        //Initialize array
-        $response = [];
-
         //Loop over properties from Reference instance
         foreach ($this->getPropertiesFromReference($schema) as $schemaObject) {
             //Check for schema properties and recursively calling for instance of Schema
@@ -594,14 +598,13 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         if (current($rootType) === true) {
             //To set instances array to parsed data
             //Example: [ .. "AppApiResponses" => "AppApiResponse[]:AppApiResponse" .. ]
-            $response = $this->setResponseParameterForReferenceClass($this->getClassNameFromReference($schema));
-        } else {
-            //To set array of key value pair to parsed data
-            //Example: [ .. "id" => "string" .. ]
-            $response = $this->setResponseParameterForKeyAndValue($this->getPropertiesFromReference($schema));
+            return $this->setResponseParameterForReferenceClass($this->getClassNameFromReference($schema));
         }
 
-        return $response;
+        //To set array of key value pair to parsed data
+        //Example: [ .. "id" => "string" .. ]
+
+        return $this->setResponseParameterForKeyAndValue($this->getPropertiesFromReference($schema));
     }
 
     /**

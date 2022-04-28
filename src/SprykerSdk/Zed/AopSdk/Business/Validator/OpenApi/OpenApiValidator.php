@@ -46,8 +46,6 @@ class OpenApiValidator extends AbstractValidator
             return $validateResponseTransfer;
         }
 
-        $validateResponseTransfer = $this->validateFileData($openApi, $this->finder->getFile($openApiFile)->getFilename(), $validateResponseTransfer);
-
-        return $validateResponseTransfer;
+        return $this->validateFileData($openApi, $this->finder->getFile($openApiFile)->getFilename(), $validateResponseTransfer);
     }
 }
