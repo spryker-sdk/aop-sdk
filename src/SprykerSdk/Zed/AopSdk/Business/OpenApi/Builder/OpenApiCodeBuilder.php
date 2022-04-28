@@ -316,8 +316,6 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     protected function parseRequestBodyParametersFromSchema(Schema $schema): array
     {
-        //Initialize array
-        $responseParameters = [];
         //Loop over properties for Schema/Reference instances
         //Loop to handle only one specific case - Example: "AppApiResponses" => "AppApiResponse[]:AppApiResponse"
         foreach ($this->getPropertiesFromSchema($schema) as $schemaObject) {
@@ -616,15 +614,12 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     protected function setResponseParameterForReferenceClass(string $className): array
     {
-        //Initialize array
-        $response = [];
         //Replace 'Attributes' string with empty string
         $refClass = str_replace('Attributes', '', $className);
+
         //Pluralize and Assign reference class name to response
         //Example: [ .. AppApiResponses => AppApiResponse[]:AppApiResponse ..]
-        $response[$this->inflector->pluralize($refClass)] = $refClass . '[]:' . $this->inflector->camelize($refClass);
-
-        return $response;
+        return [$this->inflector->pluralize($refClass) => $refClass . '[]:' . $this->inflector->camelize($refClass)];
     }
 
     /**
