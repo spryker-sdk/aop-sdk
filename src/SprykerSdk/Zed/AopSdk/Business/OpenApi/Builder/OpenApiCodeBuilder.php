@@ -55,7 +55,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     /**
      * @var array
      */
-    protected array $parseParameters = [];
+    protected array $parseProperties = [];
 
     /**
      * @param \SprykerSdk\Zed\AopSdk\AopSdkConfig $config
@@ -75,19 +75,15 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     public function build(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer
     {
-        //Get load ApiRequest Traget File to process - yml file
         $openApi = $this->load($openApiRequestTransfer->getTargetFileOrFail());
 
-        //Set default value for organization
         $organization = $openApiRequestTransfer->getOrganizationOrFail();
         if ($organization === static::SPRYKER) {
             $this->sprykMode = static::CORE; //Set sprykMode based on organization
         }
 
-        //Main code logic to generate command based on input file or default given file
-        $this->parserOpenApiDefinitions($organization, $openApi);
+        $this->generateTransfers($organization, $openApi);
 
-        //return response transfer object with messages
         return $this->openApiResponseTransfer;
     }
 
@@ -98,13 +94,10 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     public function load(string $openApiFilePath): OpenApi
     {
-        //Read yml file from given path
         return Reader::readFromYamlFile((string)realpath($openApiFilePath));
     }
 
     /**
-     * To get Module name using path
-     *
      * @param string $path
      * @param \cebe\openapi\spec\Operation $operation
      *
@@ -115,10 +108,9 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         if (isset($operation->operationId)) { //Check operationId existing or not
             $operationId = explode('.', $operation->operationId);
 
-            //If operationId exist generate controller nam using operation Id
             return $this->inflector->classify(current($operationId));
         }
-        //This code block will get executed only in case when Module name is empty
+
         if ($path === '') { //Set error message
             $messageTransfer = new MessageTransfer();
             $messageTransfer->setMessage(sprintf('Module name not found for path %s', $path));
@@ -126,15 +118,13 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
 
             return '';
         }
-        //Get Module name using path string with fragments
+
         $pathFragments = explode('/', trim($path, '/'));
 
         return sprintf(ucwords(current($pathFragments)) . '%s', 'Api');
     }
 
     /**
-     * Get Controller name based on business logic
-     *
      * @param string $path
      * @param \cebe\openapi\spec\Operation $operation
      *
@@ -142,29 +132,23 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     protected function getControllerName(string $path, Operation $operation): string
     {
-        if (isset($operation->operationId)) { //Check operationId existing or not
+        if (isset($operation->operationId)) {
             $operationId = explode('.', $operation->operationId);
 
-            //If operationId exist generate controller nam using operation Id
             return $this->inflector->classify(sprintf(end($operationId) . '%s', 'Controller'));
         }
 
-        //Exploding path to fragments based on '/'
         $pathFragments = explode('/', trim($path, '/'));
-        foreach (array_reverse($pathFragments) as $key => $resource) { //Loop over path fragments
-            //check if there is only single fragment then it will be -> Apps + Resource, employee + Resource
-            //Example - In above case controller name will be AppsResourceController
+        foreach (array_reverse($pathFragments) as $key => $resource) {
             if ($key === (count($pathFragments) - 1)) {
                 $resource = sprintf($resource . '%s', 'Resource');
             }
-            //Checks to explode path parameter having dynamic value like - /apps/{appId}
-            //Example - In above case controller name will be AppsController
+
             if (strpos($resource, '{') === false) {
                 return $this->inflector->classify(sprintf("{$resource}%s", 'Controller'));
             }
         }
 
-        //This code block will get executed only in case when controller name is empty
         $messageTransfer = new MessageTransfer();
         $messageTransfer->setMessage(sprintf('Controller name not found for path %s', $path));
         $this->openApiResponseTransfer->addError($messageTransfer);
@@ -178,21 +162,19 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      *
      * @return void
      */
-    protected function parserOpenApiDefinitions(
+    protected function generateTransfers(
         string $organization,
         OpenApi $openApi
     ): void {
-        $parseParameters = [];
+        $transferDefinitions = [];
         /** @var \cebe\openapi\spec\PathItem $pathItem */
         foreach ($openApi->paths->getPaths() as $path => $pathItem) {
-            //Parse data based on api path item
-            $parseParameters[$path] = $this->getParasedDataFromPathItems($path, $pathItem);
+            $transferDefinitions[$path] = $this->getTransferDefinitionFromPathItem($path, $pathItem);
         }
 
-        //Checking error added in response transfer or not
         if ($this->openApiResponseTransfer->getErrors()->count() === 0) {
-            //Generating Commands using parsed data and organization
-            $this->generateTransfers($organization, $parseParameters);
+            $transferBuildSprykCommands = $this->getTransferDefinitionSprykCommands($organization, $transferDefinitions);
+            $this->runCommands($transferBuildSprykCommands);
         }
     }
 
@@ -202,87 +184,66 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      *
      * @return array
      */
-    protected function getParasedDataFromPathItems(string $path, PathItem $pathItem): array
+    protected function getTransferDefinitionFromPathItem(string $path, PathItem $pathItem): array
     {
-        //Intialize array
-        $parseParameters = [];
+        $transferDefinitions = [];
 
-        //Loop over operations including method type of request
         /** @var \cebe\openapi\spec\Operation $operation */
         foreach ($pathItem->getOperations() as $method => $operation) {
-            //Get Controller name
-            $parseParameters[$method]['controllerName'] = $this->getControllerName($path, $operation);
-            //Get Module name
-            $parseParameters[$method]['moduleName'] = $this->getModuleName($path, $operation);
+            $transferDefinitions[$method]['controllerName'] = $this->getControllerName($path, $operation);
+            $transferDefinitions[$method]['moduleName'] = $this->getModuleName($path, $operation);
 
-            //Check request body exist or not
             if ($operation->requestBody) {
-                //Set Request Body by parsing
-                $parseParameters[$method]['requestBody'] = $this->getParasedDataForRequestBody($operation);
+                $transferDefinitions[$method]['requestBody'] = $this->getRequestBodyPropertiesFromOperation($operation);
             }
 
-            //Set Response Body by parsing
-            $parseParameters[$method]['responses'] = $this->getParasedDataForResponses($operation);
+            $transferDefinitions[$method]['responses'] = $this->getReponsePropertiesFromOperation($operation);
         }
 
-        return $parseParameters;
+        return $transferDefinitions;
     }
 
     /**
-     * Get Parsed data from request body
-     *
      * @param \cebe\openapi\spec\Operation $operation
      *
      * @return array
      */
-    protected function getParasedDataForRequestBody(Operation $operation): array
+    protected function getRequestBodyPropertiesFromOperation(Operation $operation): array
     {
-        //Intialize array
-        $requestBodyParameters = [];
+        $requestBodyProperties = [];
         /** @var \cebe\openapi\spec\RequestBody $mediaType */
-        foreach ($this->getRequestBodyContentFromOperation($operation) as $mediaType) {
-            //Check schema object exist or not
-            //If not then continue to next itration
+        foreach ($this->getRequestBodyFromOperation($operation) as $mediaType) {
             if (!isset($mediaType->schema)) {
                 continue;
             }
-            if ($mediaType->schema instanceof Schema) { //Check Schema instance
-                //Set request body parameter based on refrence class name key
-                $requestBodyParameters[$this->getClassNameFromSchema($mediaType->schema)] = $this->parseRequestBodyParametersFromSchema($mediaType->schema);
+            if ($mediaType->schema instanceof Schema) {
+                $requestBodyProperties[$this->getClassNameFromSchema($mediaType->schema)] = $this->getRequestBodyPropertiesFromSchema($mediaType->schema);
             }
-            if ($mediaType->schema instanceof Reference) { //Check Reference instance
-                //Set request body parameter based on refrence class name key
-                $requestBodyParameters[$this->getClassNameFromReference($mediaType->schema)] = $this->parseRequestBodyParametersFromReference($mediaType->schema);
+            if ($mediaType->schema instanceof Reference) {
+                $requestBodyProperties[$this->getClassNameFromReference($mediaType->schema)] = $this->getRequestBodyPropertiesFromReference($mediaType->schema);
             }
         }
 
-        //return array of request body parameters
-        return $requestBodyParameters;
+        return $requestBodyProperties;
     }
 
     /**
-     * Get Request body content
-     *
      * @param \cebe\openapi\spec\Operation $operation
      *
      * @return iterable
      */
-    protected function getRequestBodyContentFromOperation(Operation $operation): iterable
+    protected function getRequestBodyFromOperation(Operation $operation): iterable
     {
-        //return instance of iterable class, either array of content or empty array
         return isset($operation->requestBody) && isset($operation->requestBody->content) ? $operation->requestBody->content : [];
     }
 
     /**
-     * Get properties from Schema
-     *
      * @param \cebe\openapi\spec\Schema $schema
      *
      * @return iterable
      */
     protected function getPropertiesFromSchema(Schema $schema): iterable
     {
-        //Check properties exist or not
         if (isset($schema->properties)) {
             return $schema->properties;
         }
@@ -291,15 +252,12 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     }
 
     /**
-     * Get properties from Reference
-     *
      * @param \cebe\openapi\spec\Reference $reference
      *
      * @return iterable
      */
     protected function getPropertiesFromReference(Reference $reference): iterable
     {
-        //Check properties exist or not
         if (isset($reference->properties)) {
             return $reference->properties;
         }
@@ -308,18 +266,13 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     }
 
     /**
-     * Parsing request body parameters from Schema instance
-     *
      * @param \cebe\openapi\spec\Schema $schema
      *
      * @return array
      */
-    protected function parseRequestBodyParametersFromSchema(Schema $schema): array
+    protected function getRequestBodyPropertiesFromSchema(Schema $schema): array
     {
-        //Loop over properties for Schema/Reference instances
-        //Loop to handle only one specific case - Example: "AppApiResponses" => "AppApiResponse[]:AppApiResponse"
         foreach ($this->getPropertiesFromSchema($schema) as $schemaObject) {
-            //If properties from Schema/Reference instance is not found, then continue for next iteration
             if (!isset(($schemaObject->properties))) {
                 continue;
             }
@@ -329,21 +282,14 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
             }
 
             if ($schemaObject instanceof Schema) {
-                //Checking for Schema instance
-                //Parsing request body parameter for schema instance
-                return $this->parseRequestBodyParametersFromSchema($schemaObject);
+                return $this->getRequestBodyPropertiesFromSchema($schemaObject);
             }
             if ($schemaObject instanceof Reference) {
-                //Checking for Reference instance
-                //Parsing request body parameter for Reference instance
-                return $this->parseRequestBodyParametersFromReference($schemaObject);
+                return $this->getRequestBodyPropertiesFromReference($schemaObject);
             }
         }
 
-        //Set Properties for request body,
-        //Handling only those cases when there is not reference class in properties,
-        //Example: ["code" => "string", "detail" => "string","status" => "integer"]
-        return $this->setRequestBodyParameters($this->getPropertiesFromSchema($schema));
+        return $this->formatRequestBodyProperties($this->getPropertiesFromSchema($schema));
     }
 
     /**
@@ -351,12 +297,9 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      *
      * @return array
      */
-    protected function parseRequestBodyParametersFromReference(Reference $schema): array
+    protected function getRequestBodyPropertiesFromReference(Reference $schema): array
     {
-        //Loop over properties for Schema/Reference instances
-        //Loop to handle only one specific case - Example: "AppApiResponses" => "AppApiResponse[]:AppApiResponse"
         foreach ($this->getPropertiesFromReference($schema) as $schemaObject) {
-            //If properties from Schema/Reference instance is not found, then continue for next iteration
             if (!isset(($schemaObject->properties))) {
                 continue;
             }
@@ -366,89 +309,67 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
             }
 
             if ($schemaObject instanceof Schema) {
-                //Checking for Schema instance
-                //Parsing request body parameter for schema instance
-                return $this->parseRequestBodyParametersFromSchema($schemaObject);
+                return $this->getRequestBodyPropertiesFromSchema($schemaObject);
             }
 
             if ($schemaObject instanceof Reference) {
-                //Checking for Reference instance
-                //Parsing request body parameter for Reference instance
-                return $this->parseRequestBodyParametersFromReference($schemaObject);
+                return $this->getRequestBodyPropertiesFromReference($schemaObject);
             }
         }
 
-        //Set Properties for request body,
-        //Handling only those cases when there is not reference class in properties,
-        //Example: ["code" => "string", "detail" => "string","status" => "integer"]
-        return $this->setRequestBodyParameters($this->getPropertiesFromReference($schema));
+        return $this->formatRequestBodyProperties($this->getPropertiesFromReference($schema));
     }
 
     /**
-     * Set Properties for request body,
-     * Handling only those cases when there is not reference class in properties,
-     * Example: ["code" => "string", "detail" => "string","status" => "integer"]
-     *
      * @param iterable $properties
      *
      * @return array
      */
-    protected function setRequestBodyParameters(iterable $properties): array
+    protected function formatRequestBodyProperties(iterable $properties): array
     {
-        //Intialize array
-        $responseParameters = [];
-        //Loop over properties to set as key and value pairing
+        $requestBodyProperties = [];
+
         foreach ($properties as $key => $schemaObject) {
-            //If schema object is not type of array set simply key value pair
-            //Example: [.. code => string ..]
             if (isset($schemaObject->type) && $schemaObject->type !== 'array') {
-                $responseParameters[$key] = $schemaObject->type;
+                $requestBodyProperties[$key] = $schemaObject->type;
 
                 continue;
             }
+
             //If schema object's items not exist then continue
             if (!isset($schemaObject->items)) {
                 continue;
             }
 
-            //If schema object items's type is set then define array of values
-            //Example: [ .. "categories" => "array[]:string" ..]
             if (isset($schemaObject->items->type)) {
-                $responseParameters[$key] = 'array[]:' . $schemaObject->items->type;
+                $requestBodyProperties[$key] = 'array[]:' . $schemaObject->items->type;
 
                 continue;
             }
 
-            //Example: [ .. "categories" => "array[]:string" ..]
             if (isset($schemaObject->items->properties) && isset($schemaObject->items->properties['type'])) {
-                $responseParameters[$key] = 'array[]:' . $schemaObject->items->properties['type']->type;
+                $requestBodyProperties[$key] = 'array[]:' . $schemaObject->items->properties['type']->type;
 
                 continue;
             }
         }
 
-        //simply return array of parameters
-        return $responseParameters;
+        return $requestBodyProperties;
     }
 
     /**
-     * Parsing Response content
-     *
      * @param \cebe\openapi\spec\Operation $operation
      *
      * @return array
      */
-    protected function getParasedDataForResponses(Operation $operation): array
+    protected function getReponsePropertiesFromOperation(Operation $operation): array
     {
-        //Initalize array
         $responses = [];
 
         /** @var \cebe\openapi\spec\Response|\cebe\openapi\spec\Reference $content */
-        foreach ($this->getResponsesFromOperation($operation) as $content) { //Loop over operations to handle multiple type of responses
-            //Invoke following method only when content is not empty
+        foreach ($this->getResponsesFromOperation($operation) as $content) {
             if (isset($content->content) && !empty($content->content)) {
-                //Parse array of content from responses
-                $this->parseParametersFromContent($content->content, $responses);
+                $responses = $this->getPropertiesFromOperationContent($content->content, $responses);
             }
         }
 
@@ -456,99 +377,79 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     }
 
     /**
-     * Parsing Responses parameters from given contents
-     *
      * @param array $contents
      * @param array $responses
      *
-     * @return void
+     * @return array
      */
-    protected function parseParametersFromContent(array $contents, array &$responses): void
+    protected function getPropertiesFromOperationContent(array $contents, array $responses): array
     {
-        //Loop over contents
         foreach ($contents as $response) {
-            //Continue, if Response does not have schema
             if (!isset($response->schema)) {
                 continue;
             }
-            //Check for instance of Schema or not
             if ($response->schema instanceof Schema) {
-                //Set request body parameter based on refrence class name key
-                $responses[$this->getClassNameFromSchema($response->schema)] = $this->getReponseParametersForSchema($response->schema, []);
+                $responses[$this->getClassNameFromSchema($response->schema)] = $this->getReponsePropertiesFromSchema($response->schema, []);
             }
-            //Check for instance of Reference or not
             if ($response->schema instanceof Reference) {
-                //Set request body parameter based on refrence class name key
-                $responses[$this->getClassNameFromReference($response->schema)] = $this->getReponseParametersForReference($response->schema, []);
+                $responses[$this->getClassNameFromReference($response->schema)] = $this->getReponsePropertiesFromReference($response->schema, []);
             }
         }
+
+        return $responses;
     }
 
     /**
-     * Getting responses from Operation instance
-     *
      * @param \cebe\openapi\spec\Operation $operation
      *
      * @return array
      */
     protected function getResponsesFromOperation(Operation $operation): iterable
     {
-        //Return array of responses or empty
         return $operation->responses ?? [];
     }
 
     /**
-     * Get Properties for Response using Schema instance
-     *
      * @param \cebe\openapi\spec\Schema $schema
      * @param array $rootType
      *
      * @return array
      */
-    protected function getReponseParametersForSchema(Schema $schema, array $rootType): array
+    protected function getReponsePropertiesFromSchema(Schema $schema, array $rootType): array
     {
-        //Loop over properties fetched from Schema instance
         foreach ($this->getPropertiesFromSchema($schema) as $schemaObject) {
-            //Check for schema properties and recursively calling for instance of Schema
             if ($schemaObject instanceof Schema && isset($schemaObject->properties) && !empty($schemaObject->properties)) {
                 $rootType[] = false;
 
-                return $this->getReponseParametersForSchema($schemaObject, $rootType);
+                return $this->getReponsePropertiesFromSchema($schemaObject, $rootType);
             }
-            //Check for schema properties and recursively calling for instance of Reference
             if ($schemaObject instanceof Reference && isset($schemaObject->properties) && !empty($schemaObject->properties)) {
                 $rootType[] = false;
 
-                return $this->getReponseParametersForReference($schemaObject, $rootType);
+                return $this->getReponsePropertiesFromReference($schemaObject, $rootType);
             }
 
-            //Continue, if schemaObject does not have items
             if (!isset($schemaObject->items)) {
                 continue;
             }
-            //Check for schema's items properties and recursively calling for instance of Schema
+
             if ($schemaObject->items instanceof Schema && isset($schemaObject->items->properties) && !empty($schemaObject->items->properties)) {
                 $rootType[] = true;
 
-                return $this->getReponseParametersForSchema($schemaObject->items, $rootType);
+                return $this->getReponsePropertiesFromSchema($schemaObject->items, $rootType);
             }
-            //Check for schema's items properties and recursively calling for instance of Reference
+
             if ($schemaObject->items instanceof Reference && isset($schemaObject->items->properties) && !empty($schemaObject->items->properties)) {
                 $rootType[] = true;
 
-                return $this->getReponseParametersForReference($schemaObject->items, $rootType);
+                return $this->getReponsePropertiesFromReference($schemaObject->items, $rootType);
             }
         }
-        //Checks for, this method is calling first time or not
         if (current($rootType) === true) {
-            //To set instances array to parsed data
-            //Example: [ .. "AppApiResponses" => "AppApiResponse[]:AppApiResponse" .. ]
-            return $this->setResponseParameterForReferenceClass($this->getClassNameFromSchema($schema));
+            return $this->formatPropertiesToArrayOfClassInstance($this->getClassNameFromSchema($schema));
         }
 
-        //To set array of key value pair to parsed data
-        //Example: [ .. "id" => "string" .. ]
-        return $this->setResponseParameterForKeyAndValue($this->getPropertiesFromSchema($schema));
+        return $this->formatResponseProperties($this->getPropertiesFromSchema($schema));
     }
 
     /**
@@ -557,106 +458,81 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      *
      * @return array
      */
-    protected function getReponseParametersForReference(Reference $schema, array $rootType): array
+    protected function getReponsePropertiesFromReference(Reference $schema, array $rootType): array
     {
-        //Loop over properties from Reference instance
         foreach ($this->getPropertiesFromReference($schema) as $schemaObject) {
-            //Check for schema properties and recursively calling for instance of Schema
             if ($schemaObject instanceof Schema && isset($schemaObject->properties) && !empty($schemaObject->properties)) {
                 $rootType[] = false;
 
-                return $this->getReponseParametersForSchema($schemaObject, $rootType);
+                return $this->getReponsePropertiesFromSchema($schemaObject, $rootType);
             }
-            //Check for schema properties and recursively calling for instance of Reference
             if ($schemaObject instanceof Reference && isset($schemaObject->properties) && !empty($schemaObject->properties)) {
                 $rootType[] = false;
 
-                return $this->getReponseParametersForReference($schemaObject, $rootType);
+                return $this->getReponsePropertiesFromReference($schemaObject, $rootType);
             }
 
-            //Continue, if schemaObject does not have items
             if (!isset($schemaObject->items)) {
                 continue;
             }
 
-            //Check for schema's items properties and recursively calling for instance of Schema
             if ($schemaObject->items instanceof Schema && isset($schemaObject->items->properties) && !empty($schemaObject->items->properties)) {
                 $rootType[] = true;
 
-                return $this->getReponseParametersForSchema($schemaObject->items, $rootType);
+                return $this->getReponsePropertiesFromSchema($schemaObject->items, $rootType);
             }
-            //Check for schema's items properties and recursively calling for instance of Reference
+
             if ($schemaObject->items instanceof Reference && isset($schemaObject->items->properties) && !empty($schemaObject->items->properties)) {
                 $rootType[] = true;
 
-                return $this->getReponseParametersForReference($schemaObject->items, $rootType);
+                return $this->getReponsePropertiesFromReference($schemaObject->items, $rootType);
             }
         }
-        //Checks for, this method is calling first time or not
+
         if (current($rootType) === true) {
-            //To set instances array to parsed data
-            //Example: [ .. "AppApiResponses" => "AppApiResponse[]:AppApiResponse" .. ]
-            return $this->setResponseParameterForReferenceClass($this->getClassNameFromReference($schema));
+            return $this->formatPropertiesToArrayOfClassInstance($this->getClassNameFromReference($schema));
         }
 
-        //To set array of key value pair to parsed data
-        //Example: [ .. "id" => "string" .. ]
-
-        return $this->setResponseParameterForKeyAndValue($this->getPropertiesFromReference($schema));
+        return $this->formatResponseProperties($this->getPropertiesFromReference($schema));
     }
 
     /**
-     * To get array Reference classes
-     *
      * @param string $className
      *
      * @return array
      */
-    protected function setResponseParameterForReferenceClass(string $className): array
+    protected function formatPropertiesToArrayOfClassInstance(string $className): array
     {
-        //Replace 'Attributes' string with empty string
         $refClass = str_replace('Attributes', '', $className);
 
-        //Pluralize and Assign reference class name to response
-        //Example: [ .. AppApiResponses => AppApiResponse[]:AppApiResponse ..]
         return [$this->inflector->pluralize($refClass) => $refClass . '[]:' . $this->inflector->camelize($refClass)];
     }
 
     /**
-     * Set properties to parsed array of response
-     *
      * @param iterable $properties
      *
      * @return array
      */
-    protected function setResponseParameterForKeyAndValue(iterable $properties): array
+    protected function formatResponseProperties(iterable $properties): array
     {
-        //Initialize array
         $response = [];
-        //Loop over properties
         foreach ($properties as $key => $schemaObject) {
-            //If schema object is not type of array set simply key value pair
-            //Example: [.. code => string ..]
             if (isset($schemaObject->type) && $schemaObject->type !== 'array') {
                 $response[$key] = $schemaObject->type;
 
                 continue;
             }
 
-            //If schema object's items not exist then continue
             if (!isset($schemaObject->items)) {
                 continue;
             }
 
-            //If schema object items's type is set then define array of values
-            //Example: [ .. "categories" => "array[]:string" ..]
             if (isset($schemaObject->items->type)) {
                 $response[$key] = 'array[]:' . $schemaObject->items->type;
 
                 continue;
             }
 
-            //Example: [ .. "categories" => "array[]:string" ..]
             if (isset($schemaObject->items->properties) && isset($schemaObject->items->properties['type'])) {
                 $response[$key] = 'array[]:' . $schemaObject->items->properties['type']->type;
 
@@ -664,175 +540,92 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
             }
         }
 
-        //simply return array of parameters
         return $response;
     }
 
     /**
-     * To get reference class name from document path from Schema instance
-     *
      * @param \cebe\openapi\spec\Schema $schema
      *
      * @return string
      */
     protected function getClassNameFromSchema(Schema $schema): string
     {
-        //Check Document path exist or not
         if ($schema->getDocumentPosition()) {
-            //get complete Document path
             $referencePath = $schema->getDocumentPosition()->getPath();
 
-            //return only specific class name
             return end($referencePath);
         }
 
-        return ''; //empty string
+        return '';
     }
 
     /**
-     * To get reference class name from document path from Reference instance
-     *
      * @param \cebe\openapi\spec\Reference $reference
      *
      * @return string
      */
     protected function getClassNameFromReference(Reference $reference): string
     {
-        //Check Document path exist or not
         if ($reference->getDocumentPosition()) {
-            //get complete Document path
             $referencePath = $reference->getDocumentPosition()->getPath();
 
-            //return only specific class name
             return end($referencePath);
         }
 
-        return ''; //empty string
+        return '';
     }
 
     /**
-     * Implode multiple properties to create command as key value pairing
-     *
      * @param array $parameters
      *
      * @return array
      */
     protected function preparePropertyNameForCommand(array $parameters): array
     {
-        //Intialize array
-        $parsedParameters = [];
-        //Loop over parameters
+        $parsedProperties = [];
         foreach ($parameters as $key => $value) {
-            //Prepare format required in command for multiple parameters
-            $parsedParameters[] = "{$key}:{$value}";
+            $parsedProperties[] = "{$key}:{$value}";
         }
 
-        //return string
-        return $parsedParameters;
+        return $parsedProperties;
     }
 
     /**
-     * Generate Transfers classes
-     * Step1 - Create array of commands
-     * Step2 - Run Command
-     *
      * @param string $organization
-     * @param array $parseParameters
+     * @param array $parseProperties
      *
-     * @return void
+     * @return array
      */
-    protected function generateTransfers(string $organization, array $parseParameters): void
+    protected function getTransferDefinitionSprykCommands(string $organization, array $parseProperties): array
     {
-        //Intialize array
         $commandLines = [];
-        //Loop over parsed parameters for tranfers
-        foreach ($parseParameters as $operations) {
-            //Loop operations wise
+
+        foreach ($parseProperties as $operations) {
             foreach ($operations as $data) {
-                //Step1 - Create array of commands - for requestBody
-                $this->createCommands($organization, ($data['requestBody'] ?? []), $data['moduleName'], $commandLines);
-                //Step1 - Create array of commands - for responses
-                $this->createCommands($organization, ($data['responses'] ?? []), $data['moduleName'], $commandLines);
+                $this->generateTransferCommands($organization, ($data['requestBody'] ?? []), $data['moduleName'], $commandLines);
+                $this->generateTransferCommands($organization, ($data['responses'] ?? []), $data['moduleName'], $commandLines);
             }
         }
-        // Step2 - Run Command
-        $this->runCommands(array_values($commandLines));
+
+        return array_values($commandLines);
     }
 
     /**
-     * Create array of commands
-     *
      * @param string $organization
-     * @param array $parseParameters
+     * @param array $parseProperties
      * @param string $moduleName
      * @param array $commandLines
      *
      * @return void
      */
-    protected function createCommands(string $organization, array $parseParameters, string $moduleName, array &$commandLines): void
+    protected function generateTransferCommands(string $organization, array $parseProperties, string $moduleName, array &$commandLines): void
     {
-        //Loop over parsed parameters for tranfers to generate command
-        foreach ($parseParameters as $command => $parameters) {
-            //Create command
-            $commandLines[$command] = $this->createCommand($organization, $parameters, $command, $moduleName);
+        foreach ($parseProperties as $command => $parameters) {
+            $commandLines[$command] = $this->prepareTransferCommand($organization, $parameters, $command, $moduleName);
         }
     }
 
     /**
-     * Build Command based on given parameters
-     *
-     * @param string $organization
-     * @param string $moduleName
-     * @param string $command
-     * @param string $propertyName
-     * @param string|null $propertyType
-     * @param string|null $singular
-     *
-     * @return array
-     */
-    protected function buildCommand(
-        string $organization,
-        string $moduleName,
-        string $command,
-        string $propertyName,
-        ?string $propertyType,
-        ?string $singular
-    ): array {
-        //Set required parameters
-        $data = [
-            'vendor/bin/spryk-run',
-            'AddSharedTransferProperty',
-            '--mode', $this->sprykMode,
-            '--organization', $organization,
-            '--module', $moduleName,
-            '--name', $command,
-            '--propertyName', $propertyName,
-        ];
-        //Check for optional parameter
-        if (($propertyType !== null)) {
-            $data[] = '--propertyType';
-            $data[] = $propertyType;
-        }
-        //Check for optional parameter
-        if (($singular !== null)) {
-            $data[] = '--singular';
-            $data[] = $singular;
-        }
-
-        $data[] = '-n';
-        $data[] = '-v';
-
-        //return array of options for creating command.
-        return $data;
-    }
-
-    /**
-     * Create Command
-     * Handling following cases :
-     * Case1 : Having single parameter and single property type
-     * Case2 : Having single parameter
-     * Case3 : Multiple parameters
-     *
      * @param string $organization
      * @param array $parameters
      * @param string $command
@@ -840,14 +633,14 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      *
      * @return array
      */
-    protected function createCommand(string $organization, array $parameters, string $command, string $moduleName): array
+    protected function prepareTransferCommand(string $organization, array $parameters, string $command, string $moduleName): array
     {
         if (count($parameters) === 1) {
             $propertyName = array_key_first($parameters);
             $propertyTypes = explode(':', $parameters[$propertyName]);
-            //Case1 : Having single parameter and single property type
+
             if (count($propertyTypes) === 1) {
-                return $this->buildCommand(
+                return $this->getTransferBuildCommand(
                     $organization,
                     $moduleName,
                     $command,
@@ -857,8 +650,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
                 );
             }
 
-            //Case2 : Having single parameter
-            return $this->buildCommand(
+            return $this->getTransferBuildCommand(
                 $organization,
                 $moduleName,
                 $command,
@@ -868,8 +660,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
             );
         }
 
-        //Case3 : Multiple parameters
-        return $this->buildCommand(
+        return $this->getTransferBuildCommand(
             $organization,
             $moduleName,
             $command,
@@ -880,15 +671,56 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     }
 
     /**
-     * @codeCoverageIgnore
+     * @param string $organization
+     * @param string $moduleName
+     * @param string $command
+     * @param string $propertyName
+     * @param string|null $propertyType
+     * @param string|null $singular
      *
+     * @return array
+     */
+    protected function getTransferBuildCommand(
+        string $organization,
+        string $moduleName,
+        string $command,
+        string $propertyName,
+        ?string $propertyType,
+        ?string $singular
+    ): array {
+        $data = [
+            'vendor/bin/spryk-run',
+            'AddSharedTransferProperty',
+            '--mode', $this->sprykMode,
+            '--organization', $organization,
+            '--module', $moduleName,
+            '--name', $command,
+            '--propertyName', $propertyName,
+        ];
+
+        if (($propertyType !== null)) {
+            $data[] = '--propertyType';
+            $data[] = $propertyType;
+        }
+
+        if (($singular !== null)) {
+            $data[] = '--singular';
+            $data[] = $singular;
+        }
+
+        $data[] = '-n';
+        $data[] = '-v';
+
+        return $data;
+    }
+
+    /**
      * @param array<array> $commands
      *
      * @return void
      */
     protected function runCommands(array $commands): void
     {
-        //Loop over commands array
         foreach ($commands as $command) {
             $process = new Process($command, $this->config->getProjectRootPath());
             $process->run(function ($a, $buffer) {
