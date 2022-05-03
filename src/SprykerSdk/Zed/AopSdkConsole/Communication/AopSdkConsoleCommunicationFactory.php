@@ -9,6 +9,9 @@ namespace SprykerSdk\Zed\AopSdkConsole\Communication;
 
 use Spryker\Zed\Console\Communication\ConsoleCommunicationFactory;
 
+/**
+ * @method \SprykerSdk\Zed\AopSdkConsole\AopSdkConsoleConfig getConfig()
+ */
 class AopSdkConsoleCommunicationFactory extends ConsoleCommunicationFactory
 {
 }

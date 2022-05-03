@@ -9,6 +9,9 @@ namespace SprykerSdk\Zed\AopSdkConsole\Business;
 
 use Spryker\Zed\Console\Business\ConsoleBusinessFactory;
 
+/**
+ * @method \SprykerSdk\Zed\AopSdkConsole\AopSdkConsoleConfig getConfig()
+ */
 class AopSdkConsoleBusinessFactory extends ConsoleBusinessFactory
 {
 }

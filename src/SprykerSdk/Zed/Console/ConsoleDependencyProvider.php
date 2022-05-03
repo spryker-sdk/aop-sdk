@@ -11,6 +11,9 @@ use Spryker\Zed\Console\ConsoleDependencyProvider as SprykerConsoleDependencyPro
 use Spryker\Zed\Kernel\Container;
 use Spryker\Zed\Transfer\Communication\Console\TransferGeneratorConsole;
 
+/**
+ * @method \Spryker\Zed\Console\ConsoleConfig getConfig()
+ */
 class ConsoleDependencyProvider extends SprykerConsoleDependencyProvider
 {
     /**
