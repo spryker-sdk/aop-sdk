@@ -34,7 +34,9 @@ class BuildCodeFromOpenApiConsoleTest extends Unit
         $commandTester = $this->tester->getConsoleTester(new BuildCodeFromOpenApiConsole());
 
         // Act
-        $commandTester->execute([]);
+        $commandTester->execute([
+            '--' . BuildCodeFromOpenApiConsole::OPTION_OPEN_API_FILE => codecept_data_dir('api/openapi/valid/valid_openapi.yml'),
+        ]);
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
