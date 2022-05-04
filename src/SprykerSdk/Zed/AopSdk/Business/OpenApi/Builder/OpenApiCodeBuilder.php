@@ -11,6 +11,8 @@ use cebe\openapi\Reader;
 use cebe\openapi\spec\OpenApi;
 use cebe\openapi\spec\Operation;
 use cebe\openapi\spec\PathItem;
+use cebe\openapi\spec\Reference;
+use cebe\openapi\spec\Schema;
 use Doctrine\Inflector\Inflector;
 use Generated\Shared\Transfer\MessageTransfer;
 use Generated\Shared\Transfer\OpenApiRequestTransfer;
@@ -263,7 +265,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     protected function getRequestBodyPropertiesFromSchemaOrReference($schemaOrReference): array
     {
         foreach ($this->getPropertiesFromSchemaOrReference($schemaOrReference) as $schemaOrReferenceObject) {
-            if (isset($schemaOrReferenceObject->properties) && !empty($schemaOrReferenceObject->properties)) {
+            if (isset($schemaOrReferenceObject->properties) && !empty($schemaOrReferenceObject->properties) && ($schemaOrReferenceObject instanceof Schema || $schemaOrReferenceObject instanceof Reference)) {
                 return $this->getRequestBodyPropertiesFromSchemaOrReference($schemaOrReferenceObject);
             }
         }
@@ -278,7 +280,11 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     protected function getPropertiesFromSchemaOrReference($schemaOrReference): iterable
     {
-        return $schemaOrReference->properties ?? [];
+        if (isset($schemaOrReference->properties)) {
+            return $schemaOrReference->properties;
+        }
+
+        return [];
     }
 
     /**
@@ -309,8 +315,9 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     protected function getTransferNameFromSchemaOrReference($schemaOrReference): string
     {
-        if($schemaOrReference->getDocumentPosition()){
+        if ($schemaOrReference->getDocumentPosition()) {
             $referencePath = $schemaOrReference->getDocumentPosition()->getPath();
+
             return end($referencePath);
         }
 
@@ -372,13 +379,13 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     protected function getReponsePropertiesFromSchemaOrReference($schemaOrReference, array $rootType): array
     {
         foreach ($this->getPropertiesFromSchemaOrReference($schemaOrReference) as $schemaOrReferenceObject) {
-            if (isset($schemaOrReferenceObject->properties) && !empty($schemaOrReferenceObject->properties)) {
+            if (isset($schemaOrReferenceObject->properties) && !empty($schemaOrReferenceObject->properties) && ($schemaOrReferenceObject instanceof Schema || $schemaOrReferenceObject instanceof Reference)) {
                 $rootType[] = false;
 
                 return $this->getReponsePropertiesFromSchemaOrReference($schemaOrReferenceObject, $rootType);
             }
 
-            if (isset($schemaOrReferenceObject->items->properties) && !empty($schemaOrReferenceObject->items->properties)) {
+            if (isset($schemaOrReferenceObject->items->properties) && !empty($schemaOrReferenceObject->items->properties) && ($schemaOrReferenceObject->items instanceof Schema || $schemaOrReferenceObject->items instanceof Reference)) {
                 $rootType[] = true;
 
                 return $this->getReponsePropertiesFromSchemaOrReference($schemaOrReferenceObject->items, $rootType);
@@ -563,19 +570,19 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         return null;
     }
 
-     /**
-      * @param string $organization
-      * @param string $moduleName
-      * @param string $transferName
-      * @param string $propertyName
-      * @param string|null $propertyType
-      * @param string|null $singular
-      *
-      * @return array[
-      *      0 => string,
-      *      1 => string
-      * ]
-      */
+    /**
+     * @param string $organization
+     * @param string $moduleName
+     * @param string $transferName
+     * @param string $propertyName
+     * @param string|null $propertyType
+     * @param string|null $singular
+     *
+     * @return array[
+     *      0 => string,
+     *      1 => string
+     * ]
+     */
     protected function getTransferBuildCommand(
         string $organization,
         string $moduleName,
