@@ -54,8 +54,6 @@ class AsyncApiValidator extends AbstractValidator
             return $validateResponseTransfer;
         }
 
-        $validateResponseTransfer = $this->validateFileData($asyncApi, $this->finder->getFile($asyncApiFile)->getFilename(), $validateResponseTransfer);
-
-        return $validateResponseTransfer;
+        return $this->validateFileData($asyncApi, $this->finder->getFile($asyncApiFile)->getFilename(), $validateResponseTransfer);
     }
 }
