@@ -58,7 +58,7 @@ class AppManifestBuilder implements AppManifestBuilderInterface
     {
         $manifestTransfer = $manifestRequestTransfer->getManifestOrFail();
 
-        $manifest = [
+        return [
             'name' => $manifestTransfer->getNameOrFail(),
             'provider' => $manifestTransfer->getNameOrFail(),
             'description' => '',
@@ -70,8 +70,6 @@ class AppManifestBuilder implements AppManifestBuilderInterface
             'pages' => [],
             'label' => [],
           ];
-
-        return $manifest;
     }
 
     /**
