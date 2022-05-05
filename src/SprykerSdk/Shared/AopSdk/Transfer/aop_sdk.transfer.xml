@@ -8,7 +8,6 @@
         <property name="manifestPath" type="string"/>
         <property name="configurationFile" type="string"/>
         <property name="translationFile" type="string"/>
-        <property name="asyncApiFile" type="string"/>
         <property name="openApiFile" type="string"/>
     </transfer>
 
@@ -91,7 +90,7 @@
         <property name="type" type="string"/>
         <property name="message" type="string"/>
     </transfer>
-    
+
     <transfer name="ManifestRequest">
         <property name="manifest" type="Manifest"/>
         <property name="manifestPath" type="string"/>
@@ -101,12 +100,12 @@
         <property name="name" type="string"/>
         <property name="localeName" type="string"/>
     </transfer>
-    
+
     <transfer name="ManifestResponse">
         <property name="errors" type="Message[]" singular="error"/>
         <property name="messages" type="Message[]" singular="message"/>
     </transfer>
-    
+
     <transfer name="OpenApiRequest">
         <property name="targetFile" type="string"/>
         <property name="openApi" type="OpenApi"/>
