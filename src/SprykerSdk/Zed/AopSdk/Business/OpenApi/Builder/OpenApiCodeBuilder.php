@@ -142,11 +142,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
             $controllerName = $this->getControllerName($path, $operation);
             $moduleName = $this->getModuleName($path, $operation);
 
-            if ($controllerName === '') {
-                continue;
-            }
-
-            if ($moduleName === '') {
+            if ($controllerName === '' || $moduleName === '') {
                 continue;
             }
 
@@ -195,7 +191,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         }
 
         $messageTransfer = new MessageTransfer();
-        $messageTransfer->setMessage(sprintf('Controller name not found for path: %s', $path));
+        $messageTransfer->setMessage('Controller name not found for path');
         $this->openApiResponseTransfer->addError($messageTransfer);
 
         return '';
@@ -219,7 +215,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
 
         if ($path === '') {
             $messageTransfer = new MessageTransfer();
-            $messageTransfer->setMessage(sprintf('Module name not found for path: %s', $path));
+            $messageTransfer->setMessage('Module name not found for path');
             $this->openApiResponseTransfer->addError($messageTransfer);
 
             return '';
@@ -280,11 +276,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     protected function getPropertiesFromSchemaOrReference($schemaOrReference): iterable
     {
-        if (isset($schemaOrReference->properties)) {
-            return $schemaOrReference->properties;
-        }
-
-        return [];
+        return $schemaOrReference->properties ?? [];
     }
 
     /**
@@ -405,15 +397,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     protected function generateArrayOfDataType($schemaOrReference): string
     {
-        if (isset($schemaOrReference->type)) {
-            return 'array[]:' . $schemaOrReference->type;
-        }
-
-        if (isset($schemaOrReference->properties) && isset($schemaOrReference->properties['type'])) {
-            return 'array[]:' . $schemaOrReference->properties['type']->type;
-        }
-
-        return '';
+        return (isset($schemaOrReference->type) && !empty($schemaOrReference->type)) ? 'array[]:' . $schemaOrReference->type : '';
     }
 
     /**

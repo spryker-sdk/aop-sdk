@@ -8,8 +8,13 @@
 namespace SprykerSdkTest\Helper;
 
 use Codeception\Module;
+use Codeception\Stub;
+use Codeception\Stub\Expected;
+use Doctrine\Inflector\InflectorFactory;
 use Generated\Shared\Transfer\OpenApiRequestTransfer;
 use Generated\Shared\Transfer\OpenApiTransfer;
+use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiCodeBuilder;
+use SprykerSdk\Zed\AopSdk\Communication\Console\BuildCodeFromOpenApiConsole;
 use SprykerTest\Shared\Testify\Helper\ConfigHelperTrait;
 use SprykerTest\Zed\Testify\Helper\Business\BusinessHelperTrait;
 
@@ -62,5 +67,28 @@ class OpenApiHelper extends Module
             mkdir(dirname($filePath), 0770, true);
         }
         file_put_contents($filePath, file_get_contents($pathToOpenApi));
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AopSdk\Communication\Console\BuildCodeFromOpenApiConsole
+     */
+    public function getOpenApiBuilderConsoleMock(): BuildCodeFromOpenApiConsole
+    {
+        $openApiCodeBuilderStub = Stub::construct(
+            OpenApiCodeBuilder::class,
+            [
+                $this->getConfigHelper()->getModuleConfig(),
+                InflectorFactory::create()->build(),
+            ],
+            [
+                'runCommandLines' => Expected::atLeastOnce(),
+            ],
+        );
+        $this->getBusinessHelper()->mockFactoryMethod('createOpenApiCodeBuilder', $openApiCodeBuilderStub);
+        $facade = $this->getBusinessHelper()->getFacade();
+        $buildFromOpenApiConsole = new BuildCodeFromOpenApiConsole();
+        $buildFromOpenApiConsole->setFacade($facade);
+
+        return $buildFromOpenApiConsole;
     }
 }

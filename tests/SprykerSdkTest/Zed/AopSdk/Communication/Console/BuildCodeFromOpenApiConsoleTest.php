@@ -10,6 +10,7 @@ namespace SprykerSdkTest\Zed\AopSdk\Communication\Console;
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AopSdk\Communication\Console\AbstractConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\BuildCodeFromOpenApiConsole;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @group SprykerSdkTest
@@ -59,5 +60,26 @@ class BuildCodeFromOpenApiConsoleTest extends Unit
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+    }
+
+    /**
+     * @return void
+     */
+    public function testBuildFromOpenApiReturnsErrorCodeWhenAnErrorOccurredAndPrintsResultToConsoleInVerboseMode(): void
+    {
+        // Arrange
+        $buildFromOpenApiConsoleMock = $this->tester->getOpenApiBuilderConsoleMock();
+
+        $commandTester = $this->tester->getConsoleTester($buildFromOpenApiConsoleMock);
+
+        // Act
+        $commandTester->execute([
+            '--' . BuildCodeFromOpenApiConsole::OPTION_OPEN_API_FILE => codecept_data_dir('api/openapi/invalid/invalid_openapi.yml'),
+        ], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+        $this->assertStringContainsString('Module name not found for path', $commandTester->getDisplay());
+        $this->assertStringContainsString('Controller name not found for path', $commandTester->getDisplay());
     }
 }
