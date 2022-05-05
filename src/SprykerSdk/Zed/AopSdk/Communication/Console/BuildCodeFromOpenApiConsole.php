@@ -95,12 +95,10 @@ class BuildCodeFromOpenApiConsole extends AbstractConsole
      */
     protected function printMessages(OpenApiResponseTransfer $openApiResponseTransfer, OutputInterface $output): void
     {
-        if (!$output->isVerbose()) {
-            return;
-        }
-
-        foreach ($openApiResponseTransfer->getMessages() as $message) {
-            $output->writeln($message->getMessageOrFail());
+        if ($output->isVerbose()) {
+            foreach ($openApiResponseTransfer->getMessages() as $message) {
+                $output->writeln($message->getMessageOrFail());
+            }
         }
     }
 
@@ -112,12 +110,10 @@ class BuildCodeFromOpenApiConsole extends AbstractConsole
      */
     protected function printErrors(OpenApiResponseTransfer $openApiResponseTransfer, OutputInterface $output): void
     {
-        if (!$output->isVerbose()) {
-            return;
-        }
-
-        foreach ($openApiResponseTransfer->getErrors() as $error) {
-            $output->writeln($error->getMessageOrFail());
+        if ($output->isVerbose()) {
+            foreach ($openApiResponseTransfer->getErrors() as $error) {
+                $output->writeln($error->getMessageOrFail());
+            }
         }
     }
 }

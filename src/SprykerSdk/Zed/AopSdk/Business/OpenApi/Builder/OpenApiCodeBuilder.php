@@ -68,6 +68,12 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
 
         $this->generateTransfers($organization, $openApi);
 
+        if ($this->openApiResponseTransfer->getMessages()->count() > 0) {
+            $messageTransfer = new MessageTransfer();
+            $messageTransfer->setMessage('OpenAPI has invlaid schema.');
+            $this->openApiResponseTransfer->addError($messageTransfer);
+        }
+
         return $this->openApiResponseTransfer;
     }
 
@@ -108,10 +114,6 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         if ($this->openApiResponseTransfer->getMessages()->count() === 0) {
             $transferBuildSprykCommands = $this->getTransferDefinitionSprykCommands($organization, $transferDefinitions);
             $this->runCommands($transferBuildSprykCommands);
-        } else {
-            $messageTransfer = new MessageTransfer();
-            $messageTransfer->setMessage('OpenAPI has invlaid schema.');
-            $this->openApiResponseTransfer->addError($messageTransfer);
         }
     }
 
@@ -151,22 +153,17 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         foreach ($pathItem->getOperations() as $method => $operation) {
             $controllerName = $this->getControllerName($path, $operation);
             $moduleName = $this->getModuleName($path, $operation);
-            if ($controllerName === '') {
-                continue;
+            if ($controllerName !== '' && $moduleName !== '') {
+                $transferDefinitions[$method]['controllerName'] = $controllerName;
+
+                $transferDefinitions[$method]['moduleName'] = $moduleName;
+
+                if ($operation->requestBody) {
+                    $transferDefinitions[$method]['requestBody'] = $this->getRequestBodyPropertiesFromOperation($operation);
+                }
+
+                $transferDefinitions[$method]['responses'] = $this->getReponsePropertiesFromOperation($operation);
             }
-            if ($moduleName === '') {
-                continue;
-            }
-
-            $transferDefinitions[$method]['controllerName'] = $controllerName;
-
-            $transferDefinitions[$method]['moduleName'] = $moduleName;
-
-            if ($operation->requestBody) {
-                $transferDefinitions[$method]['requestBody'] = $this->getRequestBodyPropertiesFromOperation($operation);
-            }
-
-            $transferDefinitions[$method]['responses'] = $this->getReponsePropertiesFromOperation($operation);
         }
 
         return $transferDefinitions;
@@ -319,13 +316,13 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
      */
     protected function getTransferNameFromSchemaOrReference($schemaOrReference): string
     {
+        $referencePathName = '';
         if ($schemaOrReference->getDocumentPosition()) {
             $referencePath = $schemaOrReference->getDocumentPosition()->getPath();
-
-            return end($referencePath);
+            $referencePathName = end($referencePath);
         }
 
-        return '';
+        return $referencePathName;
     }
 
     /**
