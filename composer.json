@@ -65,7 +65,7 @@
         "cs-fix": "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/SprykerSdk/ tests/",
         "stan": "phpstan analyze -l 8 src/SprykerSdk/",
         "test": "codecept build && codecept run",
-        "test-cover": "codecept build && codecept run --coverage-xml",
+        "test-cover": "codecept build && codecept run --coverage-xml -vvv",
         "rector": "vendor/bin/rector process src/SprykerSdk/ --config architector.php --ansi",
         "rector-diff": "vendor/bin/rector process src/SprykerSdk/ --config architector.php --ansi --dry-run"
     }
