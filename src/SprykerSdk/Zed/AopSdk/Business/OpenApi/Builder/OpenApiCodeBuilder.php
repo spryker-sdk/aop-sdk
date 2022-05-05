@@ -141,8 +141,10 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         foreach ($pathItem->getOperations() as $method => $operation) {
             $controllerName = $this->getControllerName($path, $operation);
             $moduleName = $this->getModuleName($path, $operation);
-
-            if ($controllerName === '' || $moduleName === '') {
+            if ($controllerName === '') {
+                continue;
+            }
+            if ($moduleName === '') {
                 continue;
             }
 
