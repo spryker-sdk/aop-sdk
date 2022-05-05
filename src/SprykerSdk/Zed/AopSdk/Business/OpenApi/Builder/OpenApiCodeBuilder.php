@@ -105,9 +105,13 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     ): void {
         $transferDefinitions = $this->getTransferDefinitions($openApi);
 
-        if ($this->openApiResponseTransfer->getErrors()->count() === 0) {
+        if ($this->openApiResponseTransfer->getMessages()->count() === 0) {
             $transferBuildSprykCommands = $this->getTransferDefinitionSprykCommands($organization, $transferDefinitions);
             $this->runCommands($transferBuildSprykCommands);
+        } else {
+            $messageTransfer = new MessageTransfer();
+            $messageTransfer->setMessage('OpenAPI has invlaid schema.');
+            $this->openApiResponseTransfer->addError($messageTransfer);
         }
     }
 
@@ -119,9 +123,15 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
     protected function getTransferDefinitions(OpenApi $openApi): array
     {
         $transferDefinitions = [];
-        /** @var \cebe\openapi\spec\PathItem $pathItem */
-        foreach ($openApi->paths->getPaths() as $path => $pathItem) {
-            $transferDefinitions[$path] = $this->getTransferDefinitionFromPathItem($path, $pathItem);
+        if (isset($openApi->paths) && !empty($openApi->paths)) {
+            /** @var \cebe\openapi\spec\PathItem $pathItem */
+            foreach ($openApi->paths->getPaths() as $path => $pathItem) {
+                $transferDefinitions[$path] = $this->getTransferDefinitionFromPathItem($path, $pathItem);
+            }
+        } else {
+            $messageTransfer = new MessageTransfer();
+            $messageTransfer->setMessage('OpenAPI has does not have path uri.');
+            $this->openApiResponseTransfer->addMessage($messageTransfer);
         }
 
         return $transferDefinitions;
@@ -194,7 +204,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
 
         $messageTransfer = new MessageTransfer();
         $messageTransfer->setMessage('Controller name not found for path');
-        $this->openApiResponseTransfer->addError($messageTransfer);
+        $this->openApiResponseTransfer->addMessage($messageTransfer);
 
         return '';
     }
@@ -218,7 +228,7 @@ class OpenApiCodeBuilder implements OpenApiCodeBuilderInterface
         if ($path === '') {
             $messageTransfer = new MessageTransfer();
             $messageTransfer->setMessage('Module name not found for path');
-            $this->openApiResponseTransfer->addError($messageTransfer);
+            $this->openApiResponseTransfer->addMessage($messageTransfer);
 
             return '';
         }

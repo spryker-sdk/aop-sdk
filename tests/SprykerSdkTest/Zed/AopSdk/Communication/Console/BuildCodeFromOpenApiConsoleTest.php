@@ -65,6 +65,30 @@ class BuildCodeFromOpenApiConsoleTest extends Unit
     /**
      * @return void
      */
+    public function testBuildCodeFromOpenApiConsoleReturnsErrorCodeWhenSchemaIsMissingAndPrintsResultToConsoleInVerboseMode(): void
+    {
+        // Arrange
+        $commandTester = $this->tester->getConsoleTester(new BuildCodeFromOpenApiConsole());
+
+        // Act
+        $commandTester->execute(
+            [
+                '--' . BuildCodeFromOpenApiConsole::OPTION_OPEN_API_FILE => codecept_data_dir('api/openapi/invalid/empty_openapi.yml'),
+                '--' . BuildCodeFromOpenApiConsole::APPLICATION_TYPE => 'backend',
+                '--' . BuildCodeFromOpenApiConsole::OPTION_ORGANIZATION => 'Spryker',
+            ],
+            [
+                'verbosity' => OutputInterface::VERBOSITY_VERBOSE,
+            ],
+        );
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+    }
+
+    /**
+     * @return void
+     */
     public function testBuildFromOpenApiReturnsErrorCodeWhenAnErrorOccurredAndPrintsResultToConsoleInVerboseMode(): void
     {
         // Arrange
@@ -73,13 +97,17 @@ class BuildCodeFromOpenApiConsoleTest extends Unit
         $commandTester = $this->tester->getConsoleTester($buildFromOpenApiConsoleMock);
 
         // Act
-        $commandTester->execute([
-            '--' . BuildCodeFromOpenApiConsole::OPTION_OPEN_API_FILE => codecept_data_dir('api/openapi/invalid/invalid_openapi.yml'),
-        ], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+        $commandTester->execute(
+            [
+                '--' . BuildCodeFromOpenApiConsole::OPTION_OPEN_API_FILE => codecept_data_dir('api/openapi/invalid/invalid_openapi.yml'),
+            ],
+            [
+                'verbosity' => OutputInterface::VERBOSITY_VERBOSE,
+            ],
+        );
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
-        $this->assertStringContainsString('Module name not found for path', $commandTester->getDisplay());
-        $this->assertStringContainsString('Controller name not found for path', $commandTester->getDisplay());
+        $this->assertNotEmpty($commandTester->getDisplay());
     }
 }
