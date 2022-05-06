@@ -107,7 +107,7 @@ interface AopSdkFacadeInterface
 
     /**
      * Specification:
-     * - Checks the readines of a project against recipes.
+     * - Checks the readiness of a project against recipes.
      * - Loads recipe(s) by recipe name(s) from another repository.
      * - Runs all defined checks.
      * - Returns a CheckReadinessResponseTransfer that contains all needed information.
