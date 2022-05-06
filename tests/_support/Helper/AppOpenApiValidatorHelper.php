@@ -26,6 +26,18 @@ class AppOpenApiValidatorHelper extends Module
     }
 
     /**
+     * @return void
+     */
+    public function haveOpenApiFileThatCouldNotBeParsed(): void
+    {
+        $files = [
+            'openapi.yml' => file_get_contents(codecept_data_dir('api/openapi/invalid/not_parsable_file.yml')),
+        ];
+
+        $this->prepareOpenApiSchema($files);
+    }
+
+    /**
      * @param array $files
      *
      * @return void

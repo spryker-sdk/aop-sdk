@@ -9,7 +9,6 @@ namespace SprykerSdk\Zed\AopSdk\Business\Configuration\Builder;
 
 use Generated\Shared\Transfer\AppConfigurationRequestTransfer;
 use Generated\Shared\Transfer\AppConfigurationResponseTransfer;
-use Generated\Shared\Transfer\MessageTransfer;
 
 class AppConfigurationBuilder implements AppConfigurationBuilderInterface
 {
@@ -22,18 +21,14 @@ class AppConfigurationBuilder implements AppConfigurationBuilderInterface
     {
         $appConfigurationResponseTransfer = new AppConfigurationResponseTransfer();
 
-        if (
-            $this->writeToFile(
-                $appConfigurationRequestTransfer->getConfigurationFileOrFail(),
-                [
-                    'properties' => $this->getFormattedProperties($appConfigurationRequestTransfer),
-                    'fieldsets' => $this->getFormattedFieldsets($appConfigurationRequestTransfer),
-                    'required' => $appConfigurationRequestTransfer->getRequired(),
-                ],
-            ) === false
-        ) {
-            $appConfigurationResponseTransfer->addError((new MessageTransfer())->setMessage(sprintf('Failed to write the configuration file to "%s".', $appConfigurationRequestTransfer->getConfigurationFileOrFail())));
-        }
+        $this->writeToFile(
+            $appConfigurationRequestTransfer->getConfigurationFileOrFail(),
+            [
+                'properties' => $this->getFormattedProperties($appConfigurationRequestTransfer),
+                'fieldsets' => $this->getFormattedFieldsets($appConfigurationRequestTransfer),
+                'required' => $appConfigurationRequestTransfer->getRequired(),
+            ],
+        );
 
         return $appConfigurationResponseTransfer;
     }

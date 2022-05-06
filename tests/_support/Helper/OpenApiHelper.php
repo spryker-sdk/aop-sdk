@@ -8,6 +8,9 @@
 namespace SprykerSdkTest\Helper;
 
 use Codeception\Module;
+use Codeception\Stub;
+use Codeception\Stub\Expected;
+use Doctrine\Inflector\InflectorFactory;
 use Generated\Shared\Transfer\OpenApiRequestTransfer;
 use Generated\Shared\Transfer\OpenApiTransfer;
 use SprykerSdk\Zed\AopSdk\AopSdkConfig;
@@ -77,7 +80,7 @@ class OpenApiHelper extends Module
                 InflectorFactory::create()->build(),
             ],
             [
-                'runCommandLines' => Expected::atLeastOnce(),
+                'runProcess' => Expected::atLeastOnce(),
             ],
         );
         $factoryStub = Stub::make(AopSdkBusinessFactory::class, [

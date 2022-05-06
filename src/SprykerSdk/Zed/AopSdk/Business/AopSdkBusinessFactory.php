@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Zed\AopSdk\Business;
 
+use Doctrine\Inflector\InflectorFactory;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerSdk\Zed\AopSdk\Business\Configuration\Builder\AppConfigurationBuilder;
 use SprykerSdk\Zed\AopSdk\Business\Configuration\Builder\AppConfigurationBuilderInterface;
@@ -14,6 +15,8 @@ use SprykerSdk\Zed\AopSdk\Business\Manifest\Builder\AppManifestBuilder;
 use SprykerSdk\Zed\AopSdk\Business\Manifest\Builder\AppManifestBuilderInterface;
 use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiBuilder;
 use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiBuilderInterface;
+use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiCodeBuilder;
+use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiCodeBuilderInterface;
 use SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\CheckerInterface;
 use SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\ComposerChecker;
 use SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\EnvChecker;

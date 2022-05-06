@@ -9,7 +9,6 @@ namespace SprykerSdk\Zed\AopSdk\Business\Translation\Builder;
 
 use Generated\Shared\Transfer\AppTranslationRequestTransfer;
 use Generated\Shared\Transfer\AppTranslationResponseTransfer;
-use Generated\Shared\Transfer\MessageTransfer;
 
 class AppTranslationBuilder implements AppTranslationBuilderInterface
 {
@@ -22,14 +21,10 @@ class AppTranslationBuilder implements AppTranslationBuilderInterface
     {
         $appTranslationResponseTransfer = new AppTranslationResponseTransfer();
 
-        if (
-            $this->writeToFile(
-                $appTranslationRequestTransfer->getTranslationFileOrFail(),
-                $appTranslationRequestTransfer->getTranslations(),
-            ) === false
-        ) {
-            $appTranslationResponseTransfer->addError((new MessageTransfer())->setMessage(sprintf('Failed to write translation file to "%s".', $appTranslationRequestTransfer->getTranslationFileOrFail())));
-        }
+        $this->writeToFile(
+            $appTranslationRequestTransfer->getTranslationFileOrFail(),
+            $appTranslationRequestTransfer->getTranslations(),
+        );
 
         return $appTranslationResponseTransfer;
     }
