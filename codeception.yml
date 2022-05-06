@@ -1,4 +1,4 @@
-namespace: SprykerSdkTest\Zed\AopSdk
+namespace: SprykerSdkTest\Aop
 paths:
     tests: tests
     output: tests/_output
@@ -10,26 +10,15 @@ actor_suffix: Tester
 coverage:
     enabled: true
     include:
-        - src/SprykerSdk/Zed/AopSdk/*
+        - src/SprykerSdk/Aop/*
 suites:
-    Communication:
-        path: SprykerSdkTest/Zed/AopSdk/Communication
+    Acp:
+        path: SprykerSdkTest/Aop
         class_name: CommunicationTester
         modules:
             enabled:
                 - \SprykerSdkTest\Helper\AopSdkHelper
                 - \SprykerSdkTest\Helper\CommandHelper
-                - \SprykerSdkTest\Helper\AppConfigurationValidatorHelper
-                - \SprykerSdkTest\Helper\AppManifestValidatorHelper
-                - \SprykerSdkTest\Helper\AppTranslationValidatorHelper
-                - \SprykerSdkTest\Helper\ValidatorHelper
-                - \SprykerSdkTest\Helper\ManifestHelper
-    Businesss:
-        path: SprykerSdkTest/Zed/AopSdk/Business
-        class_name: BusinesssTester
-        modules:
-            enabled:
-                - \SprykerSdkTest\Helper\AopSdkHelper
                 - \SprykerSdkTest\Helper\AppConfigurationValidatorHelper
                 - \SprykerSdkTest\Helper\AppManifestValidatorHelper
                 - \SprykerSdkTest\Helper\AppTranslationValidatorHelper
