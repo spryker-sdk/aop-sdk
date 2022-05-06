@@ -81,7 +81,7 @@ class OpenApiHelper extends Module
                 InflectorFactory::create()->build(),
             ],
             [
-                'runCommandLines' => Expected::atLeastOnce(),
+                'runProcess' => Expected::atLeastOnce(),
             ],
         );
         $this->getBusinessHelper()->mockFactoryMethod('createOpenApiCodeBuilder', $openApiCodeBuilderStub);

@@ -40,6 +40,7 @@ class BuildFromAsyncApiConsoleTest extends Unit
         // Act
         $commandTester->execute([
             '--' . BuildCodeFromAsyncApiConsole::OPTION_ASYNC_API_FILE => codecept_data_dir('api/asyncapi/builder/asyncapi.yml'),
+            '--' . BuildCodeFromAsyncApiConsole::OPTION_ORGANIZATION => 'Spryker',
         ]);
 
         // Assert

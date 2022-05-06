@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Zed\AopSdk\Business;
 
+use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerSdk\AsyncApi\Loader\AsyncApiLoader;
@@ -236,7 +237,15 @@ class AopSdkBusinessFactory extends AbstractBusinessFactory
      */
     public function createOpenApiCodeBuilder(): OpenApiCodeBuilderInterface
     {
-        return new OpenApiCodeBuilder($this->getConfig(), InflectorFactory::create()->build());
+        return new OpenApiCodeBuilder($this->getConfig(), $this->getInflector());
+    }
+
+    /**
+     * @return \Doctrine\Inflector\Inflector
+     */
+    public function getInflector(): Inflector
+    {
+        return InflectorFactory::create()->build();
     }
 
     /**

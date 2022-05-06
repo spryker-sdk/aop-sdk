@@ -10,6 +10,7 @@ namespace SprykerSdkTest\Zed\AopSdk\Communication\Console;
 use Codeception\Test\Unit;
 use SprykerSdk\Zed\AopSdk\Communication\Console\AbstractConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\BuildCodeFromOpenApiConsole;
+use SprykerSdkTest\Zed\AopSdk\CommunicationTester;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -25,14 +26,15 @@ class BuildCodeFromOpenApiConsoleTest extends Unit
     /**
      * @var \SprykerSdkTest\Zed\AopSdk\CommunicationTester
      */
-    protected $tester;
+    protected CommunicationTester $tester;
 
     /**
      * @return void
      */
     public function testBuildCodeFromOpenApiConsoleReturnsSuccessCodeWhenProcessIsDone(): void
     {
-        $commandTester = $this->tester->getConsoleTester(new BuildCodeFromOpenApiConsole());
+        $buildFromOpenApiConsoleMock = $this->tester->getOpenApiBuilderConsoleMock();
+        $commandTester = $this->tester->getConsoleTester($buildFromOpenApiConsoleMock);
 
         // Act
         $commandTester->execute([
@@ -46,10 +48,29 @@ class BuildCodeFromOpenApiConsoleTest extends Unit
     /**
      * @return void
      */
+    public function testBuildCodeFromOpenApiConsoleReturnsSuccessCodeWhenProcessIsDoneAndPrintsResultToConsoleInVerboseMode(): void
+    {
+        $buildFromOpenApiConsoleMock = $this->tester->getOpenApiBuilderConsoleMock();
+        $commandTester = $this->tester->getConsoleTester($buildFromOpenApiConsoleMock);
+
+        // Act
+        $commandTester->execute([
+            '--' . BuildCodeFromOpenApiConsole::OPTION_OPEN_API_FILE => codecept_data_dir('api/openapi/valid/valid_openapi.yml'),
+        ], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
+        $this->assertStringContainsString('Executed commands.', $commandTester->getDisplay());
+    }
+
+    /**
+     * @return void
+     */
     public function testBuildCodeFromOpenApiConsoleReturnsErrorCodeWhenAnErrorOccurred(): void
     {
         // Arrange
-        $commandTester = $this->tester->getConsoleTester(new BuildCodeFromOpenApiConsole());
+        $buildFromOpenApiConsoleMock = $this->tester->getOpenApiBuilderConsoleMock();
+        $commandTester = $this->tester->getConsoleTester($buildFromOpenApiConsoleMock);
 
         // Act
         $commandTester->execute([
@@ -68,7 +89,8 @@ class BuildCodeFromOpenApiConsoleTest extends Unit
     public function testBuildCodeFromOpenApiConsoleReturnsErrorCodeWhenSchemaIsMissingAndPrintsResultToConsoleInVerboseMode(): void
     {
         // Arrange
-        $commandTester = $this->tester->getConsoleTester(new BuildCodeFromOpenApiConsole());
+        $buildFromOpenApiConsoleMock = $this->tester->getOpenApiBuilderConsoleMock();
+        $commandTester = $this->tester->getConsoleTester($buildFromOpenApiConsoleMock);
 
         // Act
         $commandTester->execute([
@@ -88,7 +110,6 @@ class BuildCodeFromOpenApiConsoleTest extends Unit
     {
         // Arrange
         $buildFromOpenApiConsoleMock = $this->tester->getOpenApiBuilderConsoleMock();
-
         $commandTester = $this->tester->getConsoleTester($buildFromOpenApiConsoleMock);
 
         // Act
