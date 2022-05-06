@@ -5,7 +5,6 @@ The validation console command runs checks for:
 - manifest files
 - translation files
 - configuration files
-- asyncapi file
 
 and checks that those files are correct and can be used with the App Orchestration Platform (AOP).
 
@@ -21,7 +20,6 @@ The command offers the following configuration.
 - `vendor/bin/aop-sdk app:validate -m path/to/manifest/files`
 - `vendor/bin/aop-sdk app:validate -c path/to/configuration/file/configuration.json`
 - `vendor/bin/aop-sdk app:validate -t path/to/translation/file/translation.json`
-- `vendor/bin/aop-sdk app:validate -a path/to/asyncapi/file/asyncapi.yml`
 
 ### Run manifest file validation
 `vendor/bin/aop-sdk app:manifest:validate`
@@ -60,12 +58,3 @@ The command offers the following configuration.
 `vendor/bin/aop-sdk app:translation:validate -m path/to/manifest/files`
 `vendor/bin/aop-sdk app:translation:validate -c path/to/configuration/file/configuration.json`
 `vendor/bin/aop-sdk app:translation:validate -t path/to/translation/file/translation.json`
-
-### Run asyncapi file validation
-`vendor/bin/aop-sdk asyncapi:validate`
-
-#### Configuration options
-
-The command offers the following configuration.
-
-`vendor/bin/aop-sdk asyncapi:validate -a path/to/asyncapi/file/asyncapi.yml`

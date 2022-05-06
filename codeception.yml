@@ -19,16 +19,11 @@ suites:
             enabled:
                 - \SprykerSdkTest\Helper\AopSdkHelper
                 - \SprykerSdkTest\Helper\CommandHelper
-                - \SprykerSdkTest\Helper\AppConfigurationCreateHelper
                 - \SprykerSdkTest\Helper\AppConfigurationValidatorHelper
                 - \SprykerSdkTest\Helper\AppManifestValidatorHelper
-                - \SprykerSdkTest\Helper\AppAsyncApiValidatorHelper
                 - \SprykerSdkTest\Helper\AppTranslationValidatorHelper
                 - \SprykerSdkTest\Helper\ValidatorHelper
-                - \SprykerSdkTest\Helper\AsyncApiHelper
                 - \SprykerSdkTest\Helper\OpenApiHelper
-                - \SprykerTest\Zed\Testify\Helper\Business\BusinessHelper
-                - \SprykerTest\Shared\Testify\Helper\ConfigHelper
                 - \SprykerSdkTest\Helper\ManifestHelper
                 - \SprykerSdkTest\Helper\AppOpenApiValidatorHelper
     Businesss:
@@ -39,10 +34,8 @@ suites:
                 - \SprykerSdkTest\Helper\AopSdkHelper
                 - \SprykerSdkTest\Helper\AppConfigurationValidatorHelper
                 - \SprykerSdkTest\Helper\AppManifestValidatorHelper
-                - \SprykerSdkTest\Helper\AppAsyncApiValidatorHelper
                 - \SprykerSdkTest\Helper\AppTranslationValidatorHelper
                 - \SprykerSdkTest\Helper\ValidatorHelper
-                - \SprykerSdkTest\Helper\AsyncApiHelper
                 - \SprykerSdkTest\Helper\ManifestHelper
                 - \SprykerSdkTest\Helper\OpenApiHelper
 extensions:

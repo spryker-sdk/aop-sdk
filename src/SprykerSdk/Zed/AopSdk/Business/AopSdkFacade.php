@@ -11,8 +11,6 @@ use Generated\Shared\Transfer\AppConfigurationRequestTransfer;
 use Generated\Shared\Transfer\AppConfigurationResponseTransfer;
 use Generated\Shared\Transfer\AppTranslationRequestTransfer;
 use Generated\Shared\Transfer\AppTranslationResponseTransfer;
-use Generated\Shared\Transfer\AsyncApiRequestTransfer;
-use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessTransfer;
 use Generated\Shared\Transfer\ManifestRequestTransfer;
@@ -131,34 +129,6 @@ class AopSdkFacade extends AbstractFacade implements AopSdkFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
-     */
-    public function addAsyncApi(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer
-    {
-        return $this->getFactory()->createAsyncApiBuilder()->addAsyncApi($asyncApiRequestTransfer);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
-     */
-    public function addAsyncApiMessage(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer
-    {
-        return $this->getFactory()->createAsyncApiBuilder()->addAsyncApiMessage($asyncApiRequestTransfer);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @api
-     *
      * @param \Generated\Shared\Transfer\CheckReadinessTransfer $checkReadinessTransfer
      *
      * @return \Generated\Shared\Transfer\CheckReadinessResponseTransfer
@@ -180,34 +150,6 @@ class AopSdkFacade extends AbstractFacade implements AopSdkFacadeInterface
     public function buildFromOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer
     {
         return $this->getFactory()->createOpenApiCodeBuilder()->build($openApiRequestTransfer);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
-     */
-    public function buildFromAsyncApi(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer
-    {
-        return $this->getFactory()->createAsyncApiCodeBuilder()->build($asyncApiRequestTransfer);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
-     */
-    public function validateAsyncApi(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
-    {
-        return $this->getFactory()->createAsyncApiValidator()->validate($validateRequestTransfer);
     }
 
     /**

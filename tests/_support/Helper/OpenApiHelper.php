@@ -13,16 +13,15 @@ use Codeception\Stub\Expected;
 use Doctrine\Inflector\InflectorFactory;
 use Generated\Shared\Transfer\OpenApiRequestTransfer;
 use Generated\Shared\Transfer\OpenApiTransfer;
+use SprykerSdk\Zed\AopSdk\AopSdkConfig;
+use SprykerSdk\Zed\AopSdk\Business\AopSdkBusinessFactory;
+use SprykerSdk\Zed\AopSdk\Business\AopSdkFacade;
 use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiCodeBuilder;
 use SprykerSdk\Zed\AopSdk\Communication\Console\BuildCodeFromOpenApiConsole;
-use SprykerTest\Shared\Testify\Helper\ConfigHelperTrait;
-use SprykerTest\Zed\Testify\Helper\Business\BusinessHelperTrait;
 
 class OpenApiHelper extends Module
 {
     use AopSdkHelperTrait;
-    use BusinessHelperTrait;
-    use ConfigHelperTrait;
 
     /**
      * @return \Generated\Shared\Transfer\OpenApiRequestTransfer
@@ -77,15 +76,19 @@ class OpenApiHelper extends Module
         $openApiCodeBuilderStub = Stub::construct(
             OpenApiCodeBuilder::class,
             [
-                $this->getConfigHelper()->getModuleConfig(),
+                new AopSdkConfig(),
                 InflectorFactory::create()->build(),
             ],
             [
                 'runProcess' => Expected::atLeastOnce(),
             ],
         );
-        $this->getBusinessHelper()->mockFactoryMethod('createOpenApiCodeBuilder', $openApiCodeBuilderStub);
-        $facade = $this->getBusinessHelper()->getFacade();
+        $factoryStub = Stub::make(AopSdkBusinessFactory::class, [
+            'createOpenApiCodeBuilder' => $openApiCodeBuilderStub,
+        ]);
+        $facade = new AopSdkFacade();
+        $facade->setFactory($factoryStub);
+
         $buildFromOpenApiConsole = new BuildCodeFromOpenApiConsole();
         $buildFromOpenApiConsole->setFacade($facade);
 

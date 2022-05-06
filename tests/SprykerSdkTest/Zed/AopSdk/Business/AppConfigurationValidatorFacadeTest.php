@@ -54,8 +54,8 @@ class AppConfigurationValidatorFacadeTest extends Unit
         // Assert
         $this->assertCount(1, $validateResponseTransfer->getErrors());
 
-        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('No "configuration.json" file found.', $expectedErrorMessage->getMessage());
+        $expectedErrorMessage = $this->tester->getMessagesFromValidateResponseTransfer($validateResponseTransfer)[0];
+        $this->assertSame('No "configuration.json" file found.', $expectedErrorMessage);
     }
 
     /**

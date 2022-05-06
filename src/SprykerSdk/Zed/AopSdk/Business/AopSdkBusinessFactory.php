@@ -7,15 +7,8 @@
 
 namespace SprykerSdk\Zed\AopSdk\Business;
 
-use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
-use SprykerSdk\AsyncApi\Loader\AsyncApiLoader;
-use SprykerSdk\AsyncApi\Loader\AsyncApiLoaderInterface;
-use SprykerSdk\Zed\AopSdk\Business\AsyncApi\Builder\AsyncApiBuilder;
-use SprykerSdk\Zed\AopSdk\Business\AsyncApi\Builder\AsyncApiBuilderInterface;
-use SprykerSdk\Zed\AopSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilder;
-use SprykerSdk\Zed\AopSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilderInterface;
 use SprykerSdk\Zed\AopSdk\Business\Configuration\Builder\AppConfigurationBuilder;
 use SprykerSdk\Zed\AopSdk\Business\Configuration\Builder\AppConfigurationBuilderInterface;
 use SprykerSdk\Zed\AopSdk\Business\Manifest\Builder\AppManifestBuilder;
@@ -34,9 +27,6 @@ use SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoader;
 use SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\RecipeLoader\RecipeLoaderInterface;
 use SprykerSdk\Zed\AopSdk\Business\Translation\Builder\AppTranslationBuilder;
 use SprykerSdk\Zed\AopSdk\Business\Translation\Builder\AppTranslationBuilderInterface;
-use SprykerSdk\Zed\AopSdk\Business\Validator\AsyncApi\AsyncApiValidator;
-use SprykerSdk\Zed\AopSdk\Business\Validator\AsyncApi\Validator\AsyncApiMessageValidator;
-use SprykerSdk\Zed\AopSdk\Business\Validator\AsyncApi\Validator\AsyncApiOperationIdValidator;
 use SprykerSdk\Zed\AopSdk\Business\Validator\Configuration\AppConfigurationValidator;
 use SprykerSdk\Zed\AopSdk\Business\Validator\FileValidatorInterface;
 use SprykerSdk\Zed\AopSdk\Business\Validator\Finder\Finder;
@@ -64,7 +54,6 @@ class AopSdkBusinessFactory extends AbstractBusinessFactory
             $this->createAppManifestValidator(),
             $this->createAppConfigurationValidator(),
             $this->createAppTranslationValidator(),
-            $this->createAsyncApiValidator(),
         ]);
     }
 
@@ -157,14 +146,6 @@ class AopSdkBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerSdk\Zed\AopSdk\Business\AsyncApi\Builder\AsyncApiBuilderInterface
-     */
-    public function createAsyncApiBuilder(): AsyncApiBuilderInterface
-    {
-        return new AsyncApiBuilder();
-    }
-
-    /**
      * @return \SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\ReadinessCheckerInterface
      */
     public function createReadinessChecker(): ReadinessCheckerInterface
@@ -217,58 +198,11 @@ class AopSdkBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerSdk\Zed\AopSdk\Business\AsyncApi\Builder\AsyncApiCodeBuilderInterface
-     */
-    public function createAsyncApiCodeBuilder(): AsyncApiCodeBuilderInterface
-    {
-        return new AsyncApiCodeBuilder($this->getConfig(), $this->createAsyncApiLoader());
-    }
-
-    /**
-     * @return \SprykerSdk\AsyncApi\Loader\AsyncApiLoaderInterface
-     */
-    public function createAsyncApiLoader(): AsyncApiLoaderInterface
-    {
-        return new AsyncApiLoader();
-    }
-
-    /**
      * @return \SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiCodeBuilderInterface
      */
     public function createOpenApiCodeBuilder(): OpenApiCodeBuilderInterface
     {
-        return new OpenApiCodeBuilder($this->getConfig(), $this->getInflector());
-    }
-
-    /**
-     * @return \Doctrine\Inflector\Inflector
-     */
-    public function getInflector(): Inflector
-    {
-        return InflectorFactory::create()->build();
-    }
-
-    /**
-     * @return \SprykerSdk\Zed\AopSdk\Business\Validator\AsyncApi\AsyncApiValidator
-     */
-    public function createAsyncApiValidator(): AsyncApiValidator
-    {
-        return new AsyncApiValidator(
-            $this->getConfig(),
-            $this->createFinder(),
-            $this->getAsyncApiValidators(),
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function getAsyncApiValidators(): array
-    {
-        return [
-            $this->createAsyncApiMessageValidator(),
-            $this->createAsyncApiOperationIdValidator(),
-        ];
+        return new OpenApiCodeBuilder($this->getConfig(), InflectorFactory::create()->build());
     }
 
     /**
@@ -280,22 +214,6 @@ class AopSdkBusinessFactory extends AbstractBusinessFactory
             $this->getConfig(),
             $this->createFinder(),
         );
-    }
-
-    /**
-     * @return \SprykerSdk\Zed\AopSdk\Business\Validator\FileValidatorInterface
-     */
-    protected function createAsyncApiMessageValidator(): FileValidatorInterface
-    {
-        return new AsyncApiMessageValidator($this->getConfig());
-    }
-
-    /**
-     * @return \SprykerSdk\Zed\AopSdk\Business\Validator\FileValidatorInterface
-     */
-    protected function createAsyncApiOperationIdValidator(): FileValidatorInterface
-    {
-        return new AsyncApiOperationIdValidator($this->getConfig());
     }
 
     /**
