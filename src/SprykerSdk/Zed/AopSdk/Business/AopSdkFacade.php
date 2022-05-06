@@ -173,6 +173,20 @@ class AopSdkFacade extends AbstractFacade implements AopSdkFacadeInterface
      *
      * @api
      *
+     * @param \Generated\Shared\Transfer\OpenApiRequestTransfer $openApiRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
+     */
+    public function buildFromOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer
+    {
+        return $this->getFactory()->createOpenApiCodeBuilder()->build($openApiRequestTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
      * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
      *
      * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer

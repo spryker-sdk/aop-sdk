@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Zed\AopSdk\Business;
 
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerSdk\AsyncApi\Loader\AsyncApiLoader;
 use SprykerSdk\AsyncApi\Loader\AsyncApiLoaderInterface;
@@ -20,6 +22,8 @@ use SprykerSdk\Zed\AopSdk\Business\Manifest\Builder\AppManifestBuilder;
 use SprykerSdk\Zed\AopSdk\Business\Manifest\Builder\AppManifestBuilderInterface;
 use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiBuilder;
 use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiBuilderInterface;
+use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiCodeBuilder;
+use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiCodeBuilderInterface;
 use SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\CheckerInterface;
 use SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\ComposerChecker;
 use SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\EnvChecker;
@@ -226,6 +230,22 @@ class AopSdkBusinessFactory extends AbstractBusinessFactory
     public function createAsyncApiLoader(): AsyncApiLoaderInterface
     {
         return new AsyncApiLoader();
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiCodeBuilderInterface
+     */
+    public function createOpenApiCodeBuilder(): OpenApiCodeBuilderInterface
+    {
+        return new OpenApiCodeBuilder($this->getConfig(), $this->getInflector());
+    }
+
+    /**
+     * @return \Doctrine\Inflector\Inflector
+     */
+    public function getInflector(): Inflector
+    {
+        return InflectorFactory::create()->build();
     }
 
     /**

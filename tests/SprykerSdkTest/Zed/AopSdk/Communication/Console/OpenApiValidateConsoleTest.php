@@ -59,4 +59,21 @@ class OpenApiValidateConsoleTest extends Unit
         $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
         $this->assertNotEmpty($commandTester->getDisplay());
     }
+
+    /**
+     * @return void
+     */
+    public function testValidateOpenApiReturnsErrorCodeAndPrintsErrorMessagesWhenFileCouldNotBeParsed(): void
+    {
+        // Arrange
+        $this->tester->haveOpenApiFileThatCouldNotBeParsed();
+        $commandTester = $this->tester->getConsoleTester(OpenApiValidateConsole::class);
+
+        // Act
+        $commandTester->execute([], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+        $this->assertStringContainsString('Could not parse OpenApi file', $commandTester->getDisplay());
+    }
 }

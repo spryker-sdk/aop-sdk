@@ -163,6 +163,18 @@ interface AopSdkFacadeInterface
 
     /**
      * Specification:
+     * - Reads an OpenAPI file and builds code that is required.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\OpenApiRequestTransfer $openApiRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
+     */
+    public function buildFromOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer;
+
+    /**
+     * Specification:
      * - Reads an AsyncAPI file and validates it.
      * - Validates that an AsyncAPI file contains at least one message.
      * - Validates that an AsyncAPI file does not contain duplicated messages.

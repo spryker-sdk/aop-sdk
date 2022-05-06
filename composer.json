@@ -5,8 +5,9 @@
     "license": "proprietary",
     "require": {
         "php": ">=7.4",
-        "spryker-sdk/async-api": "^0.1.0",
-        "spryker-sdk/spryk": "*",
+        "cebe/php-openapi": "^1.6",
+        "doctrine/inflector": "^2.0",
+        "spryker-sdk/spryk": "master",
         "spryker/console": "^4.10",
         "spryker/kernel": "^3.61",
         "spryker/transfer": "^3.29",
@@ -24,7 +25,8 @@
         "spryker/code-sniffer": "*",
         "spryker/testify": "^3.43",
         "symfony/filesystem": "^5.3",
-        "symfony/var-dumper": "*"
+        "symfony/var-dumper": "*",
+        "spryker-sdk/async-api": "1.0.x-dev"
     },
     "autoload": {
         "psr-4": {
