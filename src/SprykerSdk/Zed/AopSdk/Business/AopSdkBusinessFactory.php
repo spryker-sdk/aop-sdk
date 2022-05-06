@@ -7,16 +7,11 @@
 
 namespace SprykerSdk\Zed\AopSdk\Business;
 
-use Doctrine\Inflector\InflectorFactory;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerSdk\Zed\AopSdk\Business\Configuration\Builder\AppConfigurationBuilder;
 use SprykerSdk\Zed\AopSdk\Business\Configuration\Builder\AppConfigurationBuilderInterface;
 use SprykerSdk\Zed\AopSdk\Business\Manifest\Builder\AppManifestBuilder;
 use SprykerSdk\Zed\AopSdk\Business\Manifest\Builder\AppManifestBuilderInterface;
-use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiBuilder;
-use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiBuilderInterface;
-use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiCodeBuilder;
-use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiCodeBuilderInterface;
 use SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\CheckerInterface;
 use SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\ComposerChecker;
 use SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\EnvChecker;
@@ -34,7 +29,6 @@ use SprykerSdk\Zed\AopSdk\Business\Validator\Finder\FinderInterface;
 use SprykerSdk\Zed\AopSdk\Business\Validator\Manifest\AppManifestValidator;
 use SprykerSdk\Zed\AopSdk\Business\Validator\Manifest\Validator\PagesFileValidator;
 use SprykerSdk\Zed\AopSdk\Business\Validator\Manifest\Validator\RequiredFieldsFileValidator;
-use SprykerSdk\Zed\AopSdk\Business\Validator\OpenApi\OpenApiValidator;
 use SprykerSdk\Zed\AopSdk\Business\Validator\Translation\AppTranslationValidator;
 use SprykerSdk\Zed\AopSdk\Business\Validator\Translation\Validator\TranslationFileValidator;
 use SprykerSdk\Zed\AopSdk\Business\Validator\Validator;
@@ -195,33 +189,6 @@ class AopSdkBusinessFactory extends AbstractBusinessFactory
     public function createRecipeLoader(): RecipeLoaderInterface
     {
         return new RecipeLoader($this->getConfig());
-    }
-
-    /**
-     * @return \SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiCodeBuilderInterface
-     */
-    public function createOpenApiCodeBuilder(): OpenApiCodeBuilderInterface
-    {
-        return new OpenApiCodeBuilder($this->getConfig(), InflectorFactory::create()->build());
-    }
-
-    /**
-     * @return \SprykerSdk\Zed\AopSdk\Business\Validator\OpenApi\OpenApiValidator
-     */
-    public function createOpenApiValidator(): OpenApiValidator
-    {
-        return new OpenApiValidator(
-            $this->getConfig(),
-            $this->createFinder(),
-        );
-    }
-
-    /**
-     * @return \SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiBuilderInterface
-     */
-    public function createOpenApiBuilder(): OpenApiBuilderInterface
-    {
-        return new OpenApiBuilder();
     }
 
     /**

@@ -15,10 +15,7 @@ use SprykerSdk\Zed\AopSdk\Communication\Console\AppManifestCreateConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\AppManifestValidateConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\AppTranslationCreateConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\AppTranslationValidateConsole;
-use SprykerSdk\Zed\AopSdk\Communication\Console\BuildCodeFromOpenApiConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\CheckReadinessConsole;
-use SprykerSdk\Zed\AopSdk\Communication\Console\OpenApiCreateConsole;
-use SprykerSdk\Zed\AopSdk\Communication\Console\OpenApiValidateConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\ValidateConsole;
 
 /**
@@ -40,11 +37,8 @@ class AopSdkConsoleDependencyProvider extends SprykerConsoleDependencyProvider
             new AppConfigurationValidateConsole(),
             new AppTranslationValidateConsole(),
             new CheckReadinessConsole(),
-            new BuildCodeFromOpenApiConsole(),
             new AppManifestCreateConsole(),
-            new OpenApiCreateConsole(),
             new AppTranslationCreateConsole(),
-            new OpenApiValidateConsole(),
         ];
     }
 }
