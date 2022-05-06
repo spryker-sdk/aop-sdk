@@ -18,7 +18,7 @@ if (!defined('COMPOSER_INSTALL')) {
 require_once COMPOSER_INSTALL;
 
 defined('APPLICATION_ROOT_DIR')
-    || define('APPLICATION_ROOT_DIR', getcwd());
+    || define('APPLICATION_ROOT_DIR', __DIR__ . '/..');
 
 defined('AOP_SDK_ROOT_DIR')
     || define('AOP_SDK_ROOT_DIR', __DIR__ . '/..');
