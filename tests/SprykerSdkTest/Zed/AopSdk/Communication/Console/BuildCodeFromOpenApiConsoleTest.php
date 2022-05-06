@@ -71,16 +71,11 @@ class BuildCodeFromOpenApiConsoleTest extends Unit
         $commandTester = $this->tester->getConsoleTester(new BuildCodeFromOpenApiConsole());
 
         // Act
-        $commandTester->execute(
-            [
-                '--' . BuildCodeFromOpenApiConsole::OPTION_OPEN_API_FILE => codecept_data_dir('api/openapi/invalid/empty_openapi.yml'),
-                '--' . BuildCodeFromOpenApiConsole::APPLICATION_TYPE => 'backend',
-                '--' . BuildCodeFromOpenApiConsole::OPTION_ORGANIZATION => 'Spryker',
-            ],
-            [
-                'verbosity' => OutputInterface::VERBOSITY_VERBOSE,
-            ],
-        );
+        $commandTester->execute([
+            '--' . BuildCodeFromOpenApiConsole::OPTION_OPEN_API_FILE => codecept_data_dir('api/openapi/invalid/empty_openapi.yml'),
+            '--' . BuildCodeFromOpenApiConsole::APPLICATION_TYPE => 'backend',
+            '--' . BuildCodeFromOpenApiConsole::OPTION_ORGANIZATION => 'Spryker',
+        ], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
