@@ -164,26 +164,6 @@ class AopSdkConfig extends AbstractBundleConfig
      *
      * @return string
      */
-    public function getDefaultOpenApiFile(): string
-    {
-        $pathFragments = [
-            $this->getProjectRootPath(),
-            'config',
-            'api',
-            'openapi',
-            'openapi.yml',
-        ];
-
-        return implode(DIRECTORY_SEPARATOR, $pathFragments);
-    }
-
-    /**
-     * @api
-     *
-     * @throws \Exception
-     *
-     * @return string
-     */
     public function getDefaultAppTranslationFile(): string
     {
         $pathFragments = [

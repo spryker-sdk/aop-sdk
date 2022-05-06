@@ -15,8 +15,6 @@ use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessTransfer;
 use Generated\Shared\Transfer\ManifestRequestTransfer;
 use Generated\Shared\Transfer\ManifestResponseTransfer;
-use Generated\Shared\Transfer\OpenApiRequestTransfer;
-use Generated\Shared\Transfer\OpenApiResponseTransfer;
 use Generated\Shared\Transfer\ValidateRequestTransfer;
 use Generated\Shared\Transfer\ValidateResponseTransfer;
 
@@ -109,7 +107,7 @@ interface AopSdkFacadeInterface
 
     /**
      * Specification:
-     * - Checks the readines of a project against recipes.
+     * - Checks the readiness of a project against recipes.
      * - Loads recipe(s) by recipe name(s) from another repository.
      * - Runs all defined checks.
      * - Returns a CheckReadinessResponseTransfer that contains all needed information.
@@ -121,40 +119,4 @@ interface AopSdkFacadeInterface
      * @return \Generated\Shared\Transfer\CheckReadinessResponseTransfer
      */
     public function checkReadiness(CheckReadinessTransfer $checkReadinessTransfer): CheckReadinessResponseTransfer;
-
-    /**
-     * Specification:
-     * - Reads an OpenAPI file and builds code that is required.
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\OpenApiRequestTransfer $openApiRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
-     */
-    public function buildFromOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer;
-
-    /**
-     * Specification:
-     * - Reads an OpenAPI file and validates it.
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $openApiRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
-     */
-    public function validateOpenApi(ValidateRequestTransfer $openApiRequestTransfer): ValidateResponseTransfer;
-
-    /**
-     * Specification:
-     * - Adds an OpenAPI file.
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\OpenApiRequestTransfer $openApiRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
-     */
-    public function createOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer;
 }
