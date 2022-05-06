@@ -63,7 +63,7 @@ class AppManifestFacadeTest extends Unit
         // Assert
         $this->assertCount(
             1,
-            $manifestResponseTransfer->getErrors(),
+            $this->tester->getMessagesFromManifestResponseTransfer($manifestResponseTransfer),
             sprintf(
                 'Expected to get exactly "1" error, got "%s". Either there is no error or you have more than expected',
                 $manifestResponseTransfer->getErrors()->count(),

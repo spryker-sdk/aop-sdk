@@ -10,14 +10,15 @@ namespace SprykerSdkTest\Helper;
 use Codeception\Module;
 use Generated\Shared\Transfer\OpenApiRequestTransfer;
 use Generated\Shared\Transfer\OpenApiTransfer;
-use SprykerTest\Shared\Testify\Helper\ConfigHelperTrait;
-use SprykerTest\Zed\Testify\Helper\Business\BusinessHelperTrait;
+use SprykerSdk\Zed\AopSdk\AopSdkConfig;
+use SprykerSdk\Zed\AopSdk\Business\AopSdkBusinessFactory;
+use SprykerSdk\Zed\AopSdk\Business\AopSdkFacade;
+use SprykerSdk\Zed\AopSdk\Business\OpenApi\Builder\OpenApiCodeBuilder;
+use SprykerSdk\Zed\AopSdk\Communication\Console\BuildCodeFromOpenApiConsole;
 
 class OpenApiHelper extends Module
 {
     use AopSdkHelperTrait;
-    use BusinessHelperTrait;
-    use ConfigHelperTrait;
 
     /**
      * @return \Generated\Shared\Transfer\OpenApiRequestTransfer
@@ -62,5 +63,32 @@ class OpenApiHelper extends Module
             mkdir(dirname($filePath), 0770, true);
         }
         file_put_contents($filePath, file_get_contents($pathToOpenApi));
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\AopSdk\Communication\Console\BuildCodeFromOpenApiConsole
+     */
+    public function getOpenApiBuilderConsoleMock(): BuildCodeFromOpenApiConsole
+    {
+        $openApiCodeBuilderStub = Stub::construct(
+            OpenApiCodeBuilder::class,
+            [
+                new AopSdkConfig(),
+                InflectorFactory::create()->build(),
+            ],
+            [
+                'runCommandLines' => Expected::atLeastOnce(),
+            ],
+        );
+        $factoryStub = Stub::make(AopSdkBusinessFactory::class, [
+            'createOpenApiCodeBuilder' => $openApiCodeBuilderStub,
+        ]);
+        $facade = new AopSdkFacade();
+        $facade->setFactory($factoryStub);
+
+        $buildFromOpenApiConsole = new BuildCodeFromOpenApiConsole();
+        $buildFromOpenApiConsole->setFacade($facade);
+
+        return $buildFromOpenApiConsole;
     }
 }

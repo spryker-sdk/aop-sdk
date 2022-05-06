@@ -44,11 +44,6 @@ class ValidatorHelper extends Module
                         'configuration.json' => file_get_contents(codecept_data_dir('valid/configuration/translation.json')),
                     ],
                 ],
-                'api' => [
-                    'asyncapi' => [
-                        'asyncapi.yml' => file_get_contents(codecept_data_dir('api/asyncapi/valid/base_asyncapi.schema.yml')),
-                    ],
-                ],
             ],
         ];
     }
@@ -61,7 +56,6 @@ class ValidatorHelper extends Module
         $config = $this->getAopSdkHelper()->getConfig();
 
         $validateRequest = new ValidateRequestTransfer();
-        $validateRequest->setAsyncApiFile($config->getDefaultAsyncApiFile());
         $validateRequest->setManifestPath($config->getDefaultManifestPath());
         $validateRequest->setConfigurationFile($config->getDefaultConfigurationFile());
         $validateRequest->setTranslationFile($config->getDefaultTranslationFile());

@@ -58,9 +58,3 @@ The command offers the following configuration.
 `vendor/bin/aop-sdk app:translation:validate -m path/to/manifest/files`
 `vendor/bin/aop-sdk app:translation:validate -c path/to/configuration/file/configuration.json`
 `vendor/bin/aop-sdk app:translation:validate -t path/to/translation/file/translation.json`
-
-#### Configuration options
-
-The command offers the following configuration.
-
-`vendor/bin/aop-sdk asyncapi:validate -a path/to/asyncapi/file/asyncapi.yml`

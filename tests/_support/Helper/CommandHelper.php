@@ -8,18 +8,18 @@
 namespace SprykerSdkTest\Helper;
 
 use Codeception\Module;
+use Codeception\Stub;
+use SprykerSdk\Zed\AopSdk\AopSdkConfig;
+use SprykerSdk\Zed\AopSdk\Business\AopSdkBusinessFactory;
+use SprykerSdk\Zed\AopSdk\Business\AopSdkFacade;
 use SprykerSdk\Zed\AopSdk\Communication\Console\AbstractConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\CheckReadinessConsole;
 use SprykerSdk\Zed\AopSdk\Communication\Console\ConsoleBootstrap;
-use SprykerTest\Shared\Testify\Helper\ConfigHelperTrait;
-use SprykerTest\Zed\Testify\Helper\Business\BusinessHelperTrait;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class CommandHelper extends Module
 {
     use AopSdkHelperTrait;
-    use BusinessHelperTrait;
-    use ConfigHelperTrait;
 
     /**
      * @param \SprykerSdk\Zed\AopSdk\Communication\Console\AbstractConsole|string $command
@@ -45,8 +45,16 @@ class CommandHelper extends Module
      */
     public function createCheckReadinessConsoleCommand(): CheckReadinessConsole
     {
-        $this->getConfigHelper()->mockConfigMethod('getRootPath', codecept_data_dir());
-        $facade = $this->getBusinessHelper()->getFacade();
+        $configStub = Stub::make(AopSdkConfig::class, [
+            'getRootPath' => codecept_data_dir(),
+        ]);
+
+        $factory = new AopSdkBusinessFactory();
+        $factory->setConfig($configStub);
+
+        $facade = new AopSdkFacade();
+        $facade->setFactory($factory);
+
         $checkReadinessConsole = new CheckReadinessConsole();
         $checkReadinessConsole->setFacade($facade);
 

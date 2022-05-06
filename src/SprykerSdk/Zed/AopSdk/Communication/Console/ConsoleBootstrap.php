@@ -42,7 +42,6 @@ class ConsoleBootstrap extends Application
     private function getCommands(): array
     {
         return [
-            new AsyncApiValidateConsole(),
             new AppManifestValidateConsole(),
             new AppConfigurationValidateConsole(),
             new AppTranslationValidateConsole(),

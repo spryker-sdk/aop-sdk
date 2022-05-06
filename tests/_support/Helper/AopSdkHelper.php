@@ -23,6 +23,8 @@ class AopSdkHelper extends Module
     protected ?string $rootPath = null;
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param \Codeception\TestInterface $test
      *
      * @return void
@@ -36,6 +38,8 @@ class AopSdkHelper extends Module
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param \Codeception\TestInterface $test
      *
      * @return void
@@ -58,10 +62,6 @@ class AopSdkHelper extends Module
      */
     public function getConfig(): AopSdkConfig
     {
-        if ($this->rootPath === null) { // This will always be set, check if a test fails as it expects the normal filesystem
-            return new AopSdkConfig();
-        }
-
         return Stub::make(AopSdkConfig::class, [
             'getProjectRootPath' => function () {
                 return $this->rootPath;

@@ -11,8 +11,6 @@ use Generated\Shared\Transfer\AppConfigurationRequestTransfer;
 use Generated\Shared\Transfer\AppConfigurationResponseTransfer;
 use Generated\Shared\Transfer\AppTranslationRequestTransfer;
 use Generated\Shared\Transfer\AppTranslationResponseTransfer;
-use Generated\Shared\Transfer\AsyncApiRequestTransfer;
-use Generated\Shared\Transfer\AsyncApiResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessTransfer;
 use Generated\Shared\Transfer\ManifestRequestTransfer;
@@ -111,31 +109,6 @@ interface AopSdkFacadeInterface
 
     /**
      * Specification:
-     * - Adds an AsyncAPI file.
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
-     */
-    public function addAsyncApi(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer;
-
-    /**
-     * Specification:
-     * - Adds an AsyncAPI message to a given file.
-     * - When the file does not exist, it will raise an error.
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
-     */
-    public function addAsyncApiMessage(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer;
-
-    /**
-     * Specification:
      * - Checks the readines of a project against recipes.
      * - Loads recipe(s) by recipe name(s) from another repository.
      * - Runs all defined checks.
@@ -151,30 +124,15 @@ interface AopSdkFacadeInterface
 
     /**
      * Specification:
-     * - Reads an AsyncAPI file and builds code that is required.
+     * - Reads an OpenAPI file and builds code that is required.
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\AsyncApiRequestTransfer $asyncApiRequestTransfer
+     * @param \Generated\Shared\Transfer\OpenApiRequestTransfer $openApiRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\AsyncApiResponseTransfer
+     * @return \Generated\Shared\Transfer\OpenApiResponseTransfer
      */
-    public function buildFromAsyncApi(AsyncApiRequestTransfer $asyncApiRequestTransfer): AsyncApiResponseTransfer;
-
-    /**
-     * Specification:
-     * - Reads an AsyncAPI file and validates it.
-     * - Validates that an AsyncAPI file contains at least one message.
-     * - Validates that an AsyncAPI file does not contain duplicated messages.
-     * - Validates that all messages in the AsyncAPI file have an operationId.
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
-     */
-    public function validateAsyncApi(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
+    public function buildFromOpenApi(OpenApiRequestTransfer $openApiRequestTransfer): OpenApiResponseTransfer;
 
     /**
      * Specification:
