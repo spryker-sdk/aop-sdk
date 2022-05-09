@@ -11,9 +11,9 @@ use Codeception\Module;
 use Codeception\Stub;
 use Codeception\TestInterface;
 use org\bovigo\vfs\vfsStream;
-use SprykerSdk\Zed\AopSdk\AopSdkConfig;
-use SprykerSdk\Zed\AopSdk\Business\AopSdkFacade;
-use SprykerSdk\Zed\AopSdk\Business\AopSdkFacadeInterface;
+use SprykerSdk\Aop\AopConfig;
+use SprykerSdk\Aop\AopFacade;
+use SprykerSdk\Aop\AopFacadeInterface;
 
 class AopSdkHelper extends Module
 {
@@ -23,6 +23,8 @@ class AopSdkHelper extends Module
     protected ?string $rootPath = null;
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param \Codeception\TestInterface $test
      *
      * @return void
@@ -36,6 +38,8 @@ class AopSdkHelper extends Module
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param \Codeception\TestInterface $test
      *
      * @return void
@@ -46,23 +50,19 @@ class AopSdkHelper extends Module
     }
 
     /**
-     * @return \SprykerSdk\Zed\AopSdk\Business\AopSdkFacadeInterface
+     * @return \SprykerSdk\Aop\AopFacadeInterface
      */
-    public function getFacade(): AopSdkFacadeInterface
+    public function getFacade(): AopFacadeInterface
     {
-        return new AopSdkFacade();
+        return new AopFacade();
     }
 
     /**
-     * @return \SprykerSdk\Zed\AopSdk\AopSdkConfig
+     * @return \SprykerSdk\Aop\AopConfig
      */
-    public function getConfig(): AopSdkConfig
+    public function getConfig(): AopConfig
     {
-        if ($this->rootPath === null) { // This will always be set, check if a test fails as it expects the normal filesystem
-            return new AopSdkConfig();
-        }
-
-        return Stub::make(AopSdkConfig::class, [
+        return Stub::make(AopConfig::class, [
             'getProjectRootPath' => function () {
                 return $this->rootPath;
             },

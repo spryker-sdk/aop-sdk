@@ -24,5 +24,4 @@ There will be other modules beside the AopSdk module e.g. Console, Transfer etc.
 
 - [Readiness Check](./docs/readiness-check.md)
 - [Validation](./docs/validation.md)
-- [AsyncAPI](./docs/async-api.md)
 - [Configuration](./docs/configuration.md)

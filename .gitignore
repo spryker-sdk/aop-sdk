@@ -22,8 +22,6 @@ vendor/
 composer.lock
 .phpunit.result.cache
 
-src/Generated/*
-
 # built client resources
 src/*/Zed/*/Static/Public
 src/*/Zed/*/Static/Assets/sprite

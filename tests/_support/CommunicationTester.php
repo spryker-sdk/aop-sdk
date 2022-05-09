@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdkTest\Zed\AopSdk;
+namespace SprykerSdkTest\Aop;
 
 use Codeception\Actor;
 

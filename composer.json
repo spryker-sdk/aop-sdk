@@ -5,15 +5,11 @@
     "license": "proprietary",
     "require": {
         "php": ">=7.4",
-        "cebe/php-openapi": "^1.6",
-        "doctrine/inflector": "^2.0",
         "spryker-sdk/spryk": "master",
-        "spryker/console": "^4.10",
-        "spryker/kernel": "^3.61",
-        "spryker/transfer": "^3.29",
         "symfony/console": "^5.3",
         "symfony/finder": "^5.3",
-        "webmozart/glob": "^4.4"
+        "spryker-sdk/async-api": "1.0.x-dev",
+        "spryker-sdk/sync-api": "1.0.x-dev"
     },
     "require-dev": {
         "codeception/codeception": "*",
@@ -23,10 +19,8 @@
         "sllh/composer-versions-check": "^2.0",
         "spryker-sdk/architector": "0.1.x-dev",
         "spryker/code-sniffer": "*",
-        "spryker/testify": "^3.43",
-        "symfony/filesystem": "^5.3",
-        "symfony/var-dumper": "*",
-        "spryker-sdk/async-api": "1.0.x-dev"
+        "spryker/kernel": "^3.68",
+        "symfony/var-dumper": "*"
     },
     "autoload": {
         "psr-4": {

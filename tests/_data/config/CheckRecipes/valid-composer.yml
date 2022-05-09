@@ -1,2 +1,2 @@
 composer:
-    "spryker/testify": "^3.0.0"
+    "symfony/console": "^5.3"

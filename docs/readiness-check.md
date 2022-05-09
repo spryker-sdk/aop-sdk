@@ -18,7 +18,7 @@ A recipe thats located in `config/CheckRecipe/my-check-recipe.yml` can be execut
 
 This option is used to tell the check tools for which project namespace it should be executed. This is only used when you need to get classes from the project.
 
-An example can be found in the `\SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\PluginsChecker`.
+An example can be found in the `\SprykerSdk\Aop\ReadinessChecker\Checker\PluginsChecker`.
 
 Example configuration:
 
@@ -41,7 +41,7 @@ TODO: Implement Twig template finder.
 
 ## Recipes
 
-Recipes are written in YML and will contain any kind of configuration for the checker tools. The root key inside of the YML points to a `\SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\CheckerInterface`. The checker classes have a method `getName()` which is used to map from the YML file to this checker.
+Recipes are written in YML and will contain any kind of configuration for the checker tools. The root key inside of the YML points to a `\SprykerSdk\Aop\ReadinessChecker\Checker\CheckerInterface`. The checker classes have a method `getName()` which is used to map from the YML file to this checker.
 
 ## Checker
 
@@ -85,11 +85,11 @@ plugins:
 
 ## Adding a checker
 
-To create a new checker you need to create a class in `src/SprykerSdk/Zed/AopSdk/Business/ReadinessChecker/Checker` that implements the `SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\CheckerInterface`.
+To create a new checker you need to create a class in `src/SprykerSdk/Zed/AopSdk/Business/ReadinessChecker/Checker` that implements the `SprykerSdk\Aop\ReadinessChecker\Checker\CheckerInterface`.
 
-This class needs to be added to `\SprykerSdk\Zed\AopSdk\Business\AopSdkBusinessFactory::getReadinessChecker()` to be accesible by the check tool.
+This class needs to be added to `\SprykerSdk\Aop\AopSdkBusinessFactory::getReadinessChecker()` to be accesible by the check tool.
 
-The `\SprykerSdk\Zed\AopSdk\Business\ReadinessChecker\Checker\CheckerInterface::check()` method will get a `RecipeTransfer` and a `CheckConfigurationTransfer`. The method must return the `RecipeTransfer` after it was executed.
+The `\SprykerSdk\Aop\ReadinessChecker\Checker\CheckerInterface::check()` method will get a `RecipeTransfer` and a `CheckConfigurationTransfer`. The method must return the `RecipeTransfer` after it was executed.
 
 ### Adding messages
 
