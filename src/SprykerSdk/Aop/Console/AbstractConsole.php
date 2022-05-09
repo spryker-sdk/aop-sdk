@@ -46,6 +46,8 @@ class AbstractConsole extends Command
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param \SprykerSdk\Aop\AopConfig $config
      *
      * @return void
