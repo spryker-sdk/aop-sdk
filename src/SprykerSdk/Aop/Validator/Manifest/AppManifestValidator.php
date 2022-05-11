@@ -48,6 +48,10 @@ class AppManifestValidator extends AbstractValidator
             $validateResponseTransfer = $this->validateFileData($manifestData, $manifestFile->getFilename(), $validateResponseTransfer);
         }
 
+        if ($validateResponseTransfer->getErrors()->count() === 0) {
+            $validateResponseTransfer->addMessage((new MessageTransfer())->setMessage(sprintf('No errors found for manifest files in "%s".', $validateRequestTransfer->getManifestPathOrFail())));
+        }
+
         return $validateResponseTransfer;
     }
 }

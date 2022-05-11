@@ -10,6 +10,7 @@ namespace SprykerSdkTest\Aop\Console;
 use Codeception\Test\Unit;
 use SprykerSdk\Aop\Console\AbstractConsole;
 use SprykerSdk\Aop\Console\AppTranslationValidateConsole;
+use SprykerSdkTest\Aop\CommunicationTester;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -25,7 +26,7 @@ class AppTranslationValidateConsoleTest extends Unit
     /**
      * @var \SprykerSdkTest\Aop\CommunicationTester
      */
-    protected $tester;
+    protected CommunicationTester $tester;
 
     /**
      * @return void

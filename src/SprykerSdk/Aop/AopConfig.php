@@ -155,23 +155,4 @@ class AopConfig
     {
         return AOP_SDK_ROOT_DIR;
     }
-
-    /**
-     * @api
-     *
-     * @throws \Exception
-     *
-     * @return string
-     */
-    public function getDefaultAppTranslationFile(): string
-    {
-        $pathFragments = [
-            $this->getProjectRootPath(),
-            'config',
-            'app',
-            'translation.json',
-        ];
-
-        return implode(DIRECTORY_SEPARATOR, $pathFragments);
-    }
 }

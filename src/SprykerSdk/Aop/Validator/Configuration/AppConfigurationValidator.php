@@ -46,6 +46,12 @@ class AppConfigurationValidator extends AbstractValidator
             return $validateResponseTransfer;
         }
 
-        return $this->validateFileData($fileData, $splFileInfo->getFilename(), $validateResponseTransfer);
+        $validateResponseTransfer = $this->validateFileData($fileData, $splFileInfo->getFilename(), $validateResponseTransfer);
+
+        if ($validateResponseTransfer->getErrors()->count() === 0) {
+            $validateResponseTransfer->addMessage((new MessageTransfer())->setMessage(sprintf('No errors found in "%s".', $validateRequestTransfer->getConfigurationFileOrFail())));
+        }
+
+        return $validateResponseTransfer;
     }
 }

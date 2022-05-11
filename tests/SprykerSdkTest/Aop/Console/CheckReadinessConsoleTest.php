@@ -12,6 +12,7 @@ use SprykerSdk\Aop\Console\AbstractConsole;
 use SprykerSdk\Aop\Console\CheckReadinessConsole;
 use SprykerSdk\Aop\Exception\CheckerNotFoundException;
 use SprykerSdk\Aop\Exception\RecipeNotFoundException;
+use SprykerSdkTest\Aop\CommunicationTester;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -27,7 +28,7 @@ class CheckReadinessConsoleTest extends Unit
     /**
      * @var \SprykerSdkTest\Aop\CommunicationTester
      */
-    protected $tester;
+    protected CommunicationTester $tester;
 
     /**
      * @return void
@@ -53,7 +54,7 @@ class CheckReadinessConsoleTest extends Unit
             ],
             ['verbosity' => OutputInterface::VERBOSITY_VERBOSE],
         );
-        $this->assertEmpty($commandTester->getDisplay(), $commandTester->getDisplay());
+        $this->assertNotEmpty($commandTester->getDisplay(), $commandTester->getDisplay());
         $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
 
         // Cleanup

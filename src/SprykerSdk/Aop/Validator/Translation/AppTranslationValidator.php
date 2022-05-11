@@ -65,7 +65,13 @@ class AppTranslationValidator extends AbstractValidator
             'locales' => $this->getLocalesFromManifestFiles($validateRequestTransfer),
         ];
 
-        return $this->validateFileData($fileData, $splFileInfo->getFilename(), $validateResponseTransfer, $context);
+        $validateResponseTransfer = $this->validateFileData($fileData, $splFileInfo->getFilename(), $validateResponseTransfer, $context);
+
+        if ($validateResponseTransfer->getErrors()->count() === 0) {
+            $validateResponseTransfer->addMessage((new MessageTransfer())->setMessage(sprintf('No errors found in "%s".', $validateRequestTransfer->getTranslationFileOrFail())));
+        }
+
+        return $validateResponseTransfer;
     }
 
     /**

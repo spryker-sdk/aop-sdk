@@ -73,11 +73,13 @@ class CheckReadinessConsole extends AbstractConsole
         $checkReadinessResponseTransfer = $this->getFacade()->checkReadiness($checkReadinessTransfer);
 
         if ($checkReadinessResponseTransfer->getIsSuccessful()) {
+            $output->write('No errors found, project seems to be ready.');
+
             return static::CODE_SUCCESS;
         }
 
         if ($output->isVerbose()) {
-            $this->printMessages($checkReadinessResponseTransfer, $output);
+            $this->printReadinessMessages($checkReadinessResponseTransfer, $output);
         }
 
         return static::CODE_ERROR;
@@ -116,7 +118,7 @@ class CheckReadinessConsole extends AbstractConsole
      *
      * @return void
      */
-    protected function printMessages(CheckReadinessResponseTransfer $checkReadinessResponseTransfer, OutputInterface $output): void
+    protected function printReadinessMessages(CheckReadinessResponseTransfer $checkReadinessResponseTransfer, OutputInterface $output): void
     {
         foreach ($checkReadinessResponseTransfer->getRecipes() as $recipeTransfer) {
             $this->printRecipeInformation($recipeTransfer, $output);

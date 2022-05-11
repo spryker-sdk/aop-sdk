@@ -45,6 +45,8 @@ class ValidateConsole extends AbstractConsole
         $validateResponseTransfer = $this->getFacade()->validate($validateRequestTransfer);
 
         if ($validateResponseTransfer->getErrors()->count() === 0) {
+            $output->write('Validated manifest, configuration and translation files, no errors found.');
+
             return static::CODE_SUCCESS;
         }
 

@@ -84,22 +84,14 @@ class AppConfigurationCreateConsole extends AbstractConsole
         $appConfigurationResponseTransfer = $this->getFacade()->createAppConfiguration($appConfigurationRequestTransfer);
 
         if ($appConfigurationResponseTransfer->getErrors()->count() === 0) {
-            $output->writeln(
-                sprintf('Configuration file written to %s', $appConfigurationRequestTransfer->getConfigurationFile()),
-            );
+            $this->printMessages($output, $appConfigurationResponseTransfer->getMessages());
 
             return static::CODE_SUCCESS;
         }
 
-        // @codeCoverageIgnoreStart
-        if ($output->isVerbose()) {
-            foreach ($appConfigurationResponseTransfer->getErrors() as $error) {
-                $output->writeln($error->getMessageOrFail());
-            }
-        }
+        $this->printMessages($output, $appConfigurationResponseTransfer->getErrors());
 
         return static::CODE_ERROR;
-        // @codeCoverageIgnoreEnd
     }
 
     /**

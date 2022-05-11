@@ -41,7 +41,7 @@ class AppTranslationCreateConsole extends AbstractConsole
     {
         $this->setName('app:translation:create')
         ->setDescription('Create a translation file.')
-        ->addOption(static::TRANSLATION_FILE, static::TRANSLATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultAppTranslationFile());
+        ->addOption(static::TRANSLATION_FILE, static::TRANSLATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultTranslationFile());
     }
 
     /**
@@ -63,22 +63,14 @@ class AppTranslationCreateConsole extends AbstractConsole
         $appTranslationResponseTransfer = $this->getFacade()->createAppTranslation($appTranslationRequestTransfer);
 
         if ($appTranslationResponseTransfer->getErrors()->count() === 0) {
-            $output->writeln(
-                sprintf('Translation file written to "%s"', $appTranslationRequestTransfer->getTranslationFile()),
-            );
+            $this->printMessages($output, $appTranslationResponseTransfer->getMessages());
 
             return static::CODE_SUCCESS;
         }
 
-        // @codeCoverageIgnoreStart
-        if ($output->isVerbose()) {
-            foreach ($appTranslationResponseTransfer->getErrors() as $error) {
-                $output->writeln($error->getMessageOrFail());
-            }
-        }
+        $this->printMessages($output, $appTranslationResponseTransfer->getErrors());
 
         return static::CODE_ERROR;
-        // @codeCoverageIgnoreEnd
     }
 
     /**

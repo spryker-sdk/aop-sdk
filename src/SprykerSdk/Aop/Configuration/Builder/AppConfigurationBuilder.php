@@ -9,6 +9,7 @@ namespace SprykerSdk\Aop\Configuration\Builder;
 
 use Generated\Shared\Transfer\AppConfigurationRequestTransfer;
 use Generated\Shared\Transfer\AppConfigurationResponseTransfer;
+use Generated\Shared\Transfer\MessageTransfer;
 
 class AppConfigurationBuilder implements AppConfigurationBuilderInterface
 {
@@ -21,7 +22,7 @@ class AppConfigurationBuilder implements AppConfigurationBuilderInterface
     {
         $appConfigurationResponseTransfer = new AppConfigurationResponseTransfer();
 
-        $this->writeToFile(
+        $result = $this->writeToFile(
             $appConfigurationRequestTransfer->getConfigurationFileOrFail(),
             [
                 'properties' => $this->getFormattedProperties($appConfigurationRequestTransfer),
@@ -29,6 +30,10 @@ class AppConfigurationBuilder implements AppConfigurationBuilderInterface
                 'required' => $appConfigurationRequestTransfer->getRequired(),
             ],
         );
+
+        if ($result) {
+            $appConfigurationResponseTransfer->addMessage((new MessageTransfer())->setMessage(sprintf('Configuration file written to %s', $appConfigurationRequestTransfer->getConfigurationFile())));
+        }
 
         return $appConfigurationResponseTransfer;
     }
