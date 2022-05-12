@@ -14,14 +14,14 @@ use Generated\Shared\Transfer\ManifestTransfer;
 
 class ManifestHelper extends Module
 {
-    use AopSdkHelperTrait;
+    use AcpHelperTrait;
 
     /**
      * @return \Generated\Shared\Transfer\ManifestRequestTransfer
      */
     public function haveManifestCreateRequest(): ManifestRequestTransfer
     {
-        $config = $this->getAopSdkHelper()->getConfig();
+        $config = $this->getAcpHelper()->getConfig();
 
         $manifestTransfer = new ManifestTransfer();
         $manifestTransfer
@@ -53,7 +53,7 @@ class ManifestHelper extends Module
      */
     protected function prepareManifestFile(string $pathToManifest): void
     {
-        $filePath = sprintf('%s/config/app/manifest/en_US.json', $this->getAopSdkHelper()->getRootPath());
+        $filePath = sprintf('%s/config/app/manifest/en_US.json', $this->getAcpHelper()->getRootPath());
 
         if (!is_dir(dirname($filePath))) {
             mkdir(dirname($filePath), 0770, true);

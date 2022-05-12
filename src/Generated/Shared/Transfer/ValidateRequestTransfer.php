@@ -150,7 +150,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     ];
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $manifestPath
      *
@@ -165,7 +165,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return string|null
      */
@@ -175,7 +175,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $manifestPath
      *
@@ -193,7 +193,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
@@ -209,7 +209,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
@@ -223,7 +223,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $configurationFile
      *
@@ -238,7 +238,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return string|null
      */
@@ -248,7 +248,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $configurationFile
      *
@@ -266,7 +266,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
@@ -282,7 +282,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
@@ -296,7 +296,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $translationFile
      *
@@ -311,7 +311,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return string|null
      */
@@ -321,7 +321,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $translationFile
      *
@@ -339,7 +339,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
@@ -355,7 +355,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
@@ -369,7 +369,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $asyncApiFile
      *
@@ -384,7 +384,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return string|null
      */
@@ -394,7 +394,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $asyncApiFile
      *
@@ -412,7 +412,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
@@ -428,7 +428,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
@@ -442,7 +442,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $openApiFile
      *
@@ -457,7 +457,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return string|null
      */
@@ -467,7 +467,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $openApiFile
      *
@@ -485,7 +485,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
@@ -501,7 +501,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *

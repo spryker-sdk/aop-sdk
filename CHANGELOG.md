@@ -1,3 +1,3 @@
-# AopSdk Changelog
+# Acp Changelog
 
-[Release Changelog](https://github.com/spryker-sdk/aop-sdk/releases)
+[Release Changelog](https://github.com/spryker-sdk/acp/releases)

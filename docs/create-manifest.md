@@ -2,22 +2,22 @@
 
 The following console commands are available:
 
-- `vendor/bin/aop-sdk app:manifest:create`
+- `vendor/bin/acp app:manifest:create`
 
 ## Adding an Manifest file
 
-The `vendor/bin/aop-sdk app:manifest:create` adds a minimal Manifest file.
+The `vendor/bin/acp app:manifest:create` adds a minimal Manifest file.
 
 ### Arguments
 
 - `name`
 
-`vendor/bin/aop-sdk app:manifest:create "Your company name"` will set the name parameter of your Manifest file.
+`vendor/bin/acp app:manifest:create "Your company name"` will set the name parameter of your Manifest file.
 
 
 - `locale`
 
-`vendor/bin/aop-sdk app:manifest:create "Your company name" en_US ` will set the name parameter of your Manifest file and the locale will define the manifest file name.
+`vendor/bin/acp app:manifest:create "Your company name" en_US ` will set the name parameter of your Manifest file and the locale will define the manifest file name.
 
 Example:
 

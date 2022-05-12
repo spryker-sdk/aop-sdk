@@ -11,7 +11,7 @@ use Codeception\Module;
 
 class AppTranslationValidatorHelper extends Module
 {
-    use AopSdkHelperTrait;
+    use AcpHelperTrait;
 
     /**
      * @param string $translationFile
@@ -118,6 +118,6 @@ class AppTranslationValidatorHelper extends Module
      */
     protected function prepareTranslation(array $structure): void
     {
-        $this->getAopSdkHelper()->mockDirectoryStructure($structure);
+        $this->getAcpHelper()->mockDirectoryStructure($structure);
     }
 }

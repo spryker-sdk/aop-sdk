@@ -101,7 +101,7 @@ class RecipeTransfer extends AbstractTransfer
     ];
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $name
      *
@@ -116,7 +116,7 @@ class RecipeTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return string|null
      */
@@ -126,7 +126,7 @@ class RecipeTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $name
      *
@@ -144,7 +144,7 @@ class RecipeTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
@@ -160,7 +160,7 @@ class RecipeTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
@@ -174,7 +174,7 @@ class RecipeTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param array|null $loadedRecipe
      *
@@ -193,7 +193,7 @@ class RecipeTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return array
      */
@@ -203,7 +203,7 @@ class RecipeTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param mixed $loadedRecipe
      *
@@ -218,7 +218,7 @@ class RecipeTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
@@ -232,7 +232,7 @@ class RecipeTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param \ArrayObject|\Generated\Shared\Transfer\CheckerMessageTransfer[] $checkerMessages
      *
@@ -247,7 +247,7 @@ class RecipeTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return \ArrayObject|\Generated\Shared\Transfer\CheckerMessageTransfer[]
      */
@@ -257,7 +257,7 @@ class RecipeTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param \Generated\Shared\Transfer\CheckerMessageTransfer $checkerMessage
      *
@@ -272,7 +272,7 @@ class RecipeTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *

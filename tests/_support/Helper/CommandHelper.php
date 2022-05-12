@@ -9,27 +9,27 @@ namespace SprykerSdkTest\Helper;
 
 use Codeception\Module;
 use Codeception\Stub;
-use SprykerSdk\Aop\AopConfig;
-use SprykerSdk\Aop\AopFacade;
-use SprykerSdk\Aop\AopFactory;
-use SprykerSdk\Aop\Console\AbstractConsole;
-use SprykerSdk\Aop\Console\CheckReadinessConsole;
-use SprykerSdk\Aop\Console\ConsoleBootstrap;
+use SprykerSdk\Acp\AcpConfig;
+use SprykerSdk\Acp\AcpFacade;
+use SprykerSdk\Acp\AcpFactory;
+use SprykerSdk\Acp\Console\AbstractConsole;
+use SprykerSdk\Acp\Console\CheckReadinessConsole;
+use SprykerSdk\Acp\Console\ConsoleBootstrap;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class CommandHelper extends Module
 {
-    use AopSdkHelperTrait;
+    use AcpHelperTrait;
 
     /**
-     * @param \SprykerSdk\Aop\Console\AbstractConsole|string $command
+     * @param \SprykerSdk\Acp\Console\AbstractConsole|string $command
      *
      * @return \Symfony\Component\Console\Tester\CommandTester
      */
     public function getConsoleTester($command): CommandTester
     {
         if (!($command instanceof AbstractConsole)) {
-            $command = new $command(null, $this->getAopSdkHelper()->getConfig());
+            $command = new $command(null, $this->getAcpHelper()->getConfig());
         }
 
         $application = new ConsoleBootstrap();
@@ -41,18 +41,18 @@ class CommandHelper extends Module
     }
 
     /**
-     * @return \SprykerSdk\Aop\Console\CheckReadinessConsole
+     * @return \SprykerSdk\Acp\Console\CheckReadinessConsole
      */
     public function createCheckReadinessConsoleCommand(): CheckReadinessConsole
     {
-        $configStub = Stub::make(AopConfig::class, [
+        $configStub = Stub::make(AcpConfig::class, [
             'getRootPath' => codecept_data_dir(),
         ]);
 
-        $factory = new AopFactory();
+        $factory = new AcpFactory();
         $factory->setConfig($configStub);
 
-        $facade = new AopFacade();
+        $facade = new AcpFacade();
         $facade->setFactory($factory);
 
         $checkReadinessConsole = new CheckReadinessConsole();

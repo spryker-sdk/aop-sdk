@@ -74,7 +74,7 @@ class ManifestRequestTransfer extends AbstractTransfer
     ];
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param \Generated\Shared\Transfer\ManifestTransfer|null $manifest
      *
@@ -89,7 +89,7 @@ class ManifestRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return \Generated\Shared\Transfer\ManifestTransfer|null
      */
@@ -99,7 +99,7 @@ class ManifestRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param \Generated\Shared\Transfer\ManifestTransfer $manifest
      *
@@ -113,7 +113,7 @@ class ManifestRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
@@ -129,7 +129,7 @@ class ManifestRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
@@ -143,7 +143,7 @@ class ManifestRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $manifestPath
      *
@@ -158,7 +158,7 @@ class ManifestRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return string|null
      */
@@ -168,7 +168,7 @@ class ManifestRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $manifestPath
      *
@@ -186,7 +186,7 @@ class ManifestRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
@@ -202,7 +202,7 @@ class ManifestRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *

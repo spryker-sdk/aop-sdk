@@ -6,38 +6,38 @@ The validation console command runs checks for:
 - translation files
 - configuration files
 
-and checks that those files are correct and can be used with the App Orchestration Platform (AOP).
+and checks that those files are correct and can be used with the App Orchestration Platform (ACP).
 
 You can run all at once or separated.
 
 ### Run all validations at once
-`vendor/bin/aop-sdk app:validate`
+`vendor/bin/acp app:validate`
 
 #### Configuration options
 
 The command offers the following configuration.
 
-- `vendor/bin/aop-sdk app:validate -m path/to/manifest/files`
-- `vendor/bin/aop-sdk app:validate -c path/to/configuration/file/configuration.json`
-- `vendor/bin/aop-sdk app:validate -t path/to/translation/file/translation.json`
+- `vendor/bin/acp app:validate -m path/to/manifest/files`
+- `vendor/bin/acp app:validate -c path/to/configuration/file/configuration.json`
+- `vendor/bin/acp app:validate -t path/to/translation/file/translation.json`
 
 ### Run manifest file validation
-`vendor/bin/aop-sdk app:manifest:validate`
+`vendor/bin/acp app:manifest:validate`
 
 #### Configuration options
 
 The command offers the following configuration.
 
-`vendor/bin/aop-sdk app:manifest:validate -m path/to/manifest/files`
+`vendor/bin/acp app:manifest:validate -m path/to/manifest/files`
 
 ### Run configuration file validation
-`vendor/bin/aop-sdk app:configuration:validate`
+`vendor/bin/acp app:configuration:validate`
 
 #### Configuration options
 
 The command offers the following configuration.
 
-`vendor/bin/aop-sdk app:configuration:validate -c path/to/configuration/file/configuration.json`
+`vendor/bin/acp app:configuration:validate -c path/to/configuration/file/configuration.json`
 
 
 ### Run translation file validation
@@ -49,12 +49,12 @@ This validation needs the context of the manifest files to get locales you want 
 
 ---
 
-`vendor/bin/aop-sdk app:translation:validate`
+`vendor/bin/acp app:translation:validate`
 
 #### Configuration options
 
 The command offers the following configuration.
 
-`vendor/bin/aop-sdk app:translation:validate -m path/to/manifest/files`
-`vendor/bin/aop-sdk app:translation:validate -c path/to/configuration/file/configuration.json`
-`vendor/bin/aop-sdk app:translation:validate -t path/to/translation/file/translation.json`
+`vendor/bin/acp app:translation:validate -m path/to/manifest/files`
+`vendor/bin/acp app:translation:validate -c path/to/configuration/file/configuration.json`
+`vendor/bin/acp app:translation:validate -t path/to/translation/file/translation.json`

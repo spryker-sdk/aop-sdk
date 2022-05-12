@@ -75,7 +75,7 @@ class ManifestResponseTransfer extends AbstractTransfer
     ];
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param \ArrayObject|\Generated\Shared\Transfer\MessageTransfer[] $errors
      *
@@ -90,7 +90,7 @@ class ManifestResponseTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return \ArrayObject|\Generated\Shared\Transfer\MessageTransfer[]
      */
@@ -100,7 +100,7 @@ class ManifestResponseTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param \Generated\Shared\Transfer\MessageTransfer $error
      *
@@ -115,7 +115,7 @@ class ManifestResponseTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
@@ -129,7 +129,7 @@ class ManifestResponseTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param \ArrayObject|\Generated\Shared\Transfer\MessageTransfer[] $messages
      *
@@ -144,7 +144,7 @@ class ManifestResponseTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return \ArrayObject|\Generated\Shared\Transfer\MessageTransfer[]
      */
@@ -154,7 +154,7 @@ class ManifestResponseTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param \Generated\Shared\Transfer\MessageTransfer $message
      *
@@ -169,7 +169,7 @@ class ManifestResponseTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *

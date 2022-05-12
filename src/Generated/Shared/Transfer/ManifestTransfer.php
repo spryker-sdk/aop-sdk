@@ -74,7 +74,7 @@ class ManifestTransfer extends AbstractTransfer
     ];
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $name
      *
@@ -89,7 +89,7 @@ class ManifestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return string|null
      */
@@ -99,7 +99,7 @@ class ManifestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $name
      *
@@ -117,7 +117,7 @@ class ManifestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
@@ -133,7 +133,7 @@ class ManifestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
@@ -147,7 +147,7 @@ class ManifestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $localeName
      *
@@ -162,7 +162,7 @@ class ManifestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return string|null
      */
@@ -172,7 +172,7 @@ class ManifestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $localeName
      *
@@ -190,7 +190,7 @@ class ManifestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
@@ -206,7 +206,7 @@ class ManifestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *

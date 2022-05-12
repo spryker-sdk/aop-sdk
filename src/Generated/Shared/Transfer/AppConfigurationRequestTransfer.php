@@ -125,7 +125,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     ];
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param array|null $properties
      *
@@ -144,7 +144,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return array
      */
@@ -154,7 +154,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param mixed $properties
      *
@@ -169,7 +169,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return $this
      */
@@ -181,7 +181,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param array|null $required
      *
@@ -200,7 +200,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return array
      */
@@ -210,7 +210,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param mixed $required
      *
@@ -225,7 +225,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return $this
      */
@@ -237,7 +237,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param array|null $fieldsets
      *
@@ -256,7 +256,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return array
      */
@@ -266,7 +266,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param mixed $fieldsets
      *
@@ -281,7 +281,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return $this
      */
@@ -293,7 +293,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $configurationFile
      *
@@ -308,7 +308,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return string|null
      */
@@ -318,7 +318,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $configurationFile
      *
@@ -334,7 +334,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return string
      */
@@ -348,7 +348,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return $this
      */

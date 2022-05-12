@@ -74,7 +74,7 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     ];
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param array|null $translations
      *
@@ -93,7 +93,7 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return array
      */
@@ -103,7 +103,7 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param mixed $translations
      *
@@ -118,7 +118,7 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
@@ -132,7 +132,7 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $translationFile
      *
@@ -147,7 +147,7 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return string|null
      */
@@ -157,7 +157,7 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param string|null $translationFile
      *
@@ -175,7 +175,7 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
@@ -191,7 +191,7 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *

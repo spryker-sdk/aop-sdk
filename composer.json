@@ -1,7 +1,7 @@
 {
-    "name": "spryker-sdk/aop-sdk",
+    "name": "spryker-sdk/acp",
     "type": "library",
-    "description": "SDK for AOP.",
+    "description": "SDK for ACP.",
     "license": "proprietary",
     "require": {
         "php": ">=7.4",
@@ -35,7 +35,7 @@
         }
     },
     "bin": [
-        "bin/aop-sdk"
+        "bin/acp"
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,

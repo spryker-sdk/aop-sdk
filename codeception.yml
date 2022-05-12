@@ -1,4 +1,4 @@
-namespace: SprykerSdkTest\Aop
+namespace: SprykerSdkTest\Acp
 paths:
     tests: tests
     output: tests/_output
@@ -10,14 +10,14 @@ actor_suffix: Tester
 coverage:
     enabled: true
     include:
-        - src/SprykerSdk/Aop/*
+        - src/SprykerSdk/Acp/*
 suites:
     Acp:
-        path: SprykerSdkTest/Aop
+        path: SprykerSdkTest/Acp
         class_name: CommunicationTester
         modules:
             enabled:
-                - \SprykerSdkTest\Helper\AopSdkHelper
+                - \SprykerSdkTest\Helper\AcpHelper
                 - \SprykerSdkTest\Helper\CommandHelper
                 - \SprykerSdkTest\Helper\AppConfigurationValidatorHelper
                 - \SprykerSdkTest\Helper\AppManifestValidatorHelper

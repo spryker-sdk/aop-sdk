@@ -13,7 +13,7 @@ use Generated\Shared\Transfer\ValidateResponseTransfer;
 
 class ValidatorHelper extends Module
 {
-    use AopSdkHelperTrait;
+    use AcpHelperTrait;
 
     /**
      * @return void
@@ -22,7 +22,7 @@ class ValidatorHelper extends Module
     {
         $structure = $this->getValidBaseStructure();
 
-        $this->getAopSdkHelper()->mockDirectoryStructure($structure);
+        $this->getAcpHelper()->mockDirectoryStructure($structure);
     }
 
     /**
@@ -53,7 +53,7 @@ class ValidatorHelper extends Module
      */
     public function haveValidateRequest(): ValidateRequestTransfer
     {
-        $config = $this->getAopSdkHelper()->getConfig();
+        $config = $this->getAcpHelper()->getConfig();
 
         $validateRequest = new ValidateRequestTransfer();
         $validateRequest->setManifestPath($config->getDefaultManifestPath());

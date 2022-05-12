@@ -76,7 +76,7 @@ class CheckReadinessTransfer extends AbstractTransfer
     ];
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param \ArrayObject|\Generated\Shared\Transfer\RecipeTransfer[] $recipes
      *
@@ -91,7 +91,7 @@ class CheckReadinessTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return \ArrayObject|\Generated\Shared\Transfer\RecipeTransfer[]
      */
@@ -101,7 +101,7 @@ class CheckReadinessTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param \Generated\Shared\Transfer\RecipeTransfer $recipe
      *
@@ -116,7 +116,7 @@ class CheckReadinessTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
@@ -130,7 +130,7 @@ class CheckReadinessTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param \Generated\Shared\Transfer\CheckConfigurationTransfer|null $checkConfiguration
      *
@@ -145,7 +145,7 @@ class CheckReadinessTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @return \Generated\Shared\Transfer\CheckConfigurationTransfer|null
      */
@@ -155,7 +155,7 @@ class CheckReadinessTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @param \Generated\Shared\Transfer\CheckConfigurationTransfer $checkConfiguration
      *
@@ -169,7 +169,7 @@ class CheckReadinessTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
@@ -185,7 +185,7 @@ class CheckReadinessTransfer extends AbstractTransfer
     }
 
     /**
-     * @module AopSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *

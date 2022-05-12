@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdkTest\Aop;
+namespace SprykerSdkTest\Acp;
 
 use Codeception\Actor;
 
@@ -28,4 +28,8 @@ use Codeception\Actor;
 class CommunicationTester extends Actor
 {
     use _generated\CommunicationTesterActions;
+
+    /**
+     * Define custom actions here
+     */
 }
