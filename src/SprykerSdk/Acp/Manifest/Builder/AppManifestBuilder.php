@@ -64,6 +64,8 @@ class AppManifestBuilder implements AppManifestBuilderInterface
             'description' => '',
             'descriptionShort' => '',
             'configureUrl' => '',
+            'isAvailable' => '',
+            'businessModels' => [],
             'categories' => [],
             'assets' => [],
             'resources' => [],

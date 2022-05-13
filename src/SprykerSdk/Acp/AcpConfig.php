@@ -40,6 +40,8 @@ class AcpConfig
             'provider',
             'description',
             'descriptionShort',
+            'isAvailable',
+            'businessModels',
             'categories',
             'pages',
         ];
