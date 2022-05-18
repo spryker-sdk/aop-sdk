@@ -9,9 +9,9 @@ namespace SprykerSdk\Acp\ReadinessChecker\Checker;
 
 use Composer\InstalledVersions;
 use Composer\Semver\VersionParser;
-use Generated\Shared\Transfer\CheckConfigurationTransfer;
-use Generated\Shared\Transfer\CheckerMessageTransfer;
-use Generated\Shared\Transfer\RecipeTransfer;
+use Transfer\CheckConfigurationTransfer;
+use Transfer\CheckerMessageTransfer;
+use Transfer\RecipeTransfer;
 
 class ComposerChecker implements CheckerInterface
 {
@@ -24,10 +24,10 @@ class ComposerChecker implements CheckerInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\RecipeTransfer $recipeTransfer
-     * @param \Generated\Shared\Transfer\CheckConfigurationTransfer $checkConfigurationTransfer
+     * @param \Transfer\RecipeTransfer $recipeTransfer
+     * @param \Transfer\CheckConfigurationTransfer $checkConfigurationTransfer
      *
-     * @return \Generated\Shared\Transfer\RecipeTransfer
+     * @return \Transfer\RecipeTransfer
      */
     public function check(RecipeTransfer $recipeTransfer, CheckConfigurationTransfer $checkConfigurationTransfer): RecipeTransfer
     {

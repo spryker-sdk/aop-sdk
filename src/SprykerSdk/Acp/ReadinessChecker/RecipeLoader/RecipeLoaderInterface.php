@@ -7,14 +7,14 @@
 
 namespace SprykerSdk\Acp\ReadinessChecker\RecipeLoader;
 
-use Generated\Shared\Transfer\CheckReadinessTransfer;
+use Transfer\CheckReadinessTransfer;
 
 interface RecipeLoaderInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\CheckReadinessTransfer $checkReadinessTransfer
+     * @param \Transfer\CheckReadinessTransfer $checkReadinessTransfer
      *
-     * @return iterable<\Generated\Shared\Transfer\RecipeTransfer>
+     * @return iterable<\Transfer\RecipeTransfer>
      */
     public function loadRecipes(CheckReadinessTransfer $checkReadinessTransfer): iterable;
 }

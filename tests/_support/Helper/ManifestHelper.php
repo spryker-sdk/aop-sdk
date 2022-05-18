@@ -8,16 +8,16 @@
 namespace SprykerSdkTest\Helper;
 
 use Codeception\Module;
-use Generated\Shared\Transfer\ManifestRequestTransfer;
-use Generated\Shared\Transfer\ManifestResponseTransfer;
-use Generated\Shared\Transfer\ManifestTransfer;
+use Transfer\ManifestRequestTransfer;
+use Transfer\ManifestResponseTransfer;
+use Transfer\ManifestTransfer;
 
 class ManifestHelper extends Module
 {
     use AcpHelperTrait;
 
     /**
-     * @return \Generated\Shared\Transfer\ManifestRequestTransfer
+     * @return \Transfer\ManifestRequestTransfer
      */
     public function haveManifestCreateRequest(): ManifestRequestTransfer
     {
@@ -62,7 +62,7 @@ class ManifestHelper extends Module
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ManifestResponseTransfer $manifestResponseTransfer
+     * @param \Transfer\ManifestResponseTransfer $manifestResponseTransfer
      *
      * @return void
      */
@@ -75,7 +75,7 @@ class ManifestHelper extends Module
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ManifestResponseTransfer $manifestResponseTransfer
+     * @param \Transfer\ManifestResponseTransfer $manifestResponseTransfer
      *
      * @return array
      */

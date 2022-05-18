@@ -7,16 +7,16 @@
 
 namespace SprykerSdk\Acp;
 
-use Generated\Shared\Transfer\AppConfigurationRequestTransfer;
-use Generated\Shared\Transfer\AppConfigurationResponseTransfer;
-use Generated\Shared\Transfer\AppTranslationRequestTransfer;
-use Generated\Shared\Transfer\AppTranslationResponseTransfer;
-use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
-use Generated\Shared\Transfer\CheckReadinessTransfer;
-use Generated\Shared\Transfer\ManifestRequestTransfer;
-use Generated\Shared\Transfer\ManifestResponseTransfer;
-use Generated\Shared\Transfer\ValidateRequestTransfer;
-use Generated\Shared\Transfer\ValidateResponseTransfer;
+use Transfer\AppConfigurationRequestTransfer;
+use Transfer\AppConfigurationResponseTransfer;
+use Transfer\AppTranslationRequestTransfer;
+use Transfer\AppTranslationResponseTransfer;
+use Transfer\CheckReadinessResponseTransfer;
+use Transfer\CheckReadinessTransfer;
+use Transfer\ManifestRequestTransfer;
+use Transfer\ManifestResponseTransfer;
+use Transfer\ValidateRequestTransfer;
+use Transfer\ValidateResponseTransfer;
 
 interface AcpFacadeInterface
 {
@@ -26,9 +26,9 @@ interface AcpFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
+     * @param \Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
+     * @return \Transfer\ValidateResponseTransfer
      */
     public function validate(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
 
@@ -38,9 +38,9 @@ interface AcpFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
+     * @param \Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
+     * @return \Transfer\ValidateResponseTransfer
      */
     public function validateAppManifest(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
 
@@ -50,9 +50,9 @@ interface AcpFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
+     * @param \Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
+     * @return \Transfer\ValidateResponseTransfer
      */
     public function validateAppConfiguration(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
 
@@ -62,9 +62,9 @@ interface AcpFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
+     * @param \Transfer\ValidateRequestTransfer $validateRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
+     * @return \Transfer\ValidateResponseTransfer
      */
     public function validateAppTranslation(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
 
@@ -75,9 +75,9 @@ interface AcpFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
+     * @param \Transfer\ManifestRequestTransfer $manifestRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\ManifestResponseTransfer
+     * @return \Transfer\ManifestResponseTransfer
      */
     public function createAppManifest(ManifestRequestTransfer $manifestRequestTransfer): ManifestResponseTransfer;
 
@@ -87,9 +87,9 @@ interface AcpFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
+     * @param \Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer
+     * @return \Transfer\AppConfigurationResponseTransfer
      */
     public function createAppConfiguration(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): AppConfigurationResponseTransfer;
 
@@ -99,9 +99,9 @@ interface AcpFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\AppTranslationRequestTransfer $appTranslationRequestTransfer
+     * @param \Transfer\AppTranslationRequestTransfer $appTranslationRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\AppTranslationResponseTransfer
+     * @return \Transfer\AppTranslationResponseTransfer
      */
     public function createAppTranslation(AppTranslationRequestTransfer $appTranslationRequestTransfer): AppTranslationResponseTransfer;
 
@@ -114,9 +114,9 @@ interface AcpFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\CheckReadinessTransfer $checkReadinessTransfer
+     * @param \Transfer\CheckReadinessTransfer $checkReadinessTransfer
      *
-     * @return \Generated\Shared\Transfer\CheckReadinessResponseTransfer
+     * @return \Transfer\CheckReadinessResponseTransfer
      */
     public function checkReadiness(CheckReadinessTransfer $checkReadinessTransfer): CheckReadinessResponseTransfer;
 }

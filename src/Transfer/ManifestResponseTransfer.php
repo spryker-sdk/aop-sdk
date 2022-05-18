@@ -4,67 +4,68 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace Generated\Shared\Transfer;
+namespace Transfer;
+
+use ArrayObject;
 
 /**
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
  */
-class AppTranslationRequestTransfer extends AbstractTransfer
+class ManifestResponseTransfer extends AbstractTransfer
 {
     /**
      * @var string
      */
-    public const TRANSLATIONS = 'translations';
+    public const ERRORS = 'errors';
 
     /**
      * @var string
      */
-    public const TRANSLATION_FILE = 'translationFile';
+    public const MESSAGES = 'messages';
 
     /**
-     * @var array
+     * @var \ArrayObject|\Transfer\MessageTransfer[]
      */
-    protected $translations = [];
+    protected $errors;
 
     /**
-     * @var string|null
+     * @var \ArrayObject|\Transfer\MessageTransfer[]
      */
-    protected $translationFile;
+    protected $messages;
 
     /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'translations' => 'translations',
-        'Translations' => 'translations',
-        'translation_file' => 'translationFile',
-        'translationFile' => 'translationFile',
-        'TranslationFile' => 'translationFile',
+        'errors' => 'errors',
+        'Errors' => 'errors',
+        'messages' => 'messages',
+        'Messages' => 'messages',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::TRANSLATIONS => [
-            'type' => 'array',
+        self::ERRORS => [
+            'type' => 'Generated\Shared\Transfer\MessageTransfer',
             'type_shim' => null,
-            'name_underscore' => 'translations',
-            'is_collection' => false,
-            'is_transfer' => false,
+            'name_underscore' => 'errors',
+            'is_collection' => true,
+            'is_transfer' => true,
             'is_value_object' => false,
             'rest_request_parameter' => 'no',
             'is_associative' => false,
             'is_nullable' => false,
             'is_strict' => false,
         ],
-        self::TRANSLATION_FILE => [
-            'type' => 'string',
+        self::MESSAGES => [
+            'type' => 'Generated\Shared\Transfer\MessageTransfer',
             'type_shim' => null,
-            'name_underscore' => 'translation_file',
-            'is_collection' => false,
-            'is_transfer' => false,
+            'name_underscore' => 'messages',
+            'is_collection' => true,
+            'is_transfer' => true,
             'is_value_object' => false,
             'rest_request_parameter' => 'no',
             'is_associative' => false,
@@ -76,18 +77,14 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @param array|null $translations
+     * @param \ArrayObject|\Transfer\MessageTransfer[] $errors
      *
      * @return $this
      */
-    public function setTranslations(array $translations = null)
+    public function setErrors(ArrayObject $errors)
     {
-        if ($translations === null) {
-            $translations = [];
-        }
-
-        $this->translations = $translations;
-        $this->modifiedProperties[self::TRANSLATIONS] = true;
+        $this->errors = $errors;
+        $this->modifiedProperties[self::ERRORS] = true;
 
         return $this;
     }
@@ -95,24 +92,24 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @return array
+     * @return \ArrayObject|\Transfer\MessageTransfer[]
      */
-    public function getTranslations()
+    public function getErrors()
     {
-        return $this->translations;
+        return $this->errors;
     }
 
     /**
      * @module Acp
      *
-     * @param mixed $translations
+     * @param \Transfer\MessageTransfer $error
      *
      * @return $this
      */
-    public function addTranslations($translations)
+    public function addError(MessageTransfer $error)
     {
-        $this->translations[] = $translations;
-        $this->modifiedProperties[self::TRANSLATIONS] = true;
+        $this->errors[] = $error;
+        $this->modifiedProperties[self::ERRORS] = true;
 
         return $this;
     }
@@ -124,9 +121,9 @@ class AppTranslationRequestTransfer extends AbstractTransfer
      *
      * @return $this
      */
-    public function requireTranslations()
+    public function requireErrors()
     {
-        $this->assertPropertyIsSet(self::TRANSLATIONS);
+        $this->assertCollectionPropertyIsSet(self::ERRORS);
 
         return $this;
     }
@@ -134,14 +131,14 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @param string|null $translationFile
+     * @param \ArrayObject|\Transfer\MessageTransfer[] $messages
      *
      * @return $this
      */
-    public function setTranslationFile($translationFile)
+    public function setMessages(ArrayObject $messages)
     {
-        $this->translationFile = $translationFile;
-        $this->modifiedProperties[self::TRANSLATION_FILE] = true;
+        $this->messages = $messages;
+        $this->modifiedProperties[self::MESSAGES] = true;
 
         return $this;
     }
@@ -149,45 +146,26 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @return string|null
+     * @return \ArrayObject|\Transfer\MessageTransfer[]
      */
-    public function getTranslationFile()
+    public function getMessages()
     {
-        return $this->translationFile;
+        return $this->messages;
     }
 
     /**
      * @module Acp
      *
-     * @param string|null $translationFile
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     * @param \Transfer\MessageTransfer $message
      *
      * @return $this
      */
-    public function setTranslationFileOrFail($translationFile)
+    public function addMessage(MessageTransfer $message)
     {
-        if ($translationFile === null) {
-            $this->throwNullValueException(static::TRANSLATION_FILE);
-        }
+        $this->messages[] = $message;
+        $this->modifiedProperties[self::MESSAGES] = true;
 
-        return $this->setTranslationFile($translationFile);
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return string
-     */
-    public function getTranslationFileOrFail()
-    {
-        if ($this->translationFile === null) {
-            $this->throwNullValueException(static::TRANSLATION_FILE);
-        }
-
-        return $this->translationFile;
+        return $this;
     }
 
     /**
@@ -197,9 +175,9 @@ class AppTranslationRequestTransfer extends AbstractTransfer
      *
      * @return $this
      */
-    public function requireTranslationFile()
+    public function requireMessages()
     {
-        $this->assertPropertyIsSet(self::TRANSLATION_FILE);
+        $this->assertCollectionPropertyIsSet(self::MESSAGES);
 
         return $this;
     }
@@ -218,9 +196,10 @@ class AppTranslationRequestTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'translations':
-                case 'translationFile':
-                    $this->$normalizedPropertyName = $value;
+                case 'errors':
+                case 'messages':
+                    $elementType = $this->transferMetadata[$normalizedPropertyName]['type'];
+                    $this->$normalizedPropertyName = $this->processArrayObject($elementType, $value, $ignoreMissingProperty);
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
                     break;
@@ -339,9 +318,9 @@ class AppTranslationRequestTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'translations':
-                case 'translationFile':
-                    $values[$arrayKey] = $value;
+                case 'errors':
+                case 'messages':
+                    $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, true) : $value;
 
                     break;
             }
@@ -367,9 +346,9 @@ class AppTranslationRequestTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'translations':
-                case 'translationFile':
-                    $values[$arrayKey] = $value;
+                case 'errors':
+                case 'messages':
+                    $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, false) : $value;
 
                     break;
             }
@@ -417,6 +396,8 @@ class AppTranslationRequestTransfer extends AbstractTransfer
      */
     protected function initCollectionProperties(): void
     {
+        $this->errors = $this->errors ?: new ArrayObject();
+        $this->messages = $this->messages ?: new ArrayObject();
     }
 
     /**
@@ -425,8 +406,8 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'translations' => $this->translations,
-            'translationFile' => $this->translationFile,
+            'errors' => $this->errors,
+            'messages' => $this->messages,
         ];
     }
 
@@ -436,8 +417,8 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'translations' => $this->translations,
-            'translation_file' => $this->translationFile,
+            'errors' => $this->errors,
+            'messages' => $this->messages,
         ];
     }
 
@@ -447,8 +428,8 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'translations' => $this->translations instanceof AbstractTransfer ? $this->translations->toArray(true, false) : $this->translations,
-            'translation_file' => $this->translationFile instanceof AbstractTransfer ? $this->translationFile->toArray(true, false) : $this->translationFile,
+            'errors' => $this->errors instanceof AbstractTransfer ? $this->errors->toArray(true, false) : $this->addValuesToCollection($this->errors, true, false),
+            'messages' => $this->messages instanceof AbstractTransfer ? $this->messages->toArray(true, false) : $this->addValuesToCollection($this->messages, true, false),
         ];
     }
 
@@ -458,8 +439,8 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'translations' => $this->translations instanceof AbstractTransfer ? $this->translations->toArray(true, true) : $this->translations,
-            'translationFile' => $this->translationFile instanceof AbstractTransfer ? $this->translationFile->toArray(true, true) : $this->translationFile,
+            'errors' => $this->errors instanceof AbstractTransfer ? $this->errors->toArray(true, true) : $this->addValuesToCollection($this->errors, true, true),
+            'messages' => $this->messages instanceof AbstractTransfer ? $this->messages->toArray(true, true) : $this->addValuesToCollection($this->messages, true, true),
         ];
     }
 }

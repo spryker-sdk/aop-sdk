@@ -1,55 +1,83 @@
 <?php
 
 /**
- * (c) Spryker Systems GmbH copyright protected
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Generated\Shared\Transfer;
+namespace Transfer;
+
+use InvalidArgumentException;
 
 /**
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
  */
-class CheckerMessageTransfer extends AbstractTransfer
+class AppConfigurationRequestTransfer extends AbstractTransfer
 {
     /**
      * @var string
      */
-    public const TYPE = 'type';
+    public const PROPERTIES = 'properties';
 
     /**
      * @var string
      */
-    public const MESSAGE = 'message';
+    public const REQUIRED = 'required';
+
+    /**
+     * @var string
+     */
+    public const FIELDSETS = 'fieldsets';
+
+    /**
+     * @var string
+     */
+    public const CONFIGURATION_FILE = 'configurationFile';
+
+    /**
+     * @var array
+     */
+    protected $properties = [];
+
+    /**
+     * @var array
+     */
+    protected $required = [];
+
+    /**
+     * @var array
+     */
+    protected $fieldsets = [];
 
     /**
      * @var string|null
      */
-    protected $type;
-
-    /**
-     * @var string|null
-     */
-    protected $message;
+    protected $configurationFile;
 
     /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'type' => 'type',
-        'Type' => 'type',
-        'message' => 'message',
-        'Message' => 'message',
+        'properties' => 'properties',
+        'Properties' => 'properties',
+        'required' => 'required',
+        'Required' => 'required',
+        'fieldsets' => 'fieldsets',
+        'Fieldsets' => 'fieldsets',
+        'configuration_file' => 'configurationFile',
+        'configurationFile' => 'configurationFile',
+        'ConfigurationFile' => 'configurationFile',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::TYPE => [
-            'type' => 'string',
+        self::PROPERTIES => [
+            'type' => 'array',
             'type_shim' => null,
-            'name_underscore' => 'type',
+            'name_underscore' => 'properties',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -58,10 +86,34 @@ class CheckerMessageTransfer extends AbstractTransfer
             'is_nullable' => false,
             'is_strict' => false,
         ],
-        self::MESSAGE => [
+        self::REQUIRED => [
+            'type' => 'array',
+            'type_shim' => null,
+            'name_underscore' => 'required',
+            'is_collection' => false,
+            'is_transfer' => false,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
+        self::FIELDSETS => [
+            'type' => 'array',
+            'type_shim' => null,
+            'name_underscore' => 'fieldsets',
+            'is_collection' => false,
+            'is_transfer' => false,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
+        self::CONFIGURATION_FILE => [
             'type' => 'string',
             'type_shim' => null,
-            'name_underscore' => 'message',
+            'name_underscore' => 'configuration_file',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -75,14 +127,182 @@ class CheckerMessageTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @param string|null $type
+     * @param array|null $properties
      *
      * @return $this
      */
-    public function setType($type)
+    public function setProperties(?array $properties = null)
     {
-        $this->type = $type;
-        $this->modifiedProperties[self::TYPE] = true;
+        if ($properties === null) {
+            $properties = [];
+        }
+
+        $this->properties = $properties;
+        $this->modifiedProperties[self::PROPERTIES] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @return array
+     */
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param mixed $properties
+     *
+     * @return $this
+     */
+    public function addProperties($properties)
+    {
+        $this->properties[] = $properties;
+        $this->modifiedProperties[self::PROPERTIES] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @return $this
+     */
+    public function requireProperties()
+    {
+        $this->assertPropertyIsSet(self::PROPERTIES);
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param array|null $required
+     *
+     * @return $this
+     */
+    public function setRequired(?array $required = null)
+    {
+        if ($required === null) {
+            $required = [];
+        }
+
+        $this->required = $required;
+        $this->modifiedProperties[self::REQUIRED] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @return array
+     */
+    public function getRequired()
+    {
+        return $this->required;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param mixed $required
+     *
+     * @return $this
+     */
+    public function addRequired($required)
+    {
+        $this->required[] = $required;
+        $this->modifiedProperties[self::REQUIRED] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @return $this
+     */
+    public function requireRequired()
+    {
+        $this->assertPropertyIsSet(self::REQUIRED);
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param array|null $fieldsets
+     *
+     * @return $this
+     */
+    public function setFieldsets(?array $fieldsets = null)
+    {
+        if ($fieldsets === null) {
+            $fieldsets = [];
+        }
+
+        $this->fieldsets = $fieldsets;
+        $this->modifiedProperties[self::FIELDSETS] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @return array
+     */
+    public function getFieldsets()
+    {
+        return $this->fieldsets;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param mixed $fieldsets
+     *
+     * @return $this
+     */
+    public function addFieldsets($fieldsets)
+    {
+        $this->fieldsets[] = $fieldsets;
+        $this->modifiedProperties[self::FIELDSETS] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @return $this
+     */
+    public function requireFieldsets()
+    {
+        $this->assertPropertyIsSet(self::FIELDSETS);
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param string|null $configurationFile
+     *
+     * @return $this
+     */
+    public function setConfigurationFile($configurationFile)
+    {
+        $this->configurationFile = $configurationFile;
+        $this->modifiedProperties[self::CONFIGURATION_FILE] = true;
 
         return $this;
     }
@@ -92,128 +312,49 @@ class CheckerMessageTransfer extends AbstractTransfer
      *
      * @return string|null
      */
-    public function getType()
+    public function getConfigurationFile()
     {
-        return $this->type;
+        return $this->configurationFile;
     }
 
     /**
      * @module Acp
      *
-     * @param string|null $type
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     * @param string|null $configurationFile
      *
      * @return $this
      */
-    public function setTypeOrFail($type)
+    public function setConfigurationFileOrFail($configurationFile)
     {
-        if ($type === null) {
-            $this->throwNullValueException(static::TYPE);
+        if ($configurationFile === null) {
+            $this->throwNullValueException(static::CONFIGURATION_FILE);
         }
 
-        return $this->setType($type);
+        return $this->setConfigurationFile($configurationFile);
     }
 
     /**
      * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return string
      */
-    public function getTypeOrFail()
+    public function getConfigurationFileOrFail()
     {
-        if ($this->type === null) {
-            $this->throwNullValueException(static::TYPE);
+        if ($this->configurationFile === null) {
+            $this->throwNullValueException(static::CONFIGURATION_FILE);
         }
 
-        return $this->type;
+        return $this->configurationFile;
     }
 
     /**
      * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
      * @return $this
      */
-    public function requireType()
+    public function requireConfigurationFile()
     {
-        $this->assertPropertyIsSet(self::TYPE);
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param string|null $message
-     *
-     * @return $this
-     */
-    public function setMessage($message)
-    {
-        $this->message = $message;
-        $this->modifiedProperties[self::MESSAGE] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return string|null
-     */
-    public function getMessage()
-    {
-        return $this->message;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param string|null $message
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return $this
-     */
-    public function setMessageOrFail($message)
-    {
-        if ($message === null) {
-            $this->throwNullValueException(static::MESSAGE);
-        }
-
-        return $this->setMessage($message);
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return string
-     */
-    public function getMessageOrFail()
-    {
-        if ($this->message === null) {
-            $this->throwNullValueException(static::MESSAGE);
-        }
-
-        return $this->message;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireMessage()
-    {
-        $this->assertPropertyIsSet(self::MESSAGE);
+        $this->assertPropertyIsSet(self::CONFIGURATION_FILE);
 
         return $this;
     }
@@ -232,15 +373,17 @@ class CheckerMessageTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'type':
-                case 'message':
+                case 'properties':
+                case 'required':
+                case 'fieldsets':
+                case 'configurationFile':
                     $this->$normalizedPropertyName = $value;
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
                     break;
                 default:
                     if (!$ignoreMissingProperty) {
-                        throw new \InvalidArgumentException(sprintf('Missing property `%s` in `%s`', $property, static::class));
+                        throw new InvalidArgumentException(sprintf('Missing property `%s` in `%s`', $property, static::class));
                     }
             }
         }
@@ -293,7 +436,7 @@ class CheckerMessageTransfer extends AbstractTransfer
     }
 
     /**
-     * @param array<string, mixed>|\ArrayObject<string, mixed> $value
+     * @param \ArrayObject<string, mixed>|array<string, mixed> $value
      * @param bool $isRecursive
      * @param bool $camelCasedKeys
      *
@@ -315,7 +458,7 @@ class CheckerMessageTransfer extends AbstractTransfer
     }
 
     /**
-     * @param array<string, mixed>|\ArrayObject<string, mixed> $value
+     * @param \ArrayObject<string, mixed>|array<string, mixed> $value
      * @param bool $isRecursive
      * @param bool $camelCasedKeys
      *
@@ -353,8 +496,10 @@ class CheckerMessageTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'type':
-                case 'message':
+                case 'properties':
+                case 'required':
+                case 'fieldsets':
+                case 'configurationFile':
                     $values[$arrayKey] = $value;
 
                     break;
@@ -381,8 +526,10 @@ class CheckerMessageTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'type':
-                case 'message':
+                case 'properties':
+                case 'required':
+                case 'fieldsets':
+                case 'configurationFile':
                     $values[$arrayKey] = $value;
 
                     break;
@@ -439,8 +586,10 @@ class CheckerMessageTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'type' => $this->type,
-            'message' => $this->message,
+            'properties' => $this->properties,
+            'required' => $this->required,
+            'fieldsets' => $this->fieldsets,
+            'configurationFile' => $this->configurationFile,
         ];
     }
 
@@ -450,8 +599,10 @@ class CheckerMessageTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'type' => $this->type,
-            'message' => $this->message,
+            'properties' => $this->properties,
+            'required' => $this->required,
+            'fieldsets' => $this->fieldsets,
+            'configuration_file' => $this->configurationFile,
         ];
     }
 
@@ -461,8 +612,10 @@ class CheckerMessageTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'type' => $this->type instanceof AbstractTransfer ? $this->type->toArray(true, false) : $this->type,
-            'message' => $this->message instanceof AbstractTransfer ? $this->message->toArray(true, false) : $this->message,
+            'properties' => $this->properties instanceof AbstractTransfer ? $this->properties->toArray(true, false) : $this->properties,
+            'required' => $this->required instanceof AbstractTransfer ? $this->required->toArray(true, false) : $this->required,
+            'fieldsets' => $this->fieldsets instanceof AbstractTransfer ? $this->fieldsets->toArray(true, false) : $this->fieldsets,
+            'configuration_file' => $this->configurationFile instanceof AbstractTransfer ? $this->configurationFile->toArray(true, false) : $this->configurationFile,
         ];
     }
 
@@ -472,8 +625,10 @@ class CheckerMessageTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'type' => $this->type instanceof AbstractTransfer ? $this->type->toArray(true, true) : $this->type,
-            'message' => $this->message instanceof AbstractTransfer ? $this->message->toArray(true, true) : $this->message,
+            'properties' => $this->properties instanceof AbstractTransfer ? $this->properties->toArray(true, true) : $this->properties,
+            'required' => $this->required instanceof AbstractTransfer ? $this->required->toArray(true, true) : $this->required,
+            'fieldsets' => $this->fieldsets instanceof AbstractTransfer ? $this->fieldsets->toArray(true, true) : $this->fieldsets,
+            'configurationFile' => $this->configurationFile instanceof AbstractTransfer ? $this->configurationFile->toArray(true, true) : $this->configurationFile,
         ];
     }
 }

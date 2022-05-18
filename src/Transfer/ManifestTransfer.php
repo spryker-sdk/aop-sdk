@@ -4,67 +4,53 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace Generated\Shared\Transfer;
+namespace Transfer;
 
 /**
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
  */
-class CheckConfigurationTransfer extends AbstractTransfer
+class ManifestTransfer extends AbstractTransfer
 {
     /**
      * @var string
      */
-    public const PROJECT_NAMESPACE = 'projectNamespace';
+    public const NAME = 'name';
 
     /**
      * @var string
      */
-    public const ROOT_PATH = 'rootPath';
-
-    /**
-     * @var string
-     */
-    public const CHECK_CONFIGURATION = 'checkConfiguration';
+    public const LOCALE_NAME = 'localeName';
 
     /**
      * @var string|null
      */
-    protected $projectNamespace;
+    protected $name;
 
     /**
      * @var string|null
      */
-    protected $rootPath;
-
-    /**
-     * @var array
-     */
-    protected $checkConfiguration = [];
+    protected $localeName;
 
     /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'project_namespace' => 'projectNamespace',
-        'projectNamespace' => 'projectNamespace',
-        'ProjectNamespace' => 'projectNamespace',
-        'root_path' => 'rootPath',
-        'rootPath' => 'rootPath',
-        'RootPath' => 'rootPath',
-        'check_configuration' => 'checkConfiguration',
-        'checkConfiguration' => 'checkConfiguration',
-        'CheckConfiguration' => 'checkConfiguration',
+        'name' => 'name',
+        'Name' => 'name',
+        'locale_name' => 'localeName',
+        'localeName' => 'localeName',
+        'LocaleName' => 'localeName',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::PROJECT_NAMESPACE => [
+        self::NAME => [
             'type' => 'string',
             'type_shim' => null,
-            'name_underscore' => 'project_namespace',
+            'name_underscore' => 'name',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -73,22 +59,10 @@ class CheckConfigurationTransfer extends AbstractTransfer
             'is_nullable' => false,
             'is_strict' => false,
         ],
-        self::ROOT_PATH => [
+        self::LOCALE_NAME => [
             'type' => 'string',
             'type_shim' => null,
-            'name_underscore' => 'root_path',
-            'is_collection' => false,
-            'is_transfer' => false,
-            'is_value_object' => false,
-            'rest_request_parameter' => 'no',
-            'is_associative' => false,
-            'is_nullable' => false,
-            'is_strict' => false,
-        ],
-        self::CHECK_CONFIGURATION => [
-            'type' => 'array',
-            'type_shim' => null,
-            'name_underscore' => 'check_configuration',
+            'name_underscore' => 'locale_name',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -102,14 +76,14 @@ class CheckConfigurationTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @param string|null $projectNamespace
+     * @param string|null $name
      *
      * @return $this
      */
-    public function setProjectNamespace($projectNamespace)
+    public function setName($name)
     {
-        $this->projectNamespace = $projectNamespace;
-        $this->modifiedProperties[self::PROJECT_NAMESPACE] = true;
+        $this->name = $name;
+        $this->modifiedProperties[self::NAME] = true;
 
         return $this;
     }
@@ -119,27 +93,27 @@ class CheckConfigurationTransfer extends AbstractTransfer
      *
      * @return string|null
      */
-    public function getProjectNamespace()
+    public function getName()
     {
-        return $this->projectNamespace;
+        return $this->name;
     }
 
     /**
      * @module Acp
      *
-     * @param string|null $projectNamespace
+     * @param string|null $name
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return $this
      */
-    public function setProjectNamespaceOrFail($projectNamespace)
+    public function setNameOrFail($name)
     {
-        if ($projectNamespace === null) {
-            $this->throwNullValueException(static::PROJECT_NAMESPACE);
+        if ($name === null) {
+            $this->throwNullValueException(static::NAME);
         }
 
-        return $this->setProjectNamespace($projectNamespace);
+        return $this->setName($name);
     }
 
     /**
@@ -149,13 +123,13 @@ class CheckConfigurationTransfer extends AbstractTransfer
      *
      * @return string
      */
-    public function getProjectNamespaceOrFail()
+    public function getNameOrFail()
     {
-        if ($this->projectNamespace === null) {
-            $this->throwNullValueException(static::PROJECT_NAMESPACE);
+        if ($this->name === null) {
+            $this->throwNullValueException(static::NAME);
         }
 
-        return $this->projectNamespace;
+        return $this->name;
     }
 
     /**
@@ -165,9 +139,9 @@ class CheckConfigurationTransfer extends AbstractTransfer
      *
      * @return $this
      */
-    public function requireProjectNamespace()
+    public function requireName()
     {
-        $this->assertPropertyIsSet(self::PROJECT_NAMESPACE);
+        $this->assertPropertyIsSet(self::NAME);
 
         return $this;
     }
@@ -175,14 +149,14 @@ class CheckConfigurationTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @param string|null $rootPath
+     * @param string|null $localeName
      *
      * @return $this
      */
-    public function setRootPath($rootPath)
+    public function setLocaleName($localeName)
     {
-        $this->rootPath = $rootPath;
-        $this->modifiedProperties[self::ROOT_PATH] = true;
+        $this->localeName = $localeName;
+        $this->modifiedProperties[self::LOCALE_NAME] = true;
 
         return $this;
     }
@@ -192,27 +166,27 @@ class CheckConfigurationTransfer extends AbstractTransfer
      *
      * @return string|null
      */
-    public function getRootPath()
+    public function getLocaleName()
     {
-        return $this->rootPath;
+        return $this->localeName;
     }
 
     /**
      * @module Acp
      *
-     * @param string|null $rootPath
+     * @param string|null $localeName
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return $this
      */
-    public function setRootPathOrFail($rootPath)
+    public function setLocaleNameOrFail($localeName)
     {
-        if ($rootPath === null) {
-            $this->throwNullValueException(static::ROOT_PATH);
+        if ($localeName === null) {
+            $this->throwNullValueException(static::LOCALE_NAME);
         }
 
-        return $this->setRootPath($rootPath);
+        return $this->setLocaleName($localeName);
     }
 
     /**
@@ -222,13 +196,13 @@ class CheckConfigurationTransfer extends AbstractTransfer
      *
      * @return string
      */
-    public function getRootPathOrFail()
+    public function getLocaleNameOrFail()
     {
-        if ($this->rootPath === null) {
-            $this->throwNullValueException(static::ROOT_PATH);
+        if ($this->localeName === null) {
+            $this->throwNullValueException(static::LOCALE_NAME);
         }
 
-        return $this->rootPath;
+        return $this->localeName;
     }
 
     /**
@@ -238,67 +212,9 @@ class CheckConfigurationTransfer extends AbstractTransfer
      *
      * @return $this
      */
-    public function requireRootPath()
+    public function requireLocaleName()
     {
-        $this->assertPropertyIsSet(self::ROOT_PATH);
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param array|null $checkConfiguration
-     *
-     * @return $this
-     */
-    public function setCheckConfiguration(array $checkConfiguration = null)
-    {
-        if ($checkConfiguration === null) {
-            $checkConfiguration = [];
-        }
-
-        $this->checkConfiguration = $checkConfiguration;
-        $this->modifiedProperties[self::CHECK_CONFIGURATION] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return array
-     */
-    public function getCheckConfiguration()
-    {
-        return $this->checkConfiguration;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param mixed $checkConfiguration
-     *
-     * @return $this
-     */
-    public function addCheckConfiguration($checkConfiguration)
-    {
-        $this->checkConfiguration[] = $checkConfiguration;
-        $this->modifiedProperties[self::CHECK_CONFIGURATION] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireCheckConfiguration()
-    {
-        $this->assertPropertyIsSet(self::CHECK_CONFIGURATION);
+        $this->assertPropertyIsSet(self::LOCALE_NAME);
 
         return $this;
     }
@@ -317,9 +233,8 @@ class CheckConfigurationTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'projectNamespace':
-                case 'rootPath':
-                case 'checkConfiguration':
+                case 'name':
+                case 'localeName':
                     $this->$normalizedPropertyName = $value;
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
@@ -439,9 +354,8 @@ class CheckConfigurationTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'projectNamespace':
-                case 'rootPath':
-                case 'checkConfiguration':
+                case 'name':
+                case 'localeName':
                     $values[$arrayKey] = $value;
 
                     break;
@@ -468,9 +382,8 @@ class CheckConfigurationTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'projectNamespace':
-                case 'rootPath':
-                case 'checkConfiguration':
+                case 'name':
+                case 'localeName':
                     $values[$arrayKey] = $value;
 
                     break;
@@ -527,9 +440,8 @@ class CheckConfigurationTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'projectNamespace' => $this->projectNamespace,
-            'rootPath' => $this->rootPath,
-            'checkConfiguration' => $this->checkConfiguration,
+            'name' => $this->name,
+            'localeName' => $this->localeName,
         ];
     }
 
@@ -539,9 +451,8 @@ class CheckConfigurationTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'project_namespace' => $this->projectNamespace,
-            'root_path' => $this->rootPath,
-            'check_configuration' => $this->checkConfiguration,
+            'name' => $this->name,
+            'locale_name' => $this->localeName,
         ];
     }
 
@@ -551,9 +462,8 @@ class CheckConfigurationTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'project_namespace' => $this->projectNamespace instanceof AbstractTransfer ? $this->projectNamespace->toArray(true, false) : $this->projectNamespace,
-            'root_path' => $this->rootPath instanceof AbstractTransfer ? $this->rootPath->toArray(true, false) : $this->rootPath,
-            'check_configuration' => $this->checkConfiguration instanceof AbstractTransfer ? $this->checkConfiguration->toArray(true, false) : $this->checkConfiguration,
+            'name' => $this->name instanceof AbstractTransfer ? $this->name->toArray(true, false) : $this->name,
+            'locale_name' => $this->localeName instanceof AbstractTransfer ? $this->localeName->toArray(true, false) : $this->localeName,
         ];
     }
 
@@ -563,9 +473,8 @@ class CheckConfigurationTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'projectNamespace' => $this->projectNamespace instanceof AbstractTransfer ? $this->projectNamespace->toArray(true, true) : $this->projectNamespace,
-            'rootPath' => $this->rootPath instanceof AbstractTransfer ? $this->rootPath->toArray(true, true) : $this->rootPath,
-            'checkConfiguration' => $this->checkConfiguration instanceof AbstractTransfer ? $this->checkConfiguration->toArray(true, true) : $this->checkConfiguration,
+            'name' => $this->name instanceof AbstractTransfer ? $this->name->toArray(true, true) : $this->name,
+            'localeName' => $this->localeName instanceof AbstractTransfer ? $this->localeName->toArray(true, true) : $this->localeName,
         ];
     }
 }

@@ -4,94 +4,67 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace Generated\Shared\Transfer;
-
-use ArrayObject;
+namespace Transfer;
 
 /**
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
  */
-class RecipeTransfer extends AbstractTransfer
+class ManifestRequestTransfer extends AbstractTransfer
 {
     /**
      * @var string
      */
-    public const NAME = 'name';
+    public const MANIFEST = 'manifest';
 
     /**
      * @var string
      */
-    public const LOADED_RECIPE = 'loadedRecipe';
+    public const MANIFEST_PATH = 'manifestPath';
 
     /**
-     * @var string
+     * @var \Transfer\ManifestTransfer|null
      */
-    public const CHECKER_MESSAGES = 'checkerMessages';
+    protected $manifest;
 
     /**
      * @var string|null
      */
-    protected $name;
-
-    /**
-     * @var array
-     */
-    protected $loadedRecipe = [];
-
-    /**
-     * @var \ArrayObject|\Generated\Shared\Transfer\CheckerMessageTransfer[]
-     */
-    protected $checkerMessages;
+    protected $manifestPath;
 
     /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'name' => 'name',
-        'Name' => 'name',
-        'loaded_recipe' => 'loadedRecipe',
-        'loadedRecipe' => 'loadedRecipe',
-        'LoadedRecipe' => 'loadedRecipe',
-        'checker_messages' => 'checkerMessages',
-        'checkerMessages' => 'checkerMessages',
-        'CheckerMessages' => 'checkerMessages',
+        'manifest' => 'manifest',
+        'Manifest' => 'manifest',
+        'manifest_path' => 'manifestPath',
+        'manifestPath' => 'manifestPath',
+        'ManifestPath' => 'manifestPath',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::NAME => [
+        self::MANIFEST => [
+            'type' => 'Generated\Shared\Transfer\ManifestTransfer',
+            'type_shim' => null,
+            'name_underscore' => 'manifest',
+            'is_collection' => false,
+            'is_transfer' => true,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
+        self::MANIFEST_PATH => [
             'type' => 'string',
             'type_shim' => null,
-            'name_underscore' => 'name',
+            'name_underscore' => 'manifest_path',
             'is_collection' => false,
             'is_transfer' => false,
-            'is_value_object' => false,
-            'rest_request_parameter' => 'no',
-            'is_associative' => false,
-            'is_nullable' => false,
-            'is_strict' => false,
-        ],
-        self::LOADED_RECIPE => [
-            'type' => 'array',
-            'type_shim' => null,
-            'name_underscore' => 'loaded_recipe',
-            'is_collection' => false,
-            'is_transfer' => false,
-            'is_value_object' => false,
-            'rest_request_parameter' => 'no',
-            'is_associative' => false,
-            'is_nullable' => false,
-            'is_strict' => false,
-        ],
-        self::CHECKER_MESSAGES => [
-            'type' => 'Generated\Shared\Transfer\CheckerMessageTransfer',
-            'type_shim' => null,
-            'name_underscore' => 'checker_messages',
-            'is_collection' => true,
-            'is_transfer' => true,
             'is_value_object' => false,
             'rest_request_parameter' => 'no',
             'is_associative' => false,
@@ -103,14 +76,83 @@ class RecipeTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @param string|null $name
+     * @param \Transfer\ManifestTransfer|null $manifest
      *
      * @return $this
      */
-    public function setName($name)
+    public function setManifest(ManifestTransfer $manifest = null)
     {
-        $this->name = $name;
-        $this->modifiedProperties[self::NAME] = true;
+        $this->manifest = $manifest;
+        $this->modifiedProperties[self::MANIFEST] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @return \Transfer\ManifestTransfer|null
+     */
+    public function getManifest()
+    {
+        return $this->manifest;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param \Transfer\ManifestTransfer $manifest
+     *
+     * @return $this
+     *@throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     */
+    public function setManifestOrFail(ManifestTransfer $manifest)
+    {
+        return $this->setManifest($manifest);
+    }
+
+    /**
+     * @module Acp
+     *
+     * @return \Transfer\ManifestTransfer
+     *@throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     */
+    public function getManifestOrFail()
+    {
+        if ($this->manifest === null) {
+            $this->throwNullValueException(static::MANIFEST);
+        }
+
+        return $this->manifest;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireManifest()
+    {
+        $this->assertPropertyIsSet(self::MANIFEST);
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param string|null $manifestPath
+     *
+     * @return $this
+     */
+    public function setManifestPath($manifestPath)
+    {
+        $this->manifestPath = $manifestPath;
+        $this->modifiedProperties[self::MANIFEST_PATH] = true;
 
         return $this;
     }
@@ -120,27 +162,27 @@ class RecipeTransfer extends AbstractTransfer
      *
      * @return string|null
      */
-    public function getName()
+    public function getManifestPath()
     {
-        return $this->name;
+        return $this->manifestPath;
     }
 
     /**
      * @module Acp
      *
-     * @param string|null $name
+     * @param string|null $manifestPath
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return $this
      */
-    public function setNameOrFail($name)
+    public function setManifestPathOrFail($manifestPath)
     {
-        if ($name === null) {
-            $this->throwNullValueException(static::NAME);
+        if ($manifestPath === null) {
+            $this->throwNullValueException(static::MANIFEST_PATH);
         }
 
-        return $this->setName($name);
+        return $this->setManifestPath($manifestPath);
     }
 
     /**
@@ -150,13 +192,13 @@ class RecipeTransfer extends AbstractTransfer
      *
      * @return string
      */
-    public function getNameOrFail()
+    public function getManifestPathOrFail()
     {
-        if ($this->name === null) {
-            $this->throwNullValueException(static::NAME);
+        if ($this->manifestPath === null) {
+            $this->throwNullValueException(static::MANIFEST_PATH);
         }
 
-        return $this->name;
+        return $this->manifestPath;
     }
 
     /**
@@ -166,121 +208,9 @@ class RecipeTransfer extends AbstractTransfer
      *
      * @return $this
      */
-    public function requireName()
+    public function requireManifestPath()
     {
-        $this->assertPropertyIsSet(self::NAME);
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param array|null $loadedRecipe
-     *
-     * @return $this
-     */
-    public function setLoadedRecipe(array $loadedRecipe = null)
-    {
-        if ($loadedRecipe === null) {
-            $loadedRecipe = [];
-        }
-
-        $this->loadedRecipe = $loadedRecipe;
-        $this->modifiedProperties[self::LOADED_RECIPE] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return array
-     */
-    public function getLoadedRecipe()
-    {
-        return $this->loadedRecipe;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param mixed $loadedRecipe
-     *
-     * @return $this
-     */
-    public function addLoadedRecipe($loadedRecipe)
-    {
-        $this->loadedRecipe[] = $loadedRecipe;
-        $this->modifiedProperties[self::LOADED_RECIPE] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireLoadedRecipe()
-    {
-        $this->assertPropertyIsSet(self::LOADED_RECIPE);
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param \ArrayObject|\Generated\Shared\Transfer\CheckerMessageTransfer[] $checkerMessages
-     *
-     * @return $this
-     */
-    public function setCheckerMessages(ArrayObject $checkerMessages)
-    {
-        $this->checkerMessages = $checkerMessages;
-        $this->modifiedProperties[self::CHECKER_MESSAGES] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return \ArrayObject|\Generated\Shared\Transfer\CheckerMessageTransfer[]
-     */
-    public function getCheckerMessages()
-    {
-        return $this->checkerMessages;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param \Generated\Shared\Transfer\CheckerMessageTransfer $checkerMessage
-     *
-     * @return $this
-     */
-    public function addCheckerMessage(CheckerMessageTransfer $checkerMessage)
-    {
-        $this->checkerMessages[] = $checkerMessage;
-        $this->modifiedProperties[self::CHECKER_MESSAGES] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireCheckerMessages()
-    {
-        $this->assertCollectionPropertyIsSet(self::CHECKER_MESSAGES);
+        $this->assertPropertyIsSet(self::MANIFEST_PATH);
 
         return $this;
     }
@@ -299,15 +229,22 @@ class RecipeTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'name':
-                case 'loadedRecipe':
+                case 'manifestPath':
                     $this->$normalizedPropertyName = $value;
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
                     break;
-                case 'checkerMessages':
-                    $elementType = $this->transferMetadata[$normalizedPropertyName]['type'];
-                    $this->$normalizedPropertyName = $this->processArrayObject($elementType, $value, $ignoreMissingProperty);
+                case 'manifest':
+                    if (is_array($value)) {
+                        $type = $this->transferMetadata[$normalizedPropertyName]['type'];
+                        /** @var \Spryker\Shared\Kernel\Transfer\TransferInterface $value */
+                        $value = (new $type())->fromArray($value, $ignoreMissingProperty);
+                    }
+
+                    if ($value !== null && $this->isPropertyStrict($normalizedPropertyName)) {
+                        $this->assertInstanceOfTransfer($normalizedPropertyName, $value);
+                    }
+                    $this->$normalizedPropertyName = $value;
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
                     break;
@@ -426,13 +363,12 @@ class RecipeTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'name':
-                case 'loadedRecipe':
+                case 'manifestPath':
                     $values[$arrayKey] = $value;
 
                     break;
-                case 'checkerMessages':
-                    $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, true) : $value;
+                case 'manifest':
+                    $values[$arrayKey] = $value instanceof AbstractTransfer ? $value->modifiedToArray(true, true) : $value;
 
                     break;
             }
@@ -458,13 +394,12 @@ class RecipeTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'name':
-                case 'loadedRecipe':
+                case 'manifestPath':
                     $values[$arrayKey] = $value;
 
                     break;
-                case 'checkerMessages':
-                    $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, false) : $value;
+                case 'manifest':
+                    $values[$arrayKey] = $value instanceof AbstractTransfer ? $value->modifiedToArray(true, false) : $value;
 
                     break;
             }
@@ -512,7 +447,6 @@ class RecipeTransfer extends AbstractTransfer
      */
     protected function initCollectionProperties(): void
     {
-        $this->checkerMessages = $this->checkerMessages ?: new ArrayObject();
     }
 
     /**
@@ -521,9 +455,8 @@ class RecipeTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'name' => $this->name,
-            'loadedRecipe' => $this->loadedRecipe,
-            'checkerMessages' => $this->checkerMessages,
+            'manifestPath' => $this->manifestPath,
+            'manifest' => $this->manifest,
         ];
     }
 
@@ -533,9 +466,8 @@ class RecipeTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'name' => $this->name,
-            'loaded_recipe' => $this->loadedRecipe,
-            'checker_messages' => $this->checkerMessages,
+            'manifest_path' => $this->manifestPath,
+            'manifest' => $this->manifest,
         ];
     }
 
@@ -545,9 +477,8 @@ class RecipeTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'name' => $this->name instanceof AbstractTransfer ? $this->name->toArray(true, false) : $this->name,
-            'loaded_recipe' => $this->loadedRecipe instanceof AbstractTransfer ? $this->loadedRecipe->toArray(true, false) : $this->loadedRecipe,
-            'checker_messages' => $this->checkerMessages instanceof AbstractTransfer ? $this->checkerMessages->toArray(true, false) : $this->addValuesToCollection($this->checkerMessages, true, false),
+            'manifest_path' => $this->manifestPath instanceof AbstractTransfer ? $this->manifestPath->toArray(true, false) : $this->manifestPath,
+            'manifest' => $this->manifest instanceof AbstractTransfer ? $this->manifest->toArray(true, false) : $this->manifest,
         ];
     }
 
@@ -557,9 +488,8 @@ class RecipeTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'name' => $this->name instanceof AbstractTransfer ? $this->name->toArray(true, true) : $this->name,
-            'loadedRecipe' => $this->loadedRecipe instanceof AbstractTransfer ? $this->loadedRecipe->toArray(true, true) : $this->loadedRecipe,
-            'checkerMessages' => $this->checkerMessages instanceof AbstractTransfer ? $this->checkerMessages->toArray(true, true) : $this->addValuesToCollection($this->checkerMessages, true, true),
+            'manifestPath' => $this->manifestPath instanceof AbstractTransfer ? $this->manifestPath->toArray(true, true) : $this->manifestPath,
+            'manifest' => $this->manifest instanceof AbstractTransfer ? $this->manifest->toArray(true, true) : $this->manifest,
         ];
     }
 }

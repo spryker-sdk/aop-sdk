@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Acp\ReadinessChecker\Checker;
 
-use Generated\Shared\Transfer\CheckConfigurationTransfer;
-use Generated\Shared\Transfer\RecipeTransfer;
+use Transfer\CheckConfigurationTransfer;
+use Transfer\RecipeTransfer;
 
 interface CheckerInterface
 {
@@ -27,10 +27,10 @@ interface CheckerInterface
     public function getName(): string;
 
     /**
-     * @param \Generated\Shared\Transfer\RecipeTransfer $recipeTransfer
-     * @param \Generated\Shared\Transfer\CheckConfigurationTransfer $checkConfigurationTransfer
+     * @param \Transfer\RecipeTransfer $recipeTransfer
+     * @param \Transfer\CheckConfigurationTransfer $checkConfigurationTransfer
      *
-     * @return \Generated\Shared\Transfer\RecipeTransfer
+     * @return \Transfer\RecipeTransfer
      */
     public function check(RecipeTransfer $recipeTransfer, CheckConfigurationTransfer $checkConfigurationTransfer): RecipeTransfer;
 }

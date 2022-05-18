@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Acp\Console;
 
-use Generated\Shared\Transfer\ManifestRequestTransfer;
-use Generated\Shared\Transfer\ManifestTransfer;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Transfer\ManifestRequestTransfer;
+use Transfer\ManifestTransfer;
 
 /**
  * @method \SprykerSdk\Acp\AcpFacadeInterface getFacade()
