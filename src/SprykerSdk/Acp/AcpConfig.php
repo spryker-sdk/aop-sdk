@@ -83,7 +83,6 @@ class AcpConfig
             $this->getProjectRootPath(),
             'config',
             'app',
-            'configuration',
             'configuration.json',
         ];
 
@@ -101,8 +100,24 @@ class AcpConfig
             $this->getProjectRootPath(),
             'config',
             'app',
-            'translation',
             'translation.json',
+        ];
+
+        return implode(DIRECTORY_SEPARATOR, $pathFragments);
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getDefaultManifestFolder(): string
+    {
+        $pathFragments = [
+            $this->getProjectRootPath(),
+            'config',
+            'app',
+            'manifest',
         ];
 
         return implode(DIRECTORY_SEPARATOR, $pathFragments);

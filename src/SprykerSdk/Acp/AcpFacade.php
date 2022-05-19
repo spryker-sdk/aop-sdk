@@ -13,6 +13,8 @@ use Generated\Shared\Transfer\AppTranslationRequestTransfer;
 use Generated\Shared\Transfer\AppTranslationResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
 use Generated\Shared\Transfer\CheckReadinessTransfer;
+use Generated\Shared\Transfer\ManifestCollectionTransfer;
+use Generated\Shared\Transfer\ManifestCriteriaTransfer;
 use Generated\Shared\Transfer\ManifestRequestTransfer;
 use Generated\Shared\Transfer\ManifestResponseTransfer;
 use Generated\Shared\Transfer\ValidateRequestTransfer;
@@ -157,5 +159,19 @@ class AcpFacade implements AcpFacadeInterface
     public function checkReadiness(CheckReadinessTransfer $checkReadinessTransfer): CheckReadinessResponseTransfer
     {
         return $this->getFactory()->createReadinessChecker()->checkReadiness($checkReadinessTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\ManifestCriteriaTransfer $manifestCriteriaTransfer
+     *
+     * @return \Generated\Shared\Transfer\ManifestCollectionTransfer
+     */
+    public function getManifestCollection(ManifestCriteriaTransfer $manifestCriteriaTransfer): ManifestCollectionTransfer
+    {
+        return $this->getFactory()->createAppManifestReader()->getManifestCollection($manifestCriteriaTransfer);
     }
 }

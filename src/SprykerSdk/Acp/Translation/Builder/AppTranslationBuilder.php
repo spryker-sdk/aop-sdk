@@ -9,6 +9,7 @@ namespace SprykerSdk\Acp\Translation\Builder;
 
 use Generated\Shared\Transfer\AppTranslationRequestTransfer;
 use Generated\Shared\Transfer\AppTranslationResponseTransfer;
+use Generated\Shared\Transfer\MessageTransfer;
 
 class AppTranslationBuilder implements AppTranslationBuilderInterface
 {
@@ -25,6 +26,13 @@ class AppTranslationBuilder implements AppTranslationBuilderInterface
             $appTranslationRequestTransfer->getTranslationFileOrFail(),
             $appTranslationRequestTransfer->getTranslations(),
         );
+
+        $successMessage = (new MessageTransfer())
+            ->setMessage(sprintf(
+                '<info>We stored the configuration in</info> <comment>%s</comment>',
+                $appTranslationRequestTransfer->getTranslationFile(),
+            ));
+        $appTranslationResponseTransfer->addMessage($successMessage);
 
         return $appTranslationResponseTransfer;
     }

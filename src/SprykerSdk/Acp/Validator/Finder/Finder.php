@@ -35,9 +35,9 @@ class Finder implements FinderInterface
     /**
      * @param string $path
      *
-     * @return \Symfony\Component\Finder\SplFileInfo
+     * @return \Symfony\Component\Finder\SplFileInfo|null
      */
-    public function getFile(string $path): SplFileInfo
+    public function getFile(string $path): ?SplFileInfo
     {
         $iterator = $this->getFinder(dirname($path), basename($path))->files()->getIterator();
         $iterator->rewind();

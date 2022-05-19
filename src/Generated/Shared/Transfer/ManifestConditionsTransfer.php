@@ -12,32 +12,22 @@ use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
  */
-class AppTranslationRequestTransfer extends AbstractTransfer
+class ManifestConditionsTransfer extends AbstractTransfer
 {
-    /**
-     * @var string
-     */
-    public const TRANSLATIONS = 'translations';
-
-    /**
-     * @var string
-     */
-    public const TRANSLATION_FILE = 'translationFile';
-
     /**
      * @var string
      */
     public const MANIFEST_FOLDER = 'manifestFolder';
 
     /**
-     * @var array
+     * @var string
      */
-    protected $translations = [];
+    public const TRANSLATION_FILE_PATH = 'translationFilePath';
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected $translationFile;
+    public const CONFIGURATION_FILE_PATH = 'configurationFilePath';
 
     /**
      * @var string|null
@@ -45,47 +35,34 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     protected $manifestFolder;
 
     /**
+     * @var string|null
+     */
+    protected $translationFilePath;
+
+    /**
+     * @var string|null
+     */
+    protected $configurationFilePath;
+
+    /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'translations' => 'translations',
-        'Translations' => 'translations',
-        'translation_file' => 'translationFile',
-        'translationFile' => 'translationFile',
-        'TranslationFile' => 'translationFile',
         'manifest_folder' => 'manifestFolder',
         'manifestFolder' => 'manifestFolder',
         'ManifestFolder' => 'manifestFolder',
+        'translation_file_path' => 'translationFilePath',
+        'translationFilePath' => 'translationFilePath',
+        'TranslationFilePath' => 'translationFilePath',
+        'configuration_file_path' => 'configurationFilePath',
+        'configurationFilePath' => 'configurationFilePath',
+        'ConfigurationFilePath' => 'configurationFilePath',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::TRANSLATIONS => [
-            'type' => 'array',
-            'type_shim' => null,
-            'name_underscore' => 'translations',
-            'is_collection' => false,
-            'is_transfer' => false,
-            'is_value_object' => false,
-            'rest_request_parameter' => 'no',
-            'is_associative' => false,
-            'is_nullable' => false,
-            'is_strict' => false,
-        ],
-        self::TRANSLATION_FILE => [
-            'type' => 'string',
-            'type_shim' => null,
-            'name_underscore' => 'translation_file',
-            'is_collection' => false,
-            'is_transfer' => false,
-            'is_value_object' => false,
-            'rest_request_parameter' => 'no',
-            'is_associative' => false,
-            'is_nullable' => false,
-            'is_strict' => false,
-        ],
         self::MANIFEST_FOLDER => [
             'type' => 'string',
             'type_shim' => null,
@@ -98,138 +75,31 @@ class AppTranslationRequestTransfer extends AbstractTransfer
             'is_nullable' => false,
             'is_strict' => false,
         ],
+        self::TRANSLATION_FILE_PATH => [
+            'type' => 'string',
+            'type_shim' => null,
+            'name_underscore' => 'translation_file_path',
+            'is_collection' => false,
+            'is_transfer' => false,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
+        self::CONFIGURATION_FILE_PATH => [
+            'type' => 'string',
+            'type_shim' => null,
+            'name_underscore' => 'configuration_file_path',
+            'is_collection' => false,
+            'is_transfer' => false,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
     ];
-
-    /**
-     * @module AcpSdk
-     *
-     * @param array|null $translations
-     *
-     * @return $this
-     */
-    public function setTranslations(array $translations = null)
-    {
-        if ($translations === null) {
-            $translations = [];
-        }
-
-        $this->translations = $translations;
-        $this->modifiedProperties[self::TRANSLATIONS] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @return array
-     */
-    public function getTranslations()
-    {
-        return $this->translations;
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @param mixed $translations
-     *
-     * @return $this
-     */
-    public function addTranslations($translations)
-    {
-        $this->translations[] = $translations;
-        $this->modifiedProperties[self::TRANSLATIONS] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireTranslations()
-    {
-        $this->assertPropertyIsSet(self::TRANSLATIONS);
-
-        return $this;
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @param string|null $translationFile
-     *
-     * @return $this
-     */
-    public function setTranslationFile($translationFile)
-    {
-        $this->translationFile = $translationFile;
-        $this->modifiedProperties[self::TRANSLATION_FILE] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @return string|null
-     */
-    public function getTranslationFile()
-    {
-        return $this->translationFile;
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @param string|null $translationFile
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return $this
-     */
-    public function setTranslationFileOrFail($translationFile)
-    {
-        if ($translationFile === null) {
-            $this->throwNullValueException(static::TRANSLATION_FILE);
-        }
-
-        return $this->setTranslationFile($translationFile);
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return string
-     */
-    public function getTranslationFileOrFail()
-    {
-        if ($this->translationFile === null) {
-            $this->throwNullValueException(static::TRANSLATION_FILE);
-        }
-
-        return $this->translationFile;
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireTranslationFile()
-    {
-        $this->assertPropertyIsSet(self::TRANSLATION_FILE);
-
-        return $this;
-    }
 
     /**
      * @module AcpSdk
@@ -305,6 +175,152 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     }
 
     /**
+     * @module AcpSdk
+     *
+     * @param string|null $translationFilePath
+     *
+     * @return $this
+     */
+    public function setTranslationFilePath($translationFilePath)
+    {
+        $this->translationFilePath = $translationFilePath;
+        $this->modifiedProperties[self::TRANSLATION_FILE_PATH] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module AcpSdk
+     *
+     * @return string|null
+     */
+    public function getTranslationFilePath()
+    {
+        return $this->translationFilePath;
+    }
+
+    /**
+     * @module AcpSdk
+     *
+     * @param string|null $translationFilePath
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return $this
+     */
+    public function setTranslationFilePathOrFail($translationFilePath)
+    {
+        if ($translationFilePath === null) {
+            $this->throwNullValueException(static::TRANSLATION_FILE_PATH);
+        }
+
+        return $this->setTranslationFilePath($translationFilePath);
+    }
+
+    /**
+     * @module AcpSdk
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return string
+     */
+    public function getTranslationFilePathOrFail()
+    {
+        if ($this->translationFilePath === null) {
+            $this->throwNullValueException(static::TRANSLATION_FILE_PATH);
+        }
+
+        return $this->translationFilePath;
+    }
+
+    /**
+     * @module AcpSdk
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireTranslationFilePath()
+    {
+        $this->assertPropertyIsSet(self::TRANSLATION_FILE_PATH);
+
+        return $this;
+    }
+
+    /**
+     * @module AcpSdk
+     *
+     * @param string|null $configurationFilePath
+     *
+     * @return $this
+     */
+    public function setConfigurationFilePath($configurationFilePath)
+    {
+        $this->configurationFilePath = $configurationFilePath;
+        $this->modifiedProperties[self::CONFIGURATION_FILE_PATH] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module AcpSdk
+     *
+     * @return string|null
+     */
+    public function getConfigurationFilePath()
+    {
+        return $this->configurationFilePath;
+    }
+
+    /**
+     * @module AcpSdk
+     *
+     * @param string|null $configurationFilePath
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return $this
+     */
+    public function setConfigurationFilePathOrFail($configurationFilePath)
+    {
+        if ($configurationFilePath === null) {
+            $this->throwNullValueException(static::CONFIGURATION_FILE_PATH);
+        }
+
+        return $this->setConfigurationFilePath($configurationFilePath);
+    }
+
+    /**
+     * @module AcpSdk
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return string
+     */
+    public function getConfigurationFilePathOrFail()
+    {
+        if ($this->configurationFilePath === null) {
+            $this->throwNullValueException(static::CONFIGURATION_FILE_PATH);
+        }
+
+        return $this->configurationFilePath;
+    }
+
+    /**
+     * @module AcpSdk
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireConfigurationFilePath()
+    {
+        $this->assertPropertyIsSet(self::CONFIGURATION_FILE_PATH);
+
+        return $this;
+    }
+
+    /**
      * @param array<string, mixed> $data
      * @param bool $ignoreMissingProperty
      *
@@ -318,9 +334,9 @@ class AppTranslationRequestTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'translations':
-                case 'translationFile':
                 case 'manifestFolder':
+                case 'translationFilePath':
+                case 'configurationFilePath':
                     $this->$normalizedPropertyName = $value;
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
@@ -440,9 +456,9 @@ class AppTranslationRequestTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'translations':
-                case 'translationFile':
                 case 'manifestFolder':
+                case 'translationFilePath':
+                case 'configurationFilePath':
                     $values[$arrayKey] = $value;
 
                     break;
@@ -469,9 +485,9 @@ class AppTranslationRequestTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'translations':
-                case 'translationFile':
                 case 'manifestFolder':
+                case 'translationFilePath':
+                case 'configurationFilePath':
                     $values[$arrayKey] = $value;
 
                     break;
@@ -528,9 +544,9 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'translations' => $this->translations,
-            'translationFile' => $this->translationFile,
             'manifestFolder' => $this->manifestFolder,
+            'translationFilePath' => $this->translationFilePath,
+            'configurationFilePath' => $this->configurationFilePath,
         ];
     }
 
@@ -540,9 +556,9 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'translations' => $this->translations,
-            'translation_file' => $this->translationFile,
             'manifest_folder' => $this->manifestFolder,
+            'translation_file_path' => $this->translationFilePath,
+            'configuration_file_path' => $this->configurationFilePath,
         ];
     }
 
@@ -552,9 +568,9 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'translations' => $this->translations instanceof AbstractTransfer ? $this->translations->toArray(true, false) : $this->translations,
-            'translation_file' => $this->translationFile instanceof AbstractTransfer ? $this->translationFile->toArray(true, false) : $this->translationFile,
             'manifest_folder' => $this->manifestFolder instanceof AbstractTransfer ? $this->manifestFolder->toArray(true, false) : $this->manifestFolder,
+            'translation_file_path' => $this->translationFilePath instanceof AbstractTransfer ? $this->translationFilePath->toArray(true, false) : $this->translationFilePath,
+            'configuration_file_path' => $this->configurationFilePath instanceof AbstractTransfer ? $this->configurationFilePath->toArray(true, false) : $this->configurationFilePath,
         ];
     }
 
@@ -564,9 +580,9 @@ class AppTranslationRequestTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'translations' => $this->translations instanceof AbstractTransfer ? $this->translations->toArray(true, true) : $this->translations,
-            'translationFile' => $this->translationFile instanceof AbstractTransfer ? $this->translationFile->toArray(true, true) : $this->translationFile,
             'manifestFolder' => $this->manifestFolder instanceof AbstractTransfer ? $this->manifestFolder->toArray(true, true) : $this->manifestFolder,
+            'translationFilePath' => $this->translationFilePath instanceof AbstractTransfer ? $this->translationFilePath->toArray(true, true) : $this->translationFilePath,
+            'configurationFilePath' => $this->configurationFilePath instanceof AbstractTransfer ? $this->configurationFilePath->toArray(true, true) : $this->configurationFilePath,
         ];
     }
 }

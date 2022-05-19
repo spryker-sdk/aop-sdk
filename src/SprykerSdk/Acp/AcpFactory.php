@@ -11,6 +11,8 @@ use SprykerSdk\Acp\Configuration\Builder\AppConfigurationBuilder;
 use SprykerSdk\Acp\Configuration\Builder\AppConfigurationBuilderInterface;
 use SprykerSdk\Acp\Manifest\Builder\AppManifestBuilder;
 use SprykerSdk\Acp\Manifest\Builder\AppManifestBuilderInterface;
+use SprykerSdk\Acp\Manifest\Reader\AppManifestReader;
+use SprykerSdk\Acp\Manifest\Reader\AppManifestReaderInterface;
 use SprykerSdk\Acp\ReadinessChecker\Checker\CheckerInterface;
 use SprykerSdk\Acp\ReadinessChecker\Checker\ComposerChecker;
 use SprykerSdk\Acp\ReadinessChecker\Checker\EnvChecker;
@@ -51,18 +53,6 @@ class AcpFactory
     }
 
     /**
-     * @return \SprykerSdk\Acp\AcpConfig
-     */
-    protected function getConfig(): AcpConfig
-    {
-        if (!$this->config) {
-            $this->config = new AcpConfig();
-        }
-
-        return $this->config;
-    }
-
-    /**
      * @return \SprykerSdk\Acp\Validator\Validator
      */
     public function createValidator(): Validator
@@ -84,33 +74,6 @@ class AcpFactory
             $this->createFinder(),
             $this->getManifestFileValidators(),
         );
-    }
-
-    /**
-     * @return array<\SprykerSdk\Acp\Validator\FileValidatorInterface>
-     */
-    protected function getManifestFileValidators(): array
-    {
-        return [
-            $this->createManifestRequiredFieldsFileValidator(),
-            $this->createManifestPagesFileValidator(),
-        ];
-    }
-
-    /**
-     * @return \SprykerSdk\Acp\Validator\FileValidatorInterface
-     */
-    protected function createManifestRequiredFieldsFileValidator(): FileValidatorInterface
-    {
-        return new RequiredFieldsFileValidator($this->getConfig());
-    }
-
-    /**
-     * @return \SprykerSdk\Acp\Validator\FileValidatorInterface
-     */
-    protected function createManifestPagesFileValidator(): FileValidatorInterface
-    {
-        return new PagesFileValidator($this->getConfig());
     }
 
     /**
@@ -142,24 +105,6 @@ class AcpFactory
             $this->createFinder(),
             $this->getTranslationFileValidators(),
         );
-    }
-
-    /**
-     * @return array<\SprykerSdk\Acp\Validator\FileValidatorInterface>
-     */
-    protected function getTranslationFileValidators(): array
-    {
-        return [
-            $this->createTranslationFileValidator(),
-        ];
-    }
-
-    /**
-     * @return \SprykerSdk\Acp\Validator\FileValidatorInterface
-     */
-    protected function createTranslationFileValidator(): FileValidatorInterface
-    {
-        return new TranslationFileValidator($this->getConfig());
     }
 
     /**
@@ -236,5 +181,70 @@ class AcpFactory
     public function createAppTranslationBuilder(): AppTranslationBuilderInterface
     {
         return new AppTranslationBuilder();
+    }
+
+    /**
+     * @return \SprykerSdk\Acp\Manifest\Reader\AppManifestReaderInterface
+     */
+    public function createAppManifestReader(): AppManifestReaderInterface
+    {
+        return new AppManifestReader($this->getConfig(), $this->createFinder());
+    }
+
+    /**
+     * @return array<\SprykerSdk\Acp\Validator\FileValidatorInterface>
+     */
+    protected function getManifestFileValidators(): array
+    {
+        return [
+            $this->createManifestRequiredFieldsFileValidator(),
+            $this->createManifestPagesFileValidator(),
+        ];
+    }
+
+    /**
+     * @return \SprykerSdk\Acp\Validator\FileValidatorInterface
+     */
+    protected function createManifestRequiredFieldsFileValidator(): FileValidatorInterface
+    {
+        return new RequiredFieldsFileValidator($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerSdk\Acp\Validator\FileValidatorInterface
+     */
+    protected function createManifestPagesFileValidator(): FileValidatorInterface
+    {
+        return new PagesFileValidator($this->getConfig());
+    }
+
+    /**
+     * @return array<\SprykerSdk\Acp\Validator\FileValidatorInterface>
+     */
+    protected function getTranslationFileValidators(): array
+    {
+        return [
+            $this->createTranslationFileValidator(),
+        ];
+    }
+
+    /**
+     * @return \SprykerSdk\Acp\Validator\FileValidatorInterface
+     */
+    protected function createTranslationFileValidator(): FileValidatorInterface
+    {
+        return new TranslationFileValidator($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerSdk\Acp\AcpConfig
+     */
+    protected function getConfig(): AcpConfig
+    {
+        if (!$this->config) {
+            $this->config = new AcpConfig();
+        }
+
+        return $this->config;
     }
 }

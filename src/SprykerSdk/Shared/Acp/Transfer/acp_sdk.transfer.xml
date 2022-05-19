@@ -101,9 +101,33 @@
         <property name="localeName" type="string"/>
     </transfer>
 
+    <transfer name="ManifestCollection">
+        <property name="manifests" type="Manifest[]" singular="manifest"/>
+        <property name="configuration" type="ManifestConfiguration"/>
+        <property name="translation" type="ManifestTranslation"/>
+    </transfer>
+
+    <transfer name="ManifestConditions">
+        <property name="manifestFolder" type="string"/>
+        <property name="translationFilePath" type="string"/>
+        <property name="configurationFilePath" type="string"/>
+    </transfer>
+
+    <transfer name="ManifestConfiguration">
+        <property name="configuration" type="array"/>
+    </transfer>
+
+    <transfer name="ManifestCriteria">
+        <property name="manifestConditions" type="ManifestConditions"/>
+    </transfer>
+
     <transfer name="ManifestResponse">
         <property name="errors" type="Message[]" singular="error"/>
         <property name="messages" type="Message[]" singular="message"/>
+    </transfer>
+
+    <transfer name="ManifestTranslation">
+        <property name="translations" type="array"/>
     </transfer>
 
     <transfer name="OpenApiRequest">
