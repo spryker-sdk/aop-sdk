@@ -8,19 +8,22 @@
 namespace SprykerSdk\Acp\Console;
 
 use Generated\Shared\Transfer\AppTranslationRequestTransfer;
+use Generated\Shared\Transfer\AppTranslationResponseTransfer;
 use Generated\Shared\Transfer\ManifestCollectionTransfer;
 use Generated\Shared\Transfer\ManifestConditionsTransfer;
 use Generated\Shared\Transfer\ManifestCriteriaTransfer;
+use Symfony\Component\Console\Command\SignalableCommandInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
+use const SIGINT;
 
 /**
  * @method \SprykerSdk\Acp\AcpFacadeInterface getFacade()
  */
-class AppTranslationCreateConsole extends AbstractConsole
+class AppTranslationCreateConsole extends AbstractConsole implements SignalableCommandInterface
 {
     /**
      * @var array
@@ -63,6 +66,16 @@ class AppTranslationCreateConsole extends AbstractConsole
     protected const CHOICE_NEW_LOCALE = 'Select this to add a new locale';
 
     /**
+     * @var \Symfony\Component\Console\Input\InputInterface
+     */
+    protected $input;
+
+    /**
+     * @var \Symfony\Component\Console\Output\OutputInterface
+     */
+    protected $output;
+
+    /**
      * @return void
      */
     protected function configure(): void
@@ -82,8 +95,8 @@ class AppTranslationCreateConsole extends AbstractConsole
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $appTranslationRequestTransfer = (new AppTranslationRequestTransfer())
-            ->setTranslationFile($input->getOption(static::TRANSLATION_FILE));
+        $this->input = $input;
+        $this->output = $output;
 
         $this->printWelcomeMessage($output);
 
@@ -110,9 +123,7 @@ class AppTranslationCreateConsole extends AbstractConsole
             $localeName = static::CHOICE_NEW_LOCALE;
         } while ($this->askForConfirmation($input, $output, 'Would you like to add translations for another locale?') == 'Yes');
 
-        $appTranslationRequestTransfer->setTranslations($this->translations);
-
-        $appTranslationResponseTransfer = $this->getFacade()->createAppTranslation($appTranslationRequestTransfer);
+        $appTranslationResponseTransfer = $this->saveTranslations($input);
 
         if ($appTranslationResponseTransfer->getErrors()->count() === 0) {
             $this->printMessages($output, $appTranslationResponseTransfer->getMessages());
@@ -123,6 +134,38 @@ class AppTranslationCreateConsole extends AbstractConsole
         $this->printMessages($output, $appTranslationResponseTransfer->getErrors());
 
         return static::CODE_ERROR;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSubscribedSignals(): array
+    {
+        return [SIGINT];
+    }
+
+    /**
+     * @param int $signal
+     *
+     * @return void
+     */
+    public function handleSignal(int $signal): void
+    {
+        if (
+            $signal === SIGINT
+            && $this->input !== null
+            && $this->output !== null
+            && !empty($this->translations)
+        ) {
+            $appTranslationResponseTransfer = $this->saveTranslations($this->input);
+            if ($appTranslationResponseTransfer->getErrors()->count() === 0) {
+                $this->printMessages($this->output, $appTranslationResponseTransfer->getMessages());
+            }
+
+            $this->printMessages($this->output, $appTranslationResponseTransfer->getErrors());
+        }
+
+        exit();
     }
 
     /**
@@ -165,7 +208,7 @@ class AppTranslationCreateConsole extends AbstractConsole
             $translationValue = $this->askTextQuestion(
                 $input,
                 $output,
-                sprintf('Please enter a translation for <command>%s</command>: ', $keyToTranslate),
+                sprintf('Please enter a translation for: %s: ', $keyToTranslate),
             );
             $this->translations[$keyToTranslate][$localeName] = $translationValue;
         }
@@ -191,7 +234,7 @@ class AppTranslationCreateConsole extends AbstractConsole
     {
         $output->writeln(sprintf('<info>The following inputs will be used for your selected locale</info> <comment>%s</comment>', $localeName));
         $output->writeln('');
-        $output->writeln('<info>When you like to leave the process please hit</info> <comment>CTRL+D</comment>. <info>Already entered data will be automatically saved.</info>');
+        $output->writeln('<info>When you like to leave the process please hit</info> <comment>CTRL+C</comment> <info>then</info> <comment>Enter</comment>. <info>Already entered data will be automatically saved.</info>');
         $output->writeln('');
     }
 
@@ -340,5 +383,19 @@ class AppTranslationCreateConsole extends AbstractConsole
         $translations = $manifestCollectionTransfer->getTranslation();
 
         return $translations ? $translations->getTranslations() : [];
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return \Generated\Shared\Transfer\AppTranslationResponseTransfer
+     */
+    protected function saveTranslations(InputInterface $input): AppTranslationResponseTransfer
+    {
+        $appTranslationRequestTransfer = (new AppTranslationRequestTransfer())
+            ->setTranslationFile($input->getOption(static::TRANSLATION_FILE))
+            ->setTranslations($this->translations);
+
+        return $this->getFacade()->createAppTranslation($appTranslationRequestTransfer);
     }
 }
