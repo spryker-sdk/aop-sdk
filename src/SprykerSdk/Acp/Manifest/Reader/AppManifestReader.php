@@ -66,6 +66,7 @@ class AppManifestReader implements AppManifestReaderInterface
         ManifestCriteriaTransfer $manifestCriteriaTransfer
     ): void {
         try {
+            /** @var string $manifestFolder */
             $manifestFolder = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getManifestFolder();
         } catch (NullValueException $exception) {
             $manifestFolder = $this->acpConfig->getDefaultManifestFolder();
@@ -94,6 +95,7 @@ class AppManifestReader implements AppManifestReaderInterface
         ManifestCriteriaTransfer $manifestCriteriaTransfer
     ): void {
         try {
+            /** @var string $configurationFilePath */
             $configurationFilePath = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getConfigurationFilePath();
         } catch (NullValueException $exception) {
             $configurationFilePath = $this->acpConfig->getDefaultConfigurationFile();
@@ -127,6 +129,7 @@ class AppManifestReader implements AppManifestReaderInterface
         ManifestCriteriaTransfer $manifestCriteriaTransfer
     ): void {
         try {
+            /** @var string $translationFilePath */
             $translationFilePath = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getTranslationFilePath();
         } catch (NullValueException $exception) {
             $translationFilePath = $this->acpConfig->getDefaultTranslationFile();

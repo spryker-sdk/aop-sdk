@@ -106,7 +106,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
             $input->getOption(static::TRANSLATION_FILE),
         );
 
-        $existingKeysToTranslate = $this->getExistingKeysToTranslate($manifestCollectionTransfer);
+        $existingKeysToTranslate = $this->getFacade()->getExistingKeysToTranslate($manifestCollectionTransfer);
         $existingTranslations = $this->getExistingTranslations($manifestCollectionTransfer);
         $existingLocales = $this->getExistingLocales($manifestCollectionTransfer);
 
@@ -203,7 +203,17 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
             $this->printHelper($output, $localeName);
 
             $keyToTranslate = $this->askTextQuestion($input, $output, 'Please enter a translation key: ');
+            if (!$keyToTranslate) {
+                $this->writeLeftProcessMessage();
+
+                return;
+            }
             $translationValue = $this->askTextQuestion($input, $output, 'Please enter a translation value: ');
+            if (!$translationValue) {
+                $this->writeLeftProcessMessage();
+
+                return;
+            }
             $this->translations[$keyToTranslate][$localeName] = $translationValue;
         }
     }
@@ -246,7 +256,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
             );
 
             if (!$translationValue) {
-                $output->writeln('<comment>Left the process, will continue with next steps.</comment>');
+                $this->writeLeftProcessMessage();
 
                 return;
             }
@@ -258,7 +268,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     }
 
     /**
-     * Filters out already existsing translations and returns a list of translation keys that do not have translation value.
+     * Filters out already existing translations and returns a list of translation keys that do not have translation value.
      *
      * Returns an empty array if all translation keys have values.
      *
@@ -355,6 +365,14 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     }
 
     /**
+     * @return void
+     */
+    protected function writeLeftProcessMessage(): void
+    {
+        $this->output->writeln('<comment>Left the process, will continue with next steps.</comment>');
+    }
+
+    /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
      * @return void
@@ -402,49 +420,6 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
         }
 
         return $locales;
-    }
-
-    /**
-     * @param \Transfer\ManifestCollectionTransfer $manifestCollectionTransfer
-     *
-     * @return array<string>
-     */
-    protected function getExistingKeysToTranslate(ManifestCollectionTransfer $manifestCollectionTransfer): array
-    {
-        $configuration = $manifestCollectionTransfer->getConfiguration();
-
-        if ($configuration === null || !isset($configuration->getConfiguration()['properties'])) {
-            return [];
-        }
-
-        $keysToTranslate = [];
-        foreach ($configuration->getConfiguration()['properties'] as $propertyConfiguration) {
-            if (isset($propertyConfiguration['title'])) {
-                $keysToTranslate[] = $propertyConfiguration['title'];
-            }
-            if (isset($propertyConfiguration['placeholder'])) {
-                $keysToTranslate[] = $propertyConfiguration['placeholder'];
-            }
-            if (isset($propertyConfiguration['oneOf']) && is_array($propertyConfiguration['oneOf'])) {
-                foreach ($propertyConfiguration['oneOf'] as $element) {
-                    if (isset($element['description'])) {
-                        $keysToTranslate[] = $element['description'];
-                    }
-                }
-            }
-            if (isset($propertyConfiguration['items']['oneOf']) && is_array($propertyConfiguration['items']['oneOf'])) {
-                foreach ($propertyConfiguration['items']['oneOf'] as $element) {
-                    if (isset($element['description'])) {
-                        $keysToTranslate[] = $element['description'];
-                    }
-                    if (isset($element['enum']) && is_array($element['enum'])) {
-                        $keysToTranslate = array_merge($keysToTranslate, $element['enum']);
-                    }
-                }
-            }
-        }
-
-        return array_unique($keysToTranslate);
     }
 
     /**

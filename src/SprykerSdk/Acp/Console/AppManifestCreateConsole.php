@@ -75,12 +75,12 @@ class AppManifestCreateConsole extends AbstractConsole
         $manifestResponseTransfer = $this->getFacade()->createAppManifest($manifestRequestTransfer);
 
         if ($manifestResponseTransfer->getErrors()->count() === 0) {
-            $this->printMessages($output, $manifestResponseTransfer->getMessages());
+            $this->printMessagesVerbose($output, $manifestResponseTransfer->getMessages());
 
             return static::CODE_SUCCESS;
         }
 
-        $this->printMessages($output, $manifestResponseTransfer->getErrors());
+        $this->printMessagesVerbose($output, $manifestResponseTransfer->getErrors());
 
         return static::CODE_ERROR;
     }

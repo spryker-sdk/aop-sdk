@@ -8,6 +8,7 @@
 namespace SprykerSdkTest\Acp;
 
 use Codeception\Test\Unit;
+use Transfer\ManifestConditionsTransfer;
 use Transfer\ManifestCriteriaTransfer;
 
 /**
@@ -76,13 +77,28 @@ class AppManifestFacadeTest extends Unit
     public function testGetManifestCollectionShouldReturnCollection(): void
     {
         // Arrange
-        $manifestCriteriaTransfer = new ManifestCriteriaTransfer();
         $this->tester->haveValidTranslationWithManifestAndConfiguration();
+
+        $manifestCriteriaTransfer = new ManifestCriteriaTransfer();
+        $manifestConditionsTransfer = new ManifestConditionsTransfer();
+
+        $manifestCriteriaTransfer->setManifestConditions($manifestConditionsTransfer);
+        $manifestConditionsTransfer->setConfigurationFilePath(
+            $this->tester->getRootPath() . '/config/app/configuration.json',
+        );
+        $manifestConditionsTransfer->setManifestFolder(
+            $this->tester->getRootPath() . '/config/app/manifest',
+        );
+        $manifestConditionsTransfer->setTranslationFilePath(
+            $this->tester->getRootPath() . '/config/app/translation.json',
+        );
 
         // Act
         $collection = $this->tester->getFacade()->getManifestCollection($manifestCriteriaTransfer);
 
         // Assert
         $this->assertNotEmpty($collection->getTranslation()->getTranslations());
+        $this->assertNotEmpty($collection->getManifests());
+        $this->assertNotEmpty($collection->getConfiguration());
     }
 }

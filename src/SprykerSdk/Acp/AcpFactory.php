@@ -13,6 +13,8 @@ use SprykerSdk\Acp\Manifest\Builder\AppManifestBuilder;
 use SprykerSdk\Acp\Manifest\Builder\AppManifestBuilderInterface;
 use SprykerSdk\Acp\Manifest\Reader\AppManifestReader;
 use SprykerSdk\Acp\Manifest\Reader\AppManifestReaderInterface;
+use SprykerSdk\Acp\Mapper\TranslateKeyMapper;
+use SprykerSdk\Acp\Mapper\TranslateKeyMapperInterface;
 use SprykerSdk\Acp\ReadinessChecker\Checker\CheckerInterface;
 use SprykerSdk\Acp\ReadinessChecker\Checker\ComposerChecker;
 use SprykerSdk\Acp\ReadinessChecker\Checker\EnvChecker;
@@ -189,6 +191,14 @@ class AcpFactory
     public function createAppManifestReader(): AppManifestReaderInterface
     {
         return new AppManifestReader($this->getConfig(), $this->createFinder());
+    }
+
+    /**
+     * @return \SprykerSdk\Acp\Mapper\TranslateKeyMapperInterface
+     */
+    public function createTranslateKeyMapper(): TranslateKeyMapperInterface
+    {
+        return new TranslateKeyMapper();
     }
 
     /**
