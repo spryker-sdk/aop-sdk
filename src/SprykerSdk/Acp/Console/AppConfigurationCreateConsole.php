@@ -65,7 +65,10 @@ class AppConfigurationCreateConsole extends AbstractConsole
         $output->writeln([
             'Welcome to the App configuration builder.',
             '',
+            'The configuration will define the form fields that are displayed on the configuration page of the app, which is displayed in the App Store Catalog. E.g. credentials for an external service, available payment methods, etc.',
+            '',
             'For each configuration you will be prompted to enter details.',
+            '',
             'When the process is done a configuration file will be created in: ' . $appConfigurationRequestTransfer->getConfigurationFile(),
             'When you have a typo or anything else you\'d like to change you can do that manually in the created file after this process is finished.',
             '',
