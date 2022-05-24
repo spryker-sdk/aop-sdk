@@ -8,6 +8,7 @@
 namespace SprykerSdkTest\Acp;
 
 use Codeception\Test\Unit;
+use Transfer\ManifestCollectionTransfer;
 use Transfer\ManifestConditionsTransfer;
 use Transfer\ManifestCriteriaTransfer;
 
@@ -100,5 +101,35 @@ class AppManifestFacadeTest extends Unit
         $this->assertNotEmpty($collection->getTranslation()->getTranslations());
         $this->assertNotEmpty($collection->getManifests());
         $this->assertNotEmpty($collection->getConfiguration());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetExistingKeysToTranslateWithManifestCollectionShouldReturnTranslationKeys(): void
+    {
+        // Arrange
+        $manifestCollection = $this->tester->haveManifestCollection();
+
+        // Act
+        $keysToTranslate = $this->tester->getFacade()->getExistingKeysToTranslate($manifestCollection);
+
+        // Assert
+        $this->assertCount(5, $keysToTranslate);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetExistingKeysToTranslateWithEmptyManifestCollection(): void
+    {
+        // Arrange
+        $manifestCollection = new ManifestCollectionTransfer();
+
+        // Act
+        $keysToTranslate = $this->tester->getFacade()->getExistingKeysToTranslate($manifestCollection);
+
+        // Assert
+        $this->assertEmpty($keysToTranslate);
     }
 }
