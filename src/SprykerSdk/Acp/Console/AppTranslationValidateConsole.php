@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Acp\Console;
 
-use Generated\Shared\Transfer\ValidateRequestTransfer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Transfer\ValidateRequestTransfer;
 
 /**
  * @method \SprykerSdk\Acp\AcpFacadeInterface getFacade()

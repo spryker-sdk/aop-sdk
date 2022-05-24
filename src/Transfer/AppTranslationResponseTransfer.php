@@ -4,54 +4,55 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace Generated\Shared\Transfer;
+namespace Transfer;
+
+use ArrayObject;
 
 /**
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
  */
-class ManifestRequestTransfer extends AbstractTransfer
+class AppTranslationResponseTransfer extends AbstractTransfer
 {
     /**
      * @var string
      */
-    public const MANIFEST = 'manifest';
+    public const ERRORS = 'errors';
 
     /**
      * @var string
      */
-    public const MANIFEST_PATH = 'manifestPath';
+    public const MESSAGES = 'messages';
 
     /**
-     * @var \Generated\Shared\Transfer\ManifestTransfer|null
+     * @var \ArrayObject|\Transfer\MessageTransfer[]
      */
-    protected $manifest;
+    protected $errors;
 
     /**
-     * @var string|null
+     * @var \ArrayObject|\Transfer\MessageTransfer[]
      */
-    protected $manifestPath;
+    protected $messages;
 
     /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'manifest' => 'manifest',
-        'Manifest' => 'manifest',
-        'manifest_path' => 'manifestPath',
-        'manifestPath' => 'manifestPath',
-        'ManifestPath' => 'manifestPath',
+        'errors' => 'errors',
+        'Errors' => 'errors',
+        'messages' => 'messages',
+        'Messages' => 'messages',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::MANIFEST => [
-            'type' => 'Generated\Shared\Transfer\ManifestTransfer',
+        self::ERRORS => [
+            'type' => 'Generated\Shared\Transfer\MessageTransfer',
             'type_shim' => null,
-            'name_underscore' => 'manifest',
-            'is_collection' => false,
+            'name_underscore' => 'errors',
+            'is_collection' => true,
             'is_transfer' => true,
             'is_value_object' => false,
             'rest_request_parameter' => 'no',
@@ -59,12 +60,12 @@ class ManifestRequestTransfer extends AbstractTransfer
             'is_nullable' => false,
             'is_strict' => false,
         ],
-        self::MANIFEST_PATH => [
-            'type' => 'string',
+        self::MESSAGES => [
+            'type' => 'Generated\Shared\Transfer\MessageTransfer',
             'type_shim' => null,
-            'name_underscore' => 'manifest_path',
-            'is_collection' => false,
-            'is_transfer' => false,
+            'name_underscore' => 'messages',
+            'is_collection' => true,
+            'is_transfer' => true,
             'is_value_object' => false,
             'rest_request_parameter' => 'no',
             'is_associative' => false,
@@ -76,14 +77,14 @@ class ManifestRequestTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @param \Generated\Shared\Transfer\ManifestTransfer|null $manifest
+     * @param \ArrayObject|\Transfer\MessageTransfer[] $errors
      *
      * @return $this
      */
-    public function setManifest(ManifestTransfer $manifest = null)
+    public function setErrors(ArrayObject $errors)
     {
-        $this->manifest = $manifest;
-        $this->modifiedProperties[self::MANIFEST] = true;
+        $this->errors = $errors;
+        $this->modifiedProperties[self::ERRORS] = true;
 
         return $this;
     }
@@ -91,41 +92,26 @@ class ManifestRequestTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @return \Generated\Shared\Transfer\ManifestTransfer|null
+     * @return \ArrayObject|\Transfer\MessageTransfer[]
      */
-    public function getManifest()
+    public function getErrors()
     {
-        return $this->manifest;
+        return $this->errors;
     }
 
     /**
      * @module Acp
      *
-     * @param \Generated\Shared\Transfer\ManifestTransfer $manifest
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     * @param \Transfer\MessageTransfer $error
      *
      * @return $this
      */
-    public function setManifestOrFail(ManifestTransfer $manifest)
+    public function addError(MessageTransfer $error)
     {
-        return $this->setManifest($manifest);
-    }
+        $this->errors[] = $error;
+        $this->modifiedProperties[self::ERRORS] = true;
 
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return \Generated\Shared\Transfer\ManifestTransfer
-     */
-    public function getManifestOrFail()
-    {
-        if ($this->manifest === null) {
-            $this->throwNullValueException(static::MANIFEST);
-        }
-
-        return $this->manifest;
+        return $this;
     }
 
     /**
@@ -135,9 +121,9 @@ class ManifestRequestTransfer extends AbstractTransfer
      *
      * @return $this
      */
-    public function requireManifest()
+    public function requireErrors()
     {
-        $this->assertPropertyIsSet(self::MANIFEST);
+        $this->assertCollectionPropertyIsSet(self::ERRORS);
 
         return $this;
     }
@@ -145,14 +131,14 @@ class ManifestRequestTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @param string|null $manifestPath
+     * @param \ArrayObject|\Transfer\MessageTransfer[] $messages
      *
      * @return $this
      */
-    public function setManifestPath($manifestPath)
+    public function setMessages(ArrayObject $messages)
     {
-        $this->manifestPath = $manifestPath;
-        $this->modifiedProperties[self::MANIFEST_PATH] = true;
+        $this->messages = $messages;
+        $this->modifiedProperties[self::MESSAGES] = true;
 
         return $this;
     }
@@ -160,45 +146,26 @@ class ManifestRequestTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @return string|null
+     * @return \ArrayObject|\Transfer\MessageTransfer[]
      */
-    public function getManifestPath()
+    public function getMessages()
     {
-        return $this->manifestPath;
+        return $this->messages;
     }
 
     /**
      * @module Acp
      *
-     * @param string|null $manifestPath
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     * @param \Transfer\MessageTransfer $message
      *
      * @return $this
      */
-    public function setManifestPathOrFail($manifestPath)
+    public function addMessage(MessageTransfer $message)
     {
-        if ($manifestPath === null) {
-            $this->throwNullValueException(static::MANIFEST_PATH);
-        }
+        $this->messages[] = $message;
+        $this->modifiedProperties[self::MESSAGES] = true;
 
-        return $this->setManifestPath($manifestPath);
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return string
-     */
-    public function getManifestPathOrFail()
-    {
-        if ($this->manifestPath === null) {
-            $this->throwNullValueException(static::MANIFEST_PATH);
-        }
-
-        return $this->manifestPath;
+        return $this;
     }
 
     /**
@@ -208,9 +175,9 @@ class ManifestRequestTransfer extends AbstractTransfer
      *
      * @return $this
      */
-    public function requireManifestPath()
+    public function requireMessages()
     {
-        $this->assertPropertyIsSet(self::MANIFEST_PATH);
+        $this->assertCollectionPropertyIsSet(self::MESSAGES);
 
         return $this;
     }
@@ -229,22 +196,10 @@ class ManifestRequestTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'manifestPath':
-                    $this->$normalizedPropertyName = $value;
-                    $this->modifiedProperties[$normalizedPropertyName] = true;
-
-                    break;
-                case 'manifest':
-                    if (is_array($value)) {
-                        $type = $this->transferMetadata[$normalizedPropertyName]['type'];
-                        /** @var \Spryker\Shared\Kernel\Transfer\TransferInterface $value */
-                        $value = (new $type())->fromArray($value, $ignoreMissingProperty);
-                    }
-
-                    if ($value !== null && $this->isPropertyStrict($normalizedPropertyName)) {
-                        $this->assertInstanceOfTransfer($normalizedPropertyName, $value);
-                    }
-                    $this->$normalizedPropertyName = $value;
+                case 'errors':
+                case 'messages':
+                    $elementType = $this->transferMetadata[$normalizedPropertyName]['type'];
+                    $this->$normalizedPropertyName = $this->processArrayObject($elementType, $value, $ignoreMissingProperty);
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
                     break;
@@ -363,12 +318,9 @@ class ManifestRequestTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'manifestPath':
-                    $values[$arrayKey] = $value;
-
-                    break;
-                case 'manifest':
-                    $values[$arrayKey] = $value instanceof AbstractTransfer ? $value->modifiedToArray(true, true) : $value;
+                case 'errors':
+                case 'messages':
+                    $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, true) : $value;
 
                     break;
             }
@@ -394,12 +346,9 @@ class ManifestRequestTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'manifestPath':
-                    $values[$arrayKey] = $value;
-
-                    break;
-                case 'manifest':
-                    $values[$arrayKey] = $value instanceof AbstractTransfer ? $value->modifiedToArray(true, false) : $value;
+                case 'errors':
+                case 'messages':
+                    $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, false) : $value;
 
                     break;
             }
@@ -447,6 +396,8 @@ class ManifestRequestTransfer extends AbstractTransfer
      */
     protected function initCollectionProperties(): void
     {
+        $this->errors = $this->errors ?: new ArrayObject();
+        $this->messages = $this->messages ?: new ArrayObject();
     }
 
     /**
@@ -455,8 +406,8 @@ class ManifestRequestTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'manifestPath' => $this->manifestPath,
-            'manifest' => $this->manifest,
+            'errors' => $this->errors,
+            'messages' => $this->messages,
         ];
     }
 
@@ -466,8 +417,8 @@ class ManifestRequestTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'manifest_path' => $this->manifestPath,
-            'manifest' => $this->manifest,
+            'errors' => $this->errors,
+            'messages' => $this->messages,
         ];
     }
 
@@ -477,8 +428,8 @@ class ManifestRequestTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'manifest_path' => $this->manifestPath instanceof AbstractTransfer ? $this->manifestPath->toArray(true, false) : $this->manifestPath,
-            'manifest' => $this->manifest instanceof AbstractTransfer ? $this->manifest->toArray(true, false) : $this->manifest,
+            'errors' => $this->errors instanceof AbstractTransfer ? $this->errors->toArray(true, false) : $this->addValuesToCollection($this->errors, true, false),
+            'messages' => $this->messages instanceof AbstractTransfer ? $this->messages->toArray(true, false) : $this->addValuesToCollection($this->messages, true, false),
         ];
     }
 
@@ -488,8 +439,8 @@ class ManifestRequestTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'manifestPath' => $this->manifestPath instanceof AbstractTransfer ? $this->manifestPath->toArray(true, true) : $this->manifestPath,
-            'manifest' => $this->manifest instanceof AbstractTransfer ? $this->manifest->toArray(true, true) : $this->manifest,
+            'errors' => $this->errors instanceof AbstractTransfer ? $this->errors->toArray(true, true) : $this->addValuesToCollection($this->errors, true, true),
+            'messages' => $this->messages instanceof AbstractTransfer ? $this->messages->toArray(true, true) : $this->addValuesToCollection($this->messages, true, true),
         ];
     }
 }

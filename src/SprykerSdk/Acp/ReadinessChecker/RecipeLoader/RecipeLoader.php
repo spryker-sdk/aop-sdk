@@ -7,11 +7,11 @@
 
 namespace SprykerSdk\Acp\ReadinessChecker\RecipeLoader;
 
-use Generated\Shared\Transfer\CheckReadinessTransfer;
-use Generated\Shared\Transfer\RecipeTransfer;
 use SprykerSdk\Acp\AcpConfig;
 use SprykerSdk\Acp\Exception\RecipeNotFoundException;
 use Symfony\Component\Yaml\Yaml;
+use Transfer\CheckReadinessTransfer;
+use Transfer\RecipeTransfer;
 
 class RecipeLoader implements RecipeLoaderInterface
 {
@@ -29,9 +29,9 @@ class RecipeLoader implements RecipeLoaderInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CheckReadinessTransfer $checkReadinessTransfer
+     * @param \Transfer\CheckReadinessTransfer $checkReadinessTransfer
      *
-     * @return iterable<\Generated\Shared\Transfer\RecipeTransfer>
+     * @return iterable<\Transfer\RecipeTransfer>
      */
     public function loadRecipes(CheckReadinessTransfer $checkReadinessTransfer): iterable
     {
@@ -41,9 +41,9 @@ class RecipeLoader implements RecipeLoaderInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\RecipeTransfer $recipeTransfer
+     * @param \Transfer\RecipeTransfer $recipeTransfer
      *
-     * @return \Generated\Shared\Transfer\RecipeTransfer
+     * @return \Transfer\RecipeTransfer
      */
     protected function loadRecipe(RecipeTransfer $recipeTransfer): RecipeTransfer
     {

@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Acp\ReadinessChecker\Checker;
 
-use Generated\Shared\Transfer\CheckConfigurationTransfer;
-use Generated\Shared\Transfer\CheckerMessageTransfer;
-use Generated\Shared\Transfer\RecipeTransfer;
+use Transfer\CheckConfigurationTransfer;
+use Transfer\CheckerMessageTransfer;
+use Transfer\RecipeTransfer;
 
 class EnvChecker implements CheckerInterface
 {
@@ -22,10 +22,10 @@ class EnvChecker implements CheckerInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\RecipeTransfer $recipeTransfer
-     * @param \Generated\Shared\Transfer\CheckConfigurationTransfer $checkConfigurationTransfer
+     * @param \Transfer\RecipeTransfer $recipeTransfer
+     * @param \Transfer\CheckConfigurationTransfer $checkConfigurationTransfer
      *
-     * @return \Generated\Shared\Transfer\RecipeTransfer
+     * @return \Transfer\RecipeTransfer
      */
     public function check(RecipeTransfer $recipeTransfer, CheckConfigurationTransfer $checkConfigurationTransfer): RecipeTransfer
     {

@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Acp\Validator\Manifest\Validator;
 
-use Generated\Shared\Transfer\MessageTransfer;
-use Generated\Shared\Transfer\ValidateResponseTransfer;
 use SprykerSdk\Acp\AcpConfig;
 use SprykerSdk\Acp\Validator\FileValidatorInterface;
+use Transfer\MessageTransfer;
+use Transfer\ValidateResponseTransfer;
 
 class PagesFileValidator implements FileValidatorInterface
 {
@@ -30,10 +30,10 @@ class PagesFileValidator implements FileValidatorInterface
     /**
      * @param array $data
      * @param string $fileName
-     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
+     * @param \Transfer\ValidateResponseTransfer $validateResponseTransfer
      * @param array|null $context
      *
-     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
+     * @return \Transfer\ValidateResponseTransfer
      */
     public function validate(
         array $data,
@@ -52,9 +52,9 @@ class PagesFileValidator implements FileValidatorInterface
      * @param array $page
      * @param string $pageName
      * @param string $manifestFileName
-     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
+     * @param \Transfer\ValidateResponseTransfer $validateResponseTransfer
      *
-     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
+     * @return \Transfer\ValidateResponseTransfer
      */
     protected function validatePage(
         array $page,
@@ -74,9 +74,9 @@ class PagesFileValidator implements FileValidatorInterface
      * @param array $pageBlock
      * @param string $pageName
      * @param string $manifestFileName
-     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
+     * @param \Transfer\ValidateResponseTransfer $validateResponseTransfer
      *
-     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
+     * @return \Transfer\ValidateResponseTransfer
      */
     protected function validatePageBlockRequiredFields(
         array $pageBlock,
@@ -101,9 +101,9 @@ class PagesFileValidator implements FileValidatorInterface
      * @param array $pageBlock
      * @param string $pageName
      * @param string $manifestFileName
-     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
+     * @param \Transfer\ValidateResponseTransfer $validateResponseTransfer
      *
-     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
+     * @return \Transfer\ValidateResponseTransfer
      */
     protected function validatePageBlockType(
         array $pageBlock,

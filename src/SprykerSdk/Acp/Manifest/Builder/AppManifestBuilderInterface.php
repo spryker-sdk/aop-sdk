@@ -7,15 +7,15 @@
 
 namespace SprykerSdk\Acp\Manifest\Builder;
 
-use Generated\Shared\Transfer\ManifestRequestTransfer;
-use Generated\Shared\Transfer\ManifestResponseTransfer;
+use Transfer\ManifestRequestTransfer;
+use Transfer\ManifestResponseTransfer;
 
 interface AppManifestBuilderInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\ManifestRequestTransfer $manifestRequestTransfer
+     * @param \Transfer\ManifestRequestTransfer $manifestRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\ManifestResponseTransfer
+     * @return \Transfer\ManifestResponseTransfer
      */
     public function createManifest(ManifestRequestTransfer $manifestRequestTransfer): ManifestResponseTransfer;
 }

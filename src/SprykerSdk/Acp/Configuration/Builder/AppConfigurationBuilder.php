@@ -7,16 +7,16 @@
 
 namespace SprykerSdk\Acp\Configuration\Builder;
 
-use Generated\Shared\Transfer\AppConfigurationRequestTransfer;
-use Generated\Shared\Transfer\AppConfigurationResponseTransfer;
-use Generated\Shared\Transfer\MessageTransfer;
+use Transfer\AppConfigurationRequestTransfer;
+use Transfer\AppConfigurationResponseTransfer;
+use Transfer\MessageTransfer;
 
 class AppConfigurationBuilder implements AppConfigurationBuilderInterface
 {
    /**
-    * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
+    * @param \Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
     *
-    * @return \Generated\Shared\Transfer\AppConfigurationResponseTransfer
+    * @return \Transfer\AppConfigurationResponseTransfer
     */
     public function createConfiguration(AppConfigurationRequestTransfer $appConfigurationRequestTransfer): AppConfigurationResponseTransfer
     {
@@ -39,7 +39,7 @@ class AppConfigurationBuilder implements AppConfigurationBuilderInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
+     * @param \Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
      *
      * @return array
      */
@@ -88,7 +88,7 @@ class AppConfigurationBuilder implements AppConfigurationBuilderInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
+     * @param \Transfer\AppConfigurationRequestTransfer $appConfigurationRequestTransfer
      *
      * @return array
      */

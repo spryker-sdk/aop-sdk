@@ -7,15 +7,15 @@
 
 namespace SprykerSdk\Acp\ReadinessChecker;
 
-use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
-use Generated\Shared\Transfer\CheckReadinessTransfer;
+use Transfer\CheckReadinessResponseTransfer;
+use Transfer\CheckReadinessTransfer;
 
 interface ReadinessCheckerInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\CheckReadinessTransfer $checkReadinessTransfer
+     * @param \Transfer\CheckReadinessTransfer $checkReadinessTransfer
      *
-     * @return \Generated\Shared\Transfer\CheckReadinessResponseTransfer
+     * @return \Transfer\CheckReadinessResponseTransfer
      */
     public function checkReadiness(CheckReadinessTransfer $checkReadinessTransfer): CheckReadinessResponseTransfer;
 }

@@ -4,7 +4,7 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace Generated\Shared\Transfer;
+namespace Transfer;
 
 use ArrayObject;
 
@@ -12,47 +12,46 @@ use ArrayObject;
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
  */
-class CheckReadinessTransfer extends AbstractTransfer
+class ValidateResponseTransfer extends AbstractTransfer
 {
     /**
      * @var string
      */
-    public const RECIPES = 'recipes';
+    public const ERRORS = 'errors';
 
     /**
      * @var string
      */
-    public const CHECK_CONFIGURATION = 'checkConfiguration';
+    public const MESSAGES = 'messages';
 
     /**
-     * @var \ArrayObject|\Generated\Shared\Transfer\RecipeTransfer[]
+     * @var \ArrayObject|\Transfer\MessageTransfer[]
      */
-    protected $recipes;
+    protected $errors;
 
     /**
-     * @var \Generated\Shared\Transfer\CheckConfigurationTransfer|null
+     * @var \ArrayObject|\Transfer\MessageTransfer[]
      */
-    protected $checkConfiguration;
+    protected $messages;
 
     /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'recipes' => 'recipes',
-        'Recipes' => 'recipes',
-        'check_configuration' => 'checkConfiguration',
-        'checkConfiguration' => 'checkConfiguration',
-        'CheckConfiguration' => 'checkConfiguration',
+        'errors' => 'errors',
+        'Errors' => 'errors',
+        'messages' => 'messages',
+        'Messages' => 'messages',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::RECIPES => [
-            'type' => 'Generated\Shared\Transfer\RecipeTransfer',
+        self::ERRORS => [
+            'type' => 'Generated\Shared\Transfer\MessageTransfer',
             'type_shim' => null,
-            'name_underscore' => 'recipes',
+            'name_underscore' => 'errors',
             'is_collection' => true,
             'is_transfer' => true,
             'is_value_object' => false,
@@ -61,11 +60,11 @@ class CheckReadinessTransfer extends AbstractTransfer
             'is_nullable' => false,
             'is_strict' => false,
         ],
-        self::CHECK_CONFIGURATION => [
-            'type' => 'Generated\Shared\Transfer\CheckConfigurationTransfer',
+        self::MESSAGES => [
+            'type' => 'Generated\Shared\Transfer\MessageTransfer',
             'type_shim' => null,
-            'name_underscore' => 'check_configuration',
-            'is_collection' => false,
+            'name_underscore' => 'messages',
+            'is_collection' => true,
             'is_transfer' => true,
             'is_value_object' => false,
             'rest_request_parameter' => 'no',
@@ -78,14 +77,14 @@ class CheckReadinessTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @param \ArrayObject|\Generated\Shared\Transfer\RecipeTransfer[] $recipes
+     * @param \ArrayObject|\Transfer\MessageTransfer[] $errors
      *
      * @return $this
      */
-    public function setRecipes(ArrayObject $recipes)
+    public function setErrors(ArrayObject $errors)
     {
-        $this->recipes = $recipes;
-        $this->modifiedProperties[self::RECIPES] = true;
+        $this->errors = $errors;
+        $this->modifiedProperties[self::ERRORS] = true;
 
         return $this;
     }
@@ -93,24 +92,24 @@ class CheckReadinessTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @return \ArrayObject|\Generated\Shared\Transfer\RecipeTransfer[]
+     * @return \ArrayObject|\Transfer\MessageTransfer[]
      */
-    public function getRecipes()
+    public function getErrors()
     {
-        return $this->recipes;
+        return $this->errors;
     }
 
     /**
      * @module Acp
      *
-     * @param \Generated\Shared\Transfer\RecipeTransfer $recipe
+     * @param \Transfer\MessageTransfer $error
      *
      * @return $this
      */
-    public function addRecipe(RecipeTransfer $recipe)
+    public function addError(MessageTransfer $error)
     {
-        $this->recipes[] = $recipe;
-        $this->modifiedProperties[self::RECIPES] = true;
+        $this->errors[] = $error;
+        $this->modifiedProperties[self::ERRORS] = true;
 
         return $this;
     }
@@ -122,9 +121,9 @@ class CheckReadinessTransfer extends AbstractTransfer
      *
      * @return $this
      */
-    public function requireRecipes()
+    public function requireErrors()
     {
-        $this->assertCollectionPropertyIsSet(self::RECIPES);
+        $this->assertCollectionPropertyIsSet(self::ERRORS);
 
         return $this;
     }
@@ -132,14 +131,14 @@ class CheckReadinessTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @param \Generated\Shared\Transfer\CheckConfigurationTransfer|null $checkConfiguration
+     * @param \ArrayObject|\Transfer\MessageTransfer[] $messages
      *
      * @return $this
      */
-    public function setCheckConfiguration(CheckConfigurationTransfer $checkConfiguration = null)
+    public function setMessages(ArrayObject $messages)
     {
-        $this->checkConfiguration = $checkConfiguration;
-        $this->modifiedProperties[self::CHECK_CONFIGURATION] = true;
+        $this->messages = $messages;
+        $this->modifiedProperties[self::MESSAGES] = true;
 
         return $this;
     }
@@ -147,41 +146,26 @@ class CheckReadinessTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @return \Generated\Shared\Transfer\CheckConfigurationTransfer|null
+     * @return \ArrayObject|\Transfer\MessageTransfer[]
      */
-    public function getCheckConfiguration()
+    public function getMessages()
     {
-        return $this->checkConfiguration;
+        return $this->messages;
     }
 
     /**
      * @module Acp
      *
-     * @param \Generated\Shared\Transfer\CheckConfigurationTransfer $checkConfiguration
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     * @param \Transfer\MessageTransfer $message
      *
      * @return $this
      */
-    public function setCheckConfigurationOrFail(CheckConfigurationTransfer $checkConfiguration)
+    public function addMessage(MessageTransfer $message)
     {
-        return $this->setCheckConfiguration($checkConfiguration);
-    }
+        $this->messages[] = $message;
+        $this->modifiedProperties[self::MESSAGES] = true;
 
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return \Generated\Shared\Transfer\CheckConfigurationTransfer
-     */
-    public function getCheckConfigurationOrFail()
-    {
-        if ($this->checkConfiguration === null) {
-            $this->throwNullValueException(static::CHECK_CONFIGURATION);
-        }
-
-        return $this->checkConfiguration;
+        return $this;
     }
 
     /**
@@ -191,9 +175,9 @@ class CheckReadinessTransfer extends AbstractTransfer
      *
      * @return $this
      */
-    public function requireCheckConfiguration()
+    public function requireMessages()
     {
-        $this->assertPropertyIsSet(self::CHECK_CONFIGURATION);
+        $this->assertCollectionPropertyIsSet(self::MESSAGES);
 
         return $this;
     }
@@ -212,21 +196,8 @@ class CheckReadinessTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'checkConfiguration':
-                    if (is_array($value)) {
-                        $type = $this->transferMetadata[$normalizedPropertyName]['type'];
-                        /** @var \Spryker\Shared\Kernel\Transfer\TransferInterface $value */
-                        $value = (new $type())->fromArray($value, $ignoreMissingProperty);
-                    }
-
-                    if ($value !== null && $this->isPropertyStrict($normalizedPropertyName)) {
-                        $this->assertInstanceOfTransfer($normalizedPropertyName, $value);
-                    }
-                    $this->$normalizedPropertyName = $value;
-                    $this->modifiedProperties[$normalizedPropertyName] = true;
-
-                    break;
-                case 'recipes':
+                case 'errors':
+                case 'messages':
                     $elementType = $this->transferMetadata[$normalizedPropertyName]['type'];
                     $this->$normalizedPropertyName = $this->processArrayObject($elementType, $value, $ignoreMissingProperty);
                     $this->modifiedProperties[$normalizedPropertyName] = true;
@@ -347,11 +318,8 @@ class CheckReadinessTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'checkConfiguration':
-                    $values[$arrayKey] = $value instanceof AbstractTransfer ? $value->modifiedToArray(true, true) : $value;
-
-                    break;
-                case 'recipes':
+                case 'errors':
+                case 'messages':
                     $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, true) : $value;
 
                     break;
@@ -378,11 +346,8 @@ class CheckReadinessTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'checkConfiguration':
-                    $values[$arrayKey] = $value instanceof AbstractTransfer ? $value->modifiedToArray(true, false) : $value;
-
-                    break;
-                case 'recipes':
+                case 'errors':
+                case 'messages':
                     $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, false) : $value;
 
                     break;
@@ -431,7 +396,8 @@ class CheckReadinessTransfer extends AbstractTransfer
      */
     protected function initCollectionProperties(): void
     {
-        $this->recipes = $this->recipes ?: new ArrayObject();
+        $this->errors = $this->errors ?: new ArrayObject();
+        $this->messages = $this->messages ?: new ArrayObject();
     }
 
     /**
@@ -440,8 +406,8 @@ class CheckReadinessTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'checkConfiguration' => $this->checkConfiguration,
-            'recipes' => $this->recipes,
+            'errors' => $this->errors,
+            'messages' => $this->messages,
         ];
     }
 
@@ -451,8 +417,8 @@ class CheckReadinessTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'check_configuration' => $this->checkConfiguration,
-            'recipes' => $this->recipes,
+            'errors' => $this->errors,
+            'messages' => $this->messages,
         ];
     }
 
@@ -462,8 +428,8 @@ class CheckReadinessTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'check_configuration' => $this->checkConfiguration instanceof AbstractTransfer ? $this->checkConfiguration->toArray(true, false) : $this->checkConfiguration,
-            'recipes' => $this->recipes instanceof AbstractTransfer ? $this->recipes->toArray(true, false) : $this->addValuesToCollection($this->recipes, true, false),
+            'errors' => $this->errors instanceof AbstractTransfer ? $this->errors->toArray(true, false) : $this->addValuesToCollection($this->errors, true, false),
+            'messages' => $this->messages instanceof AbstractTransfer ? $this->messages->toArray(true, false) : $this->addValuesToCollection($this->messages, true, false),
         ];
     }
 
@@ -473,8 +439,8 @@ class CheckReadinessTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'checkConfiguration' => $this->checkConfiguration instanceof AbstractTransfer ? $this->checkConfiguration->toArray(true, true) : $this->checkConfiguration,
-            'recipes' => $this->recipes instanceof AbstractTransfer ? $this->recipes->toArray(true, true) : $this->addValuesToCollection($this->recipes, true, true),
+            'errors' => $this->errors instanceof AbstractTransfer ? $this->errors->toArray(true, true) : $this->addValuesToCollection($this->errors, true, true),
+            'messages' => $this->messages instanceof AbstractTransfer ? $this->messages->toArray(true, true) : $this->addValuesToCollection($this->messages, true, true),
         ];
     }
 }
