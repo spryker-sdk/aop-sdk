@@ -21,15 +21,16 @@ class AppManifestReader implements AppManifestReaderInterface
     /**
      * @var \SprykerSdk\Acp\AcpConfig
      */
-    protected $acpConfig;
+    protected AcpConfig $acpConfig;
 
     /**
      * @var \SprykerSdk\Acp\Validator\Finder\FinderInterface
      */
-    protected $finder;
+    protected FinderInterface $finder;
 
     /**
      * @param \SprykerSdk\Acp\AcpConfig $acpConfig
+     * @param \SprykerSdk\Acp\Validator\Finder\FinderInterface $finder
      */
     public function __construct(AcpConfig $acpConfig, FinderInterface $finder)
     {
@@ -94,6 +95,10 @@ class AppManifestReader implements AppManifestReaderInterface
             $configurationFilePath = $this->acpConfig->getDefaultConfigurationFile();
         }
 
+        if (!$this->finder->hasFile($configurationFilePath)) {
+            return;
+        }
+
         /** @var \SplFileInfo $configurationFile */
         $configurationFile = $this->finder->getFile($configurationFilePath);
 
@@ -124,6 +129,10 @@ class AppManifestReader implements AppManifestReaderInterface
         $translationFilePath = $manifestCriteriaTransfer->getManifestConditions()->getTranslationFilePath();
         if ($translationFilePath === null) {
             $translationFilePath = $this->acpConfig->getDefaultTranslationFile();
+        }
+
+        if (!$this->finder->hasFile($translationFilePath)) {
+            return;
         }
 
         /** @var \SplFileInfo $translationFile */

@@ -1,17 +1,8 @@
 <?php
-
-/**
- * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
- */
-
 namespace SprykerSdkTest\Acp;
-
-use Codeception\Actor;
 
 /**
  * Inherited Methods
- *
  * @method void wantToTest($text)
  * @method void wantTo($text)
  * @method void execute($callable)
@@ -24,10 +15,10 @@ use Codeception\Actor;
  * @method void pause()
  *
  * @SuppressWarnings(PHPMD)
- */
-class CommunicationTester extends Actor
+*/
+class Tester extends \Codeception\Actor
 {
-    use _generated\CommunicationTesterActions;
+    use _generated\TesterActions;
 
     /**
      * Define custom actions here

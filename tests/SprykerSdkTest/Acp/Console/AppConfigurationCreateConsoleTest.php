@@ -9,6 +9,7 @@ namespace SprykerSdkTest\Acp\Console;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Acp\Console\AppConfigurationCreateConsole;
+use SprykerSdkTest\Acp\Tester;
 
 /**
  * @group SprykerSdkTest
@@ -19,9 +20,9 @@ use SprykerSdk\Acp\Console\AppConfigurationCreateConsole;
 class AppConfigurationCreateConsoleTest extends Unit
 {
     /**
-     * @var \SprykerSdkTest\Acp\CommunicationTester
+     * @var \SprykerSdkTest\Acp\Tester
      */
-    protected $tester;
+    protected Tester $tester;
 
     /**
      * @return void
@@ -78,6 +79,6 @@ class AppConfigurationCreateConsoleTest extends Unit
         $commandTester->execute([]);
 
         // Assert
-        $this->assertFileEquals(codecept_data_dir('valid/configuration/console-test-configuration.json'), $this->tester->getRootPath() . '/config/app/configuration/configuration.json');
+        $this->assertFileEquals(codecept_data_dir('valid/configuration/console-test-configuration.json'), $this->tester->getRootPath() . '/config/app/configuration.json');
     }
 }

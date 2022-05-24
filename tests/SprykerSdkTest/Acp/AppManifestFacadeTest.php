@@ -10,10 +10,8 @@ namespace SprykerSdkTest\Acp;
 use Codeception\Test\Unit;
 
 /**
- * @group SprykerSdkTest
- * @group Zed
+ * @group SprykerSdk
  * @group Acp
- * @group Business
  * @group AppManifestFacadeTest
  */
 class AppManifestFacadeTest extends Unit
@@ -24,9 +22,9 @@ class AppManifestFacadeTest extends Unit
     public const INVALID_LOCALE = 'en_U';
 
     /**
-     * @var \SprykerSdkTest\AcpsTester
+     * @var \SprykerSdkTest\Acp\Tester
      */
-    protected $tester;
+    protected Tester $tester;
 
     /**
      * @return void

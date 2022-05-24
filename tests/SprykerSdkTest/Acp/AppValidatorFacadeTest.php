@@ -10,15 +10,16 @@ namespace SprykerSdkTest\Acp;
 use Codeception\Test\Unit;
 
 /**
+ * @group SprykerSdk
  * @group Acp
  * @group AcpFacadeTest
  */
 class AppValidatorFacadeTest extends Unit
 {
     /**
-     * @var \SprykerSdkTest\AcpsTester
+     * @var \SprykerSdkTest\Acp\Tester
      */
-    protected $tester;
+    protected Tester $tester;
 
     /**
      * @return void

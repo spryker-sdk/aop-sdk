@@ -12,23 +12,21 @@ use SprykerSdk\Acp\Console\AbstractConsole;
 use SprykerSdk\Acp\Console\CheckReadinessConsole;
 use SprykerSdk\Acp\Exception\CheckerNotFoundException;
 use SprykerSdk\Acp\Exception\RecipeNotFoundException;
-use SprykerSdkTest\Acp\CommunicationTester;
+use SprykerSdkTest\Acp\Tester;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @group SprykerSdkTest
- * @group Zed
  * @group Acp
- * @group Communication
  * @group Console
  * @group CheckReadinessConsoleTest
  */
 class CheckReadinessConsoleTest extends Unit
 {
     /**
-     * @var \SprykerSdkTest\Acp\CommunicationTester
+     * @var \SprykerSdkTest\Acp\Tester
      */
-    protected CommunicationTester $tester;
+    protected Tester $tester;
 
     /**
      * @return void

@@ -66,14 +66,14 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     protected const CHOICE_NEW_LOCALE = 'Select this to add a new locale';
 
     /**
-     * @var \Symfony\Component\Console\Input\InputInterface
+     * @var \Symfony\Component\Console\Input\InputInterface|null
      */
-    protected $input;
+    protected ?InputInterface $input = null;
 
     /**
-     * @var \Symfony\Component\Console\Output\OutputInterface
+     * @var \Symfony\Component\Console\Output\OutputInterface|null
      */
-    protected $output;
+    protected ?OutputInterface $output = null;
 
     /**
      * @return void
@@ -110,18 +110,19 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
         $existingTranslations = $this->getExistingTranslations($manifestCollectionTransfer);
         $existingLocales = $this->getExistingLocales($manifestCollectionTransfer);
 
+        $localeName = '';
+
         do {
             if (count($existingLocales) > 0) {
                 $localeName = $this->chooseLocale($input, $output, $existingLocales);
             }
 
-            if (!isset($localeName) || $localeName === static::CHOICE_NEW_LOCALE) {
+            if (empty($localeName) || $localeName === static::CHOICE_NEW_LOCALE) {
                 $localeName = $this->createNewLocale($input, $output);
             }
 
             $this->getTranslationsInput($input, $output, $localeName, $existingKeysToTranslate, $existingTranslations);
-            $localeName = static::CHOICE_NEW_LOCALE;
-        } while ($this->askForConfirmation($input, $output, 'Would you like to add translations for another locale?') == 'Yes');
+        } while ($this->askForConfirmation($input, $output, 'Would you like to add translations for another locale?') === 'Yes');
 
         $appTranslationResponseTransfer = $this->saveTranslations($input);
 
@@ -215,7 +216,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
 
         $output->writeln(sprintf('<info>We haven\'t found any missing translations for the locale</info> <comment>%s</comment>', $localeName));
 
-        while ($this->askForConfirmation($input, $output, 'Would you like to add new translations?') == 'Yes') {
+        while ($result = $this->askForConfirmation($input, $output, 'Would you like to add new translations?') === 'Yes') {
             $this->printHelper($output, $localeName);
 
             $keyToTranslate = $this->askTextQuestion($input, $output, 'Please enter a translation key: ');

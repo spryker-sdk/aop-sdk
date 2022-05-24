@@ -46,9 +46,7 @@ class AppConfigurationValidatorHelper extends Module
     {
         $structure = [
             'config' => [
-                'app' => [
-                    'configuration' => $files,
-                ],
+                'app' => $files,
             ],
         ];
 

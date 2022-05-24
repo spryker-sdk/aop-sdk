@@ -33,15 +33,11 @@ class ValidatorHelper extends Module
         return [
             'config' => [
                 'app' => [
-                    'translation' => [
-                        'translation.json' => file_get_contents(codecept_data_dir('valid/translation/translation.json')),
-                    ],
+                    'translation.json' => file_get_contents(codecept_data_dir('valid/translation/translation.json')),
+                    'configuration.json' => file_get_contents(codecept_data_dir('valid/configuration/translation.json')),
                     'manifest' => [
                         'de_DE.json' => file_get_contents(codecept_data_dir('valid/manifest/de_DE.json')),
                         'en_US.json' => file_get_contents(codecept_data_dir('valid/manifest/en_US.json')),
-                    ],
-                    'configuration' => [
-                        'configuration.json' => file_get_contents(codecept_data_dir('valid/configuration/translation.json')),
                     ],
                 ],
             ],
