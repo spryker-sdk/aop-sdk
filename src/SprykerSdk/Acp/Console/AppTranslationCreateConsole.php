@@ -197,7 +197,80 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
         array $existingKeysToTranslate,
         array $existingTranslations
     ): void {
+        $this->getTranslationValuesForKeysThatAreNotTranslated($input, $output, $localeName, $existingKeysToTranslate, $existingTranslations);
+
+        while ($this->askForConfirmation($input, $output, 'Would you like to add new translations?') === 'Yes') {
+            $this->printHelper($output, $localeName);
+
+            $keyToTranslate = $this->askTextQuestion($input, $output, 'Please enter a translation key: ');
+            $translationValue = $this->askTextQuestion($input, $output, 'Please enter a translation value: ');
+            $this->translations[$keyToTranslate][$localeName] = $translationValue;
+        }
+    }
+
+    /**
+     * When there are translations missing for translation keys this prints an info text and asks for the values of the
+     * translation keys one by one until the user aborts this step.
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param string $localeName
+     * @param array $existingKeysToTranslate
+     * @param array $existingTranslations
+     *
+     * @return void
+     */
+    protected function getTranslationValuesForKeysThatAreNotTranslated(
+        InputInterface $input,
+        OutputInterface $output,
+        string $localeName,
+        array $existingKeysToTranslate,
+        array $existingTranslations
+    ): void {
+        $translationKeysWithoutValues = $this->getTranslationKeysWithoutValue($existingKeysToTranslate, $existingTranslations, $localeName);
+
+        if (!count($translationKeysWithoutValues)) {
+            $output->writeln(sprintf('<info>We haven\'t found any missing translations for the locale</info> <comment>%s</comment>', $localeName));
+
+            return;
+        }
+
+        $output->writeln(sprintf('<info>We found missing translations for the locale</info> <comment>%s</comment>', $localeName));
         $this->printHelper($output, $localeName);
+
+        foreach ($translationKeysWithoutValues as $keyToTranslate) {
+            $translationValue = $this->askTextQuestion(
+                $input,
+                $output,
+                sprintf('Please enter a translation for <comment>%s</comment>: ', $keyToTranslate),
+            );
+
+            if (!$translationValue) {
+                $output->writeln('<comment>Left the process, will continue with next steps.</comment>');
+
+                return;
+            }
+
+            $this->translations[$keyToTranslate][$localeName] = $translationValue;
+        }
+
+        $output->writeln(sprintf('<info>All missing translations for the locale <comment>%s</comment> added.</info>', $localeName));
+    }
+
+    /**
+     * Filters out already existsing translations and returns a list of translation keys that do not have translation value.
+     *
+     * Returns an empty array if all translation keys have values.
+     *
+     * @param array $existingKeysToTranslate
+     * @param array $existingTranslations
+     * @param string $localeName
+     *
+     * @return array
+     */
+    protected function getTranslationKeysWithoutValue(array $existingKeysToTranslate, array $existingTranslations, string $localeName): array
+    {
+        $translationKeysWithoutValue = [];
 
         foreach ($existingKeysToTranslate as $keyToTranslate) {
             if (isset($existingTranslations[$keyToTranslate][$localeName])) {
@@ -206,23 +279,10 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
                 continue;
             }
 
-            $translationValue = $this->askTextQuestion(
-                $input,
-                $output,
-                sprintf('Please enter a translation for: %s: ', $keyToTranslate),
-            );
-            $this->translations[$keyToTranslate][$localeName] = $translationValue;
+            $translationKeysWithoutValue[] = $keyToTranslate;
         }
 
-        $output->writeln(sprintf('<info>We haven\'t found any missing translations for the locale</info> <comment>%s</comment>', $localeName));
-
-        while ($result = $this->askForConfirmation($input, $output, 'Would you like to add new translations?') === 'Yes') {
-            $this->printHelper($output, $localeName);
-
-            $keyToTranslate = $this->askTextQuestion($input, $output, 'Please enter a translation key: ');
-            $translationValue = $this->askTextQuestion($input, $output, 'Please enter a translation value: ');
-            $this->translations[$keyToTranslate][$localeName] = $translationValue;
-        }
+        return $translationKeysWithoutValue;
     }
 
     /**
@@ -235,11 +295,13 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     {
         $output->writeln(sprintf('<info>The following inputs will be used for your selected locale</info> <comment>%s</comment>', $localeName));
         $output->writeln('');
-        $output->writeln('<info>When you like to leave the process please hit</info> <comment>CTRL+C</comment> <info>then</info> <comment>Enter</comment>. <info>Already entered data will be automatically saved.</info>');
+        $output->writeln('<info>When you like to leave the process hit the <comment>Enter</comment> key until you see "<comment>Left the process, will continue with next steps</comment>". Already entered data will be automatically saved.</info>');
         $output->writeln('');
     }
 
     /**
+     * This question is asked when locales can be extracted from existsing manifest files.
+     *
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @param array<string> $existingLocales
@@ -261,6 +323,8 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     }
 
     /**
+     * This question is asked when no locales could be extracted from manifest files.
+     *
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
@@ -317,6 +381,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
             ->setManifestFolder($manifestFolder)
             ->setConfigurationFilePath($configurationFilePath)
             ->setTranslationFilePath($translationFilePath);
+
         $manifestCriteriaTransfer = (new ManifestCriteriaTransfer())
             ->setManifestConditions($manifestConditionsTransfer);
 
@@ -331,6 +396,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     protected function getExistingLocales(ManifestCollectionTransfer $manifestCollectionTransfer): array
     {
         $locales = [];
+
         foreach ($manifestCollectionTransfer->getManifests() as $manifestTransfer) {
             $locales[] = $manifestTransfer->getLocaleNameOrFail();
         }

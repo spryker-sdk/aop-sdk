@@ -8,19 +8,58 @@
 namespace SprykerSdkTest\Helper;
 
 use Codeception\Module;
+use InvalidArgumentException;
 
 class AppManifestValidatorHelper extends Module
 {
     use AcpHelperTrait;
 
     /**
+     * @var array<string>
+     */
+    protected array $availableLocales = [
+        'en_US',
+        'de_DE',
+    ];
+
+    /**
+     * @param string $locale
+     *
+     * @throws \InvalidArgumentException
+     *
      * @return void
      */
-    public function haveValidManifestFile(): void
+    public function haveValidManifestFile(string $locale = 'en_US'): void
     {
+        if (!in_array($locale, $this->availableLocales)) {
+            throw new InvalidArgumentException(sprintf('You can only select one of: %s', implode(', ', $this->availableLocales)));
+        }
+
         $files = [
-            'en_US.json' => file_get_contents(codecept_data_dir('valid/manifest/en_US.json')),
+            sprintf('%s.json', $locale) => file_get_contents(codecept_data_dir(sprintf('valid/manifest/%s.json', $locale))),
         ];
+
+        $this->prepareManifest($files);
+    }
+
+    /**
+     * @param array<string> $locales
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return void
+     */
+    public function haveValidManifestFiles(array $locales): void
+    {
+        $files = [];
+
+        foreach ($locales as $locale) {
+            if (!in_array($locale, $this->availableLocales)) {
+                throw new InvalidArgumentException(sprintf('You can only select one of: %s', implode(', ', $this->availableLocales)));
+            }
+
+            $files[sprintf('%s.json', $locale)] = file_get_contents(codecept_data_dir(sprintf('valid/manifest/%s.json', $locale)));
+        }
 
         $this->prepareManifest($files);
     }
