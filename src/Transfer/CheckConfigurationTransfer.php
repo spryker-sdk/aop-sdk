@@ -1,119 +1,94 @@
 <?php
 
 /**
- * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace Generated\Shared\Transfer;
-
-use InvalidArgumentException;
+namespace Transfer;
 
 /**
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
  */
-class AppConfigurationRequestTransfer extends AbstractTransfer
+class CheckConfigurationTransfer extends AbstractTransfer
 {
     /**
      * @var string
      */
-    public const PROPERTIES = 'properties';
+    public const PROJECT_NAMESPACE = 'projectNamespace';
 
     /**
      * @var string
      */
-    public const REQUIRED = 'required';
+    public const ROOT_PATH = 'rootPath';
 
     /**
      * @var string
      */
-    public const FIELDSETS = 'fieldsets';
-
-    /**
-     * @var string
-     */
-    public const CONFIGURATION_FILE = 'configurationFile';
-
-    /**
-     * @var array
-     */
-    protected $properties = [];
-
-    /**
-     * @var array
-     */
-    protected $required = [];
-
-    /**
-     * @var array
-     */
-    protected $fieldsets = [];
+    public const CHECK_CONFIGURATION = 'checkConfiguration';
 
     /**
      * @var string|null
      */
-    protected $configurationFile;
+    protected $projectNamespace;
+
+    /**
+     * @var string|null
+     */
+    protected $rootPath;
+
+    /**
+     * @var array
+     */
+    protected $checkConfiguration = [];
 
     /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'properties' => 'properties',
-        'Properties' => 'properties',
-        'required' => 'required',
-        'Required' => 'required',
-        'fieldsets' => 'fieldsets',
-        'Fieldsets' => 'fieldsets',
-        'configuration_file' => 'configurationFile',
-        'configurationFile' => 'configurationFile',
-        'ConfigurationFile' => 'configurationFile',
+        'project_namespace' => 'projectNamespace',
+        'projectNamespace' => 'projectNamespace',
+        'ProjectNamespace' => 'projectNamespace',
+        'root_path' => 'rootPath',
+        'rootPath' => 'rootPath',
+        'RootPath' => 'rootPath',
+        'check_configuration' => 'checkConfiguration',
+        'checkConfiguration' => 'checkConfiguration',
+        'CheckConfiguration' => 'checkConfiguration',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::PROPERTIES => [
-            'type' => 'array',
-            'type_shim' => null,
-            'name_underscore' => 'properties',
-            'is_collection' => false,
-            'is_transfer' => false,
-            'is_value_object' => false,
-            'rest_request_parameter' => 'no',
-            'is_associative' => false,
-            'is_nullable' => false,
-            'is_strict' => false,
-        ],
-        self::REQUIRED => [
-            'type' => 'array',
-            'type_shim' => null,
-            'name_underscore' => 'required',
-            'is_collection' => false,
-            'is_transfer' => false,
-            'is_value_object' => false,
-            'rest_request_parameter' => 'no',
-            'is_associative' => false,
-            'is_nullable' => false,
-            'is_strict' => false,
-        ],
-        self::FIELDSETS => [
-            'type' => 'array',
-            'type_shim' => null,
-            'name_underscore' => 'fieldsets',
-            'is_collection' => false,
-            'is_transfer' => false,
-            'is_value_object' => false,
-            'rest_request_parameter' => 'no',
-            'is_associative' => false,
-            'is_nullable' => false,
-            'is_strict' => false,
-        ],
-        self::CONFIGURATION_FILE => [
+        self::PROJECT_NAMESPACE => [
             'type' => 'string',
             'type_shim' => null,
-            'name_underscore' => 'configuration_file',
+            'name_underscore' => 'project_namespace',
+            'is_collection' => false,
+            'is_transfer' => false,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
+        self::ROOT_PATH => [
+            'type' => 'string',
+            'type_shim' => null,
+            'name_underscore' => 'root_path',
+            'is_collection' => false,
+            'is_transfer' => false,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
+        self::CHECK_CONFIGURATION => [
+            'type' => 'array',
+            'type_shim' => null,
+            'name_underscore' => 'check_configuration',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -127,182 +102,14 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @param array|null $properties
+     * @param string|null $projectNamespace
      *
      * @return $this
      */
-    public function setProperties(?array $properties = null)
+    public function setProjectNamespace($projectNamespace)
     {
-        if ($properties === null) {
-            $properties = [];
-        }
-
-        $this->properties = $properties;
-        $this->modifiedProperties[self::PROPERTIES] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return array
-     */
-    public function getProperties()
-    {
-        return $this->properties;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param mixed $properties
-     *
-     * @return $this
-     */
-    public function addProperties($properties)
-    {
-        $this->properties[] = $properties;
-        $this->modifiedProperties[self::PROPERTIES] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return $this
-     */
-    public function requireProperties()
-    {
-        $this->assertPropertyIsSet(self::PROPERTIES);
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param array|null $required
-     *
-     * @return $this
-     */
-    public function setRequired(?array $required = null)
-    {
-        if ($required === null) {
-            $required = [];
-        }
-
-        $this->required = $required;
-        $this->modifiedProperties[self::REQUIRED] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return array
-     */
-    public function getRequired()
-    {
-        return $this->required;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param mixed $required
-     *
-     * @return $this
-     */
-    public function addRequired($required)
-    {
-        $this->required[] = $required;
-        $this->modifiedProperties[self::REQUIRED] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return $this
-     */
-    public function requireRequired()
-    {
-        $this->assertPropertyIsSet(self::REQUIRED);
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param array|null $fieldsets
-     *
-     * @return $this
-     */
-    public function setFieldsets(?array $fieldsets = null)
-    {
-        if ($fieldsets === null) {
-            $fieldsets = [];
-        }
-
-        $this->fieldsets = $fieldsets;
-        $this->modifiedProperties[self::FIELDSETS] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return array
-     */
-    public function getFieldsets()
-    {
-        return $this->fieldsets;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param mixed $fieldsets
-     *
-     * @return $this
-     */
-    public function addFieldsets($fieldsets)
-    {
-        $this->fieldsets[] = $fieldsets;
-        $this->modifiedProperties[self::FIELDSETS] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return $this
-     */
-    public function requireFieldsets()
-    {
-        $this->assertPropertyIsSet(self::FIELDSETS);
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param string|null $configurationFile
-     *
-     * @return $this
-     */
-    public function setConfigurationFile($configurationFile)
-    {
-        $this->configurationFile = $configurationFile;
-        $this->modifiedProperties[self::CONFIGURATION_FILE] = true;
+        $this->projectNamespace = $projectNamespace;
+        $this->modifiedProperties[self::PROJECT_NAMESPACE] = true;
 
         return $this;
     }
@@ -312,49 +119,186 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
      *
      * @return string|null
      */
-    public function getConfigurationFile()
+    public function getProjectNamespace()
     {
-        return $this->configurationFile;
+        return $this->projectNamespace;
     }
 
     /**
      * @module Acp
      *
-     * @param string|null $configurationFile
+     * @param string|null $projectNamespace
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return $this
      */
-    public function setConfigurationFileOrFail($configurationFile)
+    public function setProjectNamespaceOrFail($projectNamespace)
     {
-        if ($configurationFile === null) {
-            $this->throwNullValueException(static::CONFIGURATION_FILE);
+        if ($projectNamespace === null) {
+            $this->throwNullValueException(static::PROJECT_NAMESPACE);
         }
 
-        return $this->setConfigurationFile($configurationFile);
+        return $this->setProjectNamespace($projectNamespace);
     }
 
     /**
      * @module Acp
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return string
      */
-    public function getConfigurationFileOrFail()
+    public function getProjectNamespaceOrFail()
     {
-        if ($this->configurationFile === null) {
-            $this->throwNullValueException(static::CONFIGURATION_FILE);
+        if ($this->projectNamespace === null) {
+            $this->throwNullValueException(static::PROJECT_NAMESPACE);
         }
 
-        return $this->configurationFile;
+        return $this->projectNamespace;
     }
 
     /**
      * @module Acp
      *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
      * @return $this
      */
-    public function requireConfigurationFile()
+    public function requireProjectNamespace()
     {
-        $this->assertPropertyIsSet(self::CONFIGURATION_FILE);
+        $this->assertPropertyIsSet(self::PROJECT_NAMESPACE);
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param string|null $rootPath
+     *
+     * @return $this
+     */
+    public function setRootPath($rootPath)
+    {
+        $this->rootPath = $rootPath;
+        $this->modifiedProperties[self::ROOT_PATH] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @return string|null
+     */
+    public function getRootPath()
+    {
+        return $this->rootPath;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param string|null $rootPath
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return $this
+     */
+    public function setRootPathOrFail($rootPath)
+    {
+        if ($rootPath === null) {
+            $this->throwNullValueException(static::ROOT_PATH);
+        }
+
+        return $this->setRootPath($rootPath);
+    }
+
+    /**
+     * @module Acp
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return string
+     */
+    public function getRootPathOrFail()
+    {
+        if ($this->rootPath === null) {
+            $this->throwNullValueException(static::ROOT_PATH);
+        }
+
+        return $this->rootPath;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireRootPath()
+    {
+        $this->assertPropertyIsSet(self::ROOT_PATH);
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param array|null $checkConfiguration
+     *
+     * @return $this
+     */
+    public function setCheckConfiguration(array $checkConfiguration = null)
+    {
+        if ($checkConfiguration === null) {
+            $checkConfiguration = [];
+        }
+
+        $this->checkConfiguration = $checkConfiguration;
+        $this->modifiedProperties[self::CHECK_CONFIGURATION] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @return array
+     */
+    public function getCheckConfiguration()
+    {
+        return $this->checkConfiguration;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param mixed $checkConfiguration
+     *
+     * @return $this
+     */
+    public function addCheckConfiguration($checkConfiguration)
+    {
+        $this->checkConfiguration[] = $checkConfiguration;
+        $this->modifiedProperties[self::CHECK_CONFIGURATION] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireCheckConfiguration()
+    {
+        $this->assertPropertyIsSet(self::CHECK_CONFIGURATION);
 
         return $this;
     }
@@ -373,17 +317,16 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'properties':
-                case 'required':
-                case 'fieldsets':
-                case 'configurationFile':
+                case 'projectNamespace':
+                case 'rootPath':
+                case 'checkConfiguration':
                     $this->$normalizedPropertyName = $value;
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
                     break;
                 default:
                     if (!$ignoreMissingProperty) {
-                        throw new InvalidArgumentException(sprintf('Missing property `%s` in `%s`', $property, static::class));
+                        throw new \InvalidArgumentException(sprintf('Missing property `%s` in `%s`', $property, static::class));
                     }
             }
         }
@@ -436,7 +379,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @param \ArrayObject<string, mixed>|array<string, mixed> $value
+     * @param array<string, mixed>|\ArrayObject<string, mixed> $value
      * @param bool $isRecursive
      * @param bool $camelCasedKeys
      *
@@ -458,7 +401,7 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @param \ArrayObject<string, mixed>|array<string, mixed> $value
+     * @param array<string, mixed>|\ArrayObject<string, mixed> $value
      * @param bool $isRecursive
      * @param bool $camelCasedKeys
      *
@@ -496,10 +439,9 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'properties':
-                case 'required':
-                case 'fieldsets':
-                case 'configurationFile':
+                case 'projectNamespace':
+                case 'rootPath':
+                case 'checkConfiguration':
                     $values[$arrayKey] = $value;
 
                     break;
@@ -526,10 +468,9 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'properties':
-                case 'required':
-                case 'fieldsets':
-                case 'configurationFile':
+                case 'projectNamespace':
+                case 'rootPath':
+                case 'checkConfiguration':
                     $values[$arrayKey] = $value;
 
                     break;
@@ -586,10 +527,9 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'properties' => $this->properties,
-            'required' => $this->required,
-            'fieldsets' => $this->fieldsets,
-            'configurationFile' => $this->configurationFile,
+            'projectNamespace' => $this->projectNamespace,
+            'rootPath' => $this->rootPath,
+            'checkConfiguration' => $this->checkConfiguration,
         ];
     }
 
@@ -599,10 +539,9 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'properties' => $this->properties,
-            'required' => $this->required,
-            'fieldsets' => $this->fieldsets,
-            'configuration_file' => $this->configurationFile,
+            'project_namespace' => $this->projectNamespace,
+            'root_path' => $this->rootPath,
+            'check_configuration' => $this->checkConfiguration,
         ];
     }
 
@@ -612,10 +551,9 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'properties' => $this->properties instanceof AbstractTransfer ? $this->properties->toArray(true, false) : $this->properties,
-            'required' => $this->required instanceof AbstractTransfer ? $this->required->toArray(true, false) : $this->required,
-            'fieldsets' => $this->fieldsets instanceof AbstractTransfer ? $this->fieldsets->toArray(true, false) : $this->fieldsets,
-            'configuration_file' => $this->configurationFile instanceof AbstractTransfer ? $this->configurationFile->toArray(true, false) : $this->configurationFile,
+            'project_namespace' => $this->projectNamespace instanceof AbstractTransfer ? $this->projectNamespace->toArray(true, false) : $this->projectNamespace,
+            'root_path' => $this->rootPath instanceof AbstractTransfer ? $this->rootPath->toArray(true, false) : $this->rootPath,
+            'check_configuration' => $this->checkConfiguration instanceof AbstractTransfer ? $this->checkConfiguration->toArray(true, false) : $this->checkConfiguration,
         ];
     }
 
@@ -625,10 +563,9 @@ class AppConfigurationRequestTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'properties' => $this->properties instanceof AbstractTransfer ? $this->properties->toArray(true, true) : $this->properties,
-            'required' => $this->required instanceof AbstractTransfer ? $this->required->toArray(true, true) : $this->required,
-            'fieldsets' => $this->fieldsets instanceof AbstractTransfer ? $this->fieldsets->toArray(true, true) : $this->fieldsets,
-            'configurationFile' => $this->configurationFile instanceof AbstractTransfer ? $this->configurationFile->toArray(true, true) : $this->configurationFile,
+            'projectNamespace' => $this->projectNamespace instanceof AbstractTransfer ? $this->projectNamespace->toArray(true, true) : $this->projectNamespace,
+            'rootPath' => $this->rootPath instanceof AbstractTransfer ? $this->rootPath->toArray(true, true) : $this->rootPath,
+            'checkConfiguration' => $this->checkConfiguration instanceof AbstractTransfer ? $this->checkConfiguration->toArray(true, true) : $this->checkConfiguration,
         ];
     }
 }

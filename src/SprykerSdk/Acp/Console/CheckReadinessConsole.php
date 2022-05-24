@@ -7,16 +7,16 @@
 
 namespace SprykerSdk\Acp\Console;
 
-use Generated\Shared\Transfer\CheckConfigurationTransfer;
-use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
-use Generated\Shared\Transfer\CheckReadinessTransfer;
-use Generated\Shared\Transfer\RecipeTransfer;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Transfer\CheckConfigurationTransfer;
+use Transfer\CheckReadinessResponseTransfer;
+use Transfer\CheckReadinessTransfer;
+use Transfer\RecipeTransfer;
 
 /**
  * @method \SprykerSdk\Acp\AcpFacadeInterface getFacade()
@@ -88,7 +88,7 @@ class CheckReadinessConsole extends AbstractConsole
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      *
-     * @return \Generated\Shared\Transfer\CheckReadinessTransfer
+     * @return \Transfer\CheckReadinessTransfer
      */
     protected function createCheckReadinessTransfer(InputInterface $input): CheckReadinessTransfer
     {
@@ -113,7 +113,7 @@ class CheckReadinessConsole extends AbstractConsole
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CheckReadinessResponseTransfer $checkReadinessResponseTransfer
+     * @param \Transfer\CheckReadinessResponseTransfer $checkReadinessResponseTransfer
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
      * @return void
@@ -126,7 +126,7 @@ class CheckReadinessConsole extends AbstractConsole
     }
 
     /**
-     * @param \Generated\Shared\Transfer\RecipeTransfer $recipeTransfer
+     * @param \Transfer\RecipeTransfer $recipeTransfer
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
      * @return void

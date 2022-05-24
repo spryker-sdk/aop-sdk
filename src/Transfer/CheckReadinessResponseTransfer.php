@@ -4,7 +4,7 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace Generated\Shared\Transfer;
+namespace Transfer;
 
 use ArrayObject;
 
@@ -12,46 +12,47 @@ use ArrayObject;
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
  */
-class AppTranslationResponseTransfer extends AbstractTransfer
+class CheckReadinessResponseTransfer extends AbstractTransfer
 {
     /**
      * @var string
      */
-    public const ERRORS = 'errors';
+    public const RECIPES = 'recipes';
 
     /**
      * @var string
      */
-    public const MESSAGES = 'messages';
+    public const IS_SUCCESSFUL = 'isSuccessful';
 
     /**
-     * @var \ArrayObject|\Generated\Shared\Transfer\MessageTransfer[]
+     * @var \ArrayObject|\Transfer\RecipeTransfer[]
      */
-    protected $errors;
+    protected $recipes;
 
     /**
-     * @var \ArrayObject|\Generated\Shared\Transfer\MessageTransfer[]
+     * @var bool|null
      */
-    protected $messages;
+    protected $isSuccessful;
 
     /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'errors' => 'errors',
-        'Errors' => 'errors',
-        'messages' => 'messages',
-        'Messages' => 'messages',
+        'recipes' => 'recipes',
+        'Recipes' => 'recipes',
+        'is_successful' => 'isSuccessful',
+        'isSuccessful' => 'isSuccessful',
+        'IsSuccessful' => 'isSuccessful',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::ERRORS => [
-            'type' => 'Generated\Shared\Transfer\MessageTransfer',
+        self::RECIPES => [
+            'type' => 'Transfer\RecipeTransfer',
             'type_shim' => null,
-            'name_underscore' => 'errors',
+            'name_underscore' => 'recipes',
             'is_collection' => true,
             'is_transfer' => true,
             'is_value_object' => false,
@@ -60,12 +61,12 @@ class AppTranslationResponseTransfer extends AbstractTransfer
             'is_nullable' => false,
             'is_strict' => false,
         ],
-        self::MESSAGES => [
-            'type' => 'Generated\Shared\Transfer\MessageTransfer',
+        self::IS_SUCCESSFUL => [
+            'type' => 'bool',
             'type_shim' => null,
-            'name_underscore' => 'messages',
-            'is_collection' => true,
-            'is_transfer' => true,
+            'name_underscore' => 'is_successful',
+            'is_collection' => false,
+            'is_transfer' => false,
             'is_value_object' => false,
             'rest_request_parameter' => 'no',
             'is_associative' => false,
@@ -77,14 +78,14 @@ class AppTranslationResponseTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @param \ArrayObject|\Generated\Shared\Transfer\MessageTransfer[] $errors
+     * @param \ArrayObject|\Transfer\RecipeTransfer[] $recipes
      *
      * @return $this
      */
-    public function setErrors(ArrayObject $errors)
+    public function setRecipes(ArrayObject $recipes)
     {
-        $this->errors = $errors;
-        $this->modifiedProperties[self::ERRORS] = true;
+        $this->recipes = $recipes;
+        $this->modifiedProperties[self::RECIPES] = true;
 
         return $this;
     }
@@ -92,78 +93,24 @@ class AppTranslationResponseTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @return \ArrayObject|\Generated\Shared\Transfer\MessageTransfer[]
+     * @return \ArrayObject|\Transfer\RecipeTransfer[]
      */
-    public function getErrors()
+    public function getRecipes()
     {
-        return $this->errors;
+        return $this->recipes;
     }
 
     /**
      * @module Acp
      *
-     * @param \Generated\Shared\Transfer\MessageTransfer $error
+     * @param \Transfer\RecipeTransfer $recipe
      *
      * @return $this
      */
-    public function addError(MessageTransfer $error)
+    public function addRecipe(RecipeTransfer $recipe)
     {
-        $this->errors[] = $error;
-        $this->modifiedProperties[self::ERRORS] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireErrors()
-    {
-        $this->assertCollectionPropertyIsSet(self::ERRORS);
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param \ArrayObject|\Generated\Shared\Transfer\MessageTransfer[] $messages
-     *
-     * @return $this
-     */
-    public function setMessages(ArrayObject $messages)
-    {
-        $this->messages = $messages;
-        $this->modifiedProperties[self::MESSAGES] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return \ArrayObject|\Generated\Shared\Transfer\MessageTransfer[]
-     */
-    public function getMessages()
-    {
-        return $this->messages;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param \Generated\Shared\Transfer\MessageTransfer $message
-     *
-     * @return $this
-     */
-    public function addMessage(MessageTransfer $message)
-    {
-        $this->messages[] = $message;
-        $this->modifiedProperties[self::MESSAGES] = true;
+        $this->recipes[] = $recipe;
+        $this->modifiedProperties[self::RECIPES] = true;
 
         return $this;
     }
@@ -175,9 +122,82 @@ class AppTranslationResponseTransfer extends AbstractTransfer
      *
      * @return $this
      */
-    public function requireMessages()
+    public function requireRecipes()
     {
-        $this->assertCollectionPropertyIsSet(self::MESSAGES);
+        $this->assertCollectionPropertyIsSet(self::RECIPES);
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param bool|null $isSuccessful
+     *
+     * @return $this
+     */
+    public function setIsSuccessful($isSuccessful)
+    {
+        $this->isSuccessful = $isSuccessful;
+        $this->modifiedProperties[self::IS_SUCCESSFUL] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @return bool|null
+     */
+    public function getIsSuccessful()
+    {
+        return $this->isSuccessful;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param bool|null $isSuccessful
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return $this
+     */
+    public function setIsSuccessfulOrFail($isSuccessful)
+    {
+        if ($isSuccessful === null) {
+            $this->throwNullValueException(static::IS_SUCCESSFUL);
+        }
+
+        return $this->setIsSuccessful($isSuccessful);
+    }
+
+    /**
+     * @module Acp
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return bool
+     */
+    public function getIsSuccessfulOrFail()
+    {
+        if ($this->isSuccessful === null) {
+            $this->throwNullValueException(static::IS_SUCCESSFUL);
+        }
+
+        return $this->isSuccessful;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireIsSuccessful()
+    {
+        $this->assertPropertyIsSet(self::IS_SUCCESSFUL);
 
         return $this;
     }
@@ -196,8 +216,12 @@ class AppTranslationResponseTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'errors':
-                case 'messages':
+                case 'isSuccessful':
+                    $this->$normalizedPropertyName = $value;
+                    $this->modifiedProperties[$normalizedPropertyName] = true;
+
+                    break;
+                case 'recipes':
                     $elementType = $this->transferMetadata[$normalizedPropertyName]['type'];
                     $this->$normalizedPropertyName = $this->processArrayObject($elementType, $value, $ignoreMissingProperty);
                     $this->modifiedProperties[$normalizedPropertyName] = true;
@@ -318,8 +342,11 @@ class AppTranslationResponseTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'errors':
-                case 'messages':
+                case 'isSuccessful':
+                    $values[$arrayKey] = $value;
+
+                    break;
+                case 'recipes':
                     $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, true) : $value;
 
                     break;
@@ -346,8 +373,11 @@ class AppTranslationResponseTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'errors':
-                case 'messages':
+                case 'isSuccessful':
+                    $values[$arrayKey] = $value;
+
+                    break;
+                case 'recipes':
                     $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, false) : $value;
 
                     break;
@@ -396,8 +426,7 @@ class AppTranslationResponseTransfer extends AbstractTransfer
      */
     protected function initCollectionProperties(): void
     {
-        $this->errors = $this->errors ?: new ArrayObject();
-        $this->messages = $this->messages ?: new ArrayObject();
+        $this->recipes = $this->recipes ?: new ArrayObject();
     }
 
     /**
@@ -406,8 +435,8 @@ class AppTranslationResponseTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'errors' => $this->errors,
-            'messages' => $this->messages,
+            'isSuccessful' => $this->isSuccessful,
+            'recipes' => $this->recipes,
         ];
     }
 
@@ -417,8 +446,8 @@ class AppTranslationResponseTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'errors' => $this->errors,
-            'messages' => $this->messages,
+            'is_successful' => $this->isSuccessful,
+            'recipes' => $this->recipes,
         ];
     }
 
@@ -428,8 +457,8 @@ class AppTranslationResponseTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'errors' => $this->errors instanceof AbstractTransfer ? $this->errors->toArray(true, false) : $this->addValuesToCollection($this->errors, true, false),
-            'messages' => $this->messages instanceof AbstractTransfer ? $this->messages->toArray(true, false) : $this->addValuesToCollection($this->messages, true, false),
+            'is_successful' => $this->isSuccessful instanceof AbstractTransfer ? $this->isSuccessful->toArray(true, false) : $this->isSuccessful,
+            'recipes' => $this->recipes instanceof AbstractTransfer ? $this->recipes->toArray(true, false) : $this->addValuesToCollection($this->recipes, true, false),
         ];
     }
 
@@ -439,8 +468,8 @@ class AppTranslationResponseTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'errors' => $this->errors instanceof AbstractTransfer ? $this->errors->toArray(true, true) : $this->addValuesToCollection($this->errors, true, true),
-            'messages' => $this->messages instanceof AbstractTransfer ? $this->messages->toArray(true, true) : $this->addValuesToCollection($this->messages, true, true),
+            'isSuccessful' => $this->isSuccessful instanceof AbstractTransfer ? $this->isSuccessful->toArray(true, true) : $this->isSuccessful,
+            'recipes' => $this->recipes instanceof AbstractTransfer ? $this->recipes->toArray(true, true) : $this->addValuesToCollection($this->recipes, true, true),
         ];
     }
 }

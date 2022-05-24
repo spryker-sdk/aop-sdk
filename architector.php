@@ -34,6 +34,9 @@ return static function (RectorConfig $rectorConfig) {
         RemoveUselessReturnTagRector::class,
         ReturnBinaryAndToEarlyReturnRector::class,
         SimplifyUselessVariableRector::class,
-        TypedPropertyRector::class,
+    ]);
+
+    $rectorConfig->ruleWithConfiguration(TypedPropertyRector::class, [
+        TypedPropertyRector::INLINE_PUBLIC => true,
     ]);
 };

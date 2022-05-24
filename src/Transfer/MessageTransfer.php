@@ -4,93 +4,66 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace Generated\Shared\Transfer;
-
-use ArrayObject;
-use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
+namespace Transfer;
 
 /**
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
  */
-class ManifestCollectionTransfer extends AbstractTransfer
+class MessageTransfer extends AbstractTransfer
 {
     /**
      * @var string
      */
-    public const MANIFESTS = 'manifests';
+    public const MESSAGE = 'message';
 
     /**
      * @var string
      */
-    public const CONFIGURATION = 'configuration';
+    public const TYPE = 'type';
 
     /**
-     * @var string
+     * @var string|null
      */
-    public const TRANSLATION = 'translation';
+    protected $message;
 
     /**
-     * @var \ArrayObject|\Generated\Shared\Transfer\ManifestTransfer[]
+     * @var string|null
      */
-    protected $manifests;
-
-    /**
-     * @var \Generated\Shared\Transfer\ManifestConfigurationTransfer|null
-     */
-    protected $configuration;
-
-    /**
-     * @var \Generated\Shared\Transfer\ManifestTranslationTransfer|null
-     */
-    protected $translation;
+    protected $type;
 
     /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'manifests' => 'manifests',
-        'Manifests' => 'manifests',
-        'configuration' => 'configuration',
-        'Configuration' => 'configuration',
-        'translation' => 'translation',
-        'Translation' => 'translation',
+        'message' => 'message',
+        'Message' => 'message',
+        'type' => 'type',
+        'Type' => 'type',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::MANIFESTS => [
-            'type' => 'Generated\Shared\Transfer\ManifestTransfer',
+        self::MESSAGE => [
+            'type' => 'string',
             'type_shim' => null,
-            'name_underscore' => 'manifests',
-            'is_collection' => true,
-            'is_transfer' => true,
+            'name_underscore' => 'message',
+            'is_collection' => false,
+            'is_transfer' => false,
             'is_value_object' => false,
             'rest_request_parameter' => 'no',
             'is_associative' => false,
             'is_nullable' => false,
             'is_strict' => false,
         ],
-        self::CONFIGURATION => [
-            'type' => 'Generated\Shared\Transfer\ManifestConfigurationTransfer',
+        self::TYPE => [
+            'type' => 'string',
             'type_shim' => null,
-            'name_underscore' => 'configuration',
+            'name_underscore' => 'type',
             'is_collection' => false,
-            'is_transfer' => true,
-            'is_value_object' => false,
-            'rest_request_parameter' => 'no',
-            'is_associative' => false,
-            'is_nullable' => false,
-            'is_strict' => false,
-        ],
-        self::TRANSLATION => [
-            'type' => 'Generated\Shared\Transfer\ManifestTranslationTransfer',
-            'type_shim' => null,
-            'name_underscore' => 'translation',
-            'is_collection' => false,
-            'is_transfer' => true,
+            'is_transfer' => false,
             'is_value_object' => false,
             'rest_request_parameter' => 'no',
             'is_associative' => false,
@@ -100,193 +73,147 @@ class ManifestCollectionTransfer extends AbstractTransfer
     ];
 
     /**
-     * @module AcpSdk
+     * @module Acp
      *
-     * @param \ArrayObject|\Generated\Shared\Transfer\ManifestTransfer[] $manifests
+     * @param string|null $message
      *
      * @return $this
      */
-    public function setManifests(ArrayObject $manifests)
+    public function setMessage($message)
     {
-        $this->manifests = $manifests;
-        $this->modifiedProperties[self::MANIFESTS] = true;
+        $this->message = $message;
+        $this->modifiedProperties[self::MESSAGE] = true;
 
         return $this;
     }
 
     /**
-     * @module AcpSdk
+     * @module Acp
      *
-     * @return \ArrayObject|\Generated\Shared\Transfer\ManifestTransfer[]
+     * @return string|null
      */
-    public function getManifests()
+    public function getMessage()
     {
-        return $this->manifests;
+        return $this->message;
     }
 
     /**
-     * @module AcpSdk
+     * @module Acp
      *
-     * @param \Generated\Shared\Transfer\ManifestTransfer $manifest
-     *
-     * @return $this
-     */
-    public function addManifest(ManifestTransfer $manifest)
-    {
-        $this->manifests[] = $manifest;
-        $this->modifiedProperties[self::MANIFESTS] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireManifests()
-    {
-        $this->assertCollectionPropertyIsSet(self::MANIFESTS);
-
-        return $this;
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @param \Generated\Shared\Transfer\ManifestConfigurationTransfer|null $configuration
-     *
-     * @return $this
-     */
-    public function setConfiguration(ManifestConfigurationTransfer $configuration = null)
-    {
-        $this->configuration = $configuration;
-        $this->modifiedProperties[self::CONFIGURATION] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @return \Generated\Shared\Transfer\ManifestConfigurationTransfer|null
-     */
-    public function getConfiguration()
-    {
-        return $this->configuration;
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @param \Generated\Shared\Transfer\ManifestConfigurationTransfer $configuration
+     * @param string|null $message
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return $this
      */
-    public function setConfigurationOrFail(ManifestConfigurationTransfer $configuration)
+    public function setMessageOrFail($message)
     {
-        return $this->setConfiguration($configuration);
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return \Generated\Shared\Transfer\ManifestConfigurationTransfer
-     */
-    public function getConfigurationOrFail()
-    {
-        if ($this->configuration === null) {
-            $this->throwNullValueException(static::CONFIGURATION);
+        if ($message === null) {
+            $this->throwNullValueException(static::MESSAGE);
         }
 
-        return $this->configuration;
+        return $this->setMessage($message);
     }
 
     /**
-     * @module AcpSdk
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireConfiguration()
-    {
-        $this->assertPropertyIsSet(self::CONFIGURATION);
-
-        return $this;
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @param \Generated\Shared\Transfer\ManifestTranslationTransfer|null $translation
-     *
-     * @return $this
-     */
-    public function setTranslation(ManifestTranslationTransfer $translation = null)
-    {
-        $this->translation = $translation;
-        $this->modifiedProperties[self::TRANSLATION] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @return \Generated\Shared\Transfer\ManifestTranslationTransfer|null
-     */
-    public function getTranslation()
-    {
-        return $this->translation;
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @param \Generated\Shared\Transfer\ManifestTranslationTransfer $translation
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
-     * @return $this
+     * @return string
      */
-    public function setTranslationOrFail(ManifestTranslationTransfer $translation)
+    public function getMessageOrFail()
     {
-        return $this->setTranslation($translation);
-    }
-
-    /**
-     * @module AcpSdk
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return \Generated\Shared\Transfer\ManifestTranslationTransfer
-     */
-    public function getTranslationOrFail()
-    {
-        if ($this->translation === null) {
-            $this->throwNullValueException(static::TRANSLATION);
+        if ($this->message === null) {
+            $this->throwNullValueException(static::MESSAGE);
         }
 
-        return $this->translation;
+        return $this->message;
     }
 
     /**
-     * @module AcpSdk
+     * @module Acp
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
      * @return $this
      */
-    public function requireTranslation()
+    public function requireMessage()
     {
-        $this->assertPropertyIsSet(self::TRANSLATION);
+        $this->assertPropertyIsSet(self::MESSAGE);
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param string|null $type
+     *
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+        $this->modifiedProperties[self::TYPE] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @return string|null
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param string|null $type
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return $this
+     */
+    public function setTypeOrFail($type)
+    {
+        if ($type === null) {
+            $this->throwNullValueException(static::TYPE);
+        }
+
+        return $this->setType($type);
+    }
+
+    /**
+     * @module Acp
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return string
+     */
+    public function getTypeOrFail()
+    {
+        if ($this->type === null) {
+            $this->throwNullValueException(static::TYPE);
+        }
+
+        return $this->type;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireType()
+    {
+        $this->assertPropertyIsSet(self::TYPE);
 
         return $this;
     }
@@ -305,24 +232,9 @@ class ManifestCollectionTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'configuration':
-                case 'translation':
-                    if (is_array($value)) {
-                        $type = $this->transferMetadata[$normalizedPropertyName]['type'];
-                        /** @var \Spryker\Shared\Kernel\Transfer\TransferInterface $value */
-                        $value = (new $type())->fromArray($value, $ignoreMissingProperty);
-                    }
-
-                    if ($value !== null && $this->isPropertyStrict($normalizedPropertyName)) {
-                        $this->assertInstanceOfTransfer($normalizedPropertyName, $value);
-                    }
+                case 'message':
+                case 'type':
                     $this->$normalizedPropertyName = $value;
-                    $this->modifiedProperties[$normalizedPropertyName] = true;
-
-                    break;
-                case 'manifests':
-                    $elementType = $this->transferMetadata[$normalizedPropertyName]['type'];
-                    $this->$normalizedPropertyName = $this->processArrayObject($elementType, $value, $ignoreMissingProperty);
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
                     break;
@@ -441,13 +353,9 @@ class ManifestCollectionTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'configuration':
-                case 'translation':
-                    $values[$arrayKey] = $value instanceof AbstractTransfer ? $value->modifiedToArray(true, true) : $value;
-
-                    break;
-                case 'manifests':
-                    $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, true) : $value;
+                case 'message':
+                case 'type':
+                    $values[$arrayKey] = $value;
 
                     break;
             }
@@ -473,13 +381,9 @@ class ManifestCollectionTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'configuration':
-                case 'translation':
-                    $values[$arrayKey] = $value instanceof AbstractTransfer ? $value->modifiedToArray(true, false) : $value;
-
-                    break;
-                case 'manifests':
-                    $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, false) : $value;
+                case 'message':
+                case 'type':
+                    $values[$arrayKey] = $value;
 
                     break;
             }
@@ -527,7 +431,6 @@ class ManifestCollectionTransfer extends AbstractTransfer
      */
     protected function initCollectionProperties(): void
     {
-        $this->manifests = $this->manifests ?: new ArrayObject();
     }
 
     /**
@@ -536,9 +439,8 @@ class ManifestCollectionTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'configuration' => $this->configuration,
-            'translation' => $this->translation,
-            'manifests' => $this->manifests,
+            'message' => $this->message,
+            'type' => $this->type,
         ];
     }
 
@@ -548,9 +450,8 @@ class ManifestCollectionTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'configuration' => $this->configuration,
-            'translation' => $this->translation,
-            'manifests' => $this->manifests,
+            'message' => $this->message,
+            'type' => $this->type,
         ];
     }
 
@@ -560,9 +461,8 @@ class ManifestCollectionTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'configuration' => $this->configuration instanceof AbstractTransfer ? $this->configuration->toArray(true, false) : $this->configuration,
-            'translation' => $this->translation instanceof AbstractTransfer ? $this->translation->toArray(true, false) : $this->translation,
-            'manifests' => $this->manifests instanceof AbstractTransfer ? $this->manifests->toArray(true, false) : $this->addValuesToCollection($this->manifests, true, false),
+            'message' => $this->message instanceof AbstractTransfer ? $this->message->toArray(true, false) : $this->message,
+            'type' => $this->type instanceof AbstractTransfer ? $this->type->toArray(true, false) : $this->type,
         ];
     }
 
@@ -572,9 +472,8 @@ class ManifestCollectionTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'configuration' => $this->configuration instanceof AbstractTransfer ? $this->configuration->toArray(true, true) : $this->configuration,
-            'translation' => $this->translation instanceof AbstractTransfer ? $this->translation->toArray(true, true) : $this->translation,
-            'manifests' => $this->manifests instanceof AbstractTransfer ? $this->manifests->toArray(true, true) : $this->addValuesToCollection($this->manifests, true, true),
+            'message' => $this->message instanceof AbstractTransfer ? $this->message->toArray(true, true) : $this->message,
+            'type' => $this->type instanceof AbstractTransfer ? $this->type->toArray(true, true) : $this->type,
         ];
     }
 }

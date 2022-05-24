@@ -7,18 +7,18 @@
 
 namespace SprykerSdk\Acp\Validator\Configuration;
 
-use Generated\Shared\Transfer\MessageTransfer;
-use Generated\Shared\Transfer\ValidateRequestTransfer;
-use Generated\Shared\Transfer\ValidateResponseTransfer;
 use SprykerSdk\Acp\Validator\AbstractValidator;
+use Transfer\MessageTransfer;
+use Transfer\ValidateRequestTransfer;
+use Transfer\ValidateResponseTransfer;
 
 class AppConfigurationValidator extends AbstractValidator
 {
     /**
-     * @param \Generated\Shared\Transfer\ValidateRequestTransfer $validateRequestTransfer
-     * @param \Generated\Shared\Transfer\ValidateResponseTransfer|null $validateResponseTransfer
+     * @param \Transfer\ValidateRequestTransfer $validateRequestTransfer
+     * @param \Transfer\ValidateResponseTransfer|null $validateResponseTransfer
      *
-     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
+     * @return \Transfer\ValidateResponseTransfer
      */
     public function validate(
         ValidateRequestTransfer $validateRequestTransfer,

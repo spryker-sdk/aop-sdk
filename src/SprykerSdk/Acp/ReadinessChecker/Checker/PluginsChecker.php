@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Acp\ReadinessChecker\Checker;
 
-use Generated\Shared\Transfer\CheckConfigurationTransfer;
-use Generated\Shared\Transfer\CheckerMessageTransfer;
-use Generated\Shared\Transfer\RecipeTransfer;
 use ReflectionMethod;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
+use Transfer\CheckConfigurationTransfer;
+use Transfer\CheckerMessageTransfer;
+use Transfer\RecipeTransfer;
 
 class PluginsChecker implements CheckerInterface
 {
@@ -25,10 +25,10 @@ class PluginsChecker implements CheckerInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\RecipeTransfer $recipeTransfer
-     * @param \Generated\Shared\Transfer\CheckConfigurationTransfer $checkConfigurationTransfer
+     * @param \Transfer\RecipeTransfer $recipeTransfer
+     * @param \Transfer\CheckConfigurationTransfer $checkConfigurationTransfer
      *
-     * @return \Generated\Shared\Transfer\RecipeTransfer
+     * @return \Transfer\RecipeTransfer
      */
     public function check(RecipeTransfer $recipeTransfer, CheckConfigurationTransfer $checkConfigurationTransfer): RecipeTransfer
     {
@@ -42,11 +42,11 @@ class PluginsChecker implements CheckerInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\RecipeTransfer $recipeTransfer
+     * @param \Transfer\RecipeTransfer $recipeTransfer
      * @param array $dependencyProviderConfiguration
      * @param string $projectNamespace
      *
-     * @return \Generated\Shared\Transfer\RecipeTransfer
+     * @return \Transfer\RecipeTransfer
      */
     protected function checkDependencyProviderConfiguration(
         RecipeTransfer $recipeTransfer,
@@ -73,11 +73,11 @@ class PluginsChecker implements CheckerInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\RecipeTransfer $recipeTransfer
+     * @param \Transfer\RecipeTransfer $recipeTransfer
      * @param string $className
      * @param string $methodName
      *
-     * @return \Generated\Shared\Transfer\RecipeTransfer
+     * @return \Transfer\RecipeTransfer
      */
     protected function addClassDoesNotExistsCheckMessage(RecipeTransfer $recipeTransfer, string $className, string $methodName): RecipeTransfer
     {
@@ -91,11 +91,11 @@ class PluginsChecker implements CheckerInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\RecipeTransfer $recipeTransfer
+     * @param \Transfer\RecipeTransfer $recipeTransfer
      * @param string $className
      * @param string $methodName
      *
-     * @return \Generated\Shared\Transfer\RecipeTransfer
+     * @return \Transfer\RecipeTransfer
      */
     protected function addClassMethodDoesNotExistsCheckMessage(RecipeTransfer $recipeTransfer, string $className, string $methodName): RecipeTransfer
     {
@@ -109,11 +109,11 @@ class PluginsChecker implements CheckerInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\RecipeTransfer $recipeTransfer
+     * @param \Transfer\RecipeTransfer $recipeTransfer
      * @param string $className
      * @param array $configuration
      *
-     * @return \Generated\Shared\Transfer\RecipeTransfer
+     * @return \Transfer\RecipeTransfer
      */
     protected function checkExpectedPluginsExists(RecipeTransfer $recipeTransfer, string $className, array $configuration): RecipeTransfer
     {

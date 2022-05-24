@@ -7,17 +7,17 @@
 
 namespace SprykerSdk\Acp\Console;
 
-use Generated\Shared\Transfer\AppTranslationRequestTransfer;
-use Generated\Shared\Transfer\AppTranslationResponseTransfer;
-use Generated\Shared\Transfer\ManifestCollectionTransfer;
-use Generated\Shared\Transfer\ManifestConditionsTransfer;
-use Generated\Shared\Transfer\ManifestCriteriaTransfer;
 use Symfony\Component\Console\Command\SignalableCommandInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
+use Transfer\AppTranslationRequestTransfer;
+use Transfer\AppTranslationResponseTransfer;
+use Transfer\ManifestCollectionTransfer;
+use Transfer\ManifestConditionsTransfer;
+use Transfer\ManifestCriteriaTransfer;
 use const SIGINT;
 
 /**
@@ -155,7 +155,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
             $signal === SIGINT
             && $this->input !== null
             && $this->output !== null
-            && !empty($this->translations)
+            && $this->translations
         ) {
             $appTranslationResponseTransfer = $this->saveTranslations($this->input);
             if ($appTranslationResponseTransfer->getErrors()->count() === 0) {
@@ -316,7 +316,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ManifestCollectionTransfer $manifestCollectionTransfer
+     * @param \Transfer\ManifestCollectionTransfer $manifestCollectionTransfer
      *
      * @return array<string>
      */
@@ -331,7 +331,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ManifestCollectionTransfer $manifestCollectionTransfer
+     * @param \Transfer\ManifestCollectionTransfer $manifestCollectionTransfer
      *
      * @return array<string>
      */
@@ -374,7 +374,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ManifestCollectionTransfer $manifestCollectionTransfer
+     * @param \Transfer\ManifestCollectionTransfer $manifestCollectionTransfer
      *
      * @return array<string, array<string, string>>
      */
@@ -388,7 +388,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      *
-     * @return \Generated\Shared\Transfer\AppTranslationResponseTransfer
+     * @return \Transfer\AppTranslationResponseTransfer
      */
     protected function saveTranslations(InputInterface $input): AppTranslationResponseTransfer
     {

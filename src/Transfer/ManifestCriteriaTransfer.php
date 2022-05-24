@@ -4,66 +4,45 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace Generated\Shared\Transfer;
+namespace Transfer;
+
+use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
 
 /**
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
  */
-class MessageTransfer extends AbstractTransfer
+class ManifestCriteriaTransfer extends AbstractTransfer
 {
     /**
      * @var string
      */
-    public const MESSAGE = 'message';
+    public const MANIFEST_CONDITIONS = 'manifestConditions';
 
     /**
-     * @var string
+     * @var \Transfer\ManifestConditionsTransfer|null
      */
-    public const TYPE = 'type';
-
-    /**
-     * @var string|null
-     */
-    protected $message;
-
-    /**
-     * @var string|null
-     */
-    protected $type;
+    protected $manifestConditions;
 
     /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'message' => 'message',
-        'Message' => 'message',
-        'type' => 'type',
-        'Type' => 'type',
+        'manifest_conditions' => 'manifestConditions',
+        'manifestConditions' => 'manifestConditions',
+        'ManifestConditions' => 'manifestConditions',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::MESSAGE => [
-            'type' => 'string',
+        self::MANIFEST_CONDITIONS => [
+            'type' => 'Transfer\ManifestConditionsTransfer',
             'type_shim' => null,
-            'name_underscore' => 'message',
+            'name_underscore' => 'manifest_conditions',
             'is_collection' => false,
-            'is_transfer' => false,
-            'is_value_object' => false,
-            'rest_request_parameter' => 'no',
-            'is_associative' => false,
-            'is_nullable' => false,
-            'is_strict' => false,
-        ],
-        self::TYPE => [
-            'type' => 'string',
-            'type_shim' => null,
-            'name_underscore' => 'type',
-            'is_collection' => false,
-            'is_transfer' => false,
+            'is_transfer' => true,
             'is_value_object' => false,
             'rest_request_parameter' => 'no',
             'is_associative' => false,
@@ -73,147 +52,70 @@ class MessageTransfer extends AbstractTransfer
     ];
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
-     * @param string|null $message
+     * @param \Transfer\ManifestConditionsTransfer|null $manifestConditions
      *
      * @return $this
      */
-    public function setMessage($message)
+    public function setManifestConditions(ManifestConditionsTransfer $manifestConditions = null)
     {
-        $this->message = $message;
-        $this->modifiedProperties[self::MESSAGE] = true;
+        $this->manifestConditions = $manifestConditions;
+        $this->modifiedProperties[self::MANIFEST_CONDITIONS] = true;
 
         return $this;
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
-     * @return string|null
+     * @return \Transfer\ManifestConditionsTransfer|null
      */
-    public function getMessage()
+    public function getManifestConditions()
     {
-        return $this->message;
+        return $this->manifestConditions;
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
-     * @param string|null $message
+     * @param \Transfer\ManifestConditionsTransfer $manifestConditions
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return $this
      */
-    public function setMessageOrFail($message)
+    public function setManifestConditionsOrFail(ManifestConditionsTransfer $manifestConditions)
     {
-        if ($message === null) {
-            $this->throwNullValueException(static::MESSAGE);
-        }
-
-        return $this->setMessage($message);
+        return $this->setManifestConditions($manifestConditions);
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
-     * @return string
+     * @return \Transfer\ManifestConditionsTransfer
      */
-    public function getMessageOrFail()
+    public function getManifestConditionsOrFail()
     {
-        if ($this->message === null) {
-            $this->throwNullValueException(static::MESSAGE);
+        if ($this->manifestConditions === null) {
+            $this->throwNullValueException(static::MANIFEST_CONDITIONS);
         }
 
-        return $this->message;
+        return $this->manifestConditions;
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
      * @return $this
      */
-    public function requireMessage()
+    public function requireManifestConditions()
     {
-        $this->assertPropertyIsSet(self::MESSAGE);
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param string|null $type
-     *
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-        $this->modifiedProperties[self::TYPE] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return string|null
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param string|null $type
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return $this
-     */
-    public function setTypeOrFail($type)
-    {
-        if ($type === null) {
-            $this->throwNullValueException(static::TYPE);
-        }
-
-        return $this->setType($type);
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return string
-     */
-    public function getTypeOrFail()
-    {
-        if ($this->type === null) {
-            $this->throwNullValueException(static::TYPE);
-        }
-
-        return $this->type;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireType()
-    {
-        $this->assertPropertyIsSet(self::TYPE);
+        $this->assertPropertyIsSet(self::MANIFEST_CONDITIONS);
 
         return $this;
     }
@@ -232,8 +134,16 @@ class MessageTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'message':
-                case 'type':
+                case 'manifestConditions':
+                    if (is_array($value)) {
+                        $type = $this->transferMetadata[$normalizedPropertyName]['type'];
+                        /** @var \Spryker\Shared\Kernel\Transfer\TransferInterface $value */
+                        $value = (new $type())->fromArray($value, $ignoreMissingProperty);
+                    }
+
+                    if ($value !== null && $this->isPropertyStrict($normalizedPropertyName)) {
+                        $this->assertInstanceOfTransfer($normalizedPropertyName, $value);
+                    }
                     $this->$normalizedPropertyName = $value;
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
@@ -353,9 +263,8 @@ class MessageTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'message':
-                case 'type':
-                    $values[$arrayKey] = $value;
+                case 'manifestConditions':
+                    $values[$arrayKey] = $value instanceof AbstractTransfer ? $value->modifiedToArray(true, true) : $value;
 
                     break;
             }
@@ -381,9 +290,8 @@ class MessageTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'message':
-                case 'type':
-                    $values[$arrayKey] = $value;
+                case 'manifestConditions':
+                    $values[$arrayKey] = $value instanceof AbstractTransfer ? $value->modifiedToArray(true, false) : $value;
 
                     break;
             }
@@ -439,8 +347,7 @@ class MessageTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'message' => $this->message,
-            'type' => $this->type,
+            'manifestConditions' => $this->manifestConditions,
         ];
     }
 
@@ -450,8 +357,7 @@ class MessageTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'message' => $this->message,
-            'type' => $this->type,
+            'manifest_conditions' => $this->manifestConditions,
         ];
     }
 
@@ -461,8 +367,7 @@ class MessageTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'message' => $this->message instanceof AbstractTransfer ? $this->message->toArray(true, false) : $this->message,
-            'type' => $this->type instanceof AbstractTransfer ? $this->type->toArray(true, false) : $this->type,
+            'manifest_conditions' => $this->manifestConditions instanceof AbstractTransfer ? $this->manifestConditions->toArray(true, false) : $this->manifestConditions,
         ];
     }
 
@@ -472,8 +377,7 @@ class MessageTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'message' => $this->message instanceof AbstractTransfer ? $this->message->toArray(true, true) : $this->message,
-            'type' => $this->type instanceof AbstractTransfer ? $this->type->toArray(true, true) : $this->type,
+            'manifestConditions' => $this->manifestConditions instanceof AbstractTransfer ? $this->manifestConditions->toArray(true, true) : $this->manifestConditions,
         ];
     }
 }

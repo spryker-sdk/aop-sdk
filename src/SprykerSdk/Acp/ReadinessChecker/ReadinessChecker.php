@@ -7,13 +7,13 @@
 
 namespace SprykerSdk\Acp\ReadinessChecker;
 
-use Generated\Shared\Transfer\CheckConfigurationTransfer;
-use Generated\Shared\Transfer\CheckReadinessResponseTransfer;
-use Generated\Shared\Transfer\CheckReadinessTransfer;
-use Generated\Shared\Transfer\RecipeTransfer;
 use SprykerSdk\Acp\Exception\CheckerNotFoundException;
 use SprykerSdk\Acp\ReadinessChecker\Checker\CheckerInterface;
 use SprykerSdk\Acp\ReadinessChecker\RecipeLoader\RecipeLoaderInterface;
+use Transfer\CheckConfigurationTransfer;
+use Transfer\CheckReadinessResponseTransfer;
+use Transfer\CheckReadinessTransfer;
+use Transfer\RecipeTransfer;
 
 class ReadinessChecker implements ReadinessCheckerInterface
 {
@@ -38,9 +38,9 @@ class ReadinessChecker implements ReadinessCheckerInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CheckReadinessTransfer $checkReadinessTransfer
+     * @param \Transfer\CheckReadinessTransfer $checkReadinessTransfer
      *
-     * @return \Generated\Shared\Transfer\CheckReadinessResponseTransfer
+     * @return \Transfer\CheckReadinessResponseTransfer
      */
     public function checkReadiness(CheckReadinessTransfer $checkReadinessTransfer): CheckReadinessResponseTransfer
     {
@@ -51,10 +51,10 @@ class ReadinessChecker implements ReadinessCheckerInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CheckReadinessTransfer $checkReadinessTransfer
-     * @param \Generated\Shared\Transfer\CheckReadinessResponseTransfer $checkReadinessResponseTransfer
+     * @param \Transfer\CheckReadinessTransfer $checkReadinessTransfer
+     * @param \Transfer\CheckReadinessResponseTransfer $checkReadinessResponseTransfer
      *
-     * @return \Generated\Shared\Transfer\CheckReadinessResponseTransfer
+     * @return \Transfer\CheckReadinessResponseTransfer
      */
     protected function checkReadinessForRecipes(
         CheckReadinessTransfer $checkReadinessTransfer,
@@ -73,10 +73,10 @@ class ReadinessChecker implements ReadinessCheckerInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\RecipeTransfer $recipeTransfer
-     * @param \Generated\Shared\Transfer\CheckConfigurationTransfer $checkConfigurationTransfer
+     * @param \Transfer\RecipeTransfer $recipeTransfer
+     * @param \Transfer\CheckConfigurationTransfer $checkConfigurationTransfer
      *
-     * @return \Generated\Shared\Transfer\RecipeTransfer
+     * @return \Transfer\RecipeTransfer
      */
     protected function runChecks(RecipeTransfer $recipeTransfer, CheckConfigurationTransfer $checkConfigurationTransfer): RecipeTransfer
     {

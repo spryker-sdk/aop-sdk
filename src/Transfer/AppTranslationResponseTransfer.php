@@ -4,93 +4,68 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace Generated\Shared\Transfer;
+namespace Transfer;
+
+use ArrayObject;
 
 /**
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
  */
-class CheckConfigurationTransfer extends AbstractTransfer
+class AppTranslationResponseTransfer extends AbstractTransfer
 {
     /**
      * @var string
      */
-    public const PROJECT_NAMESPACE = 'projectNamespace';
+    public const ERRORS = 'errors';
 
     /**
      * @var string
      */
-    public const ROOT_PATH = 'rootPath';
+    public const MESSAGES = 'messages';
 
     /**
-     * @var string
+     * @var \ArrayObject|\Transfer\MessageTransfer[]
      */
-    public const CHECK_CONFIGURATION = 'checkConfiguration';
+    protected $errors;
 
     /**
-     * @var string|null
+     * @var \ArrayObject|\Transfer\MessageTransfer[]
      */
-    protected $projectNamespace;
-
-    /**
-     * @var string|null
-     */
-    protected $rootPath;
-
-    /**
-     * @var array
-     */
-    protected $checkConfiguration = [];
+    protected $messages;
 
     /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'project_namespace' => 'projectNamespace',
-        'projectNamespace' => 'projectNamespace',
-        'ProjectNamespace' => 'projectNamespace',
-        'root_path' => 'rootPath',
-        'rootPath' => 'rootPath',
-        'RootPath' => 'rootPath',
-        'check_configuration' => 'checkConfiguration',
-        'checkConfiguration' => 'checkConfiguration',
-        'CheckConfiguration' => 'checkConfiguration',
+        'errors' => 'errors',
+        'Errors' => 'errors',
+        'messages' => 'messages',
+        'Messages' => 'messages',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::PROJECT_NAMESPACE => [
-            'type' => 'string',
+        self::ERRORS => [
+            'type' => 'Transfer\MessageTransfer',
             'type_shim' => null,
-            'name_underscore' => 'project_namespace',
-            'is_collection' => false,
-            'is_transfer' => false,
+            'name_underscore' => 'errors',
+            'is_collection' => true,
+            'is_transfer' => true,
             'is_value_object' => false,
             'rest_request_parameter' => 'no',
             'is_associative' => false,
             'is_nullable' => false,
             'is_strict' => false,
         ],
-        self::ROOT_PATH => [
-            'type' => 'string',
+        self::MESSAGES => [
+            'type' => 'Transfer\MessageTransfer',
             'type_shim' => null,
-            'name_underscore' => 'root_path',
-            'is_collection' => false,
-            'is_transfer' => false,
-            'is_value_object' => false,
-            'rest_request_parameter' => 'no',
-            'is_associative' => false,
-            'is_nullable' => false,
-            'is_strict' => false,
-        ],
-        self::CHECK_CONFIGURATION => [
-            'type' => 'array',
-            'type_shim' => null,
-            'name_underscore' => 'check_configuration',
-            'is_collection' => false,
-            'is_transfer' => false,
+            'name_underscore' => 'messages',
+            'is_collection' => true,
+            'is_transfer' => true,
             'is_value_object' => false,
             'rest_request_parameter' => 'no',
             'is_associative' => false,
@@ -102,14 +77,14 @@ class CheckConfigurationTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @param string|null $projectNamespace
+     * @param \ArrayObject|\Transfer\MessageTransfer[] $errors
      *
      * @return $this
      */
-    public function setProjectNamespace($projectNamespace)
+    public function setErrors(ArrayObject $errors)
     {
-        $this->projectNamespace = $projectNamespace;
-        $this->modifiedProperties[self::PROJECT_NAMESPACE] = true;
+        $this->errors = $errors;
+        $this->modifiedProperties[self::ERRORS] = true;
 
         return $this;
     }
@@ -117,174 +92,24 @@ class CheckConfigurationTransfer extends AbstractTransfer
     /**
      * @module Acp
      *
-     * @return string|null
+     * @return \ArrayObject|\Transfer\MessageTransfer[]
      */
-    public function getProjectNamespace()
+    public function getErrors()
     {
-        return $this->projectNamespace;
+        return $this->errors;
     }
 
     /**
      * @module Acp
      *
-     * @param string|null $projectNamespace
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     * @param \Transfer\MessageTransfer $error
      *
      * @return $this
      */
-    public function setProjectNamespaceOrFail($projectNamespace)
+    public function addError(MessageTransfer $error)
     {
-        if ($projectNamespace === null) {
-            $this->throwNullValueException(static::PROJECT_NAMESPACE);
-        }
-
-        return $this->setProjectNamespace($projectNamespace);
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return string
-     */
-    public function getProjectNamespaceOrFail()
-    {
-        if ($this->projectNamespace === null) {
-            $this->throwNullValueException(static::PROJECT_NAMESPACE);
-        }
-
-        return $this->projectNamespace;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireProjectNamespace()
-    {
-        $this->assertPropertyIsSet(self::PROJECT_NAMESPACE);
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param string|null $rootPath
-     *
-     * @return $this
-     */
-    public function setRootPath($rootPath)
-    {
-        $this->rootPath = $rootPath;
-        $this->modifiedProperties[self::ROOT_PATH] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return string|null
-     */
-    public function getRootPath()
-    {
-        return $this->rootPath;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param string|null $rootPath
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return $this
-     */
-    public function setRootPathOrFail($rootPath)
-    {
-        if ($rootPath === null) {
-            $this->throwNullValueException(static::ROOT_PATH);
-        }
-
-        return $this->setRootPath($rootPath);
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return string
-     */
-    public function getRootPathOrFail()
-    {
-        if ($this->rootPath === null) {
-            $this->throwNullValueException(static::ROOT_PATH);
-        }
-
-        return $this->rootPath;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireRootPath()
-    {
-        $this->assertPropertyIsSet(self::ROOT_PATH);
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param array|null $checkConfiguration
-     *
-     * @return $this
-     */
-    public function setCheckConfiguration(array $checkConfiguration = null)
-    {
-        if ($checkConfiguration === null) {
-            $checkConfiguration = [];
-        }
-
-        $this->checkConfiguration = $checkConfiguration;
-        $this->modifiedProperties[self::CHECK_CONFIGURATION] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return array
-     */
-    public function getCheckConfiguration()
-    {
-        return $this->checkConfiguration;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param mixed $checkConfiguration
-     *
-     * @return $this
-     */
-    public function addCheckConfiguration($checkConfiguration)
-    {
-        $this->checkConfiguration[] = $checkConfiguration;
-        $this->modifiedProperties[self::CHECK_CONFIGURATION] = true;
+        $this->errors[] = $error;
+        $this->modifiedProperties[self::ERRORS] = true;
 
         return $this;
     }
@@ -296,9 +121,63 @@ class CheckConfigurationTransfer extends AbstractTransfer
      *
      * @return $this
      */
-    public function requireCheckConfiguration()
+    public function requireErrors()
     {
-        $this->assertPropertyIsSet(self::CHECK_CONFIGURATION);
+        $this->assertCollectionPropertyIsSet(self::ERRORS);
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param \ArrayObject|\Transfer\MessageTransfer[] $messages
+     *
+     * @return $this
+     */
+    public function setMessages(ArrayObject $messages)
+    {
+        $this->messages = $messages;
+        $this->modifiedProperties[self::MESSAGES] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @return \ArrayObject|\Transfer\MessageTransfer[]
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @param \Transfer\MessageTransfer $message
+     *
+     * @return $this
+     */
+    public function addMessage(MessageTransfer $message)
+    {
+        $this->messages[] = $message;
+        $this->modifiedProperties[self::MESSAGES] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Acp
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireMessages()
+    {
+        $this->assertCollectionPropertyIsSet(self::MESSAGES);
 
         return $this;
     }
@@ -317,10 +196,10 @@ class CheckConfigurationTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'projectNamespace':
-                case 'rootPath':
-                case 'checkConfiguration':
-                    $this->$normalizedPropertyName = $value;
+                case 'errors':
+                case 'messages':
+                    $elementType = $this->transferMetadata[$normalizedPropertyName]['type'];
+                    $this->$normalizedPropertyName = $this->processArrayObject($elementType, $value, $ignoreMissingProperty);
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
                     break;
@@ -439,10 +318,9 @@ class CheckConfigurationTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'projectNamespace':
-                case 'rootPath':
-                case 'checkConfiguration':
-                    $values[$arrayKey] = $value;
+                case 'errors':
+                case 'messages':
+                    $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, true) : $value;
 
                     break;
             }
@@ -468,10 +346,9 @@ class CheckConfigurationTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'projectNamespace':
-                case 'rootPath':
-                case 'checkConfiguration':
-                    $values[$arrayKey] = $value;
+                case 'errors':
+                case 'messages':
+                    $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, false) : $value;
 
                     break;
             }
@@ -519,6 +396,8 @@ class CheckConfigurationTransfer extends AbstractTransfer
      */
     protected function initCollectionProperties(): void
     {
+        $this->errors = $this->errors ?: new ArrayObject();
+        $this->messages = $this->messages ?: new ArrayObject();
     }
 
     /**
@@ -527,9 +406,8 @@ class CheckConfigurationTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'projectNamespace' => $this->projectNamespace,
-            'rootPath' => $this->rootPath,
-            'checkConfiguration' => $this->checkConfiguration,
+            'errors' => $this->errors,
+            'messages' => $this->messages,
         ];
     }
 
@@ -539,9 +417,8 @@ class CheckConfigurationTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'project_namespace' => $this->projectNamespace,
-            'root_path' => $this->rootPath,
-            'check_configuration' => $this->checkConfiguration,
+            'errors' => $this->errors,
+            'messages' => $this->messages,
         ];
     }
 
@@ -551,9 +428,8 @@ class CheckConfigurationTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'project_namespace' => $this->projectNamespace instanceof AbstractTransfer ? $this->projectNamespace->toArray(true, false) : $this->projectNamespace,
-            'root_path' => $this->rootPath instanceof AbstractTransfer ? $this->rootPath->toArray(true, false) : $this->rootPath,
-            'check_configuration' => $this->checkConfiguration instanceof AbstractTransfer ? $this->checkConfiguration->toArray(true, false) : $this->checkConfiguration,
+            'errors' => $this->errors instanceof AbstractTransfer ? $this->errors->toArray(true, false) : $this->addValuesToCollection($this->errors, true, false),
+            'messages' => $this->messages instanceof AbstractTransfer ? $this->messages->toArray(true, false) : $this->addValuesToCollection($this->messages, true, false),
         ];
     }
 
@@ -563,9 +439,8 @@ class CheckConfigurationTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'projectNamespace' => $this->projectNamespace instanceof AbstractTransfer ? $this->projectNamespace->toArray(true, true) : $this->projectNamespace,
-            'rootPath' => $this->rootPath instanceof AbstractTransfer ? $this->rootPath->toArray(true, true) : $this->rootPath,
-            'checkConfiguration' => $this->checkConfiguration instanceof AbstractTransfer ? $this->checkConfiguration->toArray(true, true) : $this->checkConfiguration,
+            'errors' => $this->errors instanceof AbstractTransfer ? $this->errors->toArray(true, true) : $this->addValuesToCollection($this->errors, true, true),
+            'messages' => $this->messages instanceof AbstractTransfer ? $this->messages->toArray(true, true) : $this->addValuesToCollection($this->messages, true, true),
         ];
     }
 }

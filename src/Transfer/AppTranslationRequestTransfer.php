@@ -4,23 +4,20 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace Generated\Shared\Transfer;
+namespace Transfer;
+
+use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
 
 /**
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
  */
-class ValidateRequestTransfer extends AbstractTransfer
+class AppTranslationRequestTransfer extends AbstractTransfer
 {
     /**
      * @var string
      */
-    public const MANIFEST_PATH = 'manifestPath';
-
-    /**
-     * @var string
-     */
-    public const CONFIGURATION_FILE = 'configurationFile';
+    public const TRANSLATIONS = 'translations';
 
     /**
      * @var string
@@ -30,22 +27,12 @@ class ValidateRequestTransfer extends AbstractTransfer
     /**
      * @var string
      */
-    public const ASYNC_API_FILE = 'asyncApiFile';
+    public const MANIFEST_FOLDER = 'manifestFolder';
 
     /**
-     * @var string
+     * @var array
      */
-    public const OPEN_API_FILE = 'openApiFile';
-
-    /**
-     * @var string|null
-     */
-    protected $manifestPath;
-
-    /**
-     * @var string|null
-     */
-    protected $configurationFile;
+    protected $translations = [];
 
     /**
      * @var string|null
@@ -55,54 +42,30 @@ class ValidateRequestTransfer extends AbstractTransfer
     /**
      * @var string|null
      */
-    protected $asyncApiFile;
-
-    /**
-     * @var string|null
-     */
-    protected $openApiFile;
+    protected $manifestFolder;
 
     /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'manifest_path' => 'manifestPath',
-        'manifestPath' => 'manifestPath',
-        'ManifestPath' => 'manifestPath',
-        'configuration_file' => 'configurationFile',
-        'configurationFile' => 'configurationFile',
-        'ConfigurationFile' => 'configurationFile',
+        'translations' => 'translations',
+        'Translations' => 'translations',
         'translation_file' => 'translationFile',
         'translationFile' => 'translationFile',
         'TranslationFile' => 'translationFile',
-        'async_api_file' => 'asyncApiFile',
-        'asyncApiFile' => 'asyncApiFile',
-        'AsyncApiFile' => 'asyncApiFile',
-        'open_api_file' => 'openApiFile',
-        'openApiFile' => 'openApiFile',
-        'OpenApiFile' => 'openApiFile',
+        'manifest_folder' => 'manifestFolder',
+        'manifestFolder' => 'manifestFolder',
+        'ManifestFolder' => 'manifestFolder',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::MANIFEST_PATH => [
-            'type' => 'string',
+        self::TRANSLATIONS => [
+            'type' => 'array',
             'type_shim' => null,
-            'name_underscore' => 'manifest_path',
-            'is_collection' => false,
-            'is_transfer' => false,
-            'is_value_object' => false,
-            'rest_request_parameter' => 'no',
-            'is_associative' => false,
-            'is_nullable' => false,
-            'is_strict' => false,
-        ],
-        self::CONFIGURATION_FILE => [
-            'type' => 'string',
-            'type_shim' => null,
-            'name_underscore' => 'configuration_file',
+            'name_underscore' => 'translations',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -123,22 +86,10 @@ class ValidateRequestTransfer extends AbstractTransfer
             'is_nullable' => false,
             'is_strict' => false,
         ],
-        self::ASYNC_API_FILE => [
+        self::MANIFEST_FOLDER => [
             'type' => 'string',
             'type_shim' => null,
-            'name_underscore' => 'async_api_file',
-            'is_collection' => false,
-            'is_transfer' => false,
-            'is_value_object' => false,
-            'rest_request_parameter' => 'no',
-            'is_associative' => false,
-            'is_nullable' => false,
-            'is_strict' => false,
-        ],
-        self::OPEN_API_FILE => [
-            'type' => 'string',
-            'type_shim' => null,
-            'name_underscore' => 'open_api_file',
+            'name_underscore' => 'manifest_folder',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -150,153 +101,65 @@ class ValidateRequestTransfer extends AbstractTransfer
     ];
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
-     * @param string|null $manifestPath
+     * @param array|null $translations
      *
      * @return $this
      */
-    public function setManifestPath($manifestPath)
+    public function setTranslations(array $translations = null)
     {
-        $this->manifestPath = $manifestPath;
-        $this->modifiedProperties[self::MANIFEST_PATH] = true;
+        if ($translations === null) {
+            $translations = [];
+        }
+
+        $this->translations = $translations;
+        $this->modifiedProperties[self::TRANSLATIONS] = true;
 
         return $this;
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
-     * @return string|null
+     * @return array
      */
-    public function getManifestPath()
+    public function getTranslations()
     {
-        return $this->manifestPath;
+        return $this->translations;
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
-     * @param string|null $manifestPath
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     * @param mixed $translations
      *
      * @return $this
      */
-    public function setManifestPathOrFail($manifestPath)
+    public function addTranslations($translations)
     {
-        if ($manifestPath === null) {
-            $this->throwNullValueException(static::MANIFEST_PATH);
-        }
+        $this->translations[] = $translations;
+        $this->modifiedProperties[self::TRANSLATIONS] = true;
 
-        return $this->setManifestPath($manifestPath);
+        return $this;
     }
 
     /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return string
-     */
-    public function getManifestPathOrFail()
-    {
-        if ($this->manifestPath === null) {
-            $this->throwNullValueException(static::MANIFEST_PATH);
-        }
-
-        return $this->manifestPath;
-    }
-
-    /**
-     * @module Acp
+     * @module AcpSdk
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
      * @return $this
      */
-    public function requireManifestPath()
+    public function requireTranslations()
     {
-        $this->assertPropertyIsSet(self::MANIFEST_PATH);
+        $this->assertPropertyIsSet(self::TRANSLATIONS);
 
         return $this;
     }
 
     /**
-     * @module Acp
-     *
-     * @param string|null $configurationFile
-     *
-     * @return $this
-     */
-    public function setConfigurationFile($configurationFile)
-    {
-        $this->configurationFile = $configurationFile;
-        $this->modifiedProperties[self::CONFIGURATION_FILE] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return string|null
-     */
-    public function getConfigurationFile()
-    {
-        return $this->configurationFile;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param string|null $configurationFile
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return $this
-     */
-    public function setConfigurationFileOrFail($configurationFile)
-    {
-        if ($configurationFile === null) {
-            $this->throwNullValueException(static::CONFIGURATION_FILE);
-        }
-
-        return $this->setConfigurationFile($configurationFile);
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return string
-     */
-    public function getConfigurationFileOrFail()
-    {
-        if ($this->configurationFile === null) {
-            $this->throwNullValueException(static::CONFIGURATION_FILE);
-        }
-
-        return $this->configurationFile;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireConfigurationFile()
-    {
-        $this->assertPropertyIsSet(self::CONFIGURATION_FILE);
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
+     * @module AcpSdk
      *
      * @param string|null $translationFile
      *
@@ -311,7 +174,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
      * @return string|null
      */
@@ -321,7 +184,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
      * @param string|null $translationFile
      *
@@ -339,7 +202,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
@@ -355,7 +218,7 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
@@ -369,147 +232,74 @@ class ValidateRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
-     * @param string|null $asyncApiFile
+     * @param string|null $manifestFolder
      *
      * @return $this
      */
-    public function setAsyncApiFile($asyncApiFile)
+    public function setManifestFolder($manifestFolder)
     {
-        $this->asyncApiFile = $asyncApiFile;
-        $this->modifiedProperties[self::ASYNC_API_FILE] = true;
+        $this->manifestFolder = $manifestFolder;
+        $this->modifiedProperties[self::MANIFEST_FOLDER] = true;
 
         return $this;
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
      * @return string|null
      */
-    public function getAsyncApiFile()
+    public function getManifestFolder()
     {
-        return $this->asyncApiFile;
+        return $this->manifestFolder;
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
-     * @param string|null $asyncApiFile
+     * @param string|null $manifestFolder
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return $this
      */
-    public function setAsyncApiFileOrFail($asyncApiFile)
+    public function setManifestFolderOrFail($manifestFolder)
     {
-        if ($asyncApiFile === null) {
-            $this->throwNullValueException(static::ASYNC_API_FILE);
+        if ($manifestFolder === null) {
+            $this->throwNullValueException(static::MANIFEST_FOLDER);
         }
 
-        return $this->setAsyncApiFile($asyncApiFile);
+        return $this->setManifestFolder($manifestFolder);
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return string
      */
-    public function getAsyncApiFileOrFail()
+    public function getManifestFolderOrFail()
     {
-        if ($this->asyncApiFile === null) {
-            $this->throwNullValueException(static::ASYNC_API_FILE);
+        if ($this->manifestFolder === null) {
+            $this->throwNullValueException(static::MANIFEST_FOLDER);
         }
 
-        return $this->asyncApiFile;
+        return $this->manifestFolder;
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
      * @return $this
      */
-    public function requireAsyncApiFile()
+    public function requireManifestFolder()
     {
-        $this->assertPropertyIsSet(self::ASYNC_API_FILE);
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param string|null $openApiFile
-     *
-     * @return $this
-     */
-    public function setOpenApiFile($openApiFile)
-    {
-        $this->openApiFile = $openApiFile;
-        $this->modifiedProperties[self::OPEN_API_FILE] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return string|null
-     */
-    public function getOpenApiFile()
-    {
-        return $this->openApiFile;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param string|null $openApiFile
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return $this
-     */
-    public function setOpenApiFileOrFail($openApiFile)
-    {
-        if ($openApiFile === null) {
-            $this->throwNullValueException(static::OPEN_API_FILE);
-        }
-
-        return $this->setOpenApiFile($openApiFile);
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return string
-     */
-    public function getOpenApiFileOrFail()
-    {
-        if ($this->openApiFile === null) {
-            $this->throwNullValueException(static::OPEN_API_FILE);
-        }
-
-        return $this->openApiFile;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireOpenApiFile()
-    {
-        $this->assertPropertyIsSet(self::OPEN_API_FILE);
+        $this->assertPropertyIsSet(self::MANIFEST_FOLDER);
 
         return $this;
     }
@@ -528,11 +318,9 @@ class ValidateRequestTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'manifestPath':
-                case 'configurationFile':
+                case 'translations':
                 case 'translationFile':
-                case 'asyncApiFile':
-                case 'openApiFile':
+                case 'manifestFolder':
                     $this->$normalizedPropertyName = $value;
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
@@ -652,11 +440,9 @@ class ValidateRequestTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'manifestPath':
-                case 'configurationFile':
+                case 'translations':
                 case 'translationFile':
-                case 'asyncApiFile':
-                case 'openApiFile':
+                case 'manifestFolder':
                     $values[$arrayKey] = $value;
 
                     break;
@@ -683,11 +469,9 @@ class ValidateRequestTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'manifestPath':
-                case 'configurationFile':
+                case 'translations':
                 case 'translationFile':
-                case 'asyncApiFile':
-                case 'openApiFile':
+                case 'manifestFolder':
                     $values[$arrayKey] = $value;
 
                     break;
@@ -744,11 +528,9 @@ class ValidateRequestTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'manifestPath' => $this->manifestPath,
-            'configurationFile' => $this->configurationFile,
+            'translations' => $this->translations,
             'translationFile' => $this->translationFile,
-            'asyncApiFile' => $this->asyncApiFile,
-            'openApiFile' => $this->openApiFile,
+            'manifestFolder' => $this->manifestFolder,
         ];
     }
 
@@ -758,11 +540,9 @@ class ValidateRequestTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'manifest_path' => $this->manifestPath,
-            'configuration_file' => $this->configurationFile,
+            'translations' => $this->translations,
             'translation_file' => $this->translationFile,
-            'async_api_file' => $this->asyncApiFile,
-            'open_api_file' => $this->openApiFile,
+            'manifest_folder' => $this->manifestFolder,
         ];
     }
 
@@ -772,11 +552,9 @@ class ValidateRequestTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'manifest_path' => $this->manifestPath instanceof AbstractTransfer ? $this->manifestPath->toArray(true, false) : $this->manifestPath,
-            'configuration_file' => $this->configurationFile instanceof AbstractTransfer ? $this->configurationFile->toArray(true, false) : $this->configurationFile,
+            'translations' => $this->translations instanceof AbstractTransfer ? $this->translations->toArray(true, false) : $this->translations,
             'translation_file' => $this->translationFile instanceof AbstractTransfer ? $this->translationFile->toArray(true, false) : $this->translationFile,
-            'async_api_file' => $this->asyncApiFile instanceof AbstractTransfer ? $this->asyncApiFile->toArray(true, false) : $this->asyncApiFile,
-            'open_api_file' => $this->openApiFile instanceof AbstractTransfer ? $this->openApiFile->toArray(true, false) : $this->openApiFile,
+            'manifest_folder' => $this->manifestFolder instanceof AbstractTransfer ? $this->manifestFolder->toArray(true, false) : $this->manifestFolder,
         ];
     }
 
@@ -786,11 +564,9 @@ class ValidateRequestTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'manifestPath' => $this->manifestPath instanceof AbstractTransfer ? $this->manifestPath->toArray(true, true) : $this->manifestPath,
-            'configurationFile' => $this->configurationFile instanceof AbstractTransfer ? $this->configurationFile->toArray(true, true) : $this->configurationFile,
+            'translations' => $this->translations instanceof AbstractTransfer ? $this->translations->toArray(true, true) : $this->translations,
             'translationFile' => $this->translationFile instanceof AbstractTransfer ? $this->translationFile->toArray(true, true) : $this->translationFile,
-            'asyncApiFile' => $this->asyncApiFile instanceof AbstractTransfer ? $this->asyncApiFile->toArray(true, true) : $this->asyncApiFile,
-            'openApiFile' => $this->openApiFile instanceof AbstractTransfer ? $this->openApiFile->toArray(true, true) : $this->openApiFile,
+            'manifestFolder' => $this->manifestFolder instanceof AbstractTransfer ? $this->manifestFolder->toArray(true, true) : $this->manifestFolder,
         ];
     }
 }

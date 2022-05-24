@@ -7,16 +7,16 @@
 
 namespace SprykerSdk\Acp\Translation\Builder;
 
-use Generated\Shared\Transfer\AppTranslationRequestTransfer;
-use Generated\Shared\Transfer\AppTranslationResponseTransfer;
-use Generated\Shared\Transfer\MessageTransfer;
+use Transfer\AppTranslationRequestTransfer;
+use Transfer\AppTranslationResponseTransfer;
+use Transfer\MessageTransfer;
 
 class AppTranslationBuilder implements AppTranslationBuilderInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\AppTranslationRequestTransfer $appTranslationRequestTransfer
+     * @param \Transfer\AppTranslationRequestTransfer $appTranslationRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\AppTranslationResponseTransfer
+     * @return \Transfer\AppTranslationResponseTransfer
      */
     public function createTranslation(AppTranslationRequestTransfer $appTranslationRequestTransfer): AppTranslationResponseTransfer
     {

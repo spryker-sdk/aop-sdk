@@ -7,15 +7,15 @@
 
 namespace SprykerSdk\Acp\Manifest\Reader;
 
-use Generated\Shared\Transfer\ManifestCollectionTransfer;
-use Generated\Shared\Transfer\ManifestCriteriaTransfer;
+use Transfer\ManifestCollectionTransfer;
+use Transfer\ManifestCriteriaTransfer;
 
 interface AppManifestReaderInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\ManifestCriteriaTransfer $manifestCriteriaTransfer
+     * @param \Transfer\ManifestCriteriaTransfer $manifestCriteriaTransfer
      *
-     * @return \Generated\Shared\Transfer\ManifestCollectionTransfer
+     * @return \Transfer\ManifestCollectionTransfer
      */
     public function getManifestCollection(ManifestCriteriaTransfer $manifestCriteriaTransfer): ManifestCollectionTransfer;
 }

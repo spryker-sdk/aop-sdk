@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Acp\Validator\Translation\Validator;
 
-use Generated\Shared\Transfer\MessageTransfer;
-use Generated\Shared\Transfer\ValidateResponseTransfer;
 use SprykerSdk\Acp\AcpConfig;
 use SprykerSdk\Acp\Validator\FileValidatorInterface;
+use Transfer\MessageTransfer;
+use Transfer\ValidateResponseTransfer;
 
 class TranslationFileValidator implements FileValidatorInterface
 {
@@ -30,10 +30,10 @@ class TranslationFileValidator implements FileValidatorInterface
     /**
      * @param array $data
      * @param string $fileName
-     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
+     * @param \Transfer\ValidateResponseTransfer $validateResponseTransfer
      * @param array|null $context
      *
-     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
+     * @return \Transfer\ValidateResponseTransfer
      */
     public function validate(
         array $data,
@@ -54,9 +54,9 @@ class TranslationFileValidator implements FileValidatorInterface
      * @param string $translationKey
      * @param array $translationValues
      * @param array $locales
-     * @param \Generated\Shared\Transfer\ValidateResponseTransfer $validateResponseTransfer
+     * @param \Transfer\ValidateResponseTransfer $validateResponseTransfer
      *
-     * @return \Generated\Shared\Transfer\ValidateResponseTransfer
+     * @return \Transfer\ValidateResponseTransfer
      */
     protected function validateTranslationValuesExistForLocales(
         string $translationKey,

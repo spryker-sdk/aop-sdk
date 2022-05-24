@@ -4,69 +4,44 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace Generated\Shared\Transfer;
+namespace Transfer;
 
-use ArrayObject;
+use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
 
 /**
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
  */
-class CheckReadinessTransfer extends AbstractTransfer
+class ManifestConfigurationTransfer extends AbstractTransfer
 {
     /**
      * @var string
      */
-    public const RECIPES = 'recipes';
+    public const CONFIGURATION = 'configuration';
 
     /**
-     * @var string
+     * @var array
      */
-    public const CHECK_CONFIGURATION = 'checkConfiguration';
-
-    /**
-     * @var \ArrayObject|\Generated\Shared\Transfer\RecipeTransfer[]
-     */
-    protected $recipes;
-
-    /**
-     * @var \Generated\Shared\Transfer\CheckConfigurationTransfer|null
-     */
-    protected $checkConfiguration;
+    protected $configuration = [];
 
     /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'recipes' => 'recipes',
-        'Recipes' => 'recipes',
-        'check_configuration' => 'checkConfiguration',
-        'checkConfiguration' => 'checkConfiguration',
-        'CheckConfiguration' => 'checkConfiguration',
+        'configuration' => 'configuration',
+        'Configuration' => 'configuration',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::RECIPES => [
-            'type' => 'Generated\Shared\Transfer\RecipeTransfer',
+        self::CONFIGURATION => [
+            'type' => 'array',
             'type_shim' => null,
-            'name_underscore' => 'recipes',
-            'is_collection' => true,
-            'is_transfer' => true,
-            'is_value_object' => false,
-            'rest_request_parameter' => 'no',
-            'is_associative' => false,
-            'is_nullable' => false,
-            'is_strict' => false,
-        ],
-        self::CHECK_CONFIGURATION => [
-            'type' => 'Generated\Shared\Transfer\CheckConfigurationTransfer',
-            'type_shim' => null,
-            'name_underscore' => 'check_configuration',
+            'name_underscore' => 'configuration',
             'is_collection' => false,
-            'is_transfer' => true,
+            'is_transfer' => false,
             'is_value_object' => false,
             'rest_request_parameter' => 'no',
             'is_associative' => false,
@@ -76,124 +51,59 @@ class CheckReadinessTransfer extends AbstractTransfer
     ];
 
     /**
-     * @module Acp
+     * @module AcpSdk
      *
-     * @param \ArrayObject|\Generated\Shared\Transfer\RecipeTransfer[] $recipes
-     *
-     * @return $this
-     */
-    public function setRecipes(ArrayObject $recipes)
-    {
-        $this->recipes = $recipes;
-        $this->modifiedProperties[self::RECIPES] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return \ArrayObject|\Generated\Shared\Transfer\RecipeTransfer[]
-     */
-    public function getRecipes()
-    {
-        return $this->recipes;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param \Generated\Shared\Transfer\RecipeTransfer $recipe
+     * @param array|null $configuration
      *
      * @return $this
      */
-    public function addRecipe(RecipeTransfer $recipe)
+    public function setConfiguration(array $configuration = null)
     {
-        $this->recipes[] = $recipe;
-        $this->modifiedProperties[self::RECIPES] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
-     *
-     * @return $this
-     */
-    public function requireRecipes()
-    {
-        $this->assertCollectionPropertyIsSet(self::RECIPES);
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param \Generated\Shared\Transfer\CheckConfigurationTransfer|null $checkConfiguration
-     *
-     * @return $this
-     */
-    public function setCheckConfiguration(CheckConfigurationTransfer $checkConfiguration = null)
-    {
-        $this->checkConfiguration = $checkConfiguration;
-        $this->modifiedProperties[self::CHECK_CONFIGURATION] = true;
-
-        return $this;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @return \Generated\Shared\Transfer\CheckConfigurationTransfer|null
-     */
-    public function getCheckConfiguration()
-    {
-        return $this->checkConfiguration;
-    }
-
-    /**
-     * @module Acp
-     *
-     * @param \Generated\Shared\Transfer\CheckConfigurationTransfer $checkConfiguration
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return $this
-     */
-    public function setCheckConfigurationOrFail(CheckConfigurationTransfer $checkConfiguration)
-    {
-        return $this->setCheckConfiguration($checkConfiguration);
-    }
-
-    /**
-     * @module Acp
-     *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     *
-     * @return \Generated\Shared\Transfer\CheckConfigurationTransfer
-     */
-    public function getCheckConfigurationOrFail()
-    {
-        if ($this->checkConfiguration === null) {
-            $this->throwNullValueException(static::CHECK_CONFIGURATION);
+        if ($configuration === null) {
+            $configuration = [];
         }
 
-        return $this->checkConfiguration;
+        $this->configuration = $configuration;
+        $this->modifiedProperties[self::CONFIGURATION] = true;
+
+        return $this;
     }
 
     /**
-     * @module Acp
+     * @module AcpSdk
+     *
+     * @return array
+     */
+    public function getConfiguration()
+    {
+        return $this->configuration;
+    }
+
+    /**
+     * @module AcpSdk
+     *
+     * @param mixed $configuration
+     *
+     * @return $this
+     */
+    public function addConfiguration($configuration)
+    {
+        $this->configuration[] = $configuration;
+        $this->modifiedProperties[self::CONFIGURATION] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module AcpSdk
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
      * @return $this
      */
-    public function requireCheckConfiguration()
+    public function requireConfiguration()
     {
-        $this->assertPropertyIsSet(self::CHECK_CONFIGURATION);
+        $this->assertPropertyIsSet(self::CONFIGURATION);
 
         return $this;
     }
@@ -212,23 +122,8 @@ class CheckReadinessTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'checkConfiguration':
-                    if (is_array($value)) {
-                        $type = $this->transferMetadata[$normalizedPropertyName]['type'];
-                        /** @var \Spryker\Shared\Kernel\Transfer\TransferInterface $value */
-                        $value = (new $type())->fromArray($value, $ignoreMissingProperty);
-                    }
-
-                    if ($value !== null && $this->isPropertyStrict($normalizedPropertyName)) {
-                        $this->assertInstanceOfTransfer($normalizedPropertyName, $value);
-                    }
+                case 'configuration':
                     $this->$normalizedPropertyName = $value;
-                    $this->modifiedProperties[$normalizedPropertyName] = true;
-
-                    break;
-                case 'recipes':
-                    $elementType = $this->transferMetadata[$normalizedPropertyName]['type'];
-                    $this->$normalizedPropertyName = $this->processArrayObject($elementType, $value, $ignoreMissingProperty);
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
                     break;
@@ -347,12 +242,8 @@ class CheckReadinessTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'checkConfiguration':
-                    $values[$arrayKey] = $value instanceof AbstractTransfer ? $value->modifiedToArray(true, true) : $value;
-
-                    break;
-                case 'recipes':
-                    $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, true) : $value;
+                case 'configuration':
+                    $values[$arrayKey] = $value;
 
                     break;
             }
@@ -378,12 +269,8 @@ class CheckReadinessTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'checkConfiguration':
-                    $values[$arrayKey] = $value instanceof AbstractTransfer ? $value->modifiedToArray(true, false) : $value;
-
-                    break;
-                case 'recipes':
-                    $values[$arrayKey] = $value ? $this->addValuesToCollectionModified($value, true, false) : $value;
+                case 'configuration':
+                    $values[$arrayKey] = $value;
 
                     break;
             }
@@ -431,7 +318,6 @@ class CheckReadinessTransfer extends AbstractTransfer
      */
     protected function initCollectionProperties(): void
     {
-        $this->recipes = $this->recipes ?: new ArrayObject();
     }
 
     /**
@@ -440,8 +326,7 @@ class CheckReadinessTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'checkConfiguration' => $this->checkConfiguration,
-            'recipes' => $this->recipes,
+            'configuration' => $this->configuration,
         ];
     }
 
@@ -451,8 +336,7 @@ class CheckReadinessTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'check_configuration' => $this->checkConfiguration,
-            'recipes' => $this->recipes,
+            'configuration' => $this->configuration,
         ];
     }
 
@@ -462,8 +346,7 @@ class CheckReadinessTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'check_configuration' => $this->checkConfiguration instanceof AbstractTransfer ? $this->checkConfiguration->toArray(true, false) : $this->checkConfiguration,
-            'recipes' => $this->recipes instanceof AbstractTransfer ? $this->recipes->toArray(true, false) : $this->addValuesToCollection($this->recipes, true, false),
+            'configuration' => $this->configuration instanceof AbstractTransfer ? $this->configuration->toArray(true, false) : $this->configuration,
         ];
     }
 
@@ -473,8 +356,7 @@ class CheckReadinessTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'checkConfiguration' => $this->checkConfiguration instanceof AbstractTransfer ? $this->checkConfiguration->toArray(true, true) : $this->checkConfiguration,
-            'recipes' => $this->recipes instanceof AbstractTransfer ? $this->recipes->toArray(true, true) : $this->addValuesToCollection($this->recipes, true, true),
+            'configuration' => $this->configuration instanceof AbstractTransfer ? $this->configuration->toArray(true, true) : $this->configuration,
         ];
     }
 }
