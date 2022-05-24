@@ -34,6 +34,7 @@ class AppConfigurationValidator extends AbstractValidator
             return $validateResponseTransfer;
         }
 
+        /** @var \Symfony\Component\Finder\SplFileInfo $splFileInfo */
         $splFileInfo = $this->finder->getFile($validateRequestTransfer->getConfigurationFileOrFail());
 
         $fileData = json_decode((string)file_get_contents($splFileInfo->getPathname()), true);

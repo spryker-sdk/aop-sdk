@@ -66,14 +66,14 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     protected const CHOICE_NEW_LOCALE = 'Select this to add a new locale';
 
     /**
-     * @var \Symfony\Component\Console\Input\InputInterface|null
+     * @var \Symfony\Component\Console\Input\InputInterface
      */
-    protected ?InputInterface $input = null;
+    protected InputInterface $input;
 
     /**
-     * @var \Symfony\Component\Console\Output\OutputInterface|null
+     * @var \Symfony\Component\Console\Output\OutputInterface
      */
-    protected ?OutputInterface $output = null;
+    protected OutputInterface $output;
 
     /**
      * @return void
@@ -81,10 +81,10 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     protected function configure(): void
     {
         $this->setName('app:translation:create')
-        ->setDescription('Create a translation file.')
-        ->addOption(static::TRANSLATION_FILE, static::TRANSLATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultTranslationFile())
-        ->addOption(static::MANIFEST_FOLDER, static::MANIFEST_FOLDER_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultManifestFolder())
-        ->addOption(static::CONFIGURATION_FILE, static::CONFIGURATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultConfigurationFile());
+            ->setDescription('Create a translation file.')
+            ->addOption(static::TRANSLATION_FILE, static::TRANSLATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultTranslationFile())
+            ->addOption(static::MANIFEST_FOLDER, static::MANIFEST_FOLDER_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultManifestFolder())
+            ->addOption(static::CONFIGURATION_FILE, static::CONFIGURATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultConfigurationFile());
     }
 
     /**
@@ -117,7 +117,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
                 $localeName = $this->chooseLocale($input, $output, $existingLocales);
             }
 
-            if (empty($localeName) || $localeName === static::CHOICE_NEW_LOCALE) {
+            if (!$localeName || $localeName === static::CHOICE_NEW_LOCALE) {
                 $localeName = $this->createNewLocale($input, $output);
             }
 
@@ -166,7 +166,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
             $this->printMessages($this->output, $appTranslationResponseTransfer->getErrors());
         }
 
-        exit();
+        exit(static::CODE_SUCCESS);
     }
 
     /**
@@ -301,6 +301,13 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
         $output->writeln('Welcome to the Translation Creator');
     }
 
+    /**
+     * @param string $manifestFolder
+     * @param string $configurationFilePath
+     * @param string $translationFilePath
+     *
+     * @return \Transfer\ManifestCollectionTransfer
+     */
     protected function getManifestCollection(
         string $manifestFolder,
         string $configurationFilePath,
@@ -325,7 +332,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     {
         $locales = [];
         foreach ($manifestCollectionTransfer->getManifests() as $manifestTransfer) {
-            $locales[] = $manifestTransfer->getLocaleName();
+            $locales[] = $manifestTransfer->getLocaleNameOrFail();
         }
 
         return $locales;

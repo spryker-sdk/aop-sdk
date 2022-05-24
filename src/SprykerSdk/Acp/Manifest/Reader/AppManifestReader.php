@@ -64,16 +64,18 @@ class AppManifestReader implements AppManifestReaderInterface
         ManifestCollectionTransfer $manifestCollectionTransfer,
         ManifestCriteriaTransfer $manifestCriteriaTransfer
     ): void {
-        $manifestFolder = $manifestCriteriaTransfer->getManifestConditions()->getManifestFolder();
+        $manifestFolder = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getManifestFolder();
+
         if ($manifestFolder === null) {
             $manifestFolder = $this->acpConfig->getDefaultManifestFolder();
         }
 
         try {
-            /** @var \SplFileInfo $manifestFile */
+            /** @var \Symfony\Component\Finder\SplFileInfo $manifestFile */
             foreach ($this->finder->getFiles($manifestFolder) as $manifestFile) {
                 $manifestTransfer = (new ManifestTransfer())
                     ->setLocaleName($manifestFile->getBasename('.json'));
+
                 $manifestCollectionTransfer->addManifest($manifestTransfer);
             }
         } catch (DirectoryNotFoundException $exception) {
@@ -90,7 +92,7 @@ class AppManifestReader implements AppManifestReaderInterface
         ManifestCollectionTransfer $manifestCollectionTransfer,
         ManifestCriteriaTransfer $manifestCriteriaTransfer
     ): void {
-        $configurationFilePath = $manifestCriteriaTransfer->getManifestConditions()->getConfigurationFilePath();
+        $configurationFilePath = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getConfigurationFilePath();
         if ($configurationFilePath === null) {
             $configurationFilePath = $this->acpConfig->getDefaultConfigurationFile();
         }
@@ -101,10 +103,6 @@ class AppManifestReader implements AppManifestReaderInterface
 
         /** @var \SplFileInfo $configurationFile */
         $configurationFile = $this->finder->getFile($configurationFilePath);
-
-        if ($configurationFile === null) {
-            return;
-        }
 
         $manifestConfigurationTransfer = (new ManifestConfigurationTransfer())
             ->setConfiguration(json_decode((string)file_get_contents($configurationFile->getPathname()), true));
@@ -126,7 +124,8 @@ class AppManifestReader implements AppManifestReaderInterface
         ManifestCollectionTransfer $manifestCollectionTransfer,
         ManifestCriteriaTransfer $manifestCriteriaTransfer
     ): void {
-        $translationFilePath = $manifestCriteriaTransfer->getManifestConditions()->getTranslationFilePath();
+        $translationFilePath = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getTranslationFilePath();
+
         if ($translationFilePath === null) {
             $translationFilePath = $this->acpConfig->getDefaultTranslationFile();
         }
@@ -135,12 +134,8 @@ class AppManifestReader implements AppManifestReaderInterface
             return;
         }
 
-        /** @var \SplFileInfo $translationFile */
+        /** @var \Symfony\Component\Finder\SplFileInfo $translationFile */
         $translationFile = $this->finder->getFile($translationFilePath);
-
-        if ($translationFile === null) {
-            return;
-        }
 
         $manifestTranslationFile = (new ManifestTranslationTransfer())
             ->setTranslations(json_decode((string)file_get_contents($translationFile->getPathname()), true));
