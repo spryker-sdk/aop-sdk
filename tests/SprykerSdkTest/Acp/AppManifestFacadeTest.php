@@ -8,6 +8,7 @@
 namespace SprykerSdkTest\Acp;
 
 use Codeception\Test\Unit;
+use Transfer\ManifestCriteriaTransfer;
 
 /**
  * @group SprykerSdk
@@ -67,5 +68,21 @@ class AppManifestFacadeTest extends Unit
                 $manifestResponseTransfer->getErrors()->count(),
             ),
         );
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetManifestCollectionShouldReturnCollection(): void
+    {
+        // Arrange
+        $manifestCriteriaTransfer = new ManifestCriteriaTransfer();
+        $this->tester->haveValidTranslationWithManifestAndConfiguration();
+
+        // Act
+        $collection = $this->tester->getFacade()->getManifestCollection($manifestCriteriaTransfer);
+
+        // Assert
+        $this->assertNotEmpty($collection->getTranslation()->getTranslations());
     }
 }
