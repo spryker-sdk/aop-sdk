@@ -412,7 +412,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
     protected function getFieldsetInput(InputInterface $input, OutputInterface $output): void
     {
         if ($this->askForConfirmation($input, $output, 'Do you want to group the configurations?') === 'Yes') {
-            $fieldsetOptions = array_keys($this->properties);
+            $fieldsetOptions = array_combine(range(1, count($this->properties)), array_keys($this->properties));
 
             do {
                 $fieldsetOptions = array_diff($fieldsetOptions, $this->setGroupFields(

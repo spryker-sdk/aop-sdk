@@ -135,6 +135,6 @@ class AppTranslationCreateConsole extends AbstractConsole
         OutputInterface $output,
         string $questionText
     ): string {
-        return $this->getHelper('question')->ask($input, $output, new ChoiceQuestion($questionText, ['Yes', 'No'], 0));
+        return $this->getHelper('question')->ask($input, $output, new ChoiceQuestion($questionText, [1 => 'Yes', 2 => 'No'], 1));
     }
 }
