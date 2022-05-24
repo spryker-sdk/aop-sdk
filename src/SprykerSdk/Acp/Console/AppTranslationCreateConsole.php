@@ -56,6 +56,17 @@ class AppTranslationCreateConsole extends AbstractConsole
 
         $appTranslationRequestTransfer->setTranslationFile($input->getOption(static::TRANSLATION_FILE));
 
+        $output->writeln([
+            'Welcome to the App translation builder.',
+            'Translations will be used to show translated text for displaying informations in the App Store Catalog and for displaying a translated form on the configuration page of the app.',
+            '',
+            'For each translation you will be prompted to enter details.',
+            '',
+            'When the process is done a translation file will be created in: ' . $appTranslationRequestTransfer->getTranslationFile(),
+            'When you have a typo or anything else you\'d like to change you can do that manually in the created file after this process is finished.',
+            '',
+        ]);
+
         $this->getTranslationsInput($input, $output);
 
         $appTranslationRequestTransfer->setTranslations($this->translations);
