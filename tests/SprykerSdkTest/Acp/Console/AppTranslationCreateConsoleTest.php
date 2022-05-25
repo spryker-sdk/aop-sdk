@@ -184,6 +184,7 @@ class AppTranslationCreateConsoleTest extends Unit
         $commandTester->setInputs([
             'en_US', // Locales from manifest found, console asks to select a locale I'd like to add translations for.
             'Yes', // Would you like to add new translations?
+            'key', // Entering key
             '', // Entering empty value
             'No', // Would you like to add translations for another locale?
         ]);
