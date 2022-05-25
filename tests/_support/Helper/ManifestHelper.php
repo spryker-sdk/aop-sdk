@@ -8,6 +8,8 @@
 namespace SprykerSdkTest\Helper;
 
 use Codeception\Module;
+use Transfer\ManifestCollectionTransfer;
+use Transfer\ManifestConfigurationTransfer;
 use Transfer\ManifestRequestTransfer;
 use Transfer\ManifestResponseTransfer;
 use Transfer\ManifestTransfer;
@@ -34,6 +36,42 @@ class ManifestHelper extends Module
             ->setManifest($manifestTransfer);
 
         return $manifestRequestTransfer;
+    }
+
+    /**
+     * @return \Transfer\ManifestCollectionTransfer
+     */
+    public function haveManifestCollection(): ManifestCollectionTransfer
+    {
+        $manifestCollectionTransfer = new ManifestCollectionTransfer();
+        $configurationTransfer = new ManifestConfigurationTransfer();
+
+        $manifestCollectionTransfer->setConfiguration($configurationTransfer);
+        $configurationTransfer->setConfiguration([
+            'properties' => [
+                [
+                    'title' => 'Title',
+                    'placeholder' => 'Placeholder',
+                    'oneOf' => [
+                        [
+                            'description' => 'Description1',
+                        ],
+                    ],
+                    'items' => [
+                        'oneOf' => [
+                            [
+                                'description' => 'Description2',
+                                'enum' => [
+                                    'Option2',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        return $manifestCollectionTransfer;
     }
 
     /**

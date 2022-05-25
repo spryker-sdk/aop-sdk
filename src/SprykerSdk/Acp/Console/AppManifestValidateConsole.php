@@ -51,12 +51,12 @@ class AppManifestValidateConsole extends AbstractConsole
         $validateResponseTransfer = $this->getFacade()->validateAppManifest($validateRequestTransfer);
 
         if ($validateResponseTransfer->getErrors()->count() === 0) {
-            $this->printMessages($output, $validateResponseTransfer->getMessages());
+            $this->printMessagesVerbose($output, $validateResponseTransfer->getMessages());
 
             return static::CODE_SUCCESS;
         }
 
-        $this->printMessages($output, $validateResponseTransfer->getErrors());
+        $this->printMessagesVerbose($output, $validateResponseTransfer->getErrors());
 
         return static::CODE_ERROR;
     }

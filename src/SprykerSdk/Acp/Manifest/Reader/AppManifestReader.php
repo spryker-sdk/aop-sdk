@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Acp\Manifest\Reader;
 
+use Spryker\Shared\Kernel\Transfer\Exception\NullValueException;
 use SprykerSdk\Acp\AcpConfig;
 use SprykerSdk\Acp\Validator\Finder\FinderInterface;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
@@ -64,9 +65,10 @@ class AppManifestReader implements AppManifestReaderInterface
         ManifestCollectionTransfer $manifestCollectionTransfer,
         ManifestCriteriaTransfer $manifestCriteriaTransfer
     ): void {
-        $manifestFolder = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getManifestFolder();
-
-        if ($manifestFolder === null) {
+        try {
+            /** @var string $manifestFolder */
+            $manifestFolder = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getManifestFolder();
+        } catch (NullValueException $exception) {
             $manifestFolder = $this->acpConfig->getDefaultManifestFolder();
         }
 
@@ -92,8 +94,10 @@ class AppManifestReader implements AppManifestReaderInterface
         ManifestCollectionTransfer $manifestCollectionTransfer,
         ManifestCriteriaTransfer $manifestCriteriaTransfer
     ): void {
-        $configurationFilePath = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getConfigurationFilePath();
-        if ($configurationFilePath === null) {
+        try {
+            /** @var string $configurationFilePath */
+            $configurationFilePath = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getConfigurationFilePath();
+        } catch (NullValueException $exception) {
             $configurationFilePath = $this->acpConfig->getDefaultConfigurationFile();
         }
 
@@ -124,9 +128,10 @@ class AppManifestReader implements AppManifestReaderInterface
         ManifestCollectionTransfer $manifestCollectionTransfer,
         ManifestCriteriaTransfer $manifestCriteriaTransfer
     ): void {
-        $translationFilePath = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getTranslationFilePath();
-
-        if ($translationFilePath === null) {
+        try {
+            /** @var string $translationFilePath */
+            $translationFilePath = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getTranslationFilePath();
+        } catch (NullValueException $exception) {
             $translationFilePath = $this->acpConfig->getDefaultTranslationFile();
         }
 

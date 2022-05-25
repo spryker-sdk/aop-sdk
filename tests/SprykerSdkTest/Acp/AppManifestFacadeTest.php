@@ -8,6 +8,9 @@
 namespace SprykerSdkTest\Acp;
 
 use Codeception\Test\Unit;
+use Transfer\ManifestCollectionTransfer;
+use Transfer\ManifestConditionsTransfer;
+use Transfer\ManifestCriteriaTransfer;
 
 /**
  * @group SprykerSdk
@@ -67,5 +70,66 @@ class AppManifestFacadeTest extends Unit
                 $manifestResponseTransfer->getErrors()->count(),
             ),
         );
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetManifestCollectionShouldReturnCollection(): void
+    {
+        // Arrange
+        $this->tester->haveValidTranslationWithManifestAndConfiguration();
+
+        $manifestCriteriaTransfer = new ManifestCriteriaTransfer();
+        $manifestConditionsTransfer = new ManifestConditionsTransfer();
+
+        $manifestCriteriaTransfer->setManifestConditions($manifestConditionsTransfer);
+        $manifestConditionsTransfer->setConfigurationFilePath(
+            $this->tester->getRootPath() . '/config/app/configuration.json',
+        );
+        $manifestConditionsTransfer->setManifestFolder(
+            $this->tester->getRootPath() . '/config/app/manifest',
+        );
+        $manifestConditionsTransfer->setTranslationFilePath(
+            $this->tester->getRootPath() . '/config/app/translation.json',
+        );
+
+        // Act
+        $collection = $this->tester->getFacade()->getManifestCollection($manifestCriteriaTransfer);
+
+        // Assert
+        $this->assertNotEmpty($collection->getTranslation()->getTranslations());
+        $this->assertNotEmpty($collection->getManifests());
+        $this->assertNotEmpty($collection->getConfiguration());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetExistingKeysToTranslateWithManifestCollectionShouldReturnTranslationKeys(): void
+    {
+        // Arrange
+        $manifestCollection = $this->tester->haveManifestCollection();
+
+        // Act
+        $keysToTranslate = $this->tester->getFacade()->getExistingKeysToTranslate($manifestCollection);
+
+        // Assert
+        $this->assertCount(5, $keysToTranslate);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetExistingKeysToTranslateWithEmptyManifestCollection(): void
+    {
+        // Arrange
+        $manifestCollection = new ManifestCollectionTransfer();
+
+        // Act
+        $keysToTranslate = $this->tester->getFacade()->getExistingKeysToTranslate($manifestCollection);
+
+        // Assert
+        $this->assertEmpty($keysToTranslate);
     }
 }

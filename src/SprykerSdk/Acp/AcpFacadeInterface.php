@@ -135,4 +135,16 @@ interface AcpFacadeInterface
      * @return \Transfer\ManifestCollectionTransfer
      */
     public function getManifestCollection(ManifestCriteriaTransfer $manifestCriteriaTransfer): ManifestCollectionTransfer;
+
+    /**
+     * Specification:
+     * - Finds object keys from configuration to translate.
+     *
+     * @api
+     *
+     * @param \Transfer\ManifestCollectionTransfer $manifestCollectionTransfer
+     *
+     * @return array
+     */
+    public function getExistingKeysToTranslate(ManifestCollectionTransfer $manifestCollectionTransfer): array;
 }
