@@ -231,6 +231,32 @@ class AppTranslationCreateConsoleTest extends Unit
     }
 
     /**
+     * @group now
+     *
+     * @return void
+     */
+    public function testWriteToInvalidTranslationFileShouldReturnErrorCode(): void
+    {
+        // Arrange
+        $commandTester = $this->tester->getConsoleTester(AppTranslationCreateConsole::class);
+
+        // Act
+        $commandTester->setInputs([
+            'de_DE', // No locales from manifest found, console asks for a locale I'd like to add translations for.
+            'No', // No missing translations found, console ask if I'd like to add new ones.
+            'No', // Process is done once, console asks if I'd like to add translations for another locale.
+        ]);
+        $commandTester->execute(['--' . AppTranslationCreateConsole::TRANSLATION_FILE => ''], ['--' . AppTranslationCreateConsole::TRANSLATION_FILE => '']);
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
+        $this->assertStringContainsString('Please enter a locale name you would like to define translations for:', $commandTester->getDisplay());
+        $this->assertStringContainsString('We haven\'t found any missing translations for the locale de_DE', $commandTester->getDisplay());
+        $this->assertStringContainsString('Would you like to add new translations?', $commandTester->getDisplay());
+        $this->assertStringContainsString('Would you like to add translations for another locale?', $commandTester->getDisplay());
+    }
+
+    /**
      * @return void
      */
     public function testDoHandleSignal(): void
