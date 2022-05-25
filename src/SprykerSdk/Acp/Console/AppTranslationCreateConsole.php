@@ -58,6 +58,7 @@ class AppTranslationCreateConsole extends AbstractConsole
 
         $output->writeln([
             'Welcome to the App translation builder.',
+            '',
             'Translations will be used to show translated text for displaying informations in the App Store Catalog and for displaying a translated form on the configuration page of the app.',
             '',
             'For each translation you will be prompted to enter details.',

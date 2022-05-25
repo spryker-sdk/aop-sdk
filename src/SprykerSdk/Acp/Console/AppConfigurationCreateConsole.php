@@ -47,7 +47,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
     protected const CONFIGURATION_TYPE_HINTS = [
         'Text' => 'Text (User can type a value)',
         'Radio' => 'Radio (User can select exactly one of the provided choices)',
-        'Checkbox' => 'Checkbox (User can select zero, one or multiple of the provided choices)',
+        'Checkbox' => 'Checkbox (User can select zero or multiple of the provided choices)',
     ];
 
     /**

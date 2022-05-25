@@ -54,7 +54,7 @@ class AppConfigurationCreateConsoleTest extends Unit
             'Yes',
             'Checkbox_Configuration',
             'No',
-            '3', // Checkbox (User can select zero, one or multiple of the provided choices)
+            'Checkbox (User can select zero or multiple of the provided choices)',
             'Array',
             'Int',
             'Option1',
