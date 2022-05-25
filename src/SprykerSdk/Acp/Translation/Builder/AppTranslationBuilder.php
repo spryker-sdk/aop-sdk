@@ -29,7 +29,7 @@ class AppTranslationBuilder implements AppTranslationBuilderInterface
                 $appTranslationRequestTransfer->getTranslationFileOrFail(),
                 $appTranslationRequestTransfer->getTranslations(),
             );
-        } catch (Error | Exception $error) {
+        } catch (Exception | Error $error) {
             $appTranslationResponseTransfer->addError(
                 (new MessageTransfer())->setMessage(
                     sprintf('<error>Could not write to file. Details: "%s"</error>', $error->getMessage()),
