@@ -155,6 +155,14 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
         exit($this->doHandleSignal($this->input, $this->output, $signal, $this->translations));
     }
 
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param int $signal
+     * @param array $translations
+     *
+     * @return int
+     */
     public function doHandleSignal(
         InputInterface $input,
         OutputInterface $output,
