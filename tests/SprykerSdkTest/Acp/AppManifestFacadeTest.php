@@ -134,7 +134,6 @@ class AppManifestFacadeTest extends Unit
         $this->assertEmpty($collection->getConfiguration());
     }
 
-
     /**
      * @return void
      */
