@@ -124,7 +124,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
             $this->getTranslationsInput($input, $output, $localeName, $existingKeysToTranslate, $existingTranslations);
         } while ($this->askForConfirmation($input, $output, 'Would you like to add translations for another locale?') === 'Yes');
 
-        $appTranslationResponseTransfer = $this->saveTranslations($input);
+        $appTranslationResponseTransfer = $this->saveTranslations($input, $this->translations);
 
         if ($appTranslationResponseTransfer->getErrors()->count() === 0) {
             $this->printMessages($output, $appTranslationResponseTransfer->getMessages());
@@ -152,21 +152,30 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
      */
     public function handleSignal(int $signal): void
     {
+        exit($this->doHandleSignal($this->input, $this->output, $signal, $this->translations));
+    }
+
+    public function doHandleSignal(
+        InputInterface $input,
+        OutputInterface $output,
+        int $signal,
+        array $translations
+    ): int {
         if (
             $signal === SIGINT
-            && $this->input !== null
-            && $this->output !== null
-            && $this->translations
+            && $input !== null
+            && $output !== null
+            && $translations
         ) {
-            $appTranslationResponseTransfer = $this->saveTranslations($this->input);
+            $appTranslationResponseTransfer = $this->saveTranslations($input, $translations);
             if ($appTranslationResponseTransfer->getErrors()->count() === 0) {
-                $this->printMessages($this->output, $appTranslationResponseTransfer->getMessages());
+                $this->printMessages($output, $appTranslationResponseTransfer->getMessages());
             }
 
-            $this->printMessages($this->output, $appTranslationResponseTransfer->getErrors());
+            $this->printMessages($output, $appTranslationResponseTransfer->getErrors());
         }
 
-        exit(static::CODE_SUCCESS);
+        return static::CODE_SUCCESS;
     }
 
     /**
@@ -436,14 +445,15 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param array $translations
      *
      * @return \Transfer\AppTranslationResponseTransfer
      */
-    protected function saveTranslations(InputInterface $input): AppTranslationResponseTransfer
+    protected function saveTranslations(InputInterface $input, array $translations): AppTranslationResponseTransfer
     {
         $appTranslationRequestTransfer = (new AppTranslationRequestTransfer())
             ->setTranslationFile($input->getOption(static::TRANSLATION_FILE))
-            ->setTranslations($this->translations);
+            ->setTranslations($translations);
 
         return $this->getFacade()->createAppTranslation($appTranslationRequestTransfer);
     }

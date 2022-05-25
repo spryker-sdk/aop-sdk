@@ -11,6 +11,8 @@ use Codeception\Test\Unit;
 use SprykerSdk\Acp\Console\AbstractConsole;
 use SprykerSdk\Acp\Console\AppTranslationCreateConsole;
 use SprykerSdkTest\Acp\Tester;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 
 /**
  * @group SprykerSdkTest
@@ -196,5 +198,51 @@ class AppTranslationCreateConsoleTest extends Unit
         $this->assertStringContainsString('Left the process, will continue with next steps.', $commandTester->getDisplay());
         $this->assertStringContainsString('Would you like to add translations for another locale?', $commandTester->getDisplay());
         $this->assertStringContainsString('We stored the configuration in vfs://root/config/app/translation.json', $commandTester->getDisplay());
+    }
+
+    /**
+     * @return void
+     */
+    public function testHandleSignal(): void
+    {
+        // Arrange
+        $this->tester->mockDirectoryStructure(['translation.json']);
+
+        $console = new AppTranslationCreateConsole();
+        $console->setFacade($this->tester->getFacade());
+        $console->setConfig($this->tester->getConfig());
+
+        $translations = ['test.key' => 'test.value'];
+        $input = new ArrayInput(
+            ['--' . AppTranslationCreateConsole::TRANSLATION_FILE => $this->tester->getRootPath() . '/translation.json'],
+            $console->getDefinition(),
+        );
+        $output = new NullOutput();
+
+        // Act
+        $exitCode = $console->doHandleSignal($input, $output, \SIGINT, $translations);
+
+        // Assert
+        $this->assertEquals(0, $exitCode);
+
+        $this->assertJsonStringEqualsJsonFile(
+            $this->tester->getRootPath() . '/translation.json',
+            json_encode(['test.key' => 'test.value']),
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetSubscribedSignalsShouldReturnSigint(): void
+    {
+        // Arrange
+        $console = new AppTranslationCreateConsole();
+
+        // Act
+        $signals = $console->getSubscribedSignals();
+
+        // Assert
+        $this->assertEquals([\SIGINT], $signals);
     }
 }
