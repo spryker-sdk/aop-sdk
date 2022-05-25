@@ -25,6 +25,7 @@ suites:
                 - \SprykerSdkTest\Helper\ValidatorHelper
                 - \SprykerSdkTest\Helper\ManifestHelper
                 - \SprykerSdkTest\Helper\TranslationHelper
+                - \SprykerSdkTest\Helper\AppManifestFacadeHelper
 extensions:
     enabled:
         - Codeception\Extension\RunFailed

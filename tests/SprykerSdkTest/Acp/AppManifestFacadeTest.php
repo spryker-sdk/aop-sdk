@@ -106,6 +106,38 @@ class AppManifestFacadeTest extends Unit
     /**
      * @return void
      */
+    public function testGetManifestCollectionWithInvalidJsonFilesShouldReturnEmptyCollection(): void
+    {
+        // Arrange
+        $this->tester->haveInvalidJsonStructure();
+
+        $manifestCriteriaTransfer = new ManifestCriteriaTransfer();
+        $manifestConditionsTransfer = new ManifestConditionsTransfer();
+
+        $manifestCriteriaTransfer->setManifestConditions($manifestConditionsTransfer);
+        $manifestConditionsTransfer->setTranslationFilePath(
+            $this->tester->getRootPath() . '/config/app/translation.json',
+        );
+        $manifestCriteriaTransfer->setManifestConditions($manifestConditionsTransfer);
+        $manifestConditionsTransfer->setConfigurationFilePath(
+            $this->tester->getRootPath() . '/config/app/configuration.json',
+        );
+        $manifestConditionsTransfer->setManifestFolder(
+            $this->tester->getRootPath() . '/config/app/manifest',
+        );
+
+        // Act
+        $collection = $this->tester->getFacade()->getManifestCollection($manifestCriteriaTransfer);
+
+        // Assert
+        $this->assertEmpty($collection->getTranslation());
+        $this->assertEmpty($collection->getConfiguration());
+    }
+
+
+    /**
+     * @return void
+     */
     public function testGetExistingKeysToTranslateWithManifestCollectionShouldReturnTranslationKeys(): void
     {
         // Arrange
