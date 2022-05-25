@@ -145,6 +145,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
         return [SIGINT];
     }
 
+    // @codeCoverageIgnoreStart
     /**
      * @param int $signal
      *
@@ -154,6 +155,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     {
         exit($this->doHandleSignal($this->input, $this->output, $signal, $this->translations));
     }
+    // @codeCoverageIgnoreEnd
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
