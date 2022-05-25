@@ -42,6 +42,15 @@ class AppConfigurationCreateConsole extends AbstractConsole
     public const CONFIGURATION_FILE_SHORT = 'c';
 
     /**
+     * @var array
+     */
+    protected const CONFIGURATION_TYPE_HINTS = [
+        'Text' => 'Text (User can type a value)',
+        'Radio' => 'Radio (User can select exactly one of the provided choices)',
+        'Checkbox' => 'Checkbox (User can select zero, one or multiple of the provided choices)',
+    ];
+
+    /**
      * @return void
      */
     protected function configure(): void
@@ -181,12 +190,14 @@ class AppConfigurationCreateConsole extends AbstractConsole
                 $this->askForConfirmation($input, $output, 'Is this a required field?'),
             );
 
-            $this->setWidget(
-                $input,
-                $output,
-                $propertyName,
-                $this->askChoiceQuestion($input, $output, 'Please select a widget: ', [1 => 'Text', 2 => 'Radio', 3 => 'Checkbox'], 1),
-            );
+            $choices = array_values(static::CONFIGURATION_TYPE_HINTS);
+            $choices = array_combine(range(1, count($choices)), $choices) ?: $choices;
+
+            $widgetHint = $this->askChoiceQuestion($input, $output, 'Please select a widget: ', $choices, 1);
+
+            $widget = array_flip(static::CONFIGURATION_TYPE_HINTS)[$widgetHint] ?? 'Text';
+
+            $this->setWidget($input, $output, $propertyName, $widget);
         } while ($this->askForConfirmation($input, $output, 'Do you want to add more configurations?') === 'Yes');
     }
 
@@ -198,7 +209,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
      */
     protected function getPropertyName(InputInterface $input, OutputInterface $output): string
     {
-        $propertyName = $this->askTextQuestion($input, $output, 'Please enter a name: ');
+        $propertyName = $this->askTextQuestion($input, $output, 'Please enter a form field name: ');
 
         if (array_key_exists($propertyName, $this->properties) && ($this->askForConfirmation($input, $output, 'You have already defined this configuration do you want to override it?') === 'No')) {
             $propertyName = $this->getPropertyName($input, $output);
@@ -415,7 +426,8 @@ class AppConfigurationCreateConsole extends AbstractConsole
     protected function getFieldsetInput(InputInterface $input, OutputInterface $output): void
     {
         if ($this->askForConfirmation($input, $output, 'Do you want to group the configurations?') === 'Yes') {
-            $fieldsetOptions = array_combine(range(1, count($this->properties)), array_keys($this->properties));
+            $fieldsetOptions = array_keys($this->properties);
+            $fieldsetOptions = array_combine(range(1, count($fieldsetOptions)), $fieldsetOptions) ?: $fieldsetOptions;
 
             do {
                 $fieldsetOptions = array_diff($fieldsetOptions, $this->setGroupFields(
