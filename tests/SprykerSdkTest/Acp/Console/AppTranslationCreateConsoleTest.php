@@ -248,7 +248,7 @@ class AppTranslationCreateConsoleTest extends Unit
         ]);
         $commandTester->execute(
             ['--' . AppTranslationCreateConsole::TRANSLATION_FILE => ''],
-            ['--' . AppTranslationCreateConsole::TRANSLATION_FILE => '']
+            ['--' . AppTranslationCreateConsole::TRANSLATION_FILE => ''],
         );
 
         // Assert
@@ -271,19 +271,25 @@ class AppTranslationCreateConsoleTest extends Unit
         $commandTester->setInputs([
             'en_US',
             'Yes',
-            'key.name1',
-            'key.value1',
+            'key.name',
+            'key value',
             'Yes',
             'Yes',
-            'key.name2',
-            'key.value2',
+            'test.name',
+            'test value',
             'No',
             'No',
         ]);
         $commandTester->execute([]);
 
         // Assert
-
+        $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
+        $this->assertStringContainsString('We haven\'t found any missing translations for the locale en_US', $commandTester->getDisplay());
+        $this->assertStringContainsString('Would you like to add new translations?', $commandTester->getDisplay());
+        $this->assertStringContainsString('The following inputs will be used for your selected locale en_US', $commandTester->getDisplay());
+        $this->assertStringContainsString('Would you like to add new translations?', $commandTester->getDisplay());
+        $this->assertStringContainsString('Would you like to add translations for another locale?', $commandTester->getDisplay());
+        $this->assertStringContainsString('We stored the configuration in vfs://root/config/app/translation.json', $commandTester->getDisplay());
     }
 
     /**
