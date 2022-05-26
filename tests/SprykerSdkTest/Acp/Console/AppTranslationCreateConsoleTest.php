@@ -295,6 +295,32 @@ class AppTranslationCreateConsoleTest extends Unit
     /**
      * @return void
      */
+    public function testMissingTranslationValue(): void
+    {
+        // Arrange
+        $this->tester->haveMissingTranslationValueTranslationFile();
+        $commandTester = $this->tester->getConsoleTester(AppTranslationCreateConsole::class);
+
+        // Act
+        $commandTester->setInputs([
+            'en_US',
+            'Yes',
+            'No',
+            'No',
+        ]);
+        $commandTester->execute([]);
+
+        // Assert
+        $this->assertSame(AbstractConsole::CODE_SUCCESS, $commandTester->getStatusCode());
+        $this->assertStringContainsString('We found the following locales, please select one you\'d like to define translations for', $commandTester->getDisplay());
+        $this->assertStringContainsString('We found missing translations for the locale en_US', $commandTester->getDisplay());
+        $this->assertStringContainsString('The following inputs will be used for your selected locale en_US', $commandTester->getDisplay());
+        $this->assertStringContainsString('All missing translations for the locale en_US added.', $commandTester->getDisplay());
+    }
+
+    /**
+     * @return void
+     */
     public function testDoHandleSignal(): void
     {
         // Arrange
