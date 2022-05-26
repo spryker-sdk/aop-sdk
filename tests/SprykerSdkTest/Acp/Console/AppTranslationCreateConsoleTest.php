@@ -246,7 +246,10 @@ class AppTranslationCreateConsoleTest extends Unit
             'No', // No missing translations found, console ask if I'd like to add new ones.
             'No', // Process is done once, console asks if I'd like to add translations for another locale.
         ]);
-        $commandTester->execute(['--' . AppTranslationCreateConsole::TRANSLATION_FILE => ''], ['--' . AppTranslationCreateConsole::TRANSLATION_FILE => '']);
+        $commandTester->execute(
+            ['--' . AppTranslationCreateConsole::TRANSLATION_FILE => ''],
+            ['--' . AppTranslationCreateConsole::TRANSLATION_FILE => '']
+        );
 
         // Assert
         $this->assertSame(AbstractConsole::CODE_ERROR, $commandTester->getStatusCode());
@@ -254,6 +257,33 @@ class AppTranslationCreateConsoleTest extends Unit
         $this->assertStringContainsString('We haven\'t found any missing translations for the locale de_DE', $commandTester->getDisplay());
         $this->assertStringContainsString('Would you like to add new translations?', $commandTester->getDisplay());
         $this->assertStringContainsString('Would you like to add translations for another locale?', $commandTester->getDisplay());
+    }
+
+    /**
+     * @return void
+     */
+    public function testAsksForTranslationsTwice(): void
+    {
+        // Arrange
+        $commandTester = $this->tester->getConsoleTester(AppTranslationCreateConsole::class);
+
+        // Act
+        $commandTester->setInputs([
+            'en_US',
+            'Yes',
+            'key.name1',
+            'key.value1',
+            'Yes',
+            'Yes',
+            'key.name2',
+            'key.value2',
+            'No',
+            'No',
+        ]);
+        $commandTester->execute([]);
+
+        // Assert
+
     }
 
     /**
