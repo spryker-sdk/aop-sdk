@@ -321,7 +321,7 @@ class AppTranslationCreateConsoleTest extends Unit
     /**
      * @return void
      */
-    public function testDoHandleSignal(): void
+    public function testDoHandleSignalShouldCreateFileWithJsonTranslation(): void
     {
         // Arrange
         $this->tester->mockDirectoryStructure(['translation.json']);

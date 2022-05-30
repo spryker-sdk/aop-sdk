@@ -36,18 +36,15 @@ class AppManifestReaderTest extends Unit
         $this->tester->haveValidTranslationWithManifestAndConfiguration();
 
         $config = $this->createMock(AcpConfig::class);
-        $config
-            ->expects($this->once())
+        $config->expects($this->once())
             ->method('getDefaultManifestFolder')
             ->willReturn($this->tester->getRootPath() . '/config/app/manifest');
 
-        $config
-            ->expects($this->once())
+        $config->expects($this->once())
             ->method('getDefaultConfigurationFile')
             ->willReturn($this->tester->getRootPath() . '/config/app/configuration.json');
 
-        $config
-            ->expects($this->once())
+        $config->expects($this->once())
             ->method('getDefaultTranslationFile')
             ->willReturn($this->tester->getRootPath() . '/config/app/translation.json');
 
