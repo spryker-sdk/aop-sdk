@@ -8,6 +8,7 @@
 namespace SprykerSdkTest\Acp;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Acp\Exception\InvalidConfigurationException;
 use Transfer\ManifestCollectionTransfer;
 use Transfer\ManifestConditionsTransfer;
 use Transfer\ManifestCriteriaTransfer;
@@ -127,11 +128,9 @@ class AppManifestFacadeTest extends Unit
         );
 
         // Act
-        $collection = $this->tester->getFacade()->getManifestCollection($manifestCriteriaTransfer);
+        $this->expectException(InvalidConfigurationException::class);
 
-        // Assert
-        $this->assertEmpty($collection->getTranslation());
-        $this->assertEmpty($collection->getConfiguration());
+        $this->tester->getFacade()->getManifestCollection($manifestCriteriaTransfer);
     }
 
     /**
