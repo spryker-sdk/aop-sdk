@@ -186,6 +186,6 @@ class AcpFacade implements AcpFacadeInterface
      */
     public function getExistingKeysToTranslate(ManifestCollectionTransfer $manifestCollectionTransfer): array
     {
-        return $this->getFactory()->createTranslateKeyMapper()->getExistingKeysToTranslate($manifestCollectionTransfer);
+        return $this->getFactory()->createTranslateKeyMapper()->mapManifestCollectionToTranslateKeys($manifestCollectionTransfer);
     }
 }

@@ -16,5 +16,5 @@ interface TranslateKeyMapperInterface
      *
      * @return array
      */
-    public function getExistingKeysToTranslate(ManifestCollectionTransfer $manifestCollectionTransfer): array;
+    public function mapManifestCollectionToTranslateKeys(ManifestCollectionTransfer $manifestCollectionTransfer): array;
 }

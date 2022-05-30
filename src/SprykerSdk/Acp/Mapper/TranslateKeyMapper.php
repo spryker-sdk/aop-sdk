@@ -16,7 +16,7 @@ class TranslateKeyMapper implements TranslateKeyMapperInterface
      *
      * @return array<string>
      */
-    public function getExistingKeysToTranslate(ManifestCollectionTransfer $manifestCollectionTransfer): array
+    public function mapManifestCollectionToTranslateKeys(ManifestCollectionTransfer $manifestCollectionTransfer): array
     {
         $configuration = $manifestCollectionTransfer->getConfiguration();
 
