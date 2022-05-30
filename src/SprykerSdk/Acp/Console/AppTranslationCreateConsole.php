@@ -28,7 +28,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     /**
      * @var array
      */
-    protected array $translations = [];
+    protected $translations = [];
 
     /**
      * @var string
@@ -68,12 +68,12 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     /**
      * @var \Symfony\Component\Console\Input\InputInterface
      */
-    protected InputInterface $input;
+    protected $input;
 
     /**
      * @var \Symfony\Component\Console\Output\OutputInterface
      */
-    protected OutputInterface $output;
+    protected $output;
 
     /**
      * @return void

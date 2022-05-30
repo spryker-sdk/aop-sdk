@@ -7,8 +7,7 @@
 
 namespace SprykerSdk\Acp\Translation\Builder;
 
-use Error;
-use Exception;
+use Throwable;
 use Transfer\AppTranslationRequestTransfer;
 use Transfer\AppTranslationResponseTransfer;
 use Transfer\MessageTransfer;
@@ -29,7 +28,7 @@ class AppTranslationBuilder implements AppTranslationBuilderInterface
                 $appTranslationRequestTransfer->getTranslationFileOrFail(),
                 $appTranslationRequestTransfer->getTranslations(),
             );
-        } catch (Exception | Error $error) {
+        } catch (Throwable $error) {
             $appTranslationResponseTransfer->addError(
                 (new MessageTransfer())->setMessage(
                     sprintf('<error>Could not write to file. Details: "%s"</error>', $error->getMessage()),

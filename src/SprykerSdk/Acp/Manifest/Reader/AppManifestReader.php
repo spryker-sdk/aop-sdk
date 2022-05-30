@@ -73,15 +73,14 @@ class AppManifestReader implements AppManifestReaderInterface
             $manifestFolder = $manifestCriteriaTransfer->getManifestConditions()->getManifestFolder();
         }
 
-        try {
-            /** @var \Symfony\Component\Finder\SplFileInfo $manifestFile */
-            foreach ($this->finder->getFiles($manifestFolder) as $manifestFile) {
-                $manifestTransfer = (new ManifestTransfer())
-                    ->setLocaleName($manifestFile->getBasename('.json'));
+        if (!$this->finder->hasFiles($manifestFolder)) {
+            return;
+        }
+        foreach ($this->finder->getFiles($manifestFolder) as $manifestFile) {
+            $manifestTransfer = (new ManifestTransfer())
+                ->setLocaleName($manifestFile->getBasename('.json'));
 
-                $manifestCollectionTransfer->addManifest($manifestTransfer);
-            }
-        } catch (DirectoryNotFoundException $exception) {
+            $manifestCollectionTransfer->addManifest($manifestTransfer);
         }
     }
 

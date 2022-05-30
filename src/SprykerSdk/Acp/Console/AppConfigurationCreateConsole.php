@@ -16,11 +16,20 @@ use Transfer\AppConfigurationRequestTransfer;
 
 class AppConfigurationCreateConsole extends AbstractConsole
 {
-    protected array $properties = [];
+    /**
+     * @var array
+     */
+    protected $properties = [];
 
-    protected array $requiredFields = [];
+    /**
+     * @var array
+     */
+    protected $requiredFields = [];
 
-    protected array $fieldsets = [];
+    /**
+     * @var array
+     */
+    protected $fieldsets = [];
 
     /**
      * @var string
