@@ -65,11 +65,12 @@ class AppManifestReader implements AppManifestReaderInterface
         ManifestCollectionTransfer $manifestCollectionTransfer,
         ManifestCriteriaTransfer $manifestCriteriaTransfer
     ): void {
-        try {
-            /** @var string $manifestFolder */
-            $manifestFolder = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getManifestFolder();
-        } catch (NullValueException $exception) {
-            $manifestFolder = $this->acpConfig->getDefaultManifestFolder();
+        $manifestFolder = $this->acpConfig->getDefaultManifestFolder();
+
+        if ($manifestCriteriaTransfer->getManifestConditions() !== null &&
+            $manifestCriteriaTransfer->getManifestConditions()->getManifestFolder() !== null
+        ) {
+            $manifestFolder = $manifestCriteriaTransfer->getManifestConditions()->getManifestFolder();
         }
 
         try {
@@ -94,11 +95,12 @@ class AppManifestReader implements AppManifestReaderInterface
         ManifestCollectionTransfer $manifestCollectionTransfer,
         ManifestCriteriaTransfer $manifestCriteriaTransfer
     ): void {
-        try {
-            /** @var string $configurationFilePath */
-            $configurationFilePath = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getConfigurationFilePath();
-        } catch (NullValueException $exception) {
-            $configurationFilePath = $this->acpConfig->getDefaultConfigurationFile();
+        $configurationFilePath = $this->acpConfig->getDefaultConfigurationFile();
+
+        if ($manifestCriteriaTransfer->getManifestConditions() !== null &&
+            $manifestCriteriaTransfer->getManifestConditions()->getConfigurationFilePath() !== null
+        ) {
+            $configurationFilePath = $manifestCriteriaTransfer->getManifestConditions()->getConfigurationFilePath();
         }
 
         if (!$this->finder->hasFile($configurationFilePath)) {
@@ -128,11 +130,12 @@ class AppManifestReader implements AppManifestReaderInterface
         ManifestCollectionTransfer $manifestCollectionTransfer,
         ManifestCriteriaTransfer $manifestCriteriaTransfer
     ): void {
-        try {
-            /** @var string $translationFilePath */
-            $translationFilePath = $manifestCriteriaTransfer->getManifestConditionsOrFail()->getTranslationFilePath();
-        } catch (NullValueException $exception) {
-            $translationFilePath = $this->acpConfig->getDefaultTranslationFile();
+        $translationFilePath = $this->acpConfig->getDefaultTranslationFile();
+
+        if ($manifestCriteriaTransfer->getManifestConditions() !== null &&
+            $manifestCriteriaTransfer->getManifestConditions()->getTranslationFilePath() !== null
+        ) {
+            $translationFilePath = $manifestCriteriaTransfer->getManifestConditions()->getTranslationFilePath();
         }
 
         if (!$this->finder->hasFile($translationFilePath)) {
