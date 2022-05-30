@@ -63,14 +63,14 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     protected const CHOICE_NEW_LOCALE = 'Select this to add a new locale';
 
     /**
-     * @var \Symfony\Component\Console\Input\InputInterface
+     * @var \Symfony\Component\Console\Input\InputInterface|null
      */
-    protected $input;
+    protected ?InputInterface $input = null;
 
     /**
-     * @var \Symfony\Component\Console\Output\OutputInterface
+     * @var \Symfony\Component\Console\Output\OutputInterface|null
      */
-    protected $output;
+    protected ?OutputInterface $output = null;
 
     /**
      * @return void
