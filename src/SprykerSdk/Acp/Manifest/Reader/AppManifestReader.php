@@ -75,6 +75,7 @@ class AppManifestReader implements AppManifestReaderInterface
         if (!$this->finder->hasFiles($manifestFolder)) {
             return;
         }
+
         foreach ($this->finder->getFiles($manifestFolder) as $manifestFile) {
             $manifestTransfer = (new ManifestTransfer())
                 ->setLocaleName($manifestFile->getBasename('.json'));

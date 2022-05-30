@@ -8,6 +8,7 @@
 namespace SprykerSdk\Acp\Mapper;
 
 use Transfer\ManifestCollectionTransfer;
+use Transfer\ManifestConfigurationTransfer;
 
 class TranslateKeyMapper implements TranslateKeyMapperInterface
 {
@@ -18,34 +19,75 @@ class TranslateKeyMapper implements TranslateKeyMapperInterface
      */
     public function mapManifestCollectionToTranslateKeys(ManifestCollectionTransfer $manifestCollectionTransfer): array
     {
-        $configuration = $manifestCollectionTransfer->getConfiguration();
+        $configurationTransfer = $manifestCollectionTransfer->getConfiguration();
 
-        if ($configuration === null || !isset($configuration->getConfiguration()['properties'])) {
+        if ($configurationTransfer === null || !isset($configurationTransfer->getConfiguration()['properties'])) {
             return [];
         }
 
+        return $this->mapConfigurationProperties($configurationTransfer);
+    }
+
+    /**
+     * @param \Transfer\ManifestConfigurationTransfer $configurationTransfer
+     *
+     * @return array
+     */
+    protected function mapConfigurationProperties(ManifestConfigurationTransfer $configurationTransfer): array
+    {
         $keysToTranslate = [];
-        foreach ($configuration->getConfiguration()['properties'] as $propertyConfiguration) {
+
+        foreach ($configurationTransfer->getConfiguration()['properties'] as $propertyConfiguration) {
             $keysToTranslate = $this->addKeyIfIsset($keysToTranslate, $propertyConfiguration, 'title');
             $keysToTranslate = $this->addKeyIfIsset($keysToTranslate, $propertyConfiguration, 'placeholder');
 
-            if (isset($propertyConfiguration['oneOf']) && is_array($propertyConfiguration['oneOf'])) {
-                foreach ($propertyConfiguration['oneOf'] as $element) {
-                    $keysToTranslate = $this->addKeyIfIsset($keysToTranslate, $element, 'description');
-                }
-            }
-            if (isset($propertyConfiguration['items']['oneOf']) && is_array($propertyConfiguration['items']['oneOf'])) {
-                foreach ($propertyConfiguration['items']['oneOf'] as $element) {
-                    $keysToTranslate = $this->addKeyIfIsset($keysToTranslate, $element, 'description');
-
-                    if (isset($element['enum']) && is_array($element['enum'])) {
-                        $keysToTranslate = array_merge($keysToTranslate, $element['enum']);
-                    }
-                }
-            }
+            $keysToTranslate = $this->mapOneOfProperties($propertyConfiguration, $keysToTranslate);
+            $keysToTranslate = $this->mapItemsOneOfProperties($propertyConfiguration, $keysToTranslate);
         }
 
         return array_unique($keysToTranslate);
+    }
+
+    /**
+     * @param array $propertyConfiguration
+     * @param array $keysToTranslate
+     *
+     * @return array
+     */
+    protected function mapItemsOneOfProperties(array $propertyConfiguration, array $keysToTranslate): array
+    {
+        if (!isset($propertyConfiguration['items']['oneOf']) || !is_array($propertyConfiguration['items']['oneOf'])) {
+            return $keysToTranslate;
+        }
+
+        foreach ($propertyConfiguration['items']['oneOf'] as $element) {
+            $keysToTranslate = $this->addKeyIfIsset($keysToTranslate, $element, 'description');
+
+            if (isset($element['enum']) && is_array($element['enum'])) {
+                $keysToTranslate = array_merge($keysToTranslate, $element['enum']);
+            }
+        }
+
+        return $keysToTranslate;
+    }
+
+    /**
+     * @param array $propertyConfiguration
+     * @param array $keysToTranslate
+     *
+     * @return array
+     */
+    protected function mapOneOfProperties(array $propertyConfiguration, array $keysToTranslate): array
+    {
+        if (!isset($propertyConfiguration['oneOf']) || !is_array($propertyConfiguration['oneOf'])) {
+            return $keysToTranslate;
+        }
+
+        foreach ($propertyConfiguration['oneOf'] as $element) {
+            $keysToTranslate = $this->addKeyIfIsset($keysToTranslate, $element, 'description');
+        }
+
+        return $keysToTranslate;
     }
 
     /**
