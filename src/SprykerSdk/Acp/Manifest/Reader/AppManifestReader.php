@@ -8,6 +8,8 @@
 namespace SprykerSdk\Acp\Manifest\Reader;
 
 use SprykerSdk\Acp\AcpConfig;
+use SprykerSdk\Acp\Exception\InvalidConfigurationException;
+use SprykerSdk\Acp\Exception\InvalidTranslationException;
 use SprykerSdk\Acp\Validator\Finder\FinderInterface;
 use Transfer\ManifestCollectionTransfer;
 use Transfer\ManifestConfigurationTransfer;
@@ -88,6 +90,8 @@ class AppManifestReader implements AppManifestReaderInterface
      * @param \Transfer\ManifestCollectionTransfer $manifestCollectionTransfer
      * @param \Transfer\ManifestCriteriaTransfer $manifestCriteriaTransfer
      *
+     * @throws \SprykerSdk\Acp\Exception\InvalidConfigurationException
+     *
      * @return void
      */
     protected function extendCollectionByConfiguration(
@@ -114,7 +118,7 @@ class AppManifestReader implements AppManifestReaderInterface
             ->setConfiguration(json_decode((string)file_get_contents($configurationFile->getPathname()), true));
 
         if (json_last_error()) {
-            return;
+            throw new InvalidConfigurationException(json_last_error_msg());
         }
 
         $manifestCollectionTransfer->setConfiguration($manifestConfigurationTransfer);
@@ -123,6 +127,8 @@ class AppManifestReader implements AppManifestReaderInterface
     /**
      * @param \Transfer\ManifestCollectionTransfer $manifestCollectionTransfer
      * @param \Transfer\ManifestCriteriaTransfer $manifestCriteriaTransfer
+     *
+     * @throws \SprykerSdk\Acp\Exception\InvalidTranslationException
      *
      * @return void
      */
@@ -150,7 +156,7 @@ class AppManifestReader implements AppManifestReaderInterface
             ->setTranslations(json_decode((string)file_get_contents($translationFile->getPathname()), true));
 
         if (json_last_error()) {
-            return;
+            throw new InvalidTranslationException(json_last_error_msg());
         }
 
         $manifestCollectionTransfer->setTranslation($manifestTranslationFile);
