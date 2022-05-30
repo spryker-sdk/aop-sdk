@@ -7,10 +7,8 @@
 
 namespace SprykerSdk\Acp\Manifest\Reader;
 
-use Spryker\Shared\Kernel\Transfer\Exception\NullValueException;
 use SprykerSdk\Acp\AcpConfig;
 use SprykerSdk\Acp\Validator\Finder\FinderInterface;
-use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Transfer\ManifestCollectionTransfer;
 use Transfer\ManifestConfigurationTransfer;
 use Transfer\ManifestCriteriaTransfer;
@@ -67,7 +65,8 @@ class AppManifestReader implements AppManifestReaderInterface
     ): void {
         $manifestFolder = $this->acpConfig->getDefaultManifestFolder();
 
-        if ($manifestCriteriaTransfer->getManifestConditions() !== null &&
+        if (
+            $manifestCriteriaTransfer->getManifestConditions() !== null &&
             $manifestCriteriaTransfer->getManifestConditions()->getManifestFolder() !== null
         ) {
             $manifestFolder = $manifestCriteriaTransfer->getManifestConditions()->getManifestFolder();
@@ -96,7 +95,8 @@ class AppManifestReader implements AppManifestReaderInterface
     ): void {
         $configurationFilePath = $this->acpConfig->getDefaultConfigurationFile();
 
-        if ($manifestCriteriaTransfer->getManifestConditions() !== null &&
+        if (
+            $manifestCriteriaTransfer->getManifestConditions() !== null &&
             $manifestCriteriaTransfer->getManifestConditions()->getConfigurationFilePath() !== null
         ) {
             $configurationFilePath = $manifestCriteriaTransfer->getManifestConditions()->getConfigurationFilePath();
@@ -131,7 +131,8 @@ class AppManifestReader implements AppManifestReaderInterface
     ): void {
         $translationFilePath = $this->acpConfig->getDefaultTranslationFile();
 
-        if ($manifestCriteriaTransfer->getManifestConditions() !== null &&
+        if (
+            $manifestCriteriaTransfer->getManifestConditions() !== null &&
             $manifestCriteriaTransfer->getManifestConditions()->getTranslationFilePath() !== null
         ) {
             $translationFilePath = $manifestCriteriaTransfer->getManifestConditions()->getTranslationFilePath();
