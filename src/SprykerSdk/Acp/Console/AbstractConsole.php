@@ -99,21 +99,6 @@ class AbstractConsole extends Command
      *
      * @return void
      */
-    protected function printMessagesVerbose(OutputInterface $output, ArrayObject $messageTransfers): void
-    {
-        if ($output->isVerbose()) {
-            foreach ($messageTransfers as $messageTransfer) {
-                $output->writeln($messageTransfer->getMessageOrFail());
-            }
-        }
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \ArrayObject<int, \Transfer\MessageTransfer> $messageTransfers
-     *
-     * @return void
-     */
     protected function printMessages(OutputInterface $output, ArrayObject $messageTransfers): void
     {
         foreach ($messageTransfers as $messageTransfer) {

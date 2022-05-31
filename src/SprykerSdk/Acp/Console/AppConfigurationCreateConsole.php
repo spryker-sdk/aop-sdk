@@ -75,12 +75,12 @@ class AppConfigurationCreateConsole extends AbstractConsole
         $appConfigurationResponseTransfer = $this->getFacade()->createAppConfiguration($appConfigurationRequestTransfer);
 
         if ($appConfigurationResponseTransfer->getErrors()->count() === 0) {
-            $this->printMessagesVerbose($output, $appConfigurationResponseTransfer->getMessages());
+            $this->printMessages($output, $appConfigurationResponseTransfer->getMessages());
 
             return static::CODE_SUCCESS;
         }
 
-        $this->printMessagesVerbose($output, $appConfigurationResponseTransfer->getErrors());
+        $this->printMessages($output, $appConfigurationResponseTransfer->getErrors());
 
         return static::CODE_ERROR;
     }

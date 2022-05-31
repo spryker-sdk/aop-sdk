@@ -38,9 +38,9 @@ class Finder implements FinderInterface
      *
      * @throws \Symfony\Component\Filesystem\Exception\FileNotFoundException
      *
-     * @return \Symfony\Component\Finder\SplFileInfo|null
+     * @return \Symfony\Component\Finder\SplFileInfo
      */
-    public function getFile(string $path): ?SplFileInfo
+    public function getFile(string $path): SplFileInfo
     {
         if (!$this->hasFile($path)) {
             throw new FileNotFoundException(sprintf('File "%s" could not be found.', $path));

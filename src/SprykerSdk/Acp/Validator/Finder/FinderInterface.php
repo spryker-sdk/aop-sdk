@@ -29,9 +29,9 @@ interface FinderInterface
     /**
      * @param string $path
      *
-     * @return \Symfony\Component\Finder\SplFileInfo|null
+     * @return \Symfony\Component\Finder\SplFileInfo
      */
-    public function getFile(string $path): ?SplFileInfo;
+    public function getFile(string $path): SplFileInfo;
 
     /**
      * @param string $path

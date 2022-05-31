@@ -9,6 +9,7 @@ namespace SprykerSdkTest\Acp;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Acp\Exception\InvalidConfigurationException;
+use SprykerSdk\Acp\Exception\InvalidTranslationException;
 use Transfer\ManifestCollectionTransfer;
 use Transfer\ManifestConditionsTransfer;
 use Transfer\ManifestCriteriaTransfer;
@@ -107,10 +108,39 @@ class AppManifestFacadeTest extends Unit
     /**
      * @return void
      */
-    public function testGetManifestCollectionWithInvalidJsonFilesShouldReturnEmptyCollection(): void
+    public function testGetManifestCollectionWithInvalidTranslationShouldReturnEmptyCollection(): void
     {
         // Arrange
-        $this->tester->haveInvalidJsonStructure();
+        $this->tester->haveInvalidTranslationWithManifestAndConfiguration();
+
+        $manifestCriteriaTransfer = new ManifestCriteriaTransfer();
+        $manifestConditionsTransfer = new ManifestConditionsTransfer();
+
+        $manifestCriteriaTransfer->setManifestConditions($manifestConditionsTransfer);
+        $manifestConditionsTransfer->setTranslationFilePath(
+            $this->tester->getRootPath() . '/config/app/translation.json',
+        );
+        $manifestCriteriaTransfer->setManifestConditions($manifestConditionsTransfer);
+        $manifestConditionsTransfer->setConfigurationFilePath(
+            $this->tester->getRootPath() . '/config/app/configuration.json',
+        );
+        $manifestConditionsTransfer->setManifestFolder(
+            $this->tester->getRootPath() . '/config/app/manifest',
+        );
+
+        // Act
+        $this->expectException(InvalidTranslationException::class);
+
+        $this->tester->getFacade()->getManifestCollection($manifestCriteriaTransfer);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetManifestCollectionWithInvalidConfigurationShouldReturnEmptyCollection(): void
+    {
+        // Arrange
+        $this->tester->haveInvalidConfigurationWithManifestAndTranslation();
 
         $manifestCriteriaTransfer = new ManifestCriteriaTransfer();
         $manifestConditionsTransfer = new ManifestConditionsTransfer();

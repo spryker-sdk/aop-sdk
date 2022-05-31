@@ -118,7 +118,11 @@ class AppManifestReader implements AppManifestReaderInterface
             ->setConfiguration(json_decode((string)file_get_contents($configurationFile->getPathname()), true));
 
         if (json_last_error()) {
-            throw new InvalidConfigurationException(json_last_error_msg());
+            throw new InvalidConfigurationException(sprintf(
+                'There was an error while decoding the configuration file "%s". Error: %s',
+                $configurationFile->getPathname(),
+                json_last_error_msg(),
+            ));
         }
 
         $manifestCollectionTransfer->setConfiguration($manifestConfigurationTransfer);
@@ -156,7 +160,11 @@ class AppManifestReader implements AppManifestReaderInterface
             ->setTranslations(json_decode((string)file_get_contents($translationFile->getPathname()), true));
 
         if (json_last_error()) {
-            throw new InvalidTranslationException(json_last_error_msg());
+            throw new InvalidTranslationException(sprintf(
+                'There was an error while decoding the translation file "%s". Error: %s',
+                $translationFile->getPathname(),
+                json_last_error_msg(),
+            ));
         }
 
         $manifestCollectionTransfer->setTranslation($manifestTranslationFile);

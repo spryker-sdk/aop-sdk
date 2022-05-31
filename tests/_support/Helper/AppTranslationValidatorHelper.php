@@ -84,6 +84,48 @@ class AppTranslationValidatorHelper extends Module
     /**
      * @return void
      */
+    public function haveInvalidTranslationWithManifestAndConfiguration(): void
+    {
+        $structure = [
+            'config' => [
+                'app' => [
+                    'translation.json' => file_get_contents(codecept_data_dir('invalid/translation/invalid.json')),
+                    'configuration.json' => file_get_contents(codecept_data_dir('valid/configuration/configuration.json')),
+                    'manifest' => [
+                        'de_DE.json' => file_get_contents(codecept_data_dir('valid/manifest/de_DE.json')),
+                        'en_US.json' => file_get_contents(codecept_data_dir('valid/manifest/en_US.json')),
+                    ],
+                ],
+            ],
+        ];
+
+        $this->prepareTranslation($structure);
+    }
+
+    /**
+     * @return void
+     */
+    public function haveInvalidConfigurationWithManifestAndTranslation(): void
+    {
+        $structure = [
+            'config' => [
+                'app' => [
+                    'translation.json' => file_get_contents(codecept_data_dir('valid/translation/translation.json')),
+                    'configuration.json' => file_get_contents(codecept_data_dir('invalid/configuration/configuration.json')),
+                    'manifest' => [
+                        'de_DE.json' => file_get_contents(codecept_data_dir('valid/manifest/de_DE.json')),
+                        'en_US.json' => file_get_contents(codecept_data_dir('valid/manifest/en_US.json')),
+                    ],
+                ],
+            ],
+        ];
+
+        $this->prepareTranslation($structure);
+    }
+
+    /**
+     * @return void
+     */
     public function haveMissingTranslationValueTranslationFile(): void
     {
         $structure = $this->getValidBaseStructure('invalid/translation/missingTranslationValue.json');
