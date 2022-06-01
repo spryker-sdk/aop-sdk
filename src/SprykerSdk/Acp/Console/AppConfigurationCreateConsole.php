@@ -42,6 +42,15 @@ class AppConfigurationCreateConsole extends AbstractConsole
     public const CONFIGURATION_FILE_SHORT = 'c';
 
     /**
+     * @var array
+     */
+    protected const CONFIGURATION_TYPE_HINTS = [
+        'Text' => 'Text (User can type a value)',
+        'Radio' => 'Radio (User can select exactly one of the provided choices)',
+        'Checkbox' => 'Checkbox (User can select zero or multiple of the provided choices)',
+    ];
+
+    /**
      * @return void
      */
     protected function configure(): void
@@ -65,7 +74,10 @@ class AppConfigurationCreateConsole extends AbstractConsole
         $output->writeln([
             'Welcome to the App configuration builder.',
             '',
+            'The configuration will define the form fields that are displayed on the configuration page of the app, which is displayed in the App Store Catalog. E.g. credentials for an external service, available payment methods, etc.',
+            '',
             'For each configuration you will be prompted to enter details.',
+            '',
             'When the process is done a configuration file will be created in: ' . $appConfigurationRequestTransfer->getConfigurationFile(),
             'When you have a typo or anything else you\'d like to change you can do that manually in the created file after this process is finished.',
             '',
@@ -178,12 +190,14 @@ class AppConfigurationCreateConsole extends AbstractConsole
                 $this->askForConfirmation($input, $output, 'Is this a required field?'),
             );
 
-            $this->setWidget(
-                $input,
-                $output,
-                $propertyName,
-                $this->askChoiceQuestion($input, $output, 'Please select a widget: ', [1 => 'Text', 2 => 'Radio', 3 => 'Checkbox'], 1),
-            );
+            $choices = array_values(static::CONFIGURATION_TYPE_HINTS);
+            $choices = array_combine(range(1, count($choices)), $choices) ?: $choices;
+
+            $widgetHint = $this->askChoiceQuestion($input, $output, 'Please select a widget: ', $choices, 1);
+
+            $widget = array_flip(static::CONFIGURATION_TYPE_HINTS)[$widgetHint] ?? 'Text';
+
+            $this->setWidget($input, $output, $propertyName, $widget);
         } while ($this->askForConfirmation($input, $output, 'Do you want to add more configurations?') === 'Yes');
     }
 
@@ -195,7 +209,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
      */
     protected function getPropertyName(InputInterface $input, OutputInterface $output): string
     {
-        $propertyName = $this->askTextQuestion($input, $output, 'Please enter a name: ');
+        $propertyName = $this->askTextQuestion($input, $output, 'Please enter a form field name: ');
 
         if (array_key_exists($propertyName, $this->properties) && ($this->askForConfirmation($input, $output, 'You have already defined this configuration do you want to override it?') === 'No')) {
             $propertyName = $this->getPropertyName($input, $output);
@@ -413,6 +427,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
     {
         if ($this->askForConfirmation($input, $output, 'Do you want to group the configurations?') === 'Yes') {
             $fieldsetOptions = array_keys($this->properties);
+            $fieldsetOptions = array_combine(range(1, count($fieldsetOptions)), $fieldsetOptions) ?: $fieldsetOptions;
 
             do {
                 $fieldsetOptions = array_diff($fieldsetOptions, $this->setGroupFields(
