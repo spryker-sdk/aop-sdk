@@ -15,7 +15,7 @@ class Validator implements ValidatorInterface
     /**
      * @var array<\SprykerSdk\Acp\Validator\ValidatorInterface>
      */
-    protected $validators;
+    protected array $validators;
 
     /**
      * @param array<\SprykerSdk\Acp\Validator\ValidatorInterface> $validators

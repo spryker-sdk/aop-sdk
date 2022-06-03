@@ -8,12 +8,15 @@
 namespace SprykerSdkTest\Acp;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Acp\Exception\InvalidConfigurationException;
+use SprykerSdk\Acp\Exception\InvalidTranslationException;
+use Transfer\ManifestCollectionTransfer;
+use Transfer\ManifestConditionsTransfer;
+use Transfer\ManifestCriteriaTransfer;
 
 /**
- * @group SprykerSdkTest
- * @group Zed
+ * @group SprykerSdk
  * @group Acp
- * @group Business
  * @group AppManifestFacadeTest
  */
 class AppManifestFacadeTest extends Unit
@@ -24,9 +27,9 @@ class AppManifestFacadeTest extends Unit
     public const INVALID_LOCALE = 'en_U';
 
     /**
-     * @var \SprykerSdkTest\AcpsTester
+     * @var \SprykerSdkTest\Acp\Tester
      */
-    protected $tester;
+    protected Tester $tester;
 
     /**
      * @return void
@@ -69,5 +72,124 @@ class AppManifestFacadeTest extends Unit
                 $manifestResponseTransfer->getErrors()->count(),
             ),
         );
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetManifestCollectionShouldReturnCollection(): void
+    {
+        // Arrange
+        $this->tester->haveValidTranslationWithManifestAndConfiguration();
+
+        $manifestCriteriaTransfer = new ManifestCriteriaTransfer();
+        $manifestConditionsTransfer = new ManifestConditionsTransfer();
+
+        $manifestCriteriaTransfer->setManifestConditions($manifestConditionsTransfer);
+        $manifestConditionsTransfer->setConfigurationFilePath(
+            $this->tester->getRootPath() . '/config/app/configuration.json',
+        );
+        $manifestConditionsTransfer->setManifestFolder(
+            $this->tester->getRootPath() . '/config/app/manifest',
+        );
+        $manifestConditionsTransfer->setTranslationFilePath(
+            $this->tester->getRootPath() . '/config/app/translation.json',
+        );
+
+        // Act
+        $collection = $this->tester->getFacade()->getManifestCollection($manifestCriteriaTransfer);
+
+        // Assert
+        $this->assertNotEmpty($collection->getTranslation()->getTranslations());
+        $this->assertNotEmpty($collection->getManifests());
+        $this->assertNotEmpty($collection->getConfiguration());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetManifestCollectionWithInvalidTranslationShouldReturnEmptyCollection(): void
+    {
+        // Arrange
+        $this->tester->haveInvalidTranslationWithManifestAndConfiguration();
+
+        $manifestCriteriaTransfer = new ManifestCriteriaTransfer();
+        $manifestConditionsTransfer = new ManifestConditionsTransfer();
+
+        $manifestCriteriaTransfer->setManifestConditions($manifestConditionsTransfer);
+        $manifestConditionsTransfer->setTranslationFilePath(
+            $this->tester->getRootPath() . '/config/app/translation.json',
+        );
+        $manifestCriteriaTransfer->setManifestConditions($manifestConditionsTransfer);
+        $manifestConditionsTransfer->setConfigurationFilePath(
+            $this->tester->getRootPath() . '/config/app/configuration.json',
+        );
+        $manifestConditionsTransfer->setManifestFolder(
+            $this->tester->getRootPath() . '/config/app/manifest',
+        );
+
+        // Act
+        $this->expectException(InvalidTranslationException::class);
+
+        $this->tester->getFacade()->getManifestCollection($manifestCriteriaTransfer);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetManifestCollectionWithInvalidConfigurationShouldReturnEmptyCollection(): void
+    {
+        // Arrange
+        $this->tester->haveInvalidConfigurationWithManifestAndTranslation();
+
+        $manifestCriteriaTransfer = new ManifestCriteriaTransfer();
+        $manifestConditionsTransfer = new ManifestConditionsTransfer();
+
+        $manifestCriteriaTransfer->setManifestConditions($manifestConditionsTransfer);
+        $manifestConditionsTransfer->setTranslationFilePath(
+            $this->tester->getRootPath() . '/config/app/translation.json',
+        );
+        $manifestCriteriaTransfer->setManifestConditions($manifestConditionsTransfer);
+        $manifestConditionsTransfer->setConfigurationFilePath(
+            $this->tester->getRootPath() . '/config/app/configuration.json',
+        );
+        $manifestConditionsTransfer->setManifestFolder(
+            $this->tester->getRootPath() . '/config/app/manifest',
+        );
+
+        // Act
+        $this->expectException(InvalidConfigurationException::class);
+
+        $this->tester->getFacade()->getManifestCollection($manifestCriteriaTransfer);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetExistingKeysToTranslateWithManifestCollectionShouldReturnTranslationKeys(): void
+    {
+        // Arrange
+        $manifestCollection = $this->tester->haveManifestCollection();
+
+        // Act
+        $keysToTranslate = $this->tester->getFacade()->getExistingKeysToTranslate($manifestCollection);
+
+        // Assert
+        $this->assertCount(5, $keysToTranslate);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetExistingKeysToTranslateWithEmptyManifestCollection(): void
+    {
+        // Arrange
+        $manifestCollection = new ManifestCollectionTransfer();
+
+        // Act
+        $keysToTranslate = $this->tester->getFacade()->getExistingKeysToTranslate($manifestCollection);
+
+        // Assert
+        $this->assertEmpty($keysToTranslate);
     }
 }

@@ -87,7 +87,7 @@ class RecipeTransfer extends AbstractTransfer
             'is_strict' => false,
         ],
         self::CHECKER_MESSAGES => [
-            'type' => 'Generated\Shared\Transfer\CheckerMessageTransfer',
+            'type' => 'Transfer\CheckerMessageTransfer',
             'type_shim' => null,
             'name_underscore' => 'checker_messages',
             'is_collection' => true,

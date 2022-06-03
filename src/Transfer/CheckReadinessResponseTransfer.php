@@ -50,7 +50,7 @@ class CheckReadinessResponseTransfer extends AbstractTransfer
      */
     protected $transferMetadata = [
         self::RECIPES => [
-            'type' => 'Generated\Shared\Transfer\RecipeTransfer',
+            'type' => 'Transfer\RecipeTransfer',
             'type_shim' => null,
             'name_underscore' => 'recipes',
             'is_collection' => true,

@@ -10,15 +10,16 @@ namespace SprykerSdkTest\Acp;
 use Codeception\Test\Unit;
 
 /**
+ * @group SprykerSdk
  * @group Acp
  * @group AppTranslationValidatorFacadeTest
  */
 class AppTranslationValidatorFacadeTest extends Unit
 {
     /**
-     * @var \SprykerSdkTest\AcpsTester
+     * @var \SprykerSdkTest\Acp\Tester
      */
-    protected $tester;
+    protected Tester $tester;
 
     /**
      * @return void
@@ -58,7 +59,7 @@ class AppTranslationValidatorFacadeTest extends Unit
         $this->assertCount(1, $validateResponseTransfer->getErrors());
 
         $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('Can not validate the Translation file "vfs://root/config/app/translation/translation.json" without existing manifest file(s).', $expectedErrorMessage->getMessage());
+        $this->assertSame('Can not validate the Translation file "vfs://root/config/app/translation.json" without existing manifest file(s).', $expectedErrorMessage->getMessage());
     }
 
     /**
@@ -78,7 +79,7 @@ class AppTranslationValidatorFacadeTest extends Unit
         $this->assertCount(1, $validateResponseTransfer->getErrors());
 
         $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('Can not validate the Translation file "vfs://root/config/app/translation/translation.json" without existing "configuration.json" file.', $expectedErrorMessage->getMessage());
+        $this->assertSame('Can not validate the Translation file "vfs://root/config/app/translation.json" without existing "configuration.json" file.', $expectedErrorMessage->getMessage());
     }
 
     /**
@@ -135,6 +136,6 @@ class AppTranslationValidatorFacadeTest extends Unit
         $this->assertCount(1, $validateResponseTransfer->getErrors());
 
         $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('Translation file "vfs://root/config/app/translation/translation.json" contains invalid JSON. Error: "Syntax error".', $expectedErrorMessage->getMessage());
+        $this->assertSame('Translation file "vfs://root/config/app/translation.json" contains invalid JSON. Error: "Syntax error".', $expectedErrorMessage->getMessage());
     }
 }

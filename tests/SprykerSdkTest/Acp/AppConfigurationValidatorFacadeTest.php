@@ -10,15 +10,16 @@ namespace SprykerSdkTest\Acp;
 use Codeception\Test\Unit;
 
 /**
+ * @group SprykerSdk
  * @group Acp
  * @group AppConfigurationValidatorFacadeTest
  */
 class AppConfigurationValidatorFacadeTest extends Unit
 {
     /**
-     * @var \SprykerSdkTest\AcpsTester
+     * @var \SprykerSdkTest\Acp\Tester
      */
-    protected $tester;
+    protected Tester $tester;
 
     /**
      * @return void
@@ -75,6 +76,6 @@ class AppConfigurationValidatorFacadeTest extends Unit
         $this->assertCount(1, $validateResponseTransfer->getErrors());
 
         $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('Configuration file "vfs://root/config/app/configuration/configuration.json" contains invalid JSON. Error: "Syntax error".', $expectedErrorMessage->getMessage());
+        $this->assertSame('Configuration file "vfs://root/config/app/configuration.json" contains invalid JSON. Error: "Syntax error".', $expectedErrorMessage->getMessage());
     }
 }

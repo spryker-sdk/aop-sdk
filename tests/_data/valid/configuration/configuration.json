@@ -1,20 +1,20 @@
 {
     "type": "object",
     "properties": {
-        "name": {
+        "surname": {
             "type": "string",
-            "title": "Surname"
+            "title": "surname"
         },
         "children": {
             "type": "array",
-            "title": "Family",
+            "title": "family",
             "items": {
                 "type": "object",
-                "title": "Children",
+                "title": "children",
                 "properties": {
-                    "name": {
+                    "surname": {
                         "type": "string",
-                        "title": "Surname",
+                        "title": "surname",
                         "widget": {
                             "id": "string"
                         }

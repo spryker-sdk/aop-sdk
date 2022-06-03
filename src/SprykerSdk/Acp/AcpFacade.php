@@ -13,6 +13,8 @@ use Transfer\AppTranslationRequestTransfer;
 use Transfer\AppTranslationResponseTransfer;
 use Transfer\CheckReadinessResponseTransfer;
 use Transfer\CheckReadinessTransfer;
+use Transfer\ManifestCollectionTransfer;
+use Transfer\ManifestCriteriaTransfer;
 use Transfer\ManifestRequestTransfer;
 use Transfer\ManifestResponseTransfer;
 use Transfer\ValidateRequestTransfer;
@@ -157,5 +159,33 @@ class AcpFacade implements AcpFacadeInterface
     public function checkReadiness(CheckReadinessTransfer $checkReadinessTransfer): CheckReadinessResponseTransfer
     {
         return $this->getFactory()->createReadinessChecker()->checkReadiness($checkReadinessTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Transfer\ManifestCriteriaTransfer $manifestCriteriaTransfer
+     *
+     * @return \Transfer\ManifestCollectionTransfer
+     */
+    public function getManifestCollection(ManifestCriteriaTransfer $manifestCriteriaTransfer): ManifestCollectionTransfer
+    {
+        return $this->getFactory()->createAppManifestReader()->getManifestCollection($manifestCriteriaTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Transfer\ManifestCollectionTransfer $manifestCollectionTransfer
+     *
+     * @return array
+     */
+    public function getExistingKeysToTranslate(ManifestCollectionTransfer $manifestCollectionTransfer): array
+    {
+        return $this->getFactory()->createTranslateKeyMapper()->mapManifestCollectionToTranslateKeys($manifestCollectionTransfer);
     }
 }

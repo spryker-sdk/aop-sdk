@@ -101,10 +101,8 @@ class AbstractConsole extends Command
      */
     protected function printMessages(OutputInterface $output, ArrayObject $messageTransfers): void
     {
-        if ($output->isVerbose()) {
-            foreach ($messageTransfers as $messageTransfer) {
-                $output->writeln($messageTransfer->getMessageOrFail());
-            }
+        foreach ($messageTransfers as $messageTransfer) {
+            $output->writeln($messageTransfer->getMessageOrFail());
         }
     }
 }

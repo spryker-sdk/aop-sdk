@@ -13,6 +13,8 @@ use Transfer\AppTranslationRequestTransfer;
 use Transfer\AppTranslationResponseTransfer;
 use Transfer\CheckReadinessResponseTransfer;
 use Transfer\CheckReadinessTransfer;
+use Transfer\ManifestCollectionTransfer;
+use Transfer\ManifestCriteriaTransfer;
 use Transfer\ManifestRequestTransfer;
 use Transfer\ManifestResponseTransfer;
 use Transfer\ValidateRequestTransfer;
@@ -119,4 +121,30 @@ interface AcpFacadeInterface
      * @return \Transfer\CheckReadinessResponseTransfer
      */
     public function checkReadiness(CheckReadinessTransfer $checkReadinessTransfer): CheckReadinessResponseTransfer;
+
+    /**
+     * Specification:
+     * - Finds existing manifests according to the criteria.
+     * - Extends the collection by a manifest configuration.
+     * - Extends the collection by a manifest translation.
+     *
+     * @api
+     *
+     * @param \Transfer\ManifestCriteriaTransfer $manifestCriteriaTransfer
+     *
+     * @return \Transfer\ManifestCollectionTransfer
+     */
+    public function getManifestCollection(ManifestCriteriaTransfer $manifestCriteriaTransfer): ManifestCollectionTransfer;
+
+    /**
+     * Specification:
+     * - Finds object keys from configuration to translate.
+     *
+     * @api
+     *
+     * @param \Transfer\ManifestCollectionTransfer $manifestCollectionTransfer
+     *
+     * @return array
+     */
+    public function getExistingKeysToTranslate(ManifestCollectionTransfer $manifestCollectionTransfer): array;
 }

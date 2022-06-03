@@ -10,22 +10,21 @@ namespace SprykerSdkTest\Acp\Console;
 use Codeception\Test\Unit;
 use SprykerSdk\Acp\Console\AbstractConsole;
 use SprykerSdk\Acp\Console\AppManifestValidateConsole;
+use SprykerSdkTest\Acp\Tester;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @group SprykerSdkTest
- * @group Zed
  * @group Acp
- * @group Communication
  * @group Console
  * @group AppManifestValidateConsoleTest
  */
 class AppManifestValidateConsoleTest extends Unit
 {
     /**
-     * @var \SprykerSdkTest\Acp\CommunicationTester
+     * @var \SprykerSdkTest\Acp\Tester
      */
-    protected $tester;
+    protected Tester $tester;
 
     /**
      * @return void

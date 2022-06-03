@@ -21,6 +21,8 @@ use Rector\Set\ValueObject\SetList;
 defined('APPLICATION_ROOT_DIR') || define('APPLICATION_ROOT_DIR', __DIR__);
 
 return static function (RectorConfig $rectorConfig) {
+    $rectorConfig->paths([__DIR__ . '/src/SprykerSdk', __DIR__ . '/tests/SprykerSdkTest']);
+
     $rectorConfig->import(SetList::DEAD_CODE);
     $rectorConfig->import(SetList::EARLY_RETURN);
     $rectorConfig->import(SetList::PHP_74);
@@ -34,6 +36,9 @@ return static function (RectorConfig $rectorConfig) {
         RemoveUselessReturnTagRector::class,
         ReturnBinaryAndToEarlyReturnRector::class,
         SimplifyUselessVariableRector::class,
-        TypedPropertyRector::class,
+    ]);
+
+    $rectorConfig->ruleWithConfiguration(TypedPropertyRector::class, [
+        TypedPropertyRector::INLINE_PUBLIC => true,
     ]);
 };

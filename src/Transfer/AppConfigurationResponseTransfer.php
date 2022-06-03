@@ -49,7 +49,7 @@ class AppConfigurationResponseTransfer extends AbstractTransfer
      */
     protected $transferMetadata = [
         self::ERRORS => [
-            'type' => 'Generated\Shared\Transfer\MessageTransfer',
+            'type' => 'Transfer\MessageTransfer',
             'type_shim' => null,
             'name_underscore' => 'errors',
             'is_collection' => true,
@@ -61,7 +61,7 @@ class AppConfigurationResponseTransfer extends AbstractTransfer
             'is_strict' => false,
         ],
         self::MESSAGES => [
-            'type' => 'Generated\Shared\Transfer\MessageTransfer',
+            'type' => 'Transfer\MessageTransfer',
             'type_shim' => null,
             'name_underscore' => 'messages',
             'is_collection' => true,

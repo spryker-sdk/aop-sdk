@@ -14,7 +14,7 @@ coverage:
 suites:
     Acp:
         path: SprykerSdkTest/Acp
-        class_name: CommunicationTester
+        class_name: Tester
         modules:
             enabled:
                 - \SprykerSdkTest\Helper\AcpHelper
@@ -24,6 +24,8 @@ suites:
                 - \SprykerSdkTest\Helper\AppTranslationValidatorHelper
                 - \SprykerSdkTest\Helper\ValidatorHelper
                 - \SprykerSdkTest\Helper\ManifestHelper
+                - \SprykerSdkTest\Helper\TranslationHelper
+                - \SprykerSdkTest\Helper\AppManifestFacadeHelper
 extensions:
     enabled:
         - Codeception\Extension\RunFailed

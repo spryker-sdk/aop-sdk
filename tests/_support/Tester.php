@@ -25,9 +25,9 @@ use Codeception\Actor;
  *
  * @SuppressWarnings(PHPMD)
  */
-class CommunicationTester extends Actor
+class Tester extends Actor
 {
-    use _generated\CommunicationTesterActions;
+    use _generated\TesterActions;
 
     /**
      * Define custom actions here
