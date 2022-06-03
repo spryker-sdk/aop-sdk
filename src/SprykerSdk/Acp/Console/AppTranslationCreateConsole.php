@@ -95,7 +95,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
         $this->input = $input;
         $this->output = $output;
 
-        $this->printWelcomeMessage($output);
+        $this->printWelcomeMessage($input, $output);
 
         $manifestCollectionTransfer = $this->getManifestCollection(
             $input->getOption(static::MANIFEST_FOLDER),
@@ -390,10 +390,11 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
 
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Input\InputInterface $input
      *
      * @return void
      */
-    protected function printWelcomeMessage(OutputInterface $output): void
+    protected function printWelcomeMessage(InputInterface $input, OutputInterface $output): void
     {
         $output->writeln([
             'Welcome to the App translation builder.',
@@ -402,7 +403,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
             '',
             'For each translation you will be prompted to enter details.',
             '',
-            'When the process is done a translation file will be created in: ' . $appTranslationRequestTransfer->getTranslationFile(),
+            'When the process is done a translation file will be created in: ' . $input->getOption(static::TRANSLATION_FILE),
             'When you have a typo or anything else you\'d like to change you can do that manually in the created file after this process is finished.',
             '',
         ]);
