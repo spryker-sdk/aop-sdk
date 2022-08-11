@@ -1,0 +1,117 @@
+openapi: 3.0.0
+info:
+    version: 1.0.0
+    contact:
+        name: Spryker
+        url: 'https://apps.spryker.com/'
+        email: support@spryker.com
+    title: 'Spryker API'
+    license:
+        name: MIT
+paths:
+    '/private/application-config':
+        post: &paths/private/application-config/post
+            summary: 'Saves or updates application configuration between Tenant and App.'
+            parameters:
+                -   name: X-Store-Reference
+                    in: header
+                    required: true
+                    description: 'Reference of the Tenants store.'
+                    schema:
+                        type: string
+            requestBody:
+                description: 'Provides configuration for the application.'
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ConfigurationApiRequest'
+            responses:
+                200:
+                    description: 'Expected response to a valid request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ConfigurationApiResponse'
+                400:
+                    description: 'Bad request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApiErrorMessages'
+                default:
+                    description: 'Expected response to a bad request.'
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+        put: *paths/private/application-config/post # $ref is not (officially) supported for operation objects
+
+    '/private/application/disconnect':
+        post:
+            summary: 'Disconnects Application from a Tenants store.
+                      Finds Application configuration and removes it.'
+            parameters:
+                -   name: X-Store-Reference
+                    in: header
+                    required: true
+                    description: 'Reference of the Tenants store.'
+                    schema:
+                        type: string
+            responses:
+                204:
+                    description: 'App is disconnected.'
+                400:
+                    description: 'Bad request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApiErrorMessages'
+                default:
+                    description: 'Expected response to a bad request.'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApiErrorMessages'
+components:
+    schemas:
+        ConfigurationApiResponse:
+            type: object
+            additionalProperties: true
+        ConfigurationApiRequest:
+            properties:
+                data:
+                    type: object
+                    required:
+                        - attributes
+                    properties:
+                        attributes:
+                            type: object
+                            required:
+                                - configuration
+                            properties:
+                                configuration:
+                                    description: 'Contains JSON encoded configuration.'
+                                    type: string
+        ApiErrorMessage:
+            properties:
+                code:
+                    type: string
+                detail:
+                    type: string
+                status:
+                    type: string
+        ApiErrorMessages:
+            properties:
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ApiErrorMessage'
+    parameters:
+        storeReference:
+            name: X-Store-Reference
+            in: header
+            required: true
+            description: 'Reference of the Tenants store.'
+            schema:
+                type: string
