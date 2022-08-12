@@ -9,7 +9,7 @@ info:
     license:
         name: MIT
 paths:
-    '/private/application-config':
+    '/private/application/config':
         post:
             summary: 'Saves or updates application configuration between Tenant and App.'
             parameters:
