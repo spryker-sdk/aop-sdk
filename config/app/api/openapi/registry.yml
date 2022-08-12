@@ -10,74 +10,54 @@ info:
         name: MIT
 paths:
     '/private/application-config':
-        post: &paths/private/application-config/post
+        post:
             summary: 'Saves or updates application configuration between Tenant and App.'
             parameters:
-                -   name: X-Store-Reference
-                    in: header
-                    required: true
-                    description: 'Reference of the Tenants store.'
-                    schema:
-                        type: string
+                -   $ref: '#/components/parameters/storeReference'
             requestBody:
-                description: 'Provides configuration for the application.'
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ConfigurationApiRequest'
+                $ref: '#/components/requestBodies/ApplicationConfigurationRequestBody'
             responses:
                 200:
-                    description: 'Expected response to a valid request.'
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ConfigurationApiResponse'
+                    $ref: '#/components/responses/ApplicationConfigurationResponseStatus200'
                 400:
-                    description: 'Bad request.'
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ApiErrorMessages'
+                    $ref: '#/components/responses/BadRequestResponseDefault'
                 default:
-                    description: 'Expected response to a bad request.'
-                    content:
-                        text/plain:
-                            schema:
-                                type: string
-        put: *paths/private/application-config/post # $ref is not (officially) supported for operation objects
+                    $ref: '#/components/responses/BadRequestResponseDefault'
+        put:
+            summary: 'Updates application configuration between Tenant and App'
+            parameters:
+                -   $ref: '#/components/parameters/storeReference'
+            requestBody:
+                $ref: '#/components/requestBodies/ApplicationConfigurationRequestBody'
+            responses:
+                200:
+                    $ref: '#/components/responses/ApplicationConfigurationResponseStatus200'
+                400:
+                    $ref: '#/components/responses/BadRequestResponseDefault'
+                default:
+                    $ref: '#/components/responses/BadRequestResponseDefault'
 
     '/private/application/disconnect':
         post:
             summary: 'Disconnects Application from a Tenants store.
                       Finds Application configuration and removes it.'
             parameters:
-                -   name: X-Store-Reference
-                    in: header
-                    required: true
-                    description: 'Reference of the Tenants store.'
-                    schema:
-                        type: string
+                -   $ref: '#/components/parameters/storeReference'
             responses:
                 204:
                     description: 'App is disconnected.'
                 400:
-                    description: 'Bad request.'
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ApiErrorMessages'
+                    $ref: '#/components/responses/BadRequestResponseDefault'
                 default:
-                    description: 'Expected response to a bad request.'
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ApiErrorMessages'
+                    $ref: '#/components/responses/BadRequestResponseDefault'
 components:
     schemas:
         ConfigurationApiResponse:
             type: object
             additionalProperties: true
+            example:
+                configKey1: "config value"
+                configKey2: ["selectedValue1", "selectedValue2"]
         ConfigurationApiRequest:
             properties:
                 data:
@@ -93,6 +73,7 @@ components:
                                 configuration:
                                     description: 'Contains JSON encoded configuration.'
                                     type: string
+                                    example: "{\"configKey1\":\"config value\",\"configKey2\":[\"selectedValue1\",\"selectedValue2\"]}"
         ApiErrorMessage:
             properties:
                 code:
@@ -107,6 +88,28 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/ApiErrorMessage'
+    requestBodies:
+        ApplicationConfigurationRequestBody:
+            description: 'Provides configuration for the application.'
+            required: true
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ConfigurationApiRequest'
+    responses:
+        ApplicationConfigurationResponseStatus200:
+            description: 'Expected response to a valid request.'
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ConfigurationApiResponse'
+
+        BadRequestResponseDefault:
+            description: 'Expected response to a bad request.'
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ApiErrorMessages'
     parameters:
         storeReference:
             name: X-Store-Reference
