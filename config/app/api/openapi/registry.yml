@@ -22,7 +22,11 @@ paths:
                 400:
                     $ref: '#/components/responses/BadRequestResponseDefault'
                 default:
-                    $ref: '#/components/responses/BadRequestResponseDefault'
+                    description: 'Expected response to a bad request.'
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
         put:
             summary: 'Updates application configuration between Tenant and App'
             parameters:
@@ -35,7 +39,11 @@ paths:
                 400:
                     $ref: '#/components/responses/BadRequestResponseDefault'
                 default:
-                    $ref: '#/components/responses/BadRequestResponseDefault'
+                    description: 'Expected response to a bad request.'
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
 
     '/private/application/disconnect':
         post:
@@ -49,7 +57,11 @@ paths:
                 400:
                     $ref: '#/components/responses/BadRequestResponseDefault'
                 default:
-                    $ref: '#/components/responses/BadRequestResponseDefault'
+                    description: 'Expected response to a bad request.'
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
 components:
     schemas:
         ConfigurationApiResponse:
