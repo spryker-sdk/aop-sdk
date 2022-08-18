@@ -22,11 +22,7 @@ paths:
                 400:
                     $ref: '#/components/responses/BadRequestResponseDefault'
                 default:
-                    description: 'Expected response to a bad request.'
-                    content:
-                        text/plain:
-                            schema:
-                                type: string
+                    $ref: '#/components/responses/ErrorResponseDefault'
         put:
             summary: 'Updates application configuration between Tenant and App'
             parameters:
@@ -39,11 +35,7 @@ paths:
                 400:
                     $ref: '#/components/responses/BadRequestResponseDefault'
                 default:
-                    description: 'Expected response to a bad request.'
-                    content:
-                        text/plain:
-                            schema:
-                                type: string
+                    $ref: '#/components/responses/ErrorResponseDefault'
 
     '/private/application/disconnect':
         post:
@@ -57,11 +49,7 @@ paths:
                 400:
                     $ref: '#/components/responses/BadRequestResponseDefault'
                 default:
-                    description: 'Expected response to a bad request.'
-                    content:
-                        text/plain:
-                            schema:
-                                type: string
+                    $ref: '#/components/responses/ErrorResponseDefault'
 components:
     schemas:
         ConfigurationApiResponse:
@@ -122,6 +110,13 @@ components:
                 application/json:
                     schema:
                         $ref: '#/components/schemas/ApiErrorMessages'
+
+        ErrorResponseDefault:
+            description: 'Expected response to a bad request.'
+            content:
+                text/plain:
+                    schema:
+                        type: string
     parameters:
         storeReference:
             name: X-Store-Reference
