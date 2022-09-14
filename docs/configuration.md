@@ -1,4 +1,4 @@
-# CreateConfiguration
+# Create Configuration
 
 The following console commands are available:
 
