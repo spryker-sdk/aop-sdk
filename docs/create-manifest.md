@@ -1,4 +1,4 @@
-# CreateManifest
+# Create Manifest
 
 The following console commands are available:
 
