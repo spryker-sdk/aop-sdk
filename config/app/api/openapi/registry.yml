@@ -3,9 +3,8 @@ info:
     version: 1.0.0
     contact:
         name: Spryker
-        url: 'https://apps.spryker.com/'
         email: support@spryker.com
-    title: 'Spryker API'
+    title: 'Spryker ACP Registry API for ACP Apps'
     license:
         name: MIT
 paths:
@@ -19,9 +18,9 @@ paths:
             requestBody:
                 $ref: '#/components/requestBodies/ApplicationConfigurationRequestBody'
             responses:
-                200:
+                '200':
                     $ref: '#/components/responses/ApplicationConfigurationResponseStatus200'
-                400:
+                '4XX':
                     $ref: '#/components/responses/BadRequestResponseDefault'
                 default:
                     $ref: '#/components/responses/ErrorResponseDefault'
@@ -34,9 +33,9 @@ paths:
             requestBody:
                 $ref: '#/components/requestBodies/ApplicationConfigurationRequestBody'
             responses:
-                200:
+                '200':
                     $ref: '#/components/responses/ApplicationConfigurationResponseStatus200'
-                400:
+                '4XX':
                     $ref: '#/components/responses/BadRequestResponseDefault'
                 default:
                     $ref: '#/components/responses/ErrorResponseDefault'
@@ -50,9 +49,9 @@ paths:
             parameters:
                 -   $ref: '#/components/parameters/storeReference'
             responses:
-                204:
+                '204':
                     description: 'App is disconnected.'
-                400:
+                '4XX':
                     $ref: '#/components/responses/BadRequestResponseDefault'
                 default:
                     $ref: '#/components/responses/ErrorResponseDefault'
