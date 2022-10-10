@@ -8,8 +8,10 @@ info:
     title: 'Spryker API'
     license:
         name: MIT
+security:
+    - BearerAuth: []
 paths:
-    '/private/application/config':
+    '/private/config':
         post:
             summary: 'Saves or updates application configuration between Tenant and App.'
             parameters:
@@ -37,7 +39,7 @@ paths:
                 default:
                     $ref: '#/components/responses/ErrorResponseDefault'
 
-    '/private/application/disconnect':
+    '/private/disconnect':
         post:
             summary: 'Disconnects Application from a Tenants store.
                       Finds Application configuration and removes it.'
@@ -51,6 +53,10 @@ paths:
                 default:
                     $ref: '#/components/responses/ErrorResponseDefault'
 components:
+    securitySchemes:
+        BearerAuth:
+            type: http
+            scheme: bearer
     schemas:
         ConfigurationApiResponse:
             type: object
