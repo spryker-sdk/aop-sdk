@@ -8,12 +8,12 @@ info:
     title: 'Spryker API'
     license:
         name: MIT
-security:
-    - BearerAuth: []
 paths:
     '/private/config':
         post:
             summary: 'Saves or updates application configuration between Tenant and App.'
+            security:
+                -   BearerAuth: [ ]
             parameters:
                 -   $ref: '#/components/parameters/storeReference'
             requestBody:
@@ -27,6 +27,8 @@ paths:
                     $ref: '#/components/responses/ErrorResponseDefault'
         put:
             summary: 'Updates application configuration between Tenant and App'
+            security:
+                -   BearerAuth: [ ]
             parameters:
                 -   $ref: '#/components/parameters/storeReference'
             requestBody:
@@ -43,6 +45,8 @@ paths:
         post:
             summary: 'Disconnects Application from a Tenants store.
                       Finds Application configuration and removes it.'
+            security:
+                -   BearerAuth: [ ]
             parameters:
                 -   $ref: '#/components/parameters/storeReference'
             responses:
