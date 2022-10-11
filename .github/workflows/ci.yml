@@ -63,6 +63,9 @@ jobs:
             - name: Run PHPStan
               run: composer stan
 
+            - name: Validate OpenAPI schema
+              run: php vendor/bin/php-openapi validate config/app/api/openapi/**.yml
+
             - name: Codecept tests
               if: ${{ matrix.php-version == '7.4' }}
               run: composer test
