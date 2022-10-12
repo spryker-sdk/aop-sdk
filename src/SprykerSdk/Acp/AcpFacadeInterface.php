@@ -13,6 +13,8 @@ use Transfer\AppTranslationRequestTransfer;
 use Transfer\AppTranslationResponseTransfer;
 use Transfer\CheckReadinessResponseTransfer;
 use Transfer\CheckReadinessTransfer;
+use Transfer\CreateDefaultEndpointsRequestTransfer;
+use Transfer\CreateDefaultEndpointsResponseTransfer;
 use Transfer\ManifestCollectionTransfer;
 use Transfer\ManifestCriteriaTransfer;
 use Transfer\ManifestRequestTransfer;
@@ -147,4 +149,13 @@ interface AcpFacadeInterface
      * @return array
      */
     public function getExistingKeysToTranslate(ManifestCollectionTransfer $manifestCollectionTransfer): array;
+
+    /**
+     * @param \Transfer\CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer
+     *
+     * @return \Transfer\CreateDefaultEndpointsResponseTransfer
+     */
+    public function createDefaultEndpoints(
+        CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer
+    ): CreateDefaultEndpointsResponseTransfer;
 }

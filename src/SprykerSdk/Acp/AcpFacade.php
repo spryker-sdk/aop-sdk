@@ -13,6 +13,8 @@ use Transfer\AppTranslationRequestTransfer;
 use Transfer\AppTranslationResponseTransfer;
 use Transfer\CheckReadinessResponseTransfer;
 use Transfer\CheckReadinessTransfer;
+use Transfer\CreateDefaultEndpointsRequestTransfer;
+use Transfer\CreateDefaultEndpointsResponseTransfer;
 use Transfer\ManifestCollectionTransfer;
 use Transfer\ManifestCriteriaTransfer;
 use Transfer\ManifestRequestTransfer;
@@ -187,5 +189,16 @@ class AcpFacade implements AcpFacadeInterface
     public function getExistingKeysToTranslate(ManifestCollectionTransfer $manifestCollectionTransfer): array
     {
         return $this->getFactory()->createTranslateKeyMapper()->mapManifestCollectionToTranslateKeys($manifestCollectionTransfer);
+    }
+
+    /**
+     * @param \Transfer\CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer
+     *
+     * @return \Transfer\CreateDefaultEndpointsResponseTransfer
+     */
+    public function createDefaultEndpoints(
+        CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer
+    ): CreateDefaultEndpointsResponseTransfer {
+        return new CreateDefaultEndpointsResponseTransfer();
     }
 }
