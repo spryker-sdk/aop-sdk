@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+use SprykerSdk\Acp\Console\AppConfigurationConvertConsole;
 use SprykerSdk\Acp\Console\AppConfigurationCreateConsole;
 use SprykerSdk\Acp\Console\AppConfigurationValidateConsole;
 use SprykerSdk\Acp\Console\AppManifestCreateConsole;
@@ -33,6 +34,7 @@ $application->addCommands([
     new AppManifestValidateConsole(),
     new AppConfigurationCreateConsole(),
     new AppConfigurationValidateConsole(),
+    new AppConfigurationConvertConsole(),
     new AppTranslationValidateConsole(),
     new CheckReadinessConsole(),
     new AppManifestCreateConsole(),

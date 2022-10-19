@@ -9,6 +9,11 @@ namespace SprykerSdk\Acp;
 
 use SprykerSdk\Acp\Configuration\Builder\AppConfigurationBuilder;
 use SprykerSdk\Acp\Configuration\Builder\AppConfigurationBuilderInterface;
+use SprykerSdk\Acp\Configuration\Reader\AppConfigurationReader;
+use SprykerSdk\Acp\Configuration\Reader\AppConfigurationReaderInterface;
+use SprykerSdk\Acp\Configuration\SchemaGenerator\SchemaGenerator;
+use SprykerSdk\Acp\Configuration\SchemaGenerator\SchemaWriter;
+use SprykerSdk\Acp\Configuration\SchemaGenerator\SchemaWriterInterface;
 use SprykerSdk\Acp\Manifest\Builder\AppManifestBuilder;
 use SprykerSdk\Acp\Manifest\Builder\AppManifestBuilderInterface;
 use SprykerSdk\Acp\Manifest\Reader\AppManifestReader;
@@ -199,6 +204,33 @@ class AcpFactory
     public function createTranslateKeyMapper(): TranslateKeyMapperInterface
     {
         return new TranslateKeyMapper();
+    }
+
+    /**
+     * @return \SprykerSdk\Acp\Configuration\SchemaGenerator\SchemaGenerator
+     */
+    public function createSchemaGenerator(): SchemaGenerator
+    {
+        return new SchemaGenerator(
+            $this->createAppConfigurationReader(),
+            $this->createSchemaWriter(),
+        );
+    }
+
+    /**
+     * @return \SprykerSdk\Acp\Configuration\Reader\AppConfigurationReaderInterface
+     */
+    protected function createAppConfigurationReader(): AppConfigurationReaderInterface
+    {
+        return new AppConfigurationReader();
+    }
+
+    /**
+     * @return \SprykerSdk\Acp\Configuration\SchemaGenerator\SchemaWriterInterface
+     */
+    protected function createSchemaWriter(): SchemaWriterInterface
+    {
+        return new SchemaWriter();
     }
 
     /**

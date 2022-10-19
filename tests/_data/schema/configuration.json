@@ -1,0 +1,148 @@
+{
+    "properties": {
+        "credentials_clientName": {
+            "type": "string",
+            "title": "credentials_clientName_title",
+            "placeholder": "credentials_clientName",
+            "isRequired": true,
+            "widget": {
+                "id": "textline"
+            }
+        },
+        "settings_environment": {
+            "type": "string",
+            "title": "settings_environment_title",
+            "widget": {
+                "id": "radio"
+            },
+            "oneOf": [
+                {
+                    "description": "settings_environment_staging",
+                    "enum": [
+                        "settings_environment_staging"
+                    ]
+                },
+                {
+                    "description": "settings_environment_production",
+                    "enum": [
+                        "settings_environment_production"
+                    ]
+                }
+            ]
+        },
+        "settings_settings": {
+            "type": "array",
+            "title": "settings_settings_title",
+            "items": {
+                "type": "string",
+                "widget": {
+                    "id": "string"
+                },
+                "oneOf": [
+                    {
+                        "description": "settings_settings_ratingsReviews",
+                        "enum": [
+                            "settings_settings_ratingsReviews"
+                        ]
+                    },
+                    {
+                        "description": "settings_settings_inlineRatings",
+                        "enum": [
+                            "settings_settings_inlineRatings"
+                        ]
+                    },
+                    {
+                        "description": "settings_settings_bazaarvoicePixel",
+                        "enum": [
+                            "settings_settings_bazaarvoicePixel"
+                        ]
+                    }
+                ]
+            },
+            "widget": {
+                "id": "checkbox"
+            }
+        },
+        "isActive": {
+            "type": "boolean",
+            "title": "usercentrics_store_isActive",
+            "widget": {
+                "id": "checkbox"
+            },
+            "default": false
+        },
+        "children": {
+            "type": "array",
+            "title": "family",
+            "items": {
+                "type": "object",
+                "title": "children",
+                "properties": {
+                    "surname": {
+                        "type": "string",
+                        "title": "surname",
+                        "widget": {
+                            "id": "string"
+                        }
+                    },
+                    "forename": {
+                        "type": "string",
+                        "title": "forename",
+                        "widget": {
+                            "id": "string"
+                        }
+                    },
+                    "age": {
+                        "type": "number",
+                        "title": "age",
+                        "widget": {
+                            "id": "number"
+                        }
+                    }
+                },
+                "fieldsets": [
+                    {
+                        "id": "fieldset-default",
+                        "title": "Children",
+                        "description": "",
+                        "name": "",
+                        "fields": [
+                            "name",
+                            "forename",
+                            "age"
+                        ]
+                    }
+                ],
+                "widget": {
+                    "id": "object"
+                }
+            },
+            "widget": {
+                "id": "array"
+            }
+        }
+    },
+    "fieldsets": [
+        {
+            "id": "credentials",
+            "title": "credentials",
+            "fields": [
+                "credentials_clientName",
+                "credentials_siteId"
+            ]
+        },
+        {
+            "id": "settings",
+            "title": "settings",
+            "fields": [
+                "settings_environment",
+                "settings_settings"
+            ]
+        }
+    ],
+    "required": [
+        "credentials_clientName",
+        "credentials_siteId",
+        "settings_environment"
+    ]
+}

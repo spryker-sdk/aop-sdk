@@ -201,4 +201,19 @@ class AcpFacade implements AcpFacadeInterface
     ): CreateDefaultEndpointsResponseTransfer {
         return new CreateDefaultEndpointsResponseTransfer();
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param string $configurationFilePath
+     * @param string $openapiFilePath
+     *
+     * @return bool
+     */
+    public function convertConfigurationToSchema(string $configurationFilePath, string $openapiFilePath): bool
+    {
+        return $this->getFactory()->createSchemaGenerator()->convertConfigurationToSchema($configurationFilePath, $openapiFilePath);
+    }
 }

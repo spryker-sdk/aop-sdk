@@ -158,4 +158,17 @@ interface AcpFacadeInterface
     public function createDefaultEndpoints(
         CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer
     ): CreateDefaultEndpointsResponseTransfer;
+
+    /**
+     * Specification:
+     * - Generates OpenApi schema for configuration object based on configuration.json file
+     *
+     * @api
+     *
+     * @param string $configurationFilePath
+     * @param string $openapiFilePath
+     *
+     * @return bool
+     */
+    public function convertConfigurationToSchema(string $configurationFilePath, string $openapiFilePath): bool;
 }
