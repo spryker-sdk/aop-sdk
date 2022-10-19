@@ -1,0 +1,31 @@
+components:
+  schemas:
+    AppConfiguration:
+      required:
+        - credentials_clientName
+        - credentials_siteId
+        - settings_environment
+      type: object
+      properties:
+        credentials_clientName:
+          type: string
+        settings_environment:
+          enum:
+            - settings_environment_staging
+            - settings_environment_production
+          type: string
+        settings_settings:
+          type: array
+          items:
+            enum:
+              - settings_settings_ratingsReviews
+              - settings_settings_inlineRatings
+              - settings_settings_bazaarvoicePixel
+            type: string
+        isActive:
+          type: boolean
+        children:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
