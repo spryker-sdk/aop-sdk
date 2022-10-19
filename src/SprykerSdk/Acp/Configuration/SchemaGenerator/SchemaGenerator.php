@@ -12,9 +12,9 @@ use SprykerSdk\Acp\Configuration\Reader\AppConfigurationReaderInterface;
 
 class SchemaGenerator implements SchemaGeneratorInterface
 {
-    protected \SprykerSdk\Acp\Configuration\Reader\AppConfigurationReaderInterface $appConfigurationReader;
+    protected AppConfigurationReaderInterface $appConfigurationReader;
 
-    protected \SprykerSdk\Acp\Configuration\SchemaGenerator\SchemaWriterInterface $schemaWriter;
+    protected SchemaWriterInterface $schemaWriter;
 
     /**
      * @param \SprykerSdk\Acp\Configuration\Reader\AppConfigurationReaderInterface $appConfigurationReader
