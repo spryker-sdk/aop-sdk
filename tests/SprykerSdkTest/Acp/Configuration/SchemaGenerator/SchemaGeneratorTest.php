@@ -16,17 +16,17 @@ class SchemaGeneratorTest extends Unit
     /**
      * @var string
      */
-    protected const CONFIGURATION_FILE_PATH = '_data/schema/configuration.json';
+    protected const CONFIGURATION_FILE_PATH = 'schema/configuration.json';
 
     /**
      * @var string
      */
-    protected const SCHEMA_OUTPUT_FILE_PATH = '_output/schema/openapi.yml';
+    protected const SCHEMA_OUTPUT_FILE_PATH = 'schema/openapi.yml';
 
     /**
      * @var string
      */
-    protected const SCHEMA_EXPECTED_FILE_PATH = '_data/schema/expected.yml';
+    protected const SCHEMA_EXPECTED_FILE_PATH = 'schema/expected.yml';
 
     /**
      * @return void
@@ -34,12 +34,12 @@ class SchemaGeneratorTest extends Unit
     public function testConvertConfigurationToSchemaWorksCorrectlyWithSupportedTypes(): void
     {
         $isSuccessful = $this->tester->getFacade()->convertConfigurationToSchema(
-            static::CONFIGURATION_FILE_PATH,
-            static::SCHEMA_OUTPUT_FILE_PATH,
+            codecept_data_dir(static::CONFIGURATION_FILE_PATH),
+            codecept_output_dir(static::SCHEMA_OUTPUT_FILE_PATH),
         );
 
         $this->assertTrue($isSuccessful);
 
-        $this->assertFileEquals(static::SCHEMA_EXPECTED_FILE_PATH, static::SCHEMA_OUTPUT_FILE_PATH);
+        $this->assertFileEquals(codecept_data_dir(static::SCHEMA_EXPECTED_FILE_PATH), codecept_output_dir(static::SCHEMA_OUTPUT_FILE_PATH));
     }
 }
