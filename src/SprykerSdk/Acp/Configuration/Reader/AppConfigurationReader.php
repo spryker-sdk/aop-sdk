@@ -18,9 +18,7 @@ class AppConfigurationReader implements AppConfigurationReaderInterface
     {
         $configurationFileContents = $this->readFile($filePath);
 
-        $configurationFileData = json_decode($configurationFileContents, true);
-
-        return $configurationFileData;
+        return json_decode($configurationFileContents, true);
     }
 
     /**

@@ -11,10 +11,7 @@ use Codeception\Test\Unit;
 
 class SchemaGeneratorTest extends Unit
 {
-    /**
-     * @var \SprykerSdkTest\Acp\Tester
-     */
-    protected $tester;
+    protected ?\SprykerSdkTest\Acp\Tester $tester = null;
 
     /**
      * @var string
