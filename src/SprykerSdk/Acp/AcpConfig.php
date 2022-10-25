@@ -111,17 +111,6 @@ class AcpConfig
      *
      * @return string
      */
-    public function getDefaultEndpointsPath(): string
-    {
-        // TODO Move this value to more suitable place
-        return 'https://raw.githubusercontent.com/spryker-sdk/acp/master/config/app/api/openapi/registry.yml';
-    }
-
-    /**
-     * @api
-     *
-     * @return string
-     */
     public function getDefaultTranslationFile(): string
     {
         $pathFragments = [

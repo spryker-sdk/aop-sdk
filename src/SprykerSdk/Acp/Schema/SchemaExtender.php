@@ -120,7 +120,7 @@ class SchemaExtender implements SchemaExtenderInterface
         array_pop($schemaFileParts);
         $registryFilePath = implode('/', [...$schemaFileParts, 'registry.yml']);
 
-        return copy('config/app/api/openapi/registry.yml', $registryFilePath);
+        return copy(getcwd(). '/config/app/api/openapi/registry.yml', $registryFilePath);
     }
 
     /**

@@ -56,8 +56,7 @@ class AppDefaultEndpointsCreateConsole extends AbstractConsole
             ->setDescription('Creates default .')
             ->addOption(static::OPTION_SCHEMA_FILE, static::OPTION_SCHEMA_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultOpenapiFile())
             ->addOption(static::OPTION_CONFIGURATION_FILE, static::OPTION_CONFIGURATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultConfigurationFile())
-            ->addOption(static::OPTION_ADD_LOCAL_FILE, '', InputOption::VALUE_NONE, 'Add local registry.yml file instead of using remote link')
-            ->addOption(static::OPTION_DEFAULTS_FILE_PATH, '', InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultEndpointsPath());
+            ->addOption(static::OPTION_ADD_LOCAL_FILE, '', InputOption::VALUE_NONE, 'Add local registry.yml file instead of using remote link');
     }
 
     /**
