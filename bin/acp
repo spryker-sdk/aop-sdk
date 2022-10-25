@@ -4,6 +4,7 @@
 use SprykerSdk\Acp\Console\AppConfigurationConvertConsole;
 use SprykerSdk\Acp\Console\AppConfigurationCreateConsole;
 use SprykerSdk\Acp\Console\AppConfigurationValidateConsole;
+use SprykerSdk\Acp\Console\AppDefaultEndpointsCreateConsole;
 use SprykerSdk\Acp\Console\AppManifestCreateConsole;
 use SprykerSdk\Acp\Console\AppManifestValidateConsole;
 use SprykerSdk\Acp\Console\AppTranslationCreateConsole;
@@ -35,6 +36,7 @@ $application->addCommands([
     new AppConfigurationCreateConsole(),
     new AppConfigurationValidateConsole(),
     new AppConfigurationConvertConsole(),
+    new AppDefaultEndpointsCreateConsole(),
     new AppTranslationValidateConsole(),
     new CheckReadinessConsole(),
     new AppManifestCreateConsole(),

@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Acp\Configuration\SchemaGenerator;
+namespace SprykerSdk\Acp\Schema;
 
 use cebe\openapi\spec\OpenApi;
 use SprykerSdk\Acp\Configuration\Reader\AppConfigurationReaderInterface;
 
-class SchemaGenerator implements SchemaGeneratorInterface
+class SchemaConverter implements SchemaConverterInterface
 {
     protected AppConfigurationReaderInterface $appConfigurationReader;
 
@@ -18,7 +18,7 @@ class SchemaGenerator implements SchemaGeneratorInterface
 
     /**
      * @param \SprykerSdk\Acp\Configuration\Reader\AppConfigurationReaderInterface $appConfigurationReader
-     * @param \SprykerSdk\Acp\Configuration\SchemaGenerator\SchemaWriterInterface $schemaWriter
+     * @param \SprykerSdk\Acp\Schema\SchemaWriterInterface $schemaWriter
      */
     public function __construct(AppConfigurationReaderInterface $appConfigurationReader, SchemaWriterInterface $schemaWriter)
     {
@@ -32,13 +32,27 @@ class SchemaGenerator implements SchemaGeneratorInterface
      *
      * @return bool
      */
-    public function convertConfigurationToSchema(string $configurationFilePath, string $openapiFilePath): bool
+    public function convertConfigurationToSchemaFile(string $configurationFilePath, string $openapiFilePath): bool
     {
         $appConfigurationData = $this->appConfigurationReader->readConfigurationFile($configurationFilePath);
 
         $generatedSchema = $this->generateSchemaFromConfiguration($appConfigurationData);
 
-        return $this->schemaWriter->writeSchemaToFile($generatedSchema, $openapiFilePath);
+        return $this->schemaWriter->writeSchemaToYamlFile($generatedSchema, $openapiFilePath);
+    }
+
+    /**
+     * @param string $configurationFilePath
+     *
+     * @return string
+     */
+    public function convertConfigurationToSchemaJson(string $configurationFilePath): string
+    {
+        $appConfigurationData = $this->appConfigurationReader->readConfigurationFile($configurationFilePath);
+
+        $generatedSchema = $this->generateSchemaFromConfiguration($appConfigurationData);
+
+        return $this->schemaWriter->writeSchemaToJsonString($generatedSchema);
     }
 
     /**

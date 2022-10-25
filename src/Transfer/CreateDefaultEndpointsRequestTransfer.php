@@ -20,6 +20,11 @@ class CreateDefaultEndpointsRequestTransfer extends AbstractTransfer
     /**
      * @var string
      */
+    public const CONFIGURATION_FILE = 'configurationFile';
+
+    /**
+     * @var string
+     */
     public const ADD_LOCAL = 'addLocal';
 
     /**
@@ -31,6 +36,11 @@ class CreateDefaultEndpointsRequestTransfer extends AbstractTransfer
      * @var string|null
      */
     protected $schemaFile;
+
+    /**
+     * @var string|null
+     */
+    protected $configurationFile;
 
     /**
      * @var bool|null
@@ -49,6 +59,9 @@ class CreateDefaultEndpointsRequestTransfer extends AbstractTransfer
         'schema_file' => 'schemaFile',
         'schemaFile' => 'schemaFile',
         'SchemaFile' => 'schemaFile',
+        'configuration_file' => 'configurationFile',
+        'configurationFile' => 'configurationFile',
+        'ConfigurationFile' => 'configurationFile',
         'add_local' => 'addLocal',
         'addLocal' => 'addLocal',
         'AddLocal' => 'addLocal',
@@ -65,6 +78,18 @@ class CreateDefaultEndpointsRequestTransfer extends AbstractTransfer
             'type' => 'string',
             'type_shim' => null,
             'name_underscore' => 'schema_file',
+            'is_collection' => false,
+            'is_transfer' => false,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
+        self::CONFIGURATION_FILE => [
+            'type' => 'string',
+            'type_shim' => null,
+            'name_underscore' => 'configuration_file',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -168,6 +193,79 @@ class CreateDefaultEndpointsRequestTransfer extends AbstractTransfer
     public function requireSchemaFile()
     {
         $this->assertPropertyIsSet(self::SCHEMA_FILE);
+
+        return $this;
+    }
+
+    /**
+     * @module Algolia
+     *
+     * @param string|null $configurationFile
+     *
+     * @return $this
+     */
+    public function setConfigurationFile($configurationFile)
+    {
+        $this->configurationFile = $configurationFile;
+        $this->modifiedProperties[self::CONFIGURATION_FILE] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Algolia
+     *
+     * @return string|null
+     */
+    public function getConfigurationFile()
+    {
+        return $this->configurationFile;
+    }
+
+    /**
+     * @module Algolia
+     *
+     * @param string|null $configurationFile
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return $this
+     */
+    public function setConfigurationFileOrFail($configurationFile)
+    {
+        if ($configurationFile === null) {
+            $this->throwNullValueException(static::CONFIGURATION_FILE);
+        }
+
+        return $this->setConfigurationFile($configurationFile);
+    }
+
+    /**
+     * @module Algolia
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return string
+     */
+    public function getConfigurationFileOrFail()
+    {
+        if ($this->configurationFile === null) {
+            $this->throwNullValueException(static::CONFIGURATION_FILE);
+        }
+
+        return $this->configurationFile;
+    }
+
+    /**
+     * @module Algolia
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireConfigurationFile()
+    {
+        $this->assertPropertyIsSet(self::CONFIGURATION_FILE);
 
         return $this;
     }
@@ -333,6 +431,7 @@ class CreateDefaultEndpointsRequestTransfer extends AbstractTransfer
 
             switch ($normalizedPropertyName) {
                 case 'schemaFile':
+                case 'configurationFile':
                 case 'addLocal':
                 case 'remoteUrl':
                     $this->$normalizedPropertyName = $value;
@@ -455,6 +554,7 @@ class CreateDefaultEndpointsRequestTransfer extends AbstractTransfer
             }
             switch ($property) {
                 case 'schemaFile':
+                case 'configurationFile':
                 case 'addLocal':
                 case 'remoteUrl':
                     $values[$arrayKey] = $value;
@@ -484,6 +584,7 @@ class CreateDefaultEndpointsRequestTransfer extends AbstractTransfer
             }
             switch ($property) {
                 case 'schemaFile':
+                case 'configurationFile':
                 case 'addLocal':
                 case 'remoteUrl':
                     $values[$arrayKey] = $value;
@@ -543,6 +644,7 @@ class CreateDefaultEndpointsRequestTransfer extends AbstractTransfer
     {
         return [
             'schemaFile' => $this->schemaFile,
+            'configurationFile' => $this->configurationFile,
             'addLocal' => $this->addLocal,
             'remoteUrl' => $this->remoteUrl,
         ];
@@ -555,6 +657,7 @@ class CreateDefaultEndpointsRequestTransfer extends AbstractTransfer
     {
         return [
             'schema_file' => $this->schemaFile,
+            'configuration_file' => $this->configurationFile,
             'add_local' => $this->addLocal,
             'remote_url' => $this->remoteUrl,
         ];
@@ -567,6 +670,7 @@ class CreateDefaultEndpointsRequestTransfer extends AbstractTransfer
     {
         return [
             'schema_file' => $this->schemaFile instanceof AbstractTransfer ? $this->schemaFile->toArray(true, false) : $this->schemaFile,
+            'configuration_file' => $this->configurationFile instanceof AbstractTransfer ? $this->configurationFile->toArray(true, false) : $this->configurationFile,
             'add_local' => $this->addLocal instanceof AbstractTransfer ? $this->addLocal->toArray(true, false) : $this->addLocal,
             'remote_url' => $this->remoteUrl instanceof AbstractTransfer ? $this->remoteUrl->toArray(true, false) : $this->remoteUrl,
         ];
@@ -579,6 +683,7 @@ class CreateDefaultEndpointsRequestTransfer extends AbstractTransfer
     {
         return [
             'schemaFile' => $this->schemaFile instanceof AbstractTransfer ? $this->schemaFile->toArray(true, true) : $this->schemaFile,
+            'configurationFile' => $this->configurationFile instanceof AbstractTransfer ? $this->configurationFile->toArray(true, true) : $this->configurationFile,
             'addLocal' => $this->addLocal instanceof AbstractTransfer ? $this->addLocal->toArray(true, true) : $this->addLocal,
             'remoteUrl' => $this->remoteUrl instanceof AbstractTransfer ? $this->remoteUrl->toArray(true, true) : $this->remoteUrl,
         ];

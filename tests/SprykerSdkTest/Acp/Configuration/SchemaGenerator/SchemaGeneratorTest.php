@@ -33,7 +33,7 @@ class SchemaGeneratorTest extends Unit
      */
     public function testConvertConfigurationToSchemaWorksCorrectlyWithSupportedTypes(): void
     {
-        $isSuccessful = $this->tester->getFacade()->convertConfigurationToSchema(
+        $isSuccessful = $this->tester->getFacade()->convertConfigurationToSchemaFile(
             codecept_data_dir(static::CONFIGURATION_FILE_PATH),
             codecept_output_dir(static::SCHEMA_OUTPUT_FILE_PATH),
         );

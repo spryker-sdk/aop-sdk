@@ -5,12 +5,12 @@
     "license": "proprietary",
     "require": {
         "php": ">=7.4",
-        "spryker-sdk/spryk": "^0.4.0",
-        "symfony/console": "^5.3",
-        "symfony/finder": "^5.3",
+        "ext-json": "*",
         "spryker-sdk/async-api": "^0.2.3",
-        "spryker-sdk/sync-api": "^0.1.1",
-        "ext-json": "*"
+        "spryker-sdk/spryk": "^0.4.0",
+        "spryker-sdk/sync-api": "dev-feature/apps-4380-components_upgrade",
+        "symfony/console": "^5.3",
+        "symfony/finder": "^5.3"
     },
     "require-dev": {
         "codeception/codeception": "*",
