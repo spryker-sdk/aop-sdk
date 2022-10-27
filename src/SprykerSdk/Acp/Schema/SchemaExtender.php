@@ -69,7 +69,7 @@ class SchemaExtender implements SchemaExtenderInterface
         $process = new Process([
             'vendor/bin/syncapi',
             'schema:openapi:update',
-            '-f',
+            '--openapi-file',
             $createDefaultEndpointsRequestTransfer->getSchemaFile(),
             $this->schemaWriter->writeSchemaToJsonString($schema),
         ]);
@@ -116,9 +116,7 @@ class SchemaExtender implements SchemaExtenderInterface
      */
     protected function copyRegistryLocalFile(CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer): bool
     {
-        $schemaFileParts = explode('/', $createDefaultEndpointsRequestTransfer->getSchemaFile());
-        array_pop($schemaFileParts);
-        $registryFilePath = implode('/', [...$schemaFileParts, 'registry.yml']);
+        $registryFilePath = dirname($createDefaultEndpointsRequestTransfer->getSchemaFile()) . DIRECTORY_SEPARATOR . 'registry.yml';
 
         return copy(getcwd(). '/config/app/api/openapi/registry.yml', $registryFilePath);
     }
@@ -132,7 +130,13 @@ class SchemaExtender implements SchemaExtenderInterface
     {
         $schema = $this->schemaConverter->convertConfigurationToSchemaJson($createDefaultEndpointsRequestTransfer->getConfigurationFile());
 
-        $process = new Process(['vendor/bin/syncapi', 'schema:openapi:update', '-f', $createDefaultEndpointsRequestTransfer->getSchemaFile(), $schema]);
+        $process = new Process([
+            'vendor/bin/syncapi',
+            'schema:openapi:update',
+            '--openapi-file',
+            $createDefaultEndpointsRequestTransfer->getSchemaFile(),
+            $schema
+        ]);
         $process->run();
 
         if (!$process->isSuccessful()) {
