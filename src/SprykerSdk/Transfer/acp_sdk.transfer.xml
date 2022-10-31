@@ -159,6 +159,17 @@
         <property name="messages" type="Message[]" singular="message"/>
     </transfer>
 
+    <transfer name="CreateDefaultEndpointsRequest">
+        <property name="schemaFile" type="string"/>
+        <property name="configurationFile" type="string"/>
+        <property name="addLocal" type="bool"/>
+    </transfer>
+
+    <transfer name="CreateDefaultEndpointsResponse">
+        <property name="errors" type="Message[]" singular="error"/>
+        <property name="messages" type="Message[]" singular="message"/>
+    </transfer>
+
     <transfer name="AppTranslationRequest">
         <property name="translations" type="array"/>
         <property name="translationFile" type="string"/>

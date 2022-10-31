@@ -227,6 +227,7 @@ class AcpFactory
         return new SchemaExtender(
             $this->createSchemaConverter(),
             $this->createSchemaWriter(),
+            $this->getConfig()->getAcpRootPath(),
         );
     }
 

@@ -16,6 +16,16 @@ class AcpConfig
      *
      * @return string
      */
+    public function getAcpRootPath(): string
+    {
+        return realpath(__DIR__ . '/../../../');
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
     public function getDefaultManifestPath(): string
     {
         $pathFragments = [

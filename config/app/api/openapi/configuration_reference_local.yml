@@ -1,5 +1,0 @@
-openapi: 3.0.3
-components:
-    schemas:
-        AppConfiguration:
-            $ref: 'configuration.yml#/components/schemas/AppConfiguration'

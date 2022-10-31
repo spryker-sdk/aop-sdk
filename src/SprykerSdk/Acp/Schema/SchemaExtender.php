@@ -27,13 +27,23 @@ class SchemaExtender implements SchemaExtenderInterface
     protected $schemaWriter;
 
     /**
+     * @var string
+     */
+    protected $acpRootPath;
+
+    /**
      * @param \SprykerSdk\Acp\Schema\SchemaConverterInterface $schemaConverter
      * @param \SprykerSdk\Acp\Schema\SchemaWriterInterface $schemaWriter
+     * @param string $acpRootPath
      */
-    public function __construct(SchemaConverterInterface $schemaConverter, SchemaWriterInterface $schemaWriter)
-    {
+    public function __construct(
+        SchemaConverterInterface $schemaConverter,
+        SchemaWriterInterface $schemaWriter,
+        string $acpRootPath
+    ) {
         $this->schemaConverter = $schemaConverter;
         $this->schemaWriter = $schemaWriter;
+        $this->acpRootPath = $acpRootPath;
     }
 
     /**
@@ -67,7 +77,7 @@ class SchemaExtender implements SchemaExtenderInterface
         $schema = $this->getDefaultEndpointsSchema($createDefaultEndpointsRequestTransfer);
 
         $process = new Process([
-            'vendor/bin/syncapi',
+            $this->acpRootPath . '/vendor/bin/syncapi',
             'schema:openapi:update',
             '--openapi-file',
             $createDefaultEndpointsRequestTransfer->getSchemaFile(),
@@ -100,10 +110,10 @@ class SchemaExtender implements SchemaExtenderInterface
      */
     protected function getDefaultEndpointsSchema(CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer): OpenApi
     {
-        $filePath = getcwd() . '/config/app/api/openapi/registry_reference_remote.yml';
+        $filePath = $this->acpRootPath . '/config/app/api/openapi/registry_reference_remote.yml';
 
         if ($createDefaultEndpointsRequestTransfer->getAddLocal()) {
-            $filePath = getcwd() . '/config/app/api/openapi/registry_reference_local.yml';
+            $filePath = $this->acpRootPath . '/config/app/api/openapi/registry_reference_local.yml';
         }
 
         return Reader::readFromYamlFile($filePath, OpenApi::class, false);
@@ -118,7 +128,7 @@ class SchemaExtender implements SchemaExtenderInterface
     {
         $registryFilePath = dirname($createDefaultEndpointsRequestTransfer->getSchemaFile()) . DIRECTORY_SEPARATOR . 'registry.yml';
 
-        return copy(getcwd(). '/config/app/api/openapi/registry.yml', $registryFilePath);
+        return copy($this->acpRootPath. '/config/app/api/openapi/registry.yml', $registryFilePath);
     }
 
     /**
@@ -131,7 +141,7 @@ class SchemaExtender implements SchemaExtenderInterface
         $schema = $this->schemaConverter->convertConfigurationToSchemaJson($createDefaultEndpointsRequestTransfer->getConfigurationFile());
 
         $process = new Process([
-            'vendor/bin/syncapi',
+            $this->acpRootPath . '/vendor/bin/syncapi',
             'schema:openapi:update',
             '--openapi-file',
             $createDefaultEndpointsRequestTransfer->getSchemaFile(),
