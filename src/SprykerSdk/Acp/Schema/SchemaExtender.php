@@ -7,8 +7,6 @@
 
 namespace SprykerSdk\Acp\Schema;
 
-use cebe\openapi\Reader;
-use cebe\openapi\spec\OpenApi;
 use Symfony\Component\Process\Process;
 use Transfer\CreateDefaultEndpointsRequestTransfer;
 use Transfer\CreateDefaultEndpointsResponseTransfer;
@@ -19,17 +17,17 @@ class SchemaExtender implements SchemaExtenderInterface
     /**
      * @var \SprykerSdk\Acp\Schema\SchemaConverterInterface
      */
-    protected $schemaConverter;
+    protected SchemaConverterInterface $schemaConverter;
 
     /**
      * @var \SprykerSdk\Acp\Schema\SchemaWriterInterface
      */
-    protected $schemaWriter;
+    protected SchemaWriterInterface $schemaWriter;
 
     /**
      * @var string
      */
-    protected $acpRootPath;
+    protected string $acpRootPath;
 
     /**
      * @param \SprykerSdk\Acp\Schema\SchemaConverterInterface $schemaConverter
@@ -73,8 +71,6 @@ class SchemaExtender implements SchemaExtenderInterface
         CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer
     ): CreateDefaultEndpointsResponseTransfer {
         $result = new CreateDefaultEndpointsResponseTransfer();
-
-        $schema = $this->getDefaultEndpointsSchemaPath($createDefaultEndpointsRequestTransfer);
 
         $process = new Process([
             $this->acpRootPath . '/vendor/bin/syncapi',
@@ -128,7 +124,7 @@ class SchemaExtender implements SchemaExtenderInterface
     {
         $registryFilePath = dirname($createDefaultEndpointsRequestTransfer->getSchemaFile()) . DIRECTORY_SEPARATOR . 'registry.yml';
 
-        return copy($this->acpRootPath. '/config/app/api/openapi/registry.yml', $registryFilePath);
+        return copy($this->acpRootPath . '/config/app/api/openapi/registry.yml', $registryFilePath);
     }
 
     /**
@@ -145,7 +141,7 @@ class SchemaExtender implements SchemaExtenderInterface
             'schema:openapi:update',
             '--openapi-file',
             $createDefaultEndpointsRequestTransfer->getSchemaFile(),
-            $schema
+            $schema,
         ]);
         $process->run();
 

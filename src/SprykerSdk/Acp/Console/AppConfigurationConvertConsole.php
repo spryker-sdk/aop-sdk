@@ -57,7 +57,7 @@ class AppConfigurationConvertConsole extends AbstractConsole
     {
         $this->getFacade()->convertConfigurationToSchemaFile(
             $input->getOption(static::CONFIGURATION_FILE),
-            $input->getOption(static::OPENAPI_FILE)
+            $input->getOption(static::OPENAPI_FILE),
         );
 
         return static::CODE_SUCCESS;
