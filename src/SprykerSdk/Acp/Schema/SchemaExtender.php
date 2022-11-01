@@ -134,14 +134,14 @@ class SchemaExtender implements SchemaExtenderInterface
      */
     protected function convertConfigurationToSchema(CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer): ?MessageTransfer
     {
-        $schema = $this->schemaConverter->convertConfigurationToSchemaJson($createDefaultEndpointsRequestTransfer->getConfigurationFileOrFail());
+        $schema = $this->schemaConverter->convertConfigurationToSchema($createDefaultEndpointsRequestTransfer->getConfigurationFileOrFail());
 
         $process = new Process([
             $this->acpRootPath . '/vendor/bin/syncapi',
             'schema:openapi:update',
             '--openapi-file',
             $createDefaultEndpointsRequestTransfer->getSchemaFile(),
-            $schema,
+            $this->schemaWriter->writeSchemaToJsonString($schema),
         ]);
         $process->run();
 

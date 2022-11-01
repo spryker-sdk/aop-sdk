@@ -8,51 +8,33 @@
 namespace SprykerSdk\Acp\Schema;
 
 use cebe\openapi\spec\OpenApi;
+use Elasticsearch\Endpoints\Indices\Open;
 use SprykerSdk\Acp\Configuration\Reader\AppConfigurationReaderInterface;
 
 class SchemaConverter implements SchemaConverterInterface
 {
     protected AppConfigurationReaderInterface $appConfigurationReader;
 
-    protected SchemaWriterInterface $schemaWriter;
-
     /**
      * @param \SprykerSdk\Acp\Configuration\Reader\AppConfigurationReaderInterface $appConfigurationReader
-     * @param \SprykerSdk\Acp\Schema\SchemaWriterInterface $schemaWriter
      */
-    public function __construct(AppConfigurationReaderInterface $appConfigurationReader, SchemaWriterInterface $schemaWriter)
+    public function __construct(AppConfigurationReaderInterface $appConfigurationReader)
     {
         $this->appConfigurationReader = $appConfigurationReader;
-        $this->schemaWriter = $schemaWriter;
-    }
-
-    /**
-     * @param string $configurationFilePath
-     * @param string $openapiFilePath
-     *
-     * @return bool
-     */
-    public function convertConfigurationToSchemaFile(string $configurationFilePath, string $openapiFilePath): bool
-    {
-        $appConfigurationData = $this->appConfigurationReader->readConfigurationFile($configurationFilePath);
-
-        $generatedSchema = $this->generateSchemaFromConfiguration($appConfigurationData);
-
-        return $this->schemaWriter->writeSchemaToYamlFile($generatedSchema, $openapiFilePath);
     }
 
     /**
      * @param string $configurationFilePath
      *
-     * @return string
+     * @return OpenApi
      */
-    public function convertConfigurationToSchemaJson(string $configurationFilePath): string
+    public function convertConfigurationToSchema(string $configurationFilePath): Open
     {
         $appConfigurationData = $this->appConfigurationReader->readConfigurationFile($configurationFilePath);
 
         $generatedSchema = $this->generateSchemaFromConfiguration($appConfigurationData);
 
-        return $this->schemaWriter->writeSchemaToJsonString($generatedSchema);
+        return $generatedSchema;
     }
 
     /**

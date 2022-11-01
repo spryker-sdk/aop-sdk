@@ -7,20 +7,14 @@
 
 namespace SprykerSdk\Acp\Schema;
 
+use cebe\openapi\spec\OpenApi;
+
 interface SchemaConverterInterface
 {
     /**
      * @param string $configurationFilePath
-     * @param string $openapiFilePath
      *
-     * @return bool
+     * @return OpenApi
      */
-    public function convertConfigurationToSchemaFile(string $configurationFilePath, string $openapiFilePath): bool;
-
-    /**
-     * @param string $configurationFilePath
-     *
-     * @return string
-     */
-    public function convertConfigurationToSchemaJson(string $configurationFilePath): string;
+    public function convertConfigurationToSchema(string $configurationFilePath): OpenApi;
 }
