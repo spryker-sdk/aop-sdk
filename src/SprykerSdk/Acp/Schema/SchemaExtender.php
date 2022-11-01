@@ -74,15 +74,17 @@ class SchemaExtender implements SchemaExtenderInterface
     ): CreateDefaultEndpointsResponseTransfer {
         $result = new CreateDefaultEndpointsResponseTransfer();
 
-        $schema = $this->getDefaultEndpointsSchema($createDefaultEndpointsRequestTransfer);
+        $schema = $this->getDefaultEndpointsSchemaPath($createDefaultEndpointsRequestTransfer);
 
         $process = new Process([
             $this->acpRootPath . '/vendor/bin/syncapi',
             'schema:openapi:update',
             '--openapi-file',
             $createDefaultEndpointsRequestTransfer->getSchemaFile(),
-            $this->schemaWriter->writeSchemaToJsonString($schema),
+            '--openapi-doc-file',
+            $this->getDefaultEndpointsSchemaPath($createDefaultEndpointsRequestTransfer),
         ]);
+
         $process->run();
 
         if (!$process->isSuccessful()) {
@@ -106,17 +108,15 @@ class SchemaExtender implements SchemaExtenderInterface
     /**
      * @param \Transfer\CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer
      *
-     * @return \cebe\openapi\spec\OpenApi
+     * @return string
      */
-    protected function getDefaultEndpointsSchema(CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer): OpenApi
+    protected function getDefaultEndpointsSchemaPath(CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer): string
     {
-        $filePath = $this->acpRootPath . '/config/app/api/openapi/registry_reference_remote.yml';
-
         if ($createDefaultEndpointsRequestTransfer->getAddLocal()) {
-            $filePath = $this->acpRootPath . '/config/app/api/openapi/registry_reference_local.yml';
+            return $this->acpRootPath . '/config/app/api/openapi/registry_reference_local.yml';
         }
 
-        return Reader::readFromYamlFile($filePath, OpenApi::class, false);
+        return $this->acpRootPath . '/config/app/api/openapi/registry_reference_remote.yml';
     }
 
     /**
