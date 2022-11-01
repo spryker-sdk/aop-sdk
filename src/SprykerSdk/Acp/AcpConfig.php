@@ -18,7 +18,7 @@ class AcpConfig
      */
     public function getAcpRootPath(): string
     {
-        return realpath(__DIR__ . '/../../../');
+        return realpath(__DIR__ . '/../../../') ?: '/data/vendor/spryker-sdk/acp';
     }
 
     /**

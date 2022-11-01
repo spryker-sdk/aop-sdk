@@ -122,7 +122,7 @@ class SchemaExtender implements SchemaExtenderInterface
      */
     protected function copyRegistryLocalFile(CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer): bool
     {
-        $registryFilePath = dirname($createDefaultEndpointsRequestTransfer->getSchemaFile()) . DIRECTORY_SEPARATOR . 'registry.yml';
+        $registryFilePath = dirname($createDefaultEndpointsRequestTransfer->getSchemaFileOrFail()) . DIRECTORY_SEPARATOR . 'registry.yml';
 
         return copy($this->acpRootPath . '/config/app/api/openapi/registry.yml', $registryFilePath);
     }
@@ -134,7 +134,7 @@ class SchemaExtender implements SchemaExtenderInterface
      */
     protected function convertConfigurationToSchema(CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer): ?MessageTransfer
     {
-        $schema = $this->schemaConverter->convertConfigurationToSchemaJson($createDefaultEndpointsRequestTransfer->getConfigurationFile());
+        $schema = $this->schemaConverter->convertConfigurationToSchemaJson($createDefaultEndpointsRequestTransfer->getConfigurationFileOrFail());
 
         $process = new Process([
             $this->acpRootPath . '/vendor/bin/syncapi',
