@@ -26,6 +26,8 @@ class AppConfigurationReader implements AppConfigurationReaderInterface
     /**
      * @param string $filePath
      *
+     * @throws \SprykerSdk\Acp\Exception\AppConfigurationException
+     * 
      * @return string
      */
     protected function readFile(string $filePath): string
