@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Acp\Configuration\Reader;
 
+use SprykerSdk\Acp\Exception\AppConfigurationException;
+
 class AppConfigurationReader implements AppConfigurationReaderInterface
 {
     /**
@@ -24,6 +26,8 @@ class AppConfigurationReader implements AppConfigurationReaderInterface
     /**
      * @param string $filePath
      *
+     * @throws \SprykerSdk\Acp\Exception\AppConfigurationException
+     *
      * @return string
      */
     protected function readFile(string $filePath): string
@@ -31,7 +35,7 @@ class AppConfigurationReader implements AppConfigurationReaderInterface
         $content = file_get_contents($filePath);
 
         if ($content === false) {
-            return '';
+            throw new AppConfigurationException('Unable to read configuration file');
         }
 
         return $content;

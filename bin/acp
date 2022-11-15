@@ -1,9 +1,9 @@
 #!/usr/bin/env php
 <?php
 
-use SprykerSdk\Acp\Console\AppConfigurationConvertConsole;
 use SprykerSdk\Acp\Console\AppConfigurationCreateConsole;
 use SprykerSdk\Acp\Console\AppConfigurationValidateConsole;
+use SprykerSdk\Acp\Console\AppDefaultEndpointsCreateConsole;
 use SprykerSdk\Acp\Console\AppManifestCreateConsole;
 use SprykerSdk\Acp\Console\AppManifestValidateConsole;
 use SprykerSdk\Acp\Console\AppTranslationCreateConsole;
@@ -27,6 +27,7 @@ if (!defined('COMPOSER_INSTALL')) {
 }
 
 require_once COMPOSER_INSTALL;
+require_once __DIR__ . '/bootstrap.php';
 
 $application = new Application();
 $application->addCommands([
@@ -34,7 +35,7 @@ $application->addCommands([
     new AppManifestValidateConsole(),
     new AppConfigurationCreateConsole(),
     new AppConfigurationValidateConsole(),
-    new AppConfigurationConvertConsole(),
+    new AppDefaultEndpointsCreateConsole(),
     new AppTranslationValidateConsole(),
     new CheckReadinessConsole(),
     new AppManifestCreateConsole(),

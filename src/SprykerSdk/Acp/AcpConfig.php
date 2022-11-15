@@ -16,6 +16,66 @@ class AcpConfig
      *
      * @return string
      */
+    protected function getAcpRootDir(): string
+    {
+        return ACP_ROOT_DIR;
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    protected function getComposerBinDir(): string
+    {
+        return $_composer_bin_dir ?? $this->getAcpRootDir() . '/../../bin';
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getSyncApiBinPath(): string
+    {
+        return $this->getComposerBinDir() . '/syncapi';
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getRegistryReferenceLocalFilePath(): string
+    {
+        return $this->getAcpRootDir() . '/config/app/api/openapi/registry_reference_local.yml';
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getRegistryReferenceFilePath(): string
+    {
+        return $this->getAcpRootDir() . '/config/app/api/openapi/registry_reference_remote.yml';
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getRegistryFilePath(): string
+    {
+        return $this->getAcpRootDir() . '/config/app/api/openapi/registry.yml';
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
     public function getDefaultManifestPath(): string
     {
         $pathFragments = [
@@ -104,17 +164,6 @@ class AcpConfig
         ];
 
         return implode(DIRECTORY_SEPARATOR, $pathFragments);
-    }
-
-    /**
-     * @api
-     *
-     * @return string
-     */
-    public function getDefaultEndpointsPath(): string
-    {
-        // TODO Move this value to more suitable place
-        return 'https://raw.githubusercontent.com/spryker-sdk/acp/master/config/app/api/openapi/registry.yml';
     }
 
     /**

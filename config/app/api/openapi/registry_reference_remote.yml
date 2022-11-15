@@ -1,0 +1,6 @@
+openapi: 3.0.3
+paths:
+    '/private/config':
+        $ref: 'https://raw.githubusercontent.com/spryker-sdk/acp/master/config/app/api/openapi/registry.yml#/paths/~1private~1config'
+    '/private/disconnect':
+        $ref: 'https://raw.githubusercontent.com/spryker-sdk/acp/master/config/app/api/openapi/registry.yml#/paths/~1private~1disconnect'

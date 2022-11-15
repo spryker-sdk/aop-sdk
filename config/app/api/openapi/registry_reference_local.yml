@@ -1,0 +1,6 @@
+openapi: 3.0.3
+paths:
+    '/private/config':
+        $ref: 'registry.yml#/paths/~1private~1config'
+    '/private/disconnect':
+        $ref: 'registry.yml#/paths/~1private~1disconnect'

@@ -11,9 +11,6 @@ use SprykerSdk\Acp\Configuration\Builder\AppConfigurationBuilder;
 use SprykerSdk\Acp\Configuration\Builder\AppConfigurationBuilderInterface;
 use SprykerSdk\Acp\Configuration\Reader\AppConfigurationReader;
 use SprykerSdk\Acp\Configuration\Reader\AppConfigurationReaderInterface;
-use SprykerSdk\Acp\Configuration\SchemaGenerator\SchemaGenerator;
-use SprykerSdk\Acp\Configuration\SchemaGenerator\SchemaWriter;
-use SprykerSdk\Acp\Configuration\SchemaGenerator\SchemaWriterInterface;
 use SprykerSdk\Acp\Manifest\Builder\AppManifestBuilder;
 use SprykerSdk\Acp\Manifest\Builder\AppManifestBuilderInterface;
 use SprykerSdk\Acp\Manifest\Reader\AppManifestReader;
@@ -28,6 +25,11 @@ use SprykerSdk\Acp\ReadinessChecker\ReadinessChecker;
 use SprykerSdk\Acp\ReadinessChecker\ReadinessCheckerInterface;
 use SprykerSdk\Acp\ReadinessChecker\RecipeLoader\RecipeLoader;
 use SprykerSdk\Acp\ReadinessChecker\RecipeLoader\RecipeLoaderInterface;
+use SprykerSdk\Acp\Schema\ConfigurationSchemaParser;
+use SprykerSdk\Acp\Schema\SchemaExtender;
+use SprykerSdk\Acp\Schema\SchemaExtenderInterface;
+use SprykerSdk\Acp\Schema\SchemaWriter;
+use SprykerSdk\Acp\Schema\SchemaWriterInterface;
 use SprykerSdk\Acp\Translation\Builder\AppTranslationBuilder;
 use SprykerSdk\Acp\Translation\Builder\AppTranslationBuilderInterface;
 use SprykerSdk\Acp\Validator\Configuration\AppConfigurationValidator;
@@ -207,13 +209,25 @@ class AcpFactory
     }
 
     /**
-     * @return \SprykerSdk\Acp\Configuration\SchemaGenerator\SchemaGenerator
+     * @return \SprykerSdk\Acp\Schema\ConfigurationSchemaParser
      */
-    public function createSchemaGenerator(): SchemaGenerator
+    public function createSchemaConverter(): ConfigurationSchemaParser
     {
-        return new SchemaGenerator(
+        return new ConfigurationSchemaParser(
             $this->createAppConfigurationReader(),
             $this->createSchemaWriter(),
+        );
+    }
+
+    /**
+     * @return \SprykerSdk\Acp\Schema\SchemaExtenderInterface
+     */
+    public function createSchemaExtender(): SchemaExtenderInterface
+    {
+        return new SchemaExtender(
+            $this->createSchemaConverter(),
+            $this->createSchemaWriter(),
+            $this->getConfig(),
         );
     }
 
@@ -226,7 +240,7 @@ class AcpFactory
     }
 
     /**
-     * @return \SprykerSdk\Acp\Configuration\SchemaGenerator\SchemaWriterInterface
+     * @return \SprykerSdk\Acp\Schema\SchemaWriterInterface
      */
     protected function createSchemaWriter(): SchemaWriterInterface
     {

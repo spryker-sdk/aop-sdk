@@ -199,7 +199,7 @@ class AcpFacade implements AcpFacadeInterface
     public function createDefaultEndpoints(
         CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer
     ): CreateDefaultEndpointsResponseTransfer {
-        return new CreateDefaultEndpointsResponseTransfer();
+        return $this->getFactory()->createSchemaExtender()->extendProjectSchema($createDefaultEndpointsRequestTransfer);
     }
 
     /**
@@ -212,8 +212,22 @@ class AcpFacade implements AcpFacadeInterface
      *
      * @return bool
      */
-    public function convertConfigurationToSchema(string $configurationFilePath, string $openapiFilePath): bool
+    public function convertConfigurationToSchemaFile(string $configurationFilePath, string $openapiFilePath): bool
     {
-        return $this->getFactory()->createSchemaGenerator()->convertConfigurationToSchema($configurationFilePath, $openapiFilePath);
+        return $this->getFactory()->createSchemaConverter()->convertConfigurationToSchemaFile($configurationFilePath, $openapiFilePath);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param string $configurationFilePath
+     *
+     * @return string
+     */
+    public function convertConfigurationToSchemaJson(string $configurationFilePath): string
+    {
+        return $this->getFactory()->createSchemaConverter()->convertConfigurationToSchemaJson($configurationFilePath);
     }
 }

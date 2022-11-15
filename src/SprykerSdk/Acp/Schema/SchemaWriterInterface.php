@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Acp\Configuration\SchemaGenerator;
+namespace SprykerSdk\Acp\Schema;
 
 use cebe\openapi\spec\OpenApi;
 
@@ -17,5 +17,12 @@ interface SchemaWriterInterface
      *
      * @return bool
      */
-    public function writeSchemaToFile(OpenApi $schema, string $filePath): bool;
+    public function writeSchemaToYamlFile(OpenApi $schema, string $filePath): bool;
+
+    /**
+     * @param \cebe\openapi\spec\OpenApi $schema
+     *
+     * @return string
+     */
+    public function writeSchemaToJsonString(OpenApi $schema): string;
 }

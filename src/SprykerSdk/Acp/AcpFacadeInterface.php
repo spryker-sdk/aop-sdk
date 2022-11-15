@@ -161,7 +161,7 @@ interface AcpFacadeInterface
 
     /**
      * Specification:
-     * - Generates OpenApi schema for configuration object based on configuration.json file
+     * - Generates OpenApi schema file for configuration object based on configuration.json file
      *
      * @api
      *
@@ -170,5 +170,17 @@ interface AcpFacadeInterface
      *
      * @return bool
      */
-    public function convertConfigurationToSchema(string $configurationFilePath, string $openapiFilePath): bool;
+    public function convertConfigurationToSchemaFile(string $configurationFilePath, string $openapiFilePath): bool;
+
+    /**
+     * Specification:
+     * - Generates OpenApi schema json string for configuration object based on configuration.json file
+     *
+     * @api
+     *
+     * @param string $configurationFilePath
+     *
+     * @return string
+     */
+    public function convertConfigurationToSchemaJson(string $configurationFilePath): string;
 }

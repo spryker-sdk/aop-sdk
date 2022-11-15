@@ -30,6 +30,16 @@ class AppDefaultEndpointsCreateConsole extends AbstractConsole
     /**
      * @var string
      */
+    public const OPTION_CONFIGURATION_FILE = 'configuration-file';
+
+    /**
+     * @var string
+     */
+    public const OPTION_CONFIGURATION_FILE_SHORT = 'c';
+
+    /**
+     * @var string
+     */
     public const OPTION_ADD_LOCAL_FILE = 'add-local';
 
     /**
@@ -43,10 +53,10 @@ class AppDefaultEndpointsCreateConsole extends AbstractConsole
     protected function configure(): void
     {
         $this->setName('app:default-endpoints:create')
-            ->setDescription('Creates default .')
+            ->setDescription('Creates default ACP-related endpoints in PBC OpenAPI schema.')
             ->addOption(static::OPTION_SCHEMA_FILE, static::OPTION_SCHEMA_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultOpenapiFile())
-            ->addOption(static::OPTION_ADD_LOCAL_FILE, '', InputOption::VALUE_REQUIRED, '', false)
-            ->addOption(static::OPTION_DEFAULTS_FILE_PATH, '', InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultEndpointsPath());
+            ->addOption(static::OPTION_CONFIGURATION_FILE, static::OPTION_CONFIGURATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultConfigurationFile())
+            ->addOption(static::OPTION_ADD_LOCAL_FILE, '', InputOption::VALUE_NONE, 'Add local registry.yml file instead of using remote link');
     }
 
     /**
@@ -58,6 +68,9 @@ class AppDefaultEndpointsCreateConsole extends AbstractConsole
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $createDefaultEndpointsRequestTransfer = new CreateDefaultEndpointsRequestTransfer();
+        $createDefaultEndpointsRequestTransfer->setSchemaFile($input->getOption(static::OPTION_SCHEMA_FILE))
+            ->setConfigurationFile($input->getOption(static::OPTION_CONFIGURATION_FILE))
+            ->setAddLocal($input->getOption(static::OPTION_ADD_LOCAL_FILE));
 
         $createDefaultEndpointsResponseTransfer = $this->getFacade()
             ->createDefaultEndpoints($createDefaultEndpointsRequestTransfer);

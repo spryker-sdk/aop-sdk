@@ -5,11 +5,17 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdkTest\Acp\Configuration\SchemaGenerator;
+namespace SprykerSdkTest\Acp\Schema;
 
 use Codeception\Test\Unit;
 
-class SchemaGeneratorTest extends Unit
+/**
+ * @group SprykerSdk
+ * @group Acp
+ * @group Schema
+ * @group SchemaConverterTest
+ */
+class SchemaConverterTest extends Unit
 {
     protected ?\SprykerSdkTest\Acp\Tester $tester = null;
 
@@ -33,7 +39,7 @@ class SchemaGeneratorTest extends Unit
      */
     public function testConvertConfigurationToSchemaWorksCorrectlyWithSupportedTypes(): void
     {
-        $isSuccessful = $this->tester->getFacade()->convertConfigurationToSchema(
+        $isSuccessful = $this->tester->getFacade()->convertConfigurationToSchemaFile(
             codecept_data_dir(static::CONFIGURATION_FILE_PATH),
             codecept_output_dir(static::SCHEMA_OUTPUT_FILE_PATH),
         );

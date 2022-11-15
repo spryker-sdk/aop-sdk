@@ -1,0 +1,89 @@
+openapi: 3.0.0
+info:
+  title: 'Spryker PBC App API'
+  contact:
+    name: Spryker
+    url: 'https://apps.spryker.com/'
+    email: support@spryker.com
+  license:
+    name: MIT
+  version: 1.0.0
+servers:
+  -
+    url: 'https://api.app.demo-pbc.com/'
+    description: Testing
+  -
+    url: 'https://api.app.pbc.com/'
+    description: Production
+paths:
+  /payment:
+    get:
+      summary: 'Generates page for entering payment credentials to process with payment.'
+      parameters:
+        -
+          name: token
+          in: query
+          description: 'Provides token.'
+          required: true
+          schema:
+            type: string
+        -
+          name: errorMessage
+          in: query
+          description: 'Provides error message.'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Expected response to a valid request.'
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: 'This store is not configured.'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: 'Expected response to a bad reques
+            text/plain:
+              schema:
+                type: string
+  /private/config:
+    $ref: 'registry.yml#/paths/~1private~1config'
+  /private/disconnect:
+    $ref: 'registry.yml#/paths/~1private~1disconnect'
+components:
+  schemas:
+    AppConfiguration:
+      required:
+        - credentials_clientName
+        - credentials_siteId
+        - settings_environment
+      type: object
+      properties:
+        credentials_clientName:
+          type: string
+        settings_environment:
+          enum:
+            - settings_environment_staging
+            - settings_environment_production
+          type: string
+        settings_settings:
+          type: array
+          items:
+            enum:
+              - settings_settings_ratingsReviews
+              - settings_settings_inlineRatings
+              - settings_settings_bazaarvoicePixel
+            type: string
+        isActive:
+          type: boolean
+        children:
+          type: array
+          items:
+            type: object
+            additionalProperties: true

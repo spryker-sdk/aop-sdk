@@ -5,40 +5,33 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Acp\Configuration\SchemaGenerator;
+namespace SprykerSdk\Acp\Schema;
 
 use cebe\openapi\spec\OpenApi;
 use SprykerSdk\Acp\Configuration\Reader\AppConfigurationReaderInterface;
 
-class SchemaGenerator implements SchemaGeneratorInterface
+class ConfigurationSchemaParser implements ConfigurationSchemaParserInterface
 {
     protected AppConfigurationReaderInterface $appConfigurationReader;
 
-    protected SchemaWriterInterface $schemaWriter;
-
     /**
      * @param \SprykerSdk\Acp\Configuration\Reader\AppConfigurationReaderInterface $appConfigurationReader
-     * @param \SprykerSdk\Acp\Configuration\SchemaGenerator\SchemaWriterInterface $schemaWriter
      */
-    public function __construct(AppConfigurationReaderInterface $appConfigurationReader, SchemaWriterInterface $schemaWriter)
+    public function __construct(AppConfigurationReaderInterface $appConfigurationReader)
     {
         $this->appConfigurationReader = $appConfigurationReader;
-        $this->schemaWriter = $schemaWriter;
     }
 
     /**
      * @param string $configurationFilePath
-     * @param string $openapiFilePath
      *
-     * @return bool
+     * @return \cebe\openapi\spec\OpenApi
      */
-    public function convertConfigurationToSchema(string $configurationFilePath, string $openapiFilePath): bool
+    public function parseConfiguration(string $configurationFilePath): OpenApi
     {
         $appConfigurationData = $this->appConfigurationReader->readConfigurationFile($configurationFilePath);
 
-        $generatedSchema = $this->generateSchemaFromConfiguration($appConfigurationData);
-
-        return $this->schemaWriter->writeSchemaToFile($generatedSchema, $openapiFilePath);
+        return $this->generateSchemaFromConfiguration($appConfigurationData);
     }
 
     /**
