@@ -16,9 +16,59 @@ class AcpConfig
      *
      * @return string
      */
-    public function getAcpRootPath(): string
+    protected function getAcpRootDir(): string
     {
-        return realpath(__DIR__ . '/../../../') ?: '/data/vendor/spryker-sdk/acp';
+        return ACP_ROOT_DIR;
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    protected function getComposerBinDir(): string
+    {
+        return $_composer_bin_dir ?? $this->getAcpRootDir(). '/../../bin';
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getSyncApiBinPath(): string
+    {
+        return $this->getComposerBinDir() . '/syncapi';
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getRegistryReferenceLocalFilePath(): string
+    {
+        return $this->getAcpRootDir() . '/config/app/api/openapi/registry_reference_local.yml';
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getRegistryReferenceFilePath(): string
+    {
+        return $this->getAcpRootDir() . '/config/app/api/openapi/registry_reference_remote.yml';
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getRegistryFilePath(): string
+    {
+        return $this->getAcpRootDir() . '/config/app/api/openapi/registry.yml';
     }
 
     /**

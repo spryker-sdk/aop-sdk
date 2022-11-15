@@ -8,10 +8,9 @@
 namespace SprykerSdk\Acp\Schema;
 
 use cebe\openapi\spec\OpenApi;
-use Elasticsearch\Endpoints\Indices\Open;
 use SprykerSdk\Acp\Configuration\Reader\AppConfigurationReaderInterface;
 
-class SchemaConverter implements SchemaConverterInterface
+class ConfigurationSchemaParser implements ConfigurationSchemaParserInterface
 {
     protected AppConfigurationReaderInterface $appConfigurationReader;
 
@@ -26,15 +25,13 @@ class SchemaConverter implements SchemaConverterInterface
     /**
      * @param string $configurationFilePath
      *
-     * @return OpenApi
+     * @return \cebe\openapi\spec\OpenApi
      */
-    public function convertConfigurationToSchema(string $configurationFilePath): Open
+    public function parseConfiguration(string $configurationFilePath): OpenApi
     {
         $appConfigurationData = $this->appConfigurationReader->readConfigurationFile($configurationFilePath);
 
-        $generatedSchema = $this->generateSchemaFromConfiguration($appConfigurationData);
-
-        return $generatedSchema;
+        return $this->generateSchemaFromConfiguration($appConfigurationData);
     }
 
     /**

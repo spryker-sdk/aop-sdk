@@ -25,7 +25,7 @@ use SprykerSdk\Acp\ReadinessChecker\ReadinessChecker;
 use SprykerSdk\Acp\ReadinessChecker\ReadinessCheckerInterface;
 use SprykerSdk\Acp\ReadinessChecker\RecipeLoader\RecipeLoader;
 use SprykerSdk\Acp\ReadinessChecker\RecipeLoader\RecipeLoaderInterface;
-use SprykerSdk\Acp\Schema\SchemaConverter;
+use SprykerSdk\Acp\Schema\ConfigurationSchemaParser;
 use SprykerSdk\Acp\Schema\SchemaExtender;
 use SprykerSdk\Acp\Schema\SchemaExtenderInterface;
 use SprykerSdk\Acp\Schema\SchemaWriter;
@@ -209,11 +209,11 @@ class AcpFactory
     }
 
     /**
-     * @return \SprykerSdk\Acp\Schema\SchemaConverter
+     * @return \SprykerSdk\Acp\Schema\ConfigurationSchemaParser
      */
-    public function createSchemaConverter(): SchemaConverter
+    public function createSchemaConverter(): ConfigurationSchemaParser
     {
-        return new SchemaConverter(
+        return new ConfigurationSchemaParser(
             $this->createAppConfigurationReader(),
             $this->createSchemaWriter(),
         );
@@ -227,7 +227,7 @@ class AcpFactory
         return new SchemaExtender(
             $this->createSchemaConverter(),
             $this->createSchemaWriter(),
-            $this->getConfig()->getAcpRootPath(),
+            $this->getConfig(),
         );
     }
 

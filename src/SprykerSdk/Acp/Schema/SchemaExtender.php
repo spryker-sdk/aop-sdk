@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Acp\Schema;
 
+use SprykerSdk\Acp\AcpConfig;
 use Symfony\Component\Process\Process;
 use Transfer\CreateDefaultEndpointsRequestTransfer;
 use Transfer\CreateDefaultEndpointsResponseTransfer;
@@ -15,9 +16,9 @@ use Transfer\MessageTransfer;
 class SchemaExtender implements SchemaExtenderInterface
 {
     /**
-     * @var \SprykerSdk\Acp\Schema\SchemaConverterInterface
+     * @var \SprykerSdk\Acp\Schema\ConfigurationSchemaParserInterface
      */
-    protected SchemaConverterInterface $schemaConverter;
+    protected ConfigurationSchemaParserInterface $schemaConverter;
 
     /**
      * @var \SprykerSdk\Acp\Schema\SchemaWriterInterface
@@ -25,23 +26,23 @@ class SchemaExtender implements SchemaExtenderInterface
     protected SchemaWriterInterface $schemaWriter;
 
     /**
-     * @var string
+     * @var \SprykerSdk\Acp\AcpConfig
      */
-    protected string $acpRootPath;
+    protected AcpConfig $acpConfig;
 
     /**
-     * @param \SprykerSdk\Acp\Schema\SchemaConverterInterface $schemaConverter
+     * @param \SprykerSdk\Acp\Schema\ConfigurationSchemaParserInterface $schemaConverter
      * @param \SprykerSdk\Acp\Schema\SchemaWriterInterface $schemaWriter
-     * @param string $acpRootPath
+     * @param \SprykerSdk\Acp\AcpConfig $acpConfig
      */
     public function __construct(
-        SchemaConverterInterface $schemaConverter,
-        SchemaWriterInterface $schemaWriter,
-        string $acpRootPath
+        ConfigurationSchemaParserInterface $schemaConverter,
+        SchemaWriterInterface              $schemaWriter,
+        AcpConfig $acpConfig,
     ) {
         $this->schemaConverter = $schemaConverter;
         $this->schemaWriter = $schemaWriter;
-        $this->acpRootPath = $acpRootPath;
+        $this->acpConfig = $acpConfig;
     }
 
     /**
@@ -73,7 +74,7 @@ class SchemaExtender implements SchemaExtenderInterface
         $result = new CreateDefaultEndpointsResponseTransfer();
 
         $process = new Process([
-            $this->acpRootPath . '/vendor/bin/syncapi',
+            $this->acpConfig->getSyncApiBinPath(),
             'schema:openapi:update',
             '--openapi-file',
             $createDefaultEndpointsRequestTransfer->getSchemaFile(),
@@ -109,10 +110,10 @@ class SchemaExtender implements SchemaExtenderInterface
     protected function getDefaultEndpointsSchemaPath(CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer): string
     {
         if ($createDefaultEndpointsRequestTransfer->getAddLocal()) {
-            return $this->acpRootPath . '/config/app/api/openapi/registry_reference_local.yml';
+            return $this->acpConfig->getRegistryReferenceLocalFilePath();
         }
 
-        return $this->acpRootPath . '/config/app/api/openapi/registry_reference_remote.yml';
+        return $this->acpConfig->getRegistryReferenceFilePath();
     }
 
     /**
@@ -124,7 +125,7 @@ class SchemaExtender implements SchemaExtenderInterface
     {
         $registryFilePath = dirname($createDefaultEndpointsRequestTransfer->getSchemaFileOrFail()) . DIRECTORY_SEPARATOR . 'registry.yml';
 
-        return copy($this->acpRootPath . '/config/app/api/openapi/registry.yml', $registryFilePath);
+        return copy($this->acpConfig->getRegistryFilePath(), $registryFilePath);
     }
 
     /**
@@ -134,10 +135,10 @@ class SchemaExtender implements SchemaExtenderInterface
      */
     protected function convertConfigurationToSchema(CreateDefaultEndpointsRequestTransfer $createDefaultEndpointsRequestTransfer): ?MessageTransfer
     {
-        $schema = $this->schemaConverter->convertConfigurationToSchema($createDefaultEndpointsRequestTransfer->getConfigurationFileOrFail());
+        $schema = $this->schemaConverter->parseConfiguration($createDefaultEndpointsRequestTransfer->getConfigurationFileOrFail());
 
         $process = new Process([
-            $this->acpRootPath . '/vendor/bin/syncapi',
+            $this->acpConfig->getSyncApiBinPath(),
             'schema:openapi:update',
             '--openapi-file',
             $createDefaultEndpointsRequestTransfer->getSchemaFile(),
