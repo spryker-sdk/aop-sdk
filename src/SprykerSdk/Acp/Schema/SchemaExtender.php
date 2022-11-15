@@ -37,8 +37,8 @@ class SchemaExtender implements SchemaExtenderInterface
      */
     public function __construct(
         ConfigurationSchemaParserInterface $schemaConverter,
-        SchemaWriterInterface              $schemaWriter,
-        AcpConfig $acpConfig,
+        SchemaWriterInterface $schemaWriter,
+        AcpConfig $acpConfig
     ) {
         $this->schemaConverter = $schemaConverter;
         $this->schemaWriter = $schemaWriter;

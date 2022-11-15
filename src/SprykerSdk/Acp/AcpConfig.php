@@ -28,7 +28,7 @@ class AcpConfig
      */
     protected function getComposerBinDir(): string
     {
-        return $_composer_bin_dir ?? $this->getAcpRootDir(). '/../../bin';
+        return $_composer_bin_dir ?? $this->getAcpRootDir() . '/../../bin';
     }
 
     /**

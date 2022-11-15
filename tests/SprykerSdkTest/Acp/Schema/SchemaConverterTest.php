@@ -17,7 +17,7 @@ use Codeception\Test\Unit;
  */
 class SchemaConverterTest extends Unit
 {
-    protected ?\SprykerSdkTest\Acp\Tester $tester;
+    protected ?\SprykerSdkTest\Acp\Tester $tester = null;
 
     /**
      * @var string

@@ -14,7 +14,7 @@ interface ConfigurationSchemaParserInterface
     /**
      * @param string $configurationFilePath
      *
-     * @return OpenApi
+     * @return \cebe\openapi\spec\OpenApi
      */
     public function parseConfiguration(string $configurationFilePath): OpenApi;
 }
