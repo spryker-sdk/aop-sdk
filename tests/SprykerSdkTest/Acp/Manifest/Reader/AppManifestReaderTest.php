@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdkTest\Acp\Reader;
+namespace SprykerSdkTest\Acp\Manifest\Reader;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Acp\AcpConfig;
