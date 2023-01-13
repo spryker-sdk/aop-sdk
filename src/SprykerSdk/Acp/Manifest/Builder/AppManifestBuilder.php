@@ -87,16 +87,16 @@ class AppManifestBuilder implements AppManifestBuilderInterface
         return [
             'name' => $manifestTransfer->getNameOrFail(),
             'provider' => $manifestTransfer->getNameOrFail(),
-            'description' => $manifestExampleData['description'],
-            'descriptionShort' => $manifestExampleData['descriptionShort'],
-            'url' => $manifestExampleData['url'],
-            'isAvailable' => $manifestExampleData['isAvailable'],
-            'business_models' => $manifestExampleData['business_models'],
-            'categories' => $manifestExampleData['categories'],
-            'pages' => $manifestExampleData['pages'],
-            'assets' => $manifestExampleData['assets'],
-            'label' => $manifestExampleData['label'],
-            'resources' => $manifestExampleData['resources'],
+            'description' => $manifestExampleData['description'] ?? [],
+            'descriptionShort' => $manifestExampleData['descriptionShort'] ?? [],
+            'url' => $manifestExampleData['url'] ?? [],
+            'isAvailable' => $manifestExampleData['isAvailable'] ?? [],
+            'business_models' => $manifestExampleData['business_models'] ?? [],
+            'categories' => $manifestExampleData['categories'] ?? [],
+            'pages' => $manifestExampleData['pages'] ?? [],
+            'assets' => $manifestExampleData['assets'] ?? [],
+            'label' => $manifestExampleData['label'] ?? [],
+            'resources' => $manifestExampleData['resources'] ?? [],
           ];
     }
 
@@ -113,7 +113,13 @@ class AppManifestBuilder implements AppManifestBuilderInterface
             return null;
         }
 
-        return json_decode(file_get_contents($manifestExample), true, 512, JSON_THROW_ON_ERROR);
+        $content = file_get_contents($manifestExample);
+
+        if (!$content) {
+            return null;
+        }
+
+        return json_decode($content, true, 512, JSON_THROW_ON_ERROR);
     }
 
     /**
