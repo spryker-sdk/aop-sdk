@@ -1,19 +1,19 @@
 {
     "name": "Manifest",
     "provider": "Manifest",
-    "description": "A short description to be shown below the app name with a promotional text",
-    "descriptionShort": "A long description explaining what the app does or talking about your business.",
-    "url": "https:\/\/url-not-visible-in-app-catalog-to-your-app-homepage.com",
+    "description": "Eine kurze Beschreibung, die unter dem App-Namen mit einem Werbetext angezeigt wird",
+    "descriptionShort": "Eine lange Beschreibung, die erklärt, was die App tut oder über Ihr Unternehmen spricht.",
+    "url": "https://url-nicht-sichtbar-im-app-katalog-zu-ihrer-app-Homepage.com",
     "isAvailable": true,
     "business_models": [
-        "** CHOOSE ONE OR MORE BELOW **",
+        "** WÄHLEN SIE UNTEN EINEN ODER MEHRERE AUS **",
         "B2B",
         "B2C",
         "B2C_MARKETPLACE",
         "B2B_MARKETPLACE"
     ],
     "categories": [
-        "** CHOOSE ONE OR MORE BELOW **",
+        "** WÄHLEN SIE UNTEN EINEN ODER MEHRERE AUS **",
         "BI_ANALYTICS",
         "CUSTOMER",
         "LOYALTY",
@@ -24,59 +24,55 @@
     ],
     "pages": {
         "Overview": {
-            "MoreContent_ThisIsOptional": {
-                "title": "A text section with more content about the app",
+            "MehrInhalt_DiesIstOptional": {
+                "title": "Ein Textabschnitt mit weiteren Inhalten zur App",
                 "type": "text",
-                "data": "Free text with more content about the app. It will be shown below the long description section."
+                "data": "Freitext mit weiteren Inhalten zur App. Es wird unter dem Abschnitt mit der langen Beschreibung angezeigt."
             },
-            "Advantages_ThisIsOptional": {
-                "title": "You can also create a item list section",
+            "Vorteile_DiesIstOptional": {
+                "title": "Ein Textabschnitt mit weiteren Inhalten zur App",
                 "type": "list",
                 "data": [
-                    "Your app advantage #1",
-                    "Your app advantage #2",
-                    "Your app advantage #3"
+                    "Ihr App-Vorteil #1",
+                    "Ihr App-Vorteil #2",
+                    "Ihr App-Vorteil #3"
                 ]
             },
-            "AsMuchAsYouNeed_ThisIsOptional": {
-                "title": "The title of another text section",
+            "SoVielWieSieBrauchen_DiesIstOptional": {
+                "title": "Der Titel eines anderen Textabschnitts",
                 "type": "text",
-                "data": "You can add as much content as you need. It can also be a list, just change the 'type' property and use an array here as shown above."
+                "data": "Sie können so viele Inhalte hinzufügen, wie Sie benötigen. Es kann auch eine Liste sein, ändern Sie einfach die Eigenschaft `type` und verwenden Sie hier ein Array, wie oben gezeigt."
             }
         },
         "Legal": {
-            "LegalText_ThisIsOptional": {
+            "Rechtstext_DiesIstOptional": {
                 "title": "A text with legal content",
                 "type": "text",
                 "data": "Free text with legal content."
             },
-            "AsMuchAsYouNeedToo_ThisIsOptional": {
-                "title": "The title of another section",
+            "SoVielWieSieBrauchen_DiesIstOptional": {
+                "title": "Der Titel eines anderen Abschnitts",
                 "type": "text",
-                "data": "You can add as much content as you need. It can also be a list, just change the 'type' property and use an array here as shown above."
+                "data": "Sie können so viele Inhalte hinzufügen, wie Sie benötigen. Es kann auch eine Liste sein, ändern Sie einfach die Eigenschaft `type` und verwenden Sie hier ein Array, wie oben gezeigt."
             }
         }
     },
     "assets": [
         {
             "type": "icon",
-            "url": "\/assets\/images\/app_name\/logo.svg"
+            "url": "/assets/images/app_name/logo.svg"
         },
         {
             "type": "image",
-            "url": "\/assets\/images\/app_name\/gallery\/app_picture_1.jpeg"
-        },
-        {
-            "type": "image",
-            "url": "\/assets\/images\/app_name\/gallery\/app_picture_1.png"
+            "url": "/assets/images/app_name/gallery/das-kann-auch-ein-png-sein.jpeg"
         },
         {
             "type": "video",
-            "url": "https:\/\/wistia.com\/only-support-wistia-videos"
+            "url": "https://wistia.com/unterstützt-nur-wistia-videos"
         }
     ],
     "label": [
-        "** CHOOSE ONE OR MORE BELOW **",
+        "** WÄHLEN SIE UNTEN EINEN ODER MEHRERE AUS **",
         "Silver Partner",
         "Gold Partner",
         "New",
@@ -85,30 +81,30 @@
     ],
     "resources": [
         {
-            "title": "Homepage",
-            "url": "https:\/\/url-to-app-homepage.com",
+            "title": "Startseite",
+            "url": "https://url-zur-app-startseite.com",
             "type": "homepage"
         },
         {
-            "title": "The 'type' property changes the resource icon on AppCatalog",
-            "url": "https:\/\/url-to-app-homepage.com\/user-documentation",
+            "title": "Die Eigenschaft `type` ändert das Ressourcensymbol in AppCatalog",
+            "url": "https://url-to-app-homepage.com/benutzerdokumentation",
             "type": "user-documentation"
         },
         {
-            "title": "A PDF file (the optional 'fileType' property makes it open inside AppCatalog without redirect)",
-            "url": "https:\/\/url-to-app-homepage.com\/its-possible-to-use-pdf-files.pdf",
+            "title": "Eine PDF-Datei (die optionale Eigenschaft `fileType` lässt sie ohne Umleitung in AppCatalog öffnen)",
+            "url": "https://url-zur-app-startseite/its-possible-to-use-pdf-files.pdf",
             "type": "developer-documentation",
             "fileType": "pdf"
         },
         {
-            "title": "A Markdown file (the optional 'fileType' property makes it open inside AppCatalog without redirect)",
-            "url": "https:\/\/url-to-app-homepage.com\/its-possible-to-use-md-files.md",
+            "title": "Eine Markdown-Datei (die optionale Eigenschaft `fileType` lässt sie ohne Umleitung in AppCatalog öffnen)",
+            "url": "https://url-zur-app-startseite/es-ist-möglich-md-dateien-zu-verwenden.md",
             "type": "release-notes",
             "fileType": "markdown"
         },
         {
-            "title": "App internal doc (MAY be a pdf or markdown with the 'fileType' property)",
-            "url": "https:\/\/url-to-app-homepage.com\/internal-documentation",
+            "title": "App-internes Dokument (KANN ein PDF oder Markdown mit der Eigenschaft `fileType` sein)",
+            "url": "https://url-zur-app-startseite/interne-dokumentation",
             "type": "internal-documentation",
             "fileType": "pdf"
         }

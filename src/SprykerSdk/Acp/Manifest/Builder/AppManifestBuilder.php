@@ -7,12 +7,31 @@
 
 namespace SprykerSdk\Acp\Manifest\Builder;
 
+use SprykerSdk\Acp\AcpConfig;
 use Transfer\ManifestRequestTransfer;
 use Transfer\ManifestResponseTransfer;
 use Transfer\MessageTransfer;
 
 class AppManifestBuilder implements AppManifestBuilderInterface
 {
+    /**
+     * @var string
+     */
+    public const FALLBACK_LOCALE = 'en_US';
+
+    /**
+     * @var \SprykerSdk\Acp\AcpConfig
+     */
+    protected AcpConfig $config;
+
+    /**
+     * @param \SprykerSdk\Acp\AcpConfig $config
+     */
+    public function __construct(AcpConfig $config)
+    {
+        $this->config = $config;
+    }
+
     /**
      * @param \Transfer\ManifestRequestTransfer $manifestRequestTransfer
      *
@@ -42,7 +61,7 @@ class AppManifestBuilder implements AppManifestBuilderInterface
             return $manifestResponseTransfer;
         }
 
-        $manifest = $this->getManifest($manifestRequestTransfer);
+        $manifest = $this->getManifest($manifestRequestTransfer, $locale);
 
         $this->writeToFile($targetFile, $manifest);
 
@@ -54,126 +73,46 @@ class AppManifestBuilder implements AppManifestBuilderInterface
      *
      * @return array<string, mixed>
      */
-    protected function getManifest(ManifestRequestTransfer $manifestRequestTransfer): array
+    protected function getManifest(ManifestRequestTransfer $manifestRequestTransfer, string $locale): array
     {
         $manifestTransfer = $manifestRequestTransfer->getManifestOrFail();
+
+        $manifestExampleData = $this->getManifestExampleData($locale);
+
+        if (!$manifestExampleData) {
+            $manifestExampleData = $this->getManifestExampleData(static::FALLBACK_LOCALE);
+        }
 
         return [
             'name' => $manifestTransfer->getNameOrFail(),
             'provider' => $manifestTransfer->getNameOrFail(),
-            'description' => 'A short description to be shown below the app name with a promotional text',
-            'descriptionShort' => 'A long description explaining what the app does or talking about your business.',
-            'url' => 'https://url-not-visible-in-app-catalog-to-your-app-homepage.com',
-            'isAvailable' => true,
-            'business_models' => [
-                '** CHOOSE ONE OR MORE BELOW **',
-                'B2B',
-                'B2C',
-                'B2C_MARKETPLACE',
-                'B2B_MARKETPLACE',
-            ],
-            'categories' => [
-                '** CHOOSE ONE OR MORE BELOW **',
-                'BI_ANALYTICS',
-                'CUSTOMER',
-                'LOYALTY',
-                'PAYMENT',
-                'PRODUCT_INFORMATION_SYSTEM',
-                'SEARCH',
-                'USER_GENERATED_CONTENT',
-            ],
-            'pages' => [
-                'Overview' => [
-                    'MoreContent_ThisIsOptional' => [
-                        'title' => 'A text section with more content about the app',
-                        'type' => 'text',
-                        'data' => 'Free text with more content about the app. It will be shown below the long description section.',
-                    ],
-                    'Advantages_ThisIsOptional' => [
-                        'title' => 'You can also create a item list section',
-                        'type' => 'list',
-                        'data' => [
-                            'Your app advantage #1',
-                            'Your app advantage #2',
-                            'Your app advantage #3',
-                        ],
-                    ],
-                    'AsMuchAsYouNeed_ThisIsOptional' => [
-                        'title' => 'The title of another text section',
-                        'type' => 'text',
-                        'data' => 'You can add as much content as you need. It can also be a list, just change the \'type\' property and use an array here as shown above.',
-                    ],
-                ],
-                'Legal' => [
-                    'LegalText_ThisIsOptional' => [
-                        'title' => 'A text with legal content',
-                        'type' => 'text',
-                        'data' => 'Free text with legal content.',
-                    ],
-                    'AsMuchAsYouNeedToo_ThisIsOptional' => [
-                        'title' => 'The title of another section',
-                        'type' => 'text',
-                        'data' => 'You can add as much content as you need. It can also be a list, just change the \'type\' property and use an array here as shown above.',
-                    ],
-                ],
-            ],
-            'assets' => [
-                [
-                    'type' => 'icon',
-                    'url' => '/assets/images/app_name/logo.svg',
-                ],
-                [
-                    'type' => 'image',
-                    'url' => '/assets/images/app_name/gallery/app_picture_1.jpeg',
-                ],
-                [
-                    'type' => 'image',
-                    'url' => '/assets/images/app_name/gallery/app_picture_1.png',
-                ],
-                [
-                    'type' => 'video',
-                    'url' => 'https://wistia.com/only-support-wistia-videos',
-                ],
-            ],
-            'label' => [
-                '** CHOOSE ONE OR MORE BELOW **',
-                'Silver Partner',
-                'Gold Partner',
-                'New',
-                'Popular',
-                'Free Trial',
-            ],
-            'resources' => [
-                [
-                    'title' => 'Homepage',
-                    'url' => 'https://url-to-app-homepage.com',
-                    'type' => 'homepage',
-                ],
-                [
-                    'title' => 'The \'type\' property changes the resource icon on AppCatalog',
-                    'url' => 'https://url-to-app-homepage.com/user-documentation',
-                    'type' => 'user-documentation',
-                ],
-                [
-                    'title' => 'A PDF file (the optional \'fileType\' property makes it open inside AppCatalog without redirect)',
-                    'url' => 'https://url-to-app-homepage.com/its-possible-to-use-pdf-files.pdf',
-                    'type' => 'developer-documentation',
-                    'fileType' => 'pdf',
-                ],
-                [
-                    'title' => 'A Markdown file (the optional \'fileType\' property makes it open inside AppCatalog without redirect)',
-                    'url' => 'https://url-to-app-homepage.com/its-possible-to-use-md-files.md',
-                    'type' => 'release-notes',
-                    'fileType' => 'markdown',
-                ],
-                [
-                    'title' => 'App internal doc (MAY be a pdf or markdown with the \'fileType\' property)',
-                    'url' => 'https://url-to-app-homepage.com/internal-documentation',
-                    'type' => 'internal-documentation',
-                    'fileType' => 'pdf',
-                ],
-            ],
+            'description' => $manifestExampleData['description'],
+            'descriptionShort' => $manifestExampleData['descriptionShort'],
+            'url' => $manifestExampleData['url'],
+            'isAvailable' => $manifestExampleData['isAvailable'],
+            'business_models' => $manifestExampleData['business_models'],
+            'categories' => $manifestExampleData['categories'],
+            'pages' => $manifestExampleData['pages'],
+            'assets' => $manifestExampleData['assets'],
+            'label' => $manifestExampleData['label'],
+            'resources' => $manifestExampleData['resources'],
           ];
+    }
+
+    /**
+     * @param string $locale
+     *
+     * @return array|null
+     */
+    protected function getManifestExampleData(string $locale): ?array
+    {
+        $manifestExample = $this->config->getDefaultManifestPath() . $locale . '.json';
+
+        if (!file_exists($manifestExample)) {
+            return null;
+        }
+
+        return json_decode(file_get_contents($manifestExample), true, 512, JSON_THROW_ON_ERROR);
     }
 
     /**
