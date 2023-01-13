@@ -19,21 +19,27 @@ use SprykerSdkTest\Acp\Tester;
  */
 class AppManifestBuilderTest extends Unit
 {
- /**
-  * @var \SprykerSdkTest\Acp\Tester
-  */
+    /**
+     * @var \SprykerSdkTest\Acp\Tester
+     */
     protected Tester $tester;
 
     /**
+     * @dataProvider localeProvider
+     *
+     * @param string $locale
+     *
      * @return void
      */
-    public function testShouldFallbackToEnglishIfLocaleDoesntExist()
+    public function testShouldUseTheRightExampleFileToMakeTheManifest($locale)
     {
         // Arrange
-        $this->tester->haveRealManifestExampleFile('en_US');
+        $this->tester->haveRealManifestExampleFile($locale);
 
-        $manifestRequestTransfer = $this->tester->haveManifestCreateRequest('fr_FR');
-        $manifestRealExampleContent = $this->tester->haveRealManifestExampleData('en_US');
+        $manifestRequestTransfer = $this->tester->haveManifestCreateRequest($locale);
+        $manifestLocale = $manifestRequestTransfer->getManifest()->getLocaleName();
+
+        $manifestRealExampleContent = $this->tester->haveRealManifestExampleData($manifestLocale);
 
         // Act
         $appManifestBuilder = new AppManifestBuilder(
@@ -60,19 +66,15 @@ class AppManifestBuilderTest extends Unit
     }
 
     /**
-     * @dataProvider localeProvider
-     *
      * @return void
      */
-    public function testShouldUseTheRightExampleFileToMakeTheManifest($locale)
+    public function testShouldFallbackToEnglishIfLocaleDoesntExist()
     {
         // Arrange
-        $this->tester->haveRealManifestExampleFile($locale);
+        $this->tester->haveRealManifestExampleFile('en_US');
 
-        $manifestRequestTransfer = $this->tester->haveManifestCreateRequest($locale);
-        $manifestLocale = $manifestRequestTransfer->getManifest()->getLocaleName();
-
-        $manifestRealExampleContent = $this->tester->haveRealManifestExampleData($manifestLocale);
+        $manifestRequestTransfer = $this->tester->haveManifestCreateRequest('fr_FR');
+        $manifestRealExampleContent = $this->tester->haveRealManifestExampleData('en_US');
 
         // Act
         $appManifestBuilder = new AppManifestBuilder(

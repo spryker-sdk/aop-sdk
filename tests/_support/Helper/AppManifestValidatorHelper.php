@@ -113,6 +113,8 @@ class AppManifestValidatorHelper extends Module
     }
 
     /**
+     * @param string $manifestLocale
+     *
      * @return void
      */
     public function haveRealManifestExampleFile($manifestLocale = 'en_US'): void

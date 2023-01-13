@@ -19,6 +19,8 @@ class ManifestHelper extends Module
     use AcpHelperTrait;
 
     /**
+     * @param string $locale
+     *
      * @return \Transfer\ManifestRequestTransfer
      */
     public function haveManifestCreateRequest(string $locale = 'en_US'): ManifestRequestTransfer

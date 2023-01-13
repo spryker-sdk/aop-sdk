@@ -70,6 +70,7 @@ class AppManifestBuilder implements AppManifestBuilderInterface
 
     /**
      * @param \Transfer\ManifestRequestTransfer $manifestRequestTransfer
+     * @param string $locale
      *
      * @return array<string, mixed>
      */
