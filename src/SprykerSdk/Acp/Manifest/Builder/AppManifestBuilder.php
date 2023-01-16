@@ -81,7 +81,7 @@ class AppManifestBuilder implements AppManifestBuilderInterface
         $manifestExampleData = $this->getManifestExampleData($locale);
 
         if (!$manifestExampleData) {
-            $manifestExampleData = $this->getManifestExampleData(static::FALLBACK_LOCALE);
+            $manifestExampleData = $this->getManifestExampleData(static::FALLBACK_LOCALE) ?? [];
         }
 
         return [

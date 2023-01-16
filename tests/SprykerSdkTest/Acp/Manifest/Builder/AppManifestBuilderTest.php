@@ -101,6 +101,51 @@ class AppManifestBuilderTest extends Unit
     }
 
     /**
+     * @return void
+     */
+    public function testShouldEmptyDataIfFallbackDoesntExistExist()
+    {
+        // Arrange
+        $manifestRequestTransfer = $this->tester->haveManifestCreateRequest();
+
+        // Act
+        $appManifestBuilder = new AppManifestBuilder(
+            $this->tester->getConfig(),
+        );
+
+        $appManifestBuilder->createManifest($manifestRequestTransfer);
+
+        $responseContent = json_decode(
+            file_get_contents(
+                $manifestRequestTransfer->getManifestPath() .
+                $manifestRequestTransfer->getManifest()->getLocaleName() . '.json',
+            ),
+            true,
+            512,
+            JSON_THROW_ON_ERROR,
+        );
+
+        // Assert
+        $this->assertEquals(
+            [
+                'name' => $manifestRequestTransfer->getManifest()->getName(),
+                'provider' => $manifestRequestTransfer->getManifest()->getName(),
+                'description' => [],
+                'descriptionShort' => [],
+                'url' => [],
+                'isAvailable' => [],
+                'business_models' => [],
+                'categories' => [],
+                'pages' => [],
+                'assets' => [],
+                'label' => [],
+                'resources' => [],
+            ],
+            $responseContent,
+        );
+    }
+
+    /**
      * @return array[<string>, <string>]
      */
     public function localeProvider()
