@@ -1,19 +1,19 @@
 {
     "name": "Manifest",
     "provider": "Manifest",
-    "description": "Eine kurze Beschreibung, die unter dem App-Namen mit einem Werbetext angezeigt wird",
-    "descriptionShort": "Eine lange Beschreibung, die erklärt, was die App tut oder über Ihr Unternehmen spricht.",
+    "description": "Eine kurze Beschreibung, die unter dem App-Namen angezeigt wird",
+    "descriptionShort": "Eine Beschreibung, die erklärt, was die App im Detail kann.",
     "url": "https://url-nicht-sichtbar-im-app-katalog-zu-ihrer-app-Homepage.com",
     "isAvailable": true,
     "business_models": [
-        "** WÄHLEN SIE UNTEN EINEN ODER MEHRERE AUS **",
+        "** WÄHLEN SIE EIN ODER MEHRERE AUS **",
         "B2B",
         "B2C",
         "B2C_MARKETPLACE",
         "B2B_MARKETPLACE"
     ],
     "categories": [
-        "** WÄHLEN SIE UNTEN EINEN ODER MEHRERE AUS **",
+        "** WÄHLEN SIE EINE ODER MEHRERE AUS **",
         "BI_ANALYTICS",
         "CUSTOMER",
         "LOYALTY",
@@ -46,9 +46,9 @@
         },
         "Legal": {
             "Rechtstext_DiesIstOptional": {
-                "title": "A text with legal content",
+                "title": "Ein Textabschnitt mit Rechtlichen Hinweisen.",
                 "type": "text",
-                "data": "Free text with legal content."
+                "data": "Sie können so viele Inhalte hinzufügen, wie Sie benötigen. Es kann auch eine Liste sein, ändern Sie einfach die Eigenschaft `type` und verwenden Sie hier ein Array, wie oben gezeigt."
             },
             "SoVielWieSieBrauchen_DiesIstOptional": {
                 "title": "Der Titel eines anderen Abschnitts",
@@ -72,7 +72,7 @@
         }
     ],
     "label": [
-        "** WÄHLEN SIE UNTEN EINEN ODER MEHRERE AUS **",
+        "** WÄHLEN SIE EIN ODER MEHRERE AUS **",
         "Silver Partner",
         "Gold Partner",
         "New",
