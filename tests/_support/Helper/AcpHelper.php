@@ -66,6 +66,9 @@ class AcpHelper extends Module
             'getProjectRootPath' => function () {
                 return $this->rootPath;
             },
+            'getPackageRootPath' => function () {
+                return $this->rootPath;
+            },
         ]);
     }
 

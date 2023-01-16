@@ -120,7 +120,21 @@ class AppManifestValidatorHelper extends Module
     public function haveRealManifestExampleFile($manifestLocale = 'en_US'): void
     {
         $files = [
-            $manifestLocale . '.json' => file_get_contents(codecept_absolute_path('config/app/manifest/' . $manifestLocale . '.json')),
+            $manifestLocale . '.json.dist' => file_get_contents(codecept_absolute_path('config/app/manifest/' . $manifestLocale . '.json.dist')),
+        ];
+
+        $this->prepareManifest($files);
+    }
+
+    /**
+     * @param string $manifestLocale
+     *
+     * @return void
+     */
+    public function haveEmptyManifestExampleFile($manifestLocale = 'en_US'): void
+    {
+        $files = [
+            $manifestLocale . '.json.dist' => '',
         ];
 
         $this->prepareManifest($files);

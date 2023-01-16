@@ -80,7 +80,7 @@ class AppManifestBuilder implements AppManifestBuilderInterface
 
         $manifestExampleData = $this->getManifestExampleData($locale);
 
-        if (!$manifestExampleData) {
+        if (!$manifestExampleData && $locale !== static::FALLBACK_LOCALE) {
             $manifestExampleData = $this->getManifestExampleData(static::FALLBACK_LOCALE) ?? [];
         }
 
@@ -107,7 +107,7 @@ class AppManifestBuilder implements AppManifestBuilderInterface
      */
     protected function getManifestExampleData(string $locale): ?array
     {
-        $manifestExample = $this->config->getDefaultManifestPath() . $locale . '.json';
+        $manifestExample = $this->config->getExampleManifestPath() . $locale . '.json.dist';
 
         if (!file_exists($manifestExample)) {
             return null;

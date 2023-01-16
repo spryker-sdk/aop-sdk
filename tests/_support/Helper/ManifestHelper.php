@@ -93,7 +93,7 @@ class ManifestHelper extends Module
      */
     public function haveRealManifestExampleData($locale = 'en_US')
     {
-        $manifestRealExamplePath = codecept_absolute_path('config/app/manifest/' . $locale . '.json');
+        $manifestRealExamplePath = codecept_absolute_path('config/app/manifest/' . $locale . '.json.dist');
 
         return json_decode(
             file_get_contents($manifestRealExamplePath),

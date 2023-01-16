@@ -31,7 +31,7 @@ class AppManifestBuilderTest extends Unit
      *
      * @return void
      */
-    public function testShouldUseTheRightExampleFileToMakeTheManifest($locale)
+    public function testShouldUseTheRightExampleFileToBuildTheManifest($locale)
     {
         // Arrange
         $this->tester->haveRealManifestExampleFile($locale);
@@ -106,6 +106,8 @@ class AppManifestBuilderTest extends Unit
     public function testShouldEmptyDataIfFallbackDoesntExistExist()
     {
         // Arrange
+        $this->tester->haveEmptyManifestExampleFile('en_US');
+
         $manifestRequestTransfer = $this->tester->haveManifestCreateRequest();
 
         // Act
