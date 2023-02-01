@@ -29,6 +29,21 @@ class AcpConfig
     }
 
     /**
+     * @return string
+     */
+    public function getExampleManifestPath(): string
+    {
+        $pathFragments = [
+            $this->getPackageRootPath(),
+            'config',
+            'app',
+            'manifest',
+        ];
+
+        return implode(DIRECTORY_SEPARATOR, $pathFragments) . DIRECTORY_SEPARATOR;
+    }
+
+    /**
      * @api
      *
      * @return array<string>
@@ -159,6 +174,14 @@ class AcpConfig
         ];
 
         return implode(DIRECTORY_SEPARATOR, $pathFragments);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPackageRootPath(): string
+    {
+        return dirname(__DIR__, 3);
     }
 
     /**

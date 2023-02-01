@@ -166,7 +166,7 @@ class AcpFactory
      */
     public function createAppManifestBuilder(): AppManifestBuilderInterface
     {
-        return new AppManifestBuilder();
+        return new AppManifestBuilder($this->getConfig());
     }
 
     /**

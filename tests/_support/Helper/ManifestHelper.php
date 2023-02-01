@@ -19,16 +19,18 @@ class ManifestHelper extends Module
     use AcpHelperTrait;
 
     /**
+     * @param string $locale
+     *
      * @return \Transfer\ManifestRequestTransfer
      */
-    public function haveManifestCreateRequest(): ManifestRequestTransfer
+    public function haveManifestCreateRequest(string $locale = 'en_US'): ManifestRequestTransfer
     {
         $config = $this->getAcpHelper()->getConfig();
 
         $manifestTransfer = new ManifestTransfer();
         $manifestTransfer
             ->setName('Manifest')
-            ->setLocaleName('en_US');
+            ->setLocaleName($locale);
 
         $manifestRequestTransfer = new ManifestRequestTransfer();
         $manifestRequestTransfer
@@ -82,6 +84,23 @@ class ManifestHelper extends Module
     public function haveManifestFile(): void
     {
         $this->prepareManifestFile(codecept_data_dir('valid/manifest/valid/manifest_base.json'));
+    }
+
+    /**
+     * @param $locale
+     *
+     * @return mixed
+     */
+    public function haveRealManifestExampleData($locale = 'en_US')
+    {
+        $manifestRealExamplePath = codecept_absolute_path('config/app/manifest/' . $locale . '.json.dist');
+
+        return json_decode(
+            file_get_contents($manifestRealExamplePath),
+            true,
+            512,
+            JSON_THROW_ON_ERROR,
+        );
     }
 
     /**

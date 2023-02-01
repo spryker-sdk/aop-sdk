@@ -7,12 +7,31 @@
 
 namespace SprykerSdk\Acp\Manifest\Builder;
 
+use SprykerSdk\Acp\AcpConfig;
 use Transfer\ManifestRequestTransfer;
 use Transfer\ManifestResponseTransfer;
 use Transfer\MessageTransfer;
 
 class AppManifestBuilder implements AppManifestBuilderInterface
 {
+    /**
+     * @var string
+     */
+    public const FALLBACK_LOCALE = 'en_US';
+
+    /**
+     * @var \SprykerSdk\Acp\AcpConfig
+     */
+    protected AcpConfig $config;
+
+    /**
+     * @param \SprykerSdk\Acp\AcpConfig $config
+     */
+    public function __construct(AcpConfig $config)
+    {
+        $this->config = $config;
+    }
+
     /**
      * @param \Transfer\ManifestRequestTransfer $manifestRequestTransfer
      *
@@ -42,7 +61,7 @@ class AppManifestBuilder implements AppManifestBuilderInterface
             return $manifestResponseTransfer;
         }
 
-        $manifest = $this->getManifest($manifestRequestTransfer);
+        $manifest = $this->getManifest($manifestRequestTransfer, $locale);
 
         $this->writeToFile($targetFile, $manifest);
 
@@ -51,25 +70,56 @@ class AppManifestBuilder implements AppManifestBuilderInterface
 
     /**
      * @param \Transfer\ManifestRequestTransfer $manifestRequestTransfer
+     * @param string $locale
      *
      * @return array<string, mixed>
      */
-    protected function getManifest(ManifestRequestTransfer $manifestRequestTransfer): array
+    protected function getManifest(ManifestRequestTransfer $manifestRequestTransfer, string $locale): array
     {
         $manifestTransfer = $manifestRequestTransfer->getManifestOrFail();
+
+        $manifestExampleData = $this->getManifestExampleData($locale);
+
+        if (!$manifestExampleData && $locale !== static::FALLBACK_LOCALE) {
+            $manifestExampleData = $this->getManifestExampleData(static::FALLBACK_LOCALE) ?? [];
+        }
 
         return [
             'name' => $manifestTransfer->getNameOrFail(),
             'provider' => $manifestTransfer->getNameOrFail(),
-            'description' => '',
-            'descriptionShort' => '',
-            'configureUrl' => '',
-            'categories' => [],
-            'assets' => [],
-            'resources' => [],
-            'pages' => [],
-            'label' => [],
+            'description' => $manifestExampleData['description'] ?? [],
+            'descriptionShort' => $manifestExampleData['descriptionShort'] ?? [],
+            'url' => $manifestExampleData['url'] ?? [],
+            'isAvailable' => $manifestExampleData['isAvailable'] ?? [],
+            'business_models' => $manifestExampleData['business_models'] ?? [],
+            'categories' => $manifestExampleData['categories'] ?? [],
+            'pages' => $manifestExampleData['pages'] ?? [],
+            'assets' => $manifestExampleData['assets'] ?? [],
+            'label' => $manifestExampleData['label'] ?? [],
+            'resources' => $manifestExampleData['resources'] ?? [],
           ];
+    }
+
+    /**
+     * @param string $locale
+     *
+     * @return array|null
+     */
+    protected function getManifestExampleData(string $locale): ?array
+    {
+        $manifestExample = $this->config->getExampleManifestPath() . $locale . '.json.dist';
+
+        if (!file_exists($manifestExample)) {
+            return null;
+        }
+
+        $content = file_get_contents($manifestExample);
+
+        if (!$content) {
+            return null;
+        }
+
+        return json_decode($content, true, 512, JSON_THROW_ON_ERROR);
     }
 
     /**

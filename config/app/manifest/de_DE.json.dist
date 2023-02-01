@@ -1,0 +1,112 @@
+{
+    "name": "Manifest",
+    "provider": "Manifest",
+    "description": "Eine kurze Beschreibung, die unter dem App-Namen angezeigt wird",
+    "descriptionShort": "Eine Beschreibung, die erklärt, was die App im Detail kann.",
+    "url": "https://url-nicht-sichtbar-im-app-katalog-zu-ihrer-app-Homepage.com",
+    "isAvailable": true,
+    "business_models": [
+        "** WÄHLEN SIE EIN ODER MEHRERE AUS **",
+        "B2B",
+        "B2C",
+        "B2C_MARKETPLACE",
+        "B2B_MARKETPLACE"
+    ],
+    "categories": [
+        "** WÄHLEN SIE EINE ODER MEHRERE AUS **",
+        "BI_ANALYTICS",
+        "CUSTOMER",
+        "LOYALTY",
+        "PAYMENT",
+        "PRODUCT_INFORMATION_SYSTEM",
+        "SEARCH",
+        "USER_GENERATED_CONTENT"
+    ],
+    "pages": {
+        "Overview": {
+            "MehrInhalt_DiesIstOptional": {
+                "title": "Ein Textabschnitt mit weiteren Inhalten zur App",
+                "type": "text",
+                "data": "Freitext mit weiteren Inhalten zur App. Es wird unter dem Abschnitt mit der langen Beschreibung angezeigt."
+            },
+            "Vorteile_DiesIstOptional": {
+                "title": "Ein Textabschnitt mit weiteren Inhalten zur App",
+                "type": "list",
+                "data": [
+                    "Ihr App-Vorteil #1",
+                    "Ihr App-Vorteil #2",
+                    "Ihr App-Vorteil #3"
+                ]
+            },
+            "SoVielWieSieBrauchen_DiesIstOptional": {
+                "title": "Der Titel eines anderen Textabschnitts",
+                "type": "text",
+                "data": "Sie können so viele Inhalte hinzufügen, wie Sie benötigen. Es kann auch eine Liste sein, ändern Sie einfach die Eigenschaft `type` und verwenden Sie hier ein Array, wie oben gezeigt."
+            }
+        },
+        "Legal": {
+            "Rechtstext_DiesIstOptional": {
+                "title": "Ein Textabschnitt mit Rechtlichen Hinweisen.",
+                "type": "text",
+                "data": "Sie können so viele Inhalte hinzufügen, wie Sie benötigen. Es kann auch eine Liste sein, ändern Sie einfach die Eigenschaft `type` und verwenden Sie hier ein Array, wie oben gezeigt."
+            },
+            "SoVielWieSieBrauchen_DiesIstOptional": {
+                "title": "Der Titel eines anderen Abschnitts",
+                "type": "text",
+                "data": "Sie können so viele Inhalte hinzufügen, wie Sie benötigen. Es kann auch eine Liste sein, ändern Sie einfach die Eigenschaft `type` und verwenden Sie hier ein Array, wie oben gezeigt."
+            }
+        }
+    },
+    "assets": [
+        {
+            "type": "icon",
+            "url": "/assets/images/app_name/logo.svg"
+        },
+        {
+            "type": "image",
+            "url": "/assets/images/app_name/gallery/das-kann-auch-ein-png-sein.jpeg"
+        },
+        {
+            "type": "video",
+            "url": "https://wistia.com/unterstützt-nur-wistia-videos"
+        }
+    ],
+    "label": [
+        "** WÄHLEN SIE EIN ODER MEHRERE AUS **",
+        "Silver Partner",
+        "Gold Partner",
+        "New",
+        "Popular",
+        "Free Trial"
+    ],
+    "resources": [
+        {
+            "title": "Startseite",
+            "url": "https://url-zur-app-startseite.com",
+            "type": "homepage"
+        },
+        {
+            "title": "Die Eigenschaft `type` ändert das Ressourcensymbol in AppCatalog",
+            "url": "https://url-to-app-homepage.com/benutzerdokumentation",
+            "type": "user-documentation"
+        },
+        {
+            "title": "Eine PDF-Datei (die optionale Eigenschaft `fileType` lässt sie ohne Umleitung in AppCatalog öffnen)",
+            "url": "https://url-zur-app-startseite/its-possible-to-use-pdf-files.pdf",
+            "type": "developer-documentation",
+            "fileType": "pdf"
+        },
+        {
+            "title": "Eine Markdown-Datei (die optionale Eigenschaft `fileType` lässt sie ohne Umleitung in AppCatalog öffnen)",
+            "url": "https://url-zur-app-startseite/es-ist-möglich-md-dateien-zu-verwenden.md",
+            "type": "release-notes",
+            "fileType": "markdown"
+        },
+        {
+            "title": "App-internes Dokument (KANN ein PDF oder Markdown mit der Eigenschaft `fileType` sein)",
+            "url": "https://url-zur-app-startseite/interne-dokumentation",
+            "type": "internal-documentation",
+            "fileType": "pdf"
+        }
+    ]
+}
