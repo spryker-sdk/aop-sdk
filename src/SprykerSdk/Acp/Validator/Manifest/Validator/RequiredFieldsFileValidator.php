@@ -46,9 +46,29 @@ class RequiredFieldsFileValidator implements FileValidatorInterface
                 $messageTransfer = new MessageTransfer();
                 $messageTransfer->setMessage(sprintf('Field "%s" must be present in the manifest file "%s" but was not found.', $requiredManifestFieldName, $fileName));
                 $validateResponseTransfer->addError($messageTransfer);
+                continue;
+            }
+
+            if ($this->fieldIsEmpty($data[$requiredManifestFieldName])) {
+                $messageTransfer = new MessageTransfer();
+                $messageTransfer->setMessage(sprintf('Field "%s" cannot be empty in manifest file "%s".', $requiredManifestFieldName, $fileName));
+                $validateResponseTransfer->addError($messageTransfer);
             }
         }
 
         return $validateResponseTransfer;
+    }
+
+    /**
+     * @param mixed $field
+     *
+     * @return bool
+     */
+    protected function fieldIsEmpty(mixed $field): bool
+    {
+        $validString = is_string($field) && !strlen(trim($field));
+        $validArray = is_array($field) && !count($field);
+
+        return $validArray || $validString;
     }
 }

@@ -14,7 +14,7 @@ coverage:
 suites:
     Acp:
         path: SprykerSdkTest/Acp
-        class_name: Tester
+        actor: Tester
         modules:
             enabled:
                 - \SprykerSdkTest\Helper\AcpHelper

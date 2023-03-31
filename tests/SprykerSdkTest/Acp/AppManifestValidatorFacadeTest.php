@@ -56,8 +56,15 @@ class AppManifestValidatorFacadeTest extends Unit
         );
 
         // Assert
-        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('Field "provider" must be present in the manifest file "en_US.json" but was not found.', $expectedErrorMessage->getMessage());
+        $providerMissingErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $categoriesEmptyErrorMessage = $validateResponseTransfer->getErrors()[1];
+        $pagesEmptyErrorMessage = $validateResponseTransfer->getErrors()[2];
+        $developedByMissingErrorMessage = $validateResponseTransfer->getErrors()[3];
+
+        $this->assertSame('Field "provider" must be present in the manifest file "en_US.json" but was not found.', $providerMissingErrorMessage->getMessage());
+        $this->assertSame('Field "categories" cannot be empty in manifest file "en_US.json".', $categoriesEmptyErrorMessage->getMessage());
+        $this->assertSame('Field "pages" cannot be empty in manifest file "en_US.json".', $pagesEmptyErrorMessage->getMessage());
+        $this->assertSame('Field "developedBy" must be present in the manifest file "en_US.json" but was not found.', $developedByMissingErrorMessage->getMessage());
     }
 
     /**
@@ -129,5 +136,26 @@ class AppManifestValidatorFacadeTest extends Unit
         // Assert
         $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
         $this->assertSame('Manifest file "vfs://root/config/app/manifest/en_US.json" contains invalid JSON. Error: "Syntax error".', $expectedErrorMessage->getMessage());
+    }
+
+    /**
+     * @return void
+     */
+    public function testValidateManifestReturnsFailedResponseWhenFilesExistsButDevelopedByFieldIsInvalid(): void
+    {
+        // Arrange
+        $this->tester->haveManifestFileWithInvalidDevelopedByRequiredField();
+
+        // Act
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppManifest(
+            $this->tester->haveValidateRequest(),
+        );
+
+        // Assert
+        $developedByMissingErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $developedByEmptyErrorMessage = $validateResponseTransfer->getErrors()[1];
+
+        $this->assertSame('Field "developedBy" must be present in the manifest file "en_US.json" but was not found.', $developedByMissingErrorMessage->getMessage());
+        $this->assertSame('Field "developedBy" cannot be empty in manifest file "de_DE.json".', $developedByEmptyErrorMessage->getMessage());
     }
 }

@@ -156,4 +156,17 @@ class AppManifestValidatorHelper extends Module
         ];
         $this->getAcpHelper()->mockDirectoryStructure($structure);
     }
+
+    /**
+     * @return void
+     */
+    public function haveManifestFileWithInvalidDevelopedByRequiredField(): void
+    {
+        $files = [
+            'en_US.json' => file_get_contents(codecept_data_dir('invalid/manifest/nullDevelopedByRequiredField.json')),
+            'de_DE.json' => file_get_contents(codecept_data_dir('invalid/manifest/emptyDevelopedByRequiredField.json')),
+        ];
+
+        $this->prepareManifest($files);
+    }
 }
