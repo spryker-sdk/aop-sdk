@@ -46,6 +46,7 @@ class RequiredFieldsFileValidator implements FileValidatorInterface
                 $messageTransfer = new MessageTransfer();
                 $messageTransfer->setMessage(sprintf('Field "%s" must be present in the manifest file "%s" but was not found.', $requiredManifestFieldName, $fileName));
                 $validateResponseTransfer->addError($messageTransfer);
+
                 continue;
             }
 
