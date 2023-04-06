@@ -203,7 +203,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
         $propertyName = $this->askTextQuestion($input, $output, 'Please enter a form field name: ');
 
         if (array_key_exists($propertyName, $this->properties) && ($this->askForConfirmation($input, $output, 'You have already defined this configuration do you want to override it?') === 'No')) {
-            $propertyName = $this->getPropertyName($input, $output);
+            return $this->getPropertyName($input, $output);
         }
 
         return $propertyName;

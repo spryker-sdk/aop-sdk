@@ -4,7 +4,9 @@
     "description": "Eine lange Beschreibung.",
     "descriptionShort": "Eine kurze Beschreibung.",
     "configurationUrl": "https://example.spryker.local/configure",
-    "categories": [],
+    "categories": [
+        "Example"
+    ],
     "pages": {
         "Overview": [
             {
@@ -15,5 +17,6 @@
             }
         ]
     },
-    "labels": []
+    "labels": [],
+    "developedBy": "Example"
 }

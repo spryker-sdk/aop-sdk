@@ -5,19 +5,30 @@
     "descriptionShort": "Eine kurze Beschreibung.",
     "configurationUrl": "https://example.spryker.local/configure",
     "categories": [
-        "Example"
+        {
+            "key": "category-key-a"
+        }
     ],
     "pages": {
         "Overview": [
             {
                 "title": "Features",
-                "type": "invalid",
+                "type": "list",
                 "data": [
                     "Feature A"
                 ]
+            },
+            {
+                "title": "Überschrift eins",
+                "type": "text",
+                "data": "Lorem ipsum"
             }
         ]
     },
-    "labels": [],
-    "developedBy": "Example"
+    "labels": [
+        {
+            "key": "Label A"
+        }
+    ],
+    "developedBy": ""
 }

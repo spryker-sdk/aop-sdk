@@ -4,7 +4,7 @@
     "description": "SDK for ACP.",
     "license": "proprietary",
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "spryker-sdk/spryk": "^0.4.0",
         "symfony/console": "^5.3",
         "symfony/finder": "^5.3",
@@ -48,7 +48,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.4.15"
+            "php": "8.0"
         },
         "sort-packages": true,
         "allow-plugins": {

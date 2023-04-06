@@ -57,6 +57,7 @@ class AcpConfig
             'descriptionShort',
             'categories',
             'pages',
+            'developedBy',
         ];
     }
 
