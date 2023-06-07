@@ -147,4 +147,16 @@ interface AcpFacadeInterface
      * @return array
      */
     public function getExistingKeysToTranslate(ManifestCollectionTransfer $manifestCollectionTransfer): array;
+
+    /**
+     * Specification:
+     * - Validates channel names.
+     *
+     * @api
+     *
+     * @param \Transfer\ValidateRequestTransfer $validateRequestTransfer
+     *
+     * @return \Transfer\ValidateResponseTransfer
+     */
+    public function validateChannelNames(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer;
 }

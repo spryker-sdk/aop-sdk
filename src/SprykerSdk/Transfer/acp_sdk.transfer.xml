@@ -169,4 +169,8 @@
         <property name="messages" type="Message[]" singular="message"/>
     </transfer>
 
+    <transfer name="ValidateChannelNameRequest">
+        <property name="configurationFile" type="string"/>
+    </transfer>
+
 </transfers>

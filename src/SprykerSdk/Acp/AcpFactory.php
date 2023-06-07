@@ -32,6 +32,8 @@ use SprykerSdk\Acp\Validator\Finder\FinderInterface;
 use SprykerSdk\Acp\Validator\Manifest\AppManifestValidator;
 use SprykerSdk\Acp\Validator\Manifest\Validator\PagesFileValidator;
 use SprykerSdk\Acp\Validator\Manifest\Validator\RequiredFieldsFileValidator;
+use SprykerSdk\Acp\Validator\MessageBroker\ChannelNameValidator;
+use SprykerSdk\Acp\Validator\MessageBroker\ChannelNameValidatorInterface;
 use SprykerSdk\Acp\Validator\Translation\AppTranslationValidator;
 use SprykerSdk\Acp\Validator\Translation\Validator\TranslationFileValidator;
 use SprykerSdk\Acp\Validator\Validator;
@@ -256,5 +258,15 @@ class AcpFactory
         }
 
         return $this->config;
+    }
+
+    /**
+     * @return \SprykerSdk\Acp\Validator\MessageBroker\ChannelNameValidatorInterface
+     */
+    public function createChannelNameValidator(): ChannelNameValidatorInterface
+    {
+        return new ChannelNameValidator(
+            $this->createFinder(),
+        );
     }
 }

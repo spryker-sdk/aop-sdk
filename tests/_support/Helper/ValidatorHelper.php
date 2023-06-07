@@ -74,4 +74,17 @@ class ValidatorHelper extends Module
 
         return $messages;
     }
+
+    /**
+     * @return \Transfer\ValidateRequestTransfer
+     */
+    public function haveChannelsValidateRequest(): ValidateRequestTransfer
+    {
+        $config = $this->getAcpHelper()->getConfig();
+
+        $validateRequest = new ValidateRequestTransfer();
+        $validateRequest->setConfigurationFile($config->getDefaultProjectConfigurationFile());
+
+        return $validateRequest;
+    }
 }

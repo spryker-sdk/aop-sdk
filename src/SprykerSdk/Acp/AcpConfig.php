@@ -194,4 +194,21 @@ class AcpConfig
     {
         return AOP_SDK_ROOT_DIR;
     }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getDefaultProjectConfigurationFile(): string
+    {
+        $pathFragments = [
+            $this->getProjectRootPath(),
+            'config',
+            'Shared',
+            'config_default.php',
+        ];
+
+        return implode(DIRECTORY_SEPARATOR, $pathFragments);
+    }
 }
