@@ -1,4 +1,4 @@
-# Validation
+# App Validation
 
 The validation console command runs checks for:
 
@@ -58,3 +58,17 @@ The command offers the following configuration.
 `vendor/bin/acp app:translation:validate -m path/to/manifest/files`
 `vendor/bin/acp app:translation:validate -c path/to/configuration/file/configuration.json`
 `vendor/bin/acp app:translation:validate -t path/to/translation/file/translation.json`
+
+---
+
+# Channel Name Validation
+The channel name validation console command runs checks for channel names configured in Project configuration.
+
+### Run channel name validation
+`vendor/bin/acp acp:channel-name:validate`
+
+#### Configuration options
+
+The command offers the following configuration.
+
+`vendor/bin/acp app:translation:validate -c path/to/project/configuration/file/configuration.php`
