@@ -8,6 +8,7 @@ use SprykerSdk\Acp\Console\AppManifestValidateConsole;
 use SprykerSdk\Acp\Console\AppTranslationCreateConsole;
 use SprykerSdk\Acp\Console\AppTranslationValidateConsole;
 use SprykerSdk\Acp\Console\CheckReadinessConsole;
+use SprykerSdk\Acp\Console\ValidateChannelNameConsole;
 use SprykerSdk\Acp\Console\ValidateConsole;
 use Symfony\Component\Console\Application;
 
@@ -37,6 +38,7 @@ $application->addCommands([
     new CheckReadinessConsole(),
     new AppManifestCreateConsole(),
     new AppTranslationCreateConsole(),
+    new ValidateChannelNameConsole(),
 ]);
 
 $application->run();

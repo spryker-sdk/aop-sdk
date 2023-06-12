@@ -188,4 +188,18 @@ class AcpFacade implements AcpFacadeInterface
     {
         return $this->getFactory()->createTranslateKeyMapper()->mapManifestCollectionToTranslateKeys($manifestCollectionTransfer);
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Transfer\ValidateRequestTransfer $validateRequestTransfer
+     *
+     * @return \Transfer\ValidateResponseTransfer
+     */
+    public function validateChannelNames(ValidateRequestTransfer $validateRequestTransfer): ValidateResponseTransfer
+    {
+        return $this->getFactory()->createChannelNameValidator()->validate($validateRequestTransfer);
+    }
 }
