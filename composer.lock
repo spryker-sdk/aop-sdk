@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2e48a08d138248dca64a95bc4c6c69e6",
+    "content-hash": "ed65ed8bcde05500a41989f07519dd89",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -286,16 +286,16 @@
         },
         {
             "name": "spryker-sdk/async-api",
-            "version": "0.2.9",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/async-api.git",
-                "reference": "ed75e647528cc686f144cdf8086d0662d96f0162"
+                "reference": "cf9e23127a4f4eecf90eb22fc03dce31dcb2ef61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/ed75e647528cc686f144cdf8086d0662d96f0162",
-                "reference": "ed75e647528cc686f144cdf8086d0662d96f0162",
+                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/cf9e23127a4f4eecf90eb22fc03dce31dcb2ef61",
+                "reference": "cf9e23127a4f4eecf90eb22fc03dce31dcb2ef61",
                 "shasum": ""
             },
             "require": {
@@ -338,9 +338,9 @@
             "description": "SDK for AsyncAPI.",
             "support": {
                 "issues": "https://github.com/spryker-sdk/async-api/issues",
-                "source": "https://github.com/spryker-sdk/async-api/tree/0.2.9"
+                "source": "https://github.com/spryker-sdk/async-api/tree/0.3.0"
             },
-            "time": "2023-03-02T13:32:52+00:00"
+            "time": "2023-06-01T12:19:09+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
