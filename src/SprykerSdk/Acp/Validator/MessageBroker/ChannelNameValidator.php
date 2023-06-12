@@ -8,6 +8,7 @@
 namespace SprykerSdk\Acp\Validator\MessageBroker;
 
 use SprykerSdk\Acp\Validator\Finder\FinderInterface;
+use Symfony\Component\Finder\SplFileInfo;
 use Transfer\MessageTransfer;
 use Transfer\ValidateRequestTransfer;
 use Transfer\ValidateResponseTransfer;
@@ -75,9 +76,7 @@ class ChannelNameValidator implements ChannelNameValidatorInterface
         /** @var \Symfony\Component\Finder\SplFileInfo $splFileInfo */
         $splFileInfo = $this->finder->getFile($validateRequestTransfer->getConfigurationFileOrFail());
 
-        $config = [];
-
-        require $splFileInfo->getPathname();
+        $config = $this->getConfig($splFileInfo);
 
         $validateResponseTransfer = $this->validateMessageToChannelMap($config, $validateResponseTransfer);
         $validateResponseTransfer = $this->validateChannelToTransportMap($config, $validateResponseTransfer);
@@ -157,5 +156,23 @@ class ChannelNameValidator implements ChannelNameValidatorInterface
         }
 
         return $validateResponseTransfer;
+    }
+
+    /**
+     * @param \Symfony\Component\Finder\SplFileInfo $splFileInfo
+     *
+     * @return array
+     */
+    protected function getConfig(SplFileInfo $splFileInfo): array
+    {
+        $config = [];
+
+        defined('APPLICATION_ROOT_DIR') || define('APPLICATION_ROOT_DIR', dirname(__DIR__, 2));
+        defined('APPLICATION_SOURCE_DIR') || define('APPLICATION_SOURCE_DIR', dirname(__DIR__, 2));
+        defined('APPLICATION_STORE') || define('APPLICATION_STORE', dirname(__DIR__, 2));
+
+        require $splFileInfo->getPathname();
+
+        return $config;
     }
 }
