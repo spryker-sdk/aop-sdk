@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b3f14cff9e31cf7e7a078cb08cf098f3",
+    "content-hash": "702163544559ff13bca76025155ee0c2",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -344,20 +344,20 @@
         },
         {
             "name": "spryker-sdk/spryk",
-            "version": "0.4.7",
+            "version": "0.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/spryk.git",
-                "reference": "60acb10713edcaec92dea6ad5a715b49987a2d14"
+                "reference": "b9e40c7179f34382f7b8c6db6adc133123b6c9e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/60acb10713edcaec92dea6ad5a715b49987a2d14",
-                "reference": "60acb10713edcaec92dea6ad5a715b49987a2d14",
+                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/b9e40c7179f34382f7b8c6db6adc133123b6c9e0",
+                "reference": "b9e40c7179f34382f7b8c6db6adc133123b6c9e0",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4"
+                "php": ">=8.0"
             },
             "bin": [
                 "bin/spryk-build",
@@ -378,39 +378,38 @@
             "description": "Spryk module",
             "support": {
                 "issues": "https://github.com/spryker-sdk/spryk/issues",
-                "source": "https://github.com/spryker-sdk/spryk/tree/0.4.7"
+                "source": "https://github.com/spryker-sdk/spryk/tree/0.5.1"
             },
-            "time": "2022-12-16T13:28:34+00:00"
+            "time": "2023-08-02T08:53:30+00:00"
         },
         {
             "name": "spryker-sdk/sync-api",
-            "version": "0.1.5",
+            "version": "dev-feature/update-dependencies",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sync-api.git",
-                "reference": "430bcdeff0f5323b83c20a8012eac45ba171bc2a"
+                "reference": "23a138c8e8b5bd34983dbbcb762441d0f9ee8e24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/430bcdeff0f5323b83c20a8012eac45ba171bc2a",
-                "reference": "430bcdeff0f5323b83c20a8012eac45ba171bc2a",
+                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/23a138c8e8b5bd34983dbbcb762441d0f9ee8e24",
+                "reference": "23a138c8e8b5bd34983dbbcb762441d0f9ee8e24",
                 "shasum": ""
             },
             "require": {
                 "cebe/php-openapi": "^1.6",
                 "doctrine/inflector": "^1.4.0 || ^2.0",
-                "php": ">=7.4",
-                "spryker-sdk/spryk": "^0.4.0",
+                "php": ">=8.0",
+                "spryker-sdk/spryk": "^0.4.0 || ^0.5.0",
                 "symfony/console": "^4.0.0 || ^5.3 || ^6.0",
                 "symfony/finder": "^4.0.0 || ^5.3 || ^6.0",
-                "symfony/process": "^4.0.0 || ^5.4"
+                "symfony/process": "^4.0.0 || ^5.4 || ^6"
             },
             "require-dev": {
                 "codeception/codeception": "*",
                 "codeception/module-asserts": "*",
                 "mikey179/vfsstream": "^1.6",
                 "phpstan/phpdoc-parser": "~1.5.1",
-                "sllh/composer-versions-check": "^2.0",
                 "spryker-sdk/architector": "0.1.x-dev",
                 "spryker/code-sniffer": "dev-master",
                 "symfony/filesystem": "^4.0 || ^5.3",
@@ -438,9 +437,9 @@
             "description": "SDK for SyncAPI.",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sync-api/issues",
-                "source": "https://github.com/spryker-sdk/sync-api/tree/0.1.5"
+                "source": "https://github.com/spryker-sdk/sync-api/tree/feature/update-dependencies"
             },
-            "time": "2023-02-08T18:07:21+00:00"
+            "time": "2023-08-03T09:34:11+00:00"
         },
         {
             "name": "symfony/console",
@@ -13503,9 +13502,17 @@
             "time": "2022-05-24T19:45:58+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "spryker-sdk/sync-api",
+            "version": "dev-feature/update-dependencies",
+            "alias": "0.1.1",
+            "alias_normalized": "0.1.1.0"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "spryker-sdk/sync-api": 20,
         "spryker-sdk/architector": 20
     },
     "prefer-stable": true,
