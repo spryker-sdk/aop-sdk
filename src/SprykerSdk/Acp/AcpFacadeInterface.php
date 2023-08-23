@@ -17,11 +17,25 @@ use Transfer\ManifestCollectionTransfer;
 use Transfer\ManifestCriteriaTransfer;
 use Transfer\ManifestRequestTransfer;
 use Transfer\ManifestResponseTransfer;
+use Transfer\RegisterRequestTransfer;
+use Transfer\RegisterResponseTransfer;
 use Transfer\ValidateRequestTransfer;
 use Transfer\ValidateResponseTransfer;
 
 interface AcpFacadeInterface
 {
+    /**
+     * Specification:
+     * - Registers an App in ACP.
+     *
+     * @api
+     *
+     * @param RegisterRequestTransfer $registerRequestTransfer
+     *
+     * @return RegisterResponseTransfer
+     */
+    public function registerApp(RegisterRequestTransfer $registerRequestTransfer): RegisterResponseTransfer;
+
     /**
      * Specification:
      * - Validates an App.

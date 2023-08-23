@@ -17,6 +17,8 @@ use Transfer\ManifestCollectionTransfer;
 use Transfer\ManifestCriteriaTransfer;
 use Transfer\ManifestRequestTransfer;
 use Transfer\ManifestResponseTransfer;
+use Transfer\RegisterRequestTransfer;
+use Transfer\RegisterResponseTransfer;
 use Transfer\ValidateRequestTransfer;
 use Transfer\ValidateResponseTransfer;
 
@@ -47,6 +49,15 @@ class AcpFacade implements AcpFacadeInterface
         }
 
         return $this->factory;
+    }
+
+    /**
+     * @param RegisterRequestTransfer $registerRequestTransfer
+     * @return RegisterResponseTransfer
+     */
+    public function registerApp(RegisterRequestTransfer $registerRequestTransfer): RegisterResponseTransfer
+    {
+        return $this->getFactory()->createAppRegistrator()->register($registerRequestTransfer);
     }
 
     /**
