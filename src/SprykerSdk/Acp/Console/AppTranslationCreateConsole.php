@@ -166,7 +166,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
         InputInterface $input,
         OutputInterface $output,
         int $signal,
-        array $translations
+        array $translations,
     ): int {
         if (
             $signal === SIGINT
@@ -211,7 +211,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
         OutputInterface $output,
         string $localeName,
         array $existingKeysToTranslate,
-        array $existingTranslations
+        array $existingTranslations,
     ): void {
         $this->getTranslationValuesForKeysThatAreNotTranslated($input, $output, $localeName, $existingKeysToTranslate, $existingTranslations);
 
@@ -251,7 +251,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
         OutputInterface $output,
         string $localeName,
         array $existingKeysToTranslate,
-        array $existingTranslations
+        array $existingTranslations,
     ): void {
         $translationKeysWithoutValues = $this->getTranslationKeysWithoutValue($existingKeysToTranslate, $existingTranslations, $localeName);
 
@@ -375,7 +375,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     protected function askForConfirmation(
         InputInterface $input,
         OutputInterface $output,
-        string $questionText
+        string $questionText,
     ): string {
         return $this->getHelper('question')->ask($input, $output, new ChoiceQuestion($questionText, [1 => 'Yes', 2 => 'No'], 1));
     }
@@ -419,7 +419,7 @@ class AppTranslationCreateConsole extends AbstractConsole implements SignalableC
     protected function getManifestCollection(
         string $manifestFolder,
         string $configurationFilePath,
-        string $translationFilePath
+        string $translationFilePath,
     ): ManifestCollectionTransfer {
         $manifestConditionsTransfer = (new ManifestConditionsTransfer())
             ->setManifestFolder($manifestFolder)

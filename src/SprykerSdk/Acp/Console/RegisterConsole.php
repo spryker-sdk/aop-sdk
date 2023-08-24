@@ -81,9 +81,9 @@ class RegisterConsole extends AbstractConsole
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return bool
+     * @return int
      */
-    protected function register(InputInterface $input, OutputInterface $output): bool
+    protected function register(InputInterface $input, OutputInterface $output): int
     {
         $registerRequestTransfer = new RegisterRequestTransfer();
 
@@ -112,7 +112,7 @@ class RegisterConsole extends AbstractConsole
         }
 
         foreach ($registerResponseTransfer->getErrors() as $errorTransfer) {
-            $output->writeln($errorTransfer->getMessage());
+            $output->writeln($errorTransfer->getMessageOrFail());
         }
 
         return $responseCode;

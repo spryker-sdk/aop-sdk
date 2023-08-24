@@ -23,6 +23,6 @@ interface FileValidatorInterface
         array $data,
         string $fileName,
         ValidateResponseTransfer $validateResponseTransfer,
-        ?array $context = null
+        ?array $context = null,
     ): ValidateResponseTransfer;
 }

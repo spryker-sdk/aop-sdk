@@ -39,7 +39,7 @@ class TranslationFileValidator implements FileValidatorInterface
         array $data,
         string $fileName,
         ValidateResponseTransfer $validateResponseTransfer,
-        ?array $context = null
+        ?array $context = null,
     ): ValidateResponseTransfer {
         $locales = $context['locales'] ?? [];
 
@@ -62,7 +62,7 @@ class TranslationFileValidator implements FileValidatorInterface
         string $translationKey,
         array $translationValues,
         array $locales,
-        ValidateResponseTransfer $validateResponseTransfer
+        ValidateResponseTransfer $validateResponseTransfer,
     ): ValidateResponseTransfer {
         foreach ($locales as $locale) {
             if (!isset($translationValues[$locale])) {

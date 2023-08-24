@@ -22,7 +22,7 @@ class AppManifestValidator extends AbstractValidator
      */
     public function validate(
         ValidateRequestTransfer $validateRequestTransfer,
-        ?ValidateResponseTransfer $validateResponseTransfer = null
+        ?ValidateResponseTransfer $validateResponseTransfer = null,
     ): ValidateResponseTransfer {
         $validateResponseTransfer ??= new ValidateResponseTransfer();
 

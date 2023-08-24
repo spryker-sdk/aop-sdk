@@ -58,7 +58,7 @@ class ReadinessChecker implements ReadinessCheckerInterface
      */
     protected function checkReadinessForRecipes(
         CheckReadinessTransfer $checkReadinessTransfer,
-        CheckReadinessResponseTransfer $checkReadinessResponseTransfer
+        CheckReadinessResponseTransfer $checkReadinessResponseTransfer,
     ): CheckReadinessResponseTransfer {
         foreach ($this->recipeLoader->loadRecipes($checkReadinessTransfer) as $recipeTransfer) {
             $recipeTransfer = $this->runChecks($recipeTransfer, $checkReadinessTransfer->getCheckConfigurationOrFail());

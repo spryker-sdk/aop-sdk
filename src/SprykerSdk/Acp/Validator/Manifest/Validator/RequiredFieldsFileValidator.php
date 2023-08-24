@@ -39,7 +39,7 @@ class RequiredFieldsFileValidator implements FileValidatorInterface
         array $data,
         string $fileName,
         ValidateResponseTransfer $validateResponseTransfer,
-        ?array $context = null
+        ?array $context = null,
     ): ValidateResponseTransfer {
         foreach ($this->config->getRequiredManifestFieldNames() as $requiredManifestFieldName) {
             if (!isset($data[$requiredManifestFieldName])) {

@@ -52,7 +52,7 @@ abstract class AbstractValidator implements ValidatorInterface
         array $fileData,
         string $fileName,
         ValidateResponseTransfer $validateResponseTransfer,
-        ?array $context = null
+        ?array $context = null,
     ): ValidateResponseTransfer {
         foreach ($this->fileValidators as $fileValidator) {
             $validateResponseTransfer = $fileValidator->validate($fileData, $fileName, $validateResponseTransfer, $context);

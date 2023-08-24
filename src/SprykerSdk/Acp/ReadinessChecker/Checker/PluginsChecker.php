@@ -51,7 +51,7 @@ class PluginsChecker implements CheckerInterface
     protected function checkDependencyProviderConfiguration(
         RecipeTransfer $recipeTransfer,
         array $dependencyProviderConfiguration,
-        string $projectNamespace
+        string $projectNamespace,
     ): RecipeTransfer {
         foreach ($dependencyProviderConfiguration as $dependencyProviderClassName => $configuration) {
             $dependencyProviderClassName = str_replace('{projectNamespace}', $projectNamespace, $dependencyProviderClassName);

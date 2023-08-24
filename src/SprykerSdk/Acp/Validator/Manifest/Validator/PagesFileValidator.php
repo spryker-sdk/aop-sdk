@@ -39,7 +39,7 @@ class PagesFileValidator implements FileValidatorInterface
         array $data,
         string $fileName,
         ValidateResponseTransfer $validateResponseTransfer,
-        ?array $context = null
+        ?array $context = null,
     ): ValidateResponseTransfer {
         foreach ($data['pages'] as $pageName => $page) {
             $validateResponseTransfer = $this->validatePage($page, $pageName, $fileName, $validateResponseTransfer);
@@ -60,7 +60,7 @@ class PagesFileValidator implements FileValidatorInterface
         array $page,
         string $pageName,
         string $manifestFileName,
-        ValidateResponseTransfer $validateResponseTransfer
+        ValidateResponseTransfer $validateResponseTransfer,
     ): ValidateResponseTransfer {
         foreach ($page as $pageBlock) {
             $validateResponseTransfer = $this->validatePageBlockRequiredFields($pageBlock, $pageName, $manifestFileName, $validateResponseTransfer);
@@ -82,7 +82,7 @@ class PagesFileValidator implements FileValidatorInterface
         array $pageBlock,
         string $pageName,
         string $manifestFileName,
-        ValidateResponseTransfer $validateResponseTransfer
+        ValidateResponseTransfer $validateResponseTransfer,
     ): ValidateResponseTransfer {
         $requiredManifestPageBlockFields = $this->config->getRequiredManifestPageBlockFields();
 
@@ -109,7 +109,7 @@ class PagesFileValidator implements FileValidatorInterface
         array $pageBlock,
         string $pageName,
         string $manifestFileName,
-        ValidateResponseTransfer $validateResponseTransfer
+        ValidateResponseTransfer $validateResponseTransfer,
     ): ValidateResponseTransfer {
         if (!isset($pageBlock['type'])) { // Validation already done in `validatePageBlockRequiredFields()`, no additional error message needed.
             return $validateResponseTransfer;
