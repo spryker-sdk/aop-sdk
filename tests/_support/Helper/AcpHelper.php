@@ -10,10 +10,19 @@ namespace SprykerSdkTest\Helper;
 use Codeception\Module;
 use Codeception\Stub;
 use Codeception\TestInterface;
+use GuzzleHttp\Client;
 use org\bovigo\vfs\vfsStream;
+use Psr\Http\Message\ResponseInterface;
 use SprykerSdk\Acp\AcpConfig;
 use SprykerSdk\Acp\AcpFacade;
 use SprykerSdk\Acp\AcpFacadeInterface;
+use SprykerSdk\Acp\AcpFactory;
+use SprykerSdk\Acp\Console\RegisterConsole;
+use SprykerSdk\Acp\Registrator\Registrator;
+use SprykerSdk\Acp\Validator\Finder\Finder;
+use SprykerSdk\Acp\Validator\Validator;
+use Symfony\Component\Console\Command\Command;
+use Transfer\ValidateResponseTransfer;
 
 class AcpHelper extends Module
 {
@@ -47,6 +56,47 @@ class AcpHelper extends Module
     public function _after(TestInterface $test): void
     {
         $this->rootPath = null;
+    }
+
+    /**
+     * @return \Symfony\Component\Console\Command\Command
+     */
+    public function getRegisterConsoleWithAtrsSuccessResponse(): Command
+    {
+        $responseMock = Stub::makeEmpty(ResponseInterface::class, [
+            'getStatusCode' => 201,
+        ]);
+
+        $guzzleClientMock = Stub::make(Client::class, [
+            'post' => $responseMock,
+        ]);
+
+        $registratorMock = Stub::construct(Registrator::class, [
+            $this->getConfig(),
+            new Finder(),
+        ], [
+            'getGuzzleClient' => $guzzleClientMock,
+            'config' => $this->getConfig(),
+        ]);
+
+        $validatorMock = Stub::make(Validator::class, [
+            'validate' => new ValidateResponseTransfer(),
+        ]);
+
+        $factoryMock = Stub::make(AcpFactory::class, [
+            'createAppRegistrator' => $registratorMock,
+            'createValidator' => $validatorMock,
+            'getConfig' => $this->getConfig(),
+        ]);
+
+        $facade = $this->getFacade();
+        $facade->setFactory($factoryMock);
+
+        $registerConsole = new RegisterConsole();
+        $registerConsole->setFacade($facade);
+        $registerConsole->setConfig($this->getConfig());
+
+        return $registerConsole;
     }
 
     /**

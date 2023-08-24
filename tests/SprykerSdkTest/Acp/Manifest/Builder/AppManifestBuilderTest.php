@@ -14,8 +14,9 @@ use SprykerSdkTest\Acp\Tester;
 /**
  * @group SprykerSdk
  * @group Acp
- * @group Reader
- * @group AppManifestReaderTest
+ * @group Manifest
+ * @group Builder
+ * @group AppManifestBuilderTest
  */
 class AppManifestBuilderTest extends Unit
 {
@@ -31,7 +32,7 @@ class AppManifestBuilderTest extends Unit
      *
      * @return void
      */
-    public function testShouldUseTheRightExampleFileToBuildTheManifest($locale)
+    public function testShouldUseTheRightExampleFileToBuildTheManifest($locale): void
     {
         // Arrange
         $this->tester->haveRealManifestExampleFile($locale);
@@ -68,7 +69,7 @@ class AppManifestBuilderTest extends Unit
     /**
      * @return void
      */
-    public function testShouldFallbackToEnglishIfLocaleDoesntExist()
+    public function testShouldFallbackToEnglishIfLocaleDoesntExist(): void
     {
         // Arrange
         $this->tester->haveRealManifestExampleFile('en_US');
@@ -103,7 +104,7 @@ class AppManifestBuilderTest extends Unit
     /**
      * @return void
      */
-    public function testShouldEmptyDataIfFallbackDoesntExistExist()
+    public function testShouldEmptyDataIfFallbackDoesntExistExist(): void
     {
         // Arrange
         $this->tester->haveEmptyManifestExampleFile('en_US');
@@ -136,6 +137,7 @@ class AppManifestBuilderTest extends Unit
                 'descriptionShort' => [],
                 'url' => [],
                 'isAvailable' => [],
+                'developedBy' => '',
                 'business_models' => [],
                 'categories' => [],
                 'pages' => [],
@@ -150,7 +152,7 @@ class AppManifestBuilderTest extends Unit
     /**
      * @return array[<string>, <string>]
      */
-    public function localeProvider()
+    public function localeProvider(): array
     {
         return [
             'with `en_US` locale' => ['en_US'],

@@ -123,7 +123,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
         OutputInterface $output,
         string $questionText,
         array $questionOptions,
-        $defaultSelected
+        $defaultSelected,
     ): string {
         return $this->getHelper('question')->ask($input, $output, new ChoiceQuestion($questionText, $questionOptions, $defaultSelected));
     }
@@ -138,7 +138,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
     protected function askForConfirmation(
         InputInterface $input,
         OutputInterface $output,
-        string $questionText
+        string $questionText,
     ): string {
         return $this->getHelper('question')->ask($input, $output, new ChoiceQuestion($questionText, [1 => 'Yes', 2 => 'No'], 1));
     }
@@ -157,7 +157,7 @@ class AppConfigurationCreateConsole extends AbstractConsole
         OutputInterface $output,
         string $questionText,
         array $questionOptions,
-        $defaultSelected
+        $defaultSelected,
     ): array {
         $question = new ChoiceQuestion($questionText, $questionOptions, $defaultSelected);
         $question->setMultiselect(true);

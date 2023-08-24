@@ -63,7 +63,7 @@ class AppManifestReader implements AppManifestReaderInterface
      */
     protected function extendCollectionByManifest(
         ManifestCollectionTransfer $manifestCollectionTransfer,
-        ManifestCriteriaTransfer $manifestCriteriaTransfer
+        ManifestCriteriaTransfer $manifestCriteriaTransfer,
     ): void {
         $manifestFolder = $this->acpConfig->getDefaultManifestFolder();
 
@@ -96,7 +96,7 @@ class AppManifestReader implements AppManifestReaderInterface
      */
     protected function extendCollectionByConfiguration(
         ManifestCollectionTransfer $manifestCollectionTransfer,
-        ManifestCriteriaTransfer $manifestCriteriaTransfer
+        ManifestCriteriaTransfer $manifestCriteriaTransfer,
     ): void {
         $configurationFilePath = $this->acpConfig->getDefaultConfigurationFile();
 
@@ -138,7 +138,7 @@ class AppManifestReader implements AppManifestReaderInterface
      */
     protected function extendCollectionByTranslation(
         ManifestCollectionTransfer $manifestCollectionTransfer,
-        ManifestCriteriaTransfer $manifestCriteriaTransfer
+        ManifestCriteriaTransfer $manifestCriteriaTransfer,
     ): void {
         $translationFilePath = $this->acpConfig->getDefaultTranslationFile();
 

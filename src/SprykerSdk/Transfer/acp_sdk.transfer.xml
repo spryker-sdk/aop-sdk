@@ -10,6 +10,10 @@
         <property name="tenantIdentifier" type="string"/>
         <property name="repositoryUrl" type="string"/>
         <property name="repositoryToken" type="string"/>
+        <property name="authorizationToken" type="string"/>
+        <property name="manifestPath" type="string"/>
+        <property name="configurationFile" type="string"/>
+        <property name="translationFile" type="string"/>
     </transfer>
 
     <transfer name="RegisterResponse">

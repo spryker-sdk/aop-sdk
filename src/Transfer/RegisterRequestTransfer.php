@@ -6,8 +6,6 @@
 
 namespace Transfer;
 
-use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
-
 /**
  * !!! THIS FILE IS AUTO-GENERATED, EVERY CHANGE WILL BE LOST WITH THE NEXT RUN OF TRANSFER GENERATOR
  * !!! DO NOT CHANGE ANYTHING IN THIS FILE
@@ -17,12 +15,12 @@ class RegisterRequestTransfer extends AbstractTransfer
     /**
      * @var string
      */
-    public const ENVIRONMENT = 'environment';
+    public const PRIVATE = 'private';
 
     /**
      * @var string
      */
-    public const APPLICATION_IDENTIFIER = 'applicationIdentifier';
+    public const APP_IDENTIFIER = 'appIdentifier';
 
     /**
      * @var string
@@ -32,22 +30,42 @@ class RegisterRequestTransfer extends AbstractTransfer
     /**
      * @var string
      */
-    public const REPOSITORY_URL = 'repositoryUrl';
+    public const REGISTRY_URL = 'registryUrl';
 
     /**
      * @var string
      */
-    public const REPOSITORY_TOKEN = 'repositoryToken';
+    public const AUTHORIZATION_TOKEN = 'authorizationToken';
+
+    /**
+     * @var string
+     */
+    public const BASE_URL = 'baseUrl';
+
+    /**
+     * @var string
+     */
+    public const MANIFEST_PATH = 'manifestPath';
+
+    /**
+     * @var string
+     */
+    public const CONFIGURATION_FILE = 'configurationFile';
+
+    /**
+     * @var string
+     */
+    public const TRANSLATION_FILE = 'translationFile';
+
+    /**
+     * @var bool|null
+     */
+    protected $private;
 
     /**
      * @var string|null
      */
-    protected $environment;
-
-    /**
-     * @var string|null
-     */
-    protected $applicationIdentifier;
+    protected $appIdentifier;
 
     /**
      * @var string|null
@@ -57,41 +75,73 @@ class RegisterRequestTransfer extends AbstractTransfer
     /**
      * @var string|null
      */
-    protected $repositoryUrl;
+    protected $registryUrl;
 
     /**
      * @var string|null
      */
-    protected $repositoryToken;
+    protected $authorizationToken;
+
+    /**
+     * @var string|null
+     */
+    protected $baseUrl;
+
+    /**
+     * @var string|null
+     */
+    protected $manifestPath;
+
+    /**
+     * @var string|null
+     */
+    protected $configurationFile;
+
+    /**
+     * @var string|null
+     */
+    protected $translationFile;
 
     /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
-        'environment' => 'environment',
-        'Environment' => 'environment',
-        'application_identifier' => 'applicationIdentifier',
-        'applicationIdentifier' => 'applicationIdentifier',
-        'ApplicationIdentifier' => 'applicationIdentifier',
+        'private' => 'private',
+        'Private' => 'private',
+        'app_identifier' => 'appIdentifier',
+        'appIdentifier' => 'appIdentifier',
+        'AppIdentifier' => 'appIdentifier',
         'tenant_identifier' => 'tenantIdentifier',
         'tenantIdentifier' => 'tenantIdentifier',
         'TenantIdentifier' => 'tenantIdentifier',
-        'repository_url' => 'repositoryUrl',
-        'repositoryUrl' => 'repositoryUrl',
-        'RepositoryUrl' => 'repositoryUrl',
-        'repository_token' => 'repositoryToken',
-        'repositoryToken' => 'repositoryToken',
-        'RepositoryToken' => 'repositoryToken',
+        'registry_url' => 'registryUrl',
+        'registryUrl' => 'registryUrl',
+        'RegistryUrl' => 'registryUrl',
+        'authorization_token' => 'authorizationToken',
+        'authorizationToken' => 'authorizationToken',
+        'AuthorizationToken' => 'authorizationToken',
+        'base_url' => 'baseUrl',
+        'baseUrl' => 'baseUrl',
+        'BaseUrl' => 'baseUrl',
+        'manifest_path' => 'manifestPath',
+        'manifestPath' => 'manifestPath',
+        'ManifestPath' => 'manifestPath',
+        'configuration_file' => 'configurationFile',
+        'configurationFile' => 'configurationFile',
+        'ConfigurationFile' => 'configurationFile',
+        'translation_file' => 'translationFile',
+        'translationFile' => 'translationFile',
+        'TranslationFile' => 'translationFile',
     ];
 
     /**
      * @var array<string, array<string, mixed>>
      */
     protected $transferMetadata = [
-        self::ENVIRONMENT => [
-            'type' => 'string',
+        self::PRIVATE => [
+            'type' => 'bool',
             'type_shim' => null,
-            'name_underscore' => 'environment',
+            'name_underscore' => 'private',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -100,10 +150,10 @@ class RegisterRequestTransfer extends AbstractTransfer
             'is_nullable' => false,
             'is_strict' => false,
         ],
-        self::APPLICATION_IDENTIFIER => [
+        self::APP_IDENTIFIER => [
             'type' => 'string',
             'type_shim' => null,
-            'name_underscore' => 'application_identifier',
+            'name_underscore' => 'app_identifier',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -124,10 +174,10 @@ class RegisterRequestTransfer extends AbstractTransfer
             'is_nullable' => false,
             'is_strict' => false,
         ],
-        self::REPOSITORY_URL => [
+        self::REGISTRY_URL => [
             'type' => 'string',
             'type_shim' => null,
-            'name_underscore' => 'repository_url',
+            'name_underscore' => 'registry_url',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -136,10 +186,58 @@ class RegisterRequestTransfer extends AbstractTransfer
             'is_nullable' => false,
             'is_strict' => false,
         ],
-        self::REPOSITORY_TOKEN => [
+        self::AUTHORIZATION_TOKEN => [
             'type' => 'string',
             'type_shim' => null,
-            'name_underscore' => 'repository_token',
+            'name_underscore' => 'authorization_token',
+            'is_collection' => false,
+            'is_transfer' => false,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
+        self::BASE_URL => [
+            'type' => 'string',
+            'type_shim' => null,
+            'name_underscore' => 'base_url',
+            'is_collection' => false,
+            'is_transfer' => false,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
+        self::MANIFEST_PATH => [
+            'type' => 'string',
+            'type_shim' => null,
+            'name_underscore' => 'manifest_path',
+            'is_collection' => false,
+            'is_transfer' => false,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
+        self::CONFIGURATION_FILE => [
+            'type' => 'string',
+            'type_shim' => null,
+            'name_underscore' => 'configuration_file',
+            'is_collection' => false,
+            'is_transfer' => false,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
+        self::TRANSLATION_FILE => [
+            'type' => 'string',
+            'type_shim' => null,
+            'name_underscore' => 'translation_file',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -151,153 +249,153 @@ class RegisterRequestTransfer extends AbstractTransfer
     ];
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
-     * @param string|null $environment
+     * @param bool|null $private
      *
      * @return $this
      */
-    public function setEnvironment($environment)
+    public function setPrivate($private)
     {
-        $this->environment = $environment;
-        $this->modifiedProperties[self::ENVIRONMENT] = true;
+        $this->private = $private;
+        $this->modifiedProperties[self::PRIVATE] = true;
 
         return $this;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
-     * @return string|null
+     * @return bool|null
      */
-    public function getEnvironment()
+    public function getPrivate()
     {
-        return $this->environment;
+        return $this->private;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
-     * @param string|null $environment
+     * @param bool|null $private
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return $this
      */
-    public function setEnvironmentOrFail($environment)
+    public function setPrivateOrFail($private)
     {
-        if ($environment === null) {
-            $this->throwNullValueException(static::ENVIRONMENT);
+        if ($private === null) {
+            $this->throwNullValueException(static::PRIVATE);
         }
 
-        return $this->setEnvironment($environment);
+        return $this->setPrivate($private);
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
-     * @return string
+     * @return bool
      */
-    public function getEnvironmentOrFail()
+    public function getPrivateOrFail()
     {
-        if ($this->environment === null) {
-            $this->throwNullValueException(static::ENVIRONMENT);
+        if ($this->private === null) {
+            $this->throwNullValueException(static::PRIVATE);
         }
 
-        return $this->environment;
+        return $this->private;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
      * @return $this
      */
-    public function requireEnvironment()
+    public function requirePrivate()
     {
-        $this->assertPropertyIsSet(self::ENVIRONMENT);
+        $this->assertPropertyIsSet(self::PRIVATE);
 
         return $this;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
-     * @param string|null $applicationIdentifier
+     * @param string|null $appIdentifier
      *
      * @return $this
      */
-    public function setApplicationIdentifier($applicationIdentifier)
+    public function setAppIdentifier($appIdentifier)
     {
-        $this->applicationIdentifier = $applicationIdentifier;
-        $this->modifiedProperties[self::APPLICATION_IDENTIFIER] = true;
+        $this->appIdentifier = $appIdentifier;
+        $this->modifiedProperties[self::APP_IDENTIFIER] = true;
 
         return $this;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @return string|null
      */
-    public function getApplicationIdentifier()
+    public function getAppIdentifier()
     {
-        return $this->applicationIdentifier;
+        return $this->appIdentifier;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
-     * @param string|null $applicationIdentifier
+     * @param string|null $appIdentifier
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return $this
      */
-    public function setApplicationIdentifierOrFail($applicationIdentifier)
+    public function setAppIdentifierOrFail($appIdentifier)
     {
-        if ($applicationIdentifier === null) {
-            $this->throwNullValueException(static::APPLICATION_IDENTIFIER);
+        if ($appIdentifier === null) {
+            $this->throwNullValueException(static::APP_IDENTIFIER);
         }
 
-        return $this->setApplicationIdentifier($applicationIdentifier);
+        return $this->setAppIdentifier($appIdentifier);
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return string
      */
-    public function getApplicationIdentifierOrFail()
+    public function getAppIdentifierOrFail()
     {
-        if ($this->applicationIdentifier === null) {
-            $this->throwNullValueException(static::APPLICATION_IDENTIFIER);
+        if ($this->appIdentifier === null) {
+            $this->throwNullValueException(static::APP_IDENTIFIER);
         }
 
-        return $this->applicationIdentifier;
+        return $this->appIdentifier;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
      * @return $this
      */
-    public function requireApplicationIdentifier()
+    public function requireAppIdentifier()
     {
-        $this->assertPropertyIsSet(self::APPLICATION_IDENTIFIER);
+        $this->assertPropertyIsSet(self::APP_IDENTIFIER);
 
         return $this;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @param string|null $tenantIdentifier
      *
@@ -312,7 +410,7 @@ class RegisterRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @return string|null
      */
@@ -322,7 +420,7 @@ class RegisterRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @param string|null $tenantIdentifier
      *
@@ -340,7 +438,7 @@ class RegisterRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
@@ -356,7 +454,7 @@ class RegisterRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
@@ -370,147 +468,439 @@ class RegisterRequestTransfer extends AbstractTransfer
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
-     * @param string|null $repositoryUrl
+     * @param string|null $registryUrl
      *
      * @return $this
      */
-    public function setRepositoryUrl($repositoryUrl)
+    public function setRegistryUrl($registryUrl)
     {
-        $this->repositoryUrl = $repositoryUrl;
-        $this->modifiedProperties[self::REPOSITORY_URL] = true;
+        $this->registryUrl = $registryUrl;
+        $this->modifiedProperties[self::REGISTRY_URL] = true;
 
         return $this;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @return string|null
      */
-    public function getRepositoryUrl()
+    public function getRegistryUrl()
     {
-        return $this->repositoryUrl;
+        return $this->registryUrl;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
-     * @param string|null $repositoryUrl
+     * @param string|null $registryUrl
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return $this
      */
-    public function setRepositoryUrlOrFail($repositoryUrl)
+    public function setRegistryUrlOrFail($registryUrl)
     {
-        if ($repositoryUrl === null) {
-            $this->throwNullValueException(static::REPOSITORY_URL);
+        if ($registryUrl === null) {
+            $this->throwNullValueException(static::REGISTRY_URL);
         }
 
-        return $this->setRepositoryUrl($repositoryUrl);
+        return $this->setRegistryUrl($registryUrl);
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return string
      */
-    public function getRepositoryUrlOrFail()
+    public function getRegistryUrlOrFail()
     {
-        if ($this->repositoryUrl === null) {
-            $this->throwNullValueException(static::REPOSITORY_URL);
+        if ($this->registryUrl === null) {
+            $this->throwNullValueException(static::REGISTRY_URL);
         }
 
-        return $this->repositoryUrl;
+        return $this->registryUrl;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
      * @return $this
      */
-    public function requireRepositoryUrl()
+    public function requireRegistryUrl()
     {
-        $this->assertPropertyIsSet(self::REPOSITORY_URL);
+        $this->assertPropertyIsSet(self::REGISTRY_URL);
 
         return $this;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
-     * @param string|null $repositoryToken
+     * @param string|null $authorizationToken
      *
      * @return $this
      */
-    public function setRepositoryToken($repositoryToken)
+    public function setAuthorizationToken($authorizationToken)
     {
-        $this->repositoryToken = $repositoryToken;
-        $this->modifiedProperties[self::REPOSITORY_TOKEN] = true;
+        $this->authorizationToken = $authorizationToken;
+        $this->modifiedProperties[self::AUTHORIZATION_TOKEN] = true;
 
         return $this;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @return string|null
      */
-    public function getRepositoryToken()
+    public function getAuthorizationToken()
     {
-        return $this->repositoryToken;
+        return $this->authorizationToken;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
-     * @param string|null $repositoryToken
+     * @param string|null $authorizationToken
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return $this
      */
-    public function setRepositoryTokenOrFail($repositoryToken)
+    public function setAuthorizationTokenOrFail($authorizationToken)
     {
-        if ($repositoryToken === null) {
-            $this->throwNullValueException(static::REPOSITORY_TOKEN);
+        if ($authorizationToken === null) {
+            $this->throwNullValueException(static::AUTHORIZATION_TOKEN);
         }
 
-        return $this->setRepositoryToken($repositoryToken);
+        return $this->setAuthorizationToken($authorizationToken);
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      *
      * @return string
      */
-    public function getRepositoryTokenOrFail()
+    public function getAuthorizationTokenOrFail()
     {
-        if ($this->repositoryToken === null) {
-            $this->throwNullValueException(static::REPOSITORY_TOKEN);
+        if ($this->authorizationToken === null) {
+            $this->throwNullValueException(static::AUTHORIZATION_TOKEN);
         }
 
-        return $this->repositoryToken;
+        return $this->authorizationToken;
     }
 
     /**
-     * @module VertexConfig
+     * @module Test
      *
      * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
      *
      * @return $this
      */
-    public function requireRepositoryToken()
+    public function requireAuthorizationToken()
     {
-        $this->assertPropertyIsSet(self::REPOSITORY_TOKEN);
+        $this->assertPropertyIsSet(self::AUTHORIZATION_TOKEN);
+
+        return $this;
+    }
+
+    /**
+     * @module Test
+     *
+     * @param string|null $baseUrl
+     *
+     * @return $this
+     */
+    public function setBaseUrl($baseUrl)
+    {
+        $this->baseUrl = $baseUrl;
+        $this->modifiedProperties[self::BASE_URL] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Test
+     *
+     * @return string|null
+     */
+    public function getBaseUrl()
+    {
+        return $this->baseUrl;
+    }
+
+    /**
+     * @module Test
+     *
+     * @param string|null $baseUrl
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return $this
+     */
+    public function setBaseUrlOrFail($baseUrl)
+    {
+        if ($baseUrl === null) {
+            $this->throwNullValueException(static::BASE_URL);
+        }
+
+        return $this->setBaseUrl($baseUrl);
+    }
+
+    /**
+     * @module Test
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return string
+     */
+    public function getBaseUrlOrFail()
+    {
+        if ($this->baseUrl === null) {
+            $this->throwNullValueException(static::BASE_URL);
+        }
+
+        return $this->baseUrl;
+    }
+
+    /**
+     * @module Test
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireBaseUrl()
+    {
+        $this->assertPropertyIsSet(self::BASE_URL);
+
+        return $this;
+    }
+
+    /**
+     * @module Test
+     *
+     * @param string|null $manifestPath
+     *
+     * @return $this
+     */
+    public function setManifestPath($manifestPath)
+    {
+        $this->manifestPath = $manifestPath;
+        $this->modifiedProperties[self::MANIFEST_PATH] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Test
+     *
+     * @return string|null
+     */
+    public function getManifestPath()
+    {
+        return $this->manifestPath;
+    }
+
+    /**
+     * @module Test
+     *
+     * @param string|null $manifestPath
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return $this
+     */
+    public function setManifestPathOrFail($manifestPath)
+    {
+        if ($manifestPath === null) {
+            $this->throwNullValueException(static::MANIFEST_PATH);
+        }
+
+        return $this->setManifestPath($manifestPath);
+    }
+
+    /**
+     * @module Test
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return string
+     */
+    public function getManifestPathOrFail()
+    {
+        if ($this->manifestPath === null) {
+            $this->throwNullValueException(static::MANIFEST_PATH);
+        }
+
+        return $this->manifestPath;
+    }
+
+    /**
+     * @module Test
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireManifestPath()
+    {
+        $this->assertPropertyIsSet(self::MANIFEST_PATH);
+
+        return $this;
+    }
+
+    /**
+     * @module Test
+     *
+     * @param string|null $configurationFile
+     *
+     * @return $this
+     */
+    public function setConfigurationFile($configurationFile)
+    {
+        $this->configurationFile = $configurationFile;
+        $this->modifiedProperties[self::CONFIGURATION_FILE] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Test
+     *
+     * @return string|null
+     */
+    public function getConfigurationFile()
+    {
+        return $this->configurationFile;
+    }
+
+    /**
+     * @module Test
+     *
+     * @param string|null $configurationFile
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return $this
+     */
+    public function setConfigurationFileOrFail($configurationFile)
+    {
+        if ($configurationFile === null) {
+            $this->throwNullValueException(static::CONFIGURATION_FILE);
+        }
+
+        return $this->setConfigurationFile($configurationFile);
+    }
+
+    /**
+     * @module Test
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return string
+     */
+    public function getConfigurationFileOrFail()
+    {
+        if ($this->configurationFile === null) {
+            $this->throwNullValueException(static::CONFIGURATION_FILE);
+        }
+
+        return $this->configurationFile;
+    }
+
+    /**
+     * @module Test
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireConfigurationFile()
+    {
+        $this->assertPropertyIsSet(self::CONFIGURATION_FILE);
+
+        return $this;
+    }
+
+    /**
+     * @module Test
+     *
+     * @param string|null $translationFile
+     *
+     * @return $this
+     */
+    public function setTranslationFile($translationFile)
+    {
+        $this->translationFile = $translationFile;
+        $this->modifiedProperties[self::TRANSLATION_FILE] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Test
+     *
+     * @return string|null
+     */
+    public function getTranslationFile()
+    {
+        return $this->translationFile;
+    }
+
+    /**
+     * @module Test
+     *
+     * @param string|null $translationFile
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return $this
+     */
+    public function setTranslationFileOrFail($translationFile)
+    {
+        if ($translationFile === null) {
+            $this->throwNullValueException(static::TRANSLATION_FILE);
+        }
+
+        return $this->setTranslationFile($translationFile);
+    }
+
+    /**
+     * @module Test
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return string
+     */
+    public function getTranslationFileOrFail()
+    {
+        if ($this->translationFile === null) {
+            $this->throwNullValueException(static::TRANSLATION_FILE);
+        }
+
+        return $this->translationFile;
+    }
+
+    /**
+     * @module Test
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireTranslationFile()
+    {
+        $this->assertPropertyIsSet(self::TRANSLATION_FILE);
 
         return $this;
     }
@@ -529,11 +919,15 @@ class RegisterRequestTransfer extends AbstractTransfer
             $normalizedPropertyName = $this->transferPropertyNameMap[$property] ?? null;
 
             switch ($normalizedPropertyName) {
-                case 'environment':
-                case 'applicationIdentifier':
+                case 'private':
+                case 'appIdentifier':
                 case 'tenantIdentifier':
-                case 'repositoryUrl':
-                case 'repositoryToken':
+                case 'registryUrl':
+                case 'authorizationToken':
+                case 'baseUrl':
+                case 'manifestPath':
+                case 'configurationFile':
+                case 'translationFile':
                     $this->$normalizedPropertyName = $value;
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
@@ -653,11 +1047,15 @@ class RegisterRequestTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'environment':
-                case 'applicationIdentifier':
+                case 'private':
+                case 'appIdentifier':
                 case 'tenantIdentifier':
-                case 'repositoryUrl':
-                case 'repositoryToken':
+                case 'registryUrl':
+                case 'authorizationToken':
+                case 'baseUrl':
+                case 'manifestPath':
+                case 'configurationFile':
+                case 'translationFile':
                     $values[$arrayKey] = $value;
 
                     break;
@@ -684,11 +1082,15 @@ class RegisterRequestTransfer extends AbstractTransfer
                 continue;
             }
             switch ($property) {
-                case 'environment':
-                case 'applicationIdentifier':
+                case 'private':
+                case 'appIdentifier':
                 case 'tenantIdentifier':
-                case 'repositoryUrl':
-                case 'repositoryToken':
+                case 'registryUrl':
+                case 'authorizationToken':
+                case 'baseUrl':
+                case 'manifestPath':
+                case 'configurationFile':
+                case 'translationFile':
                     $values[$arrayKey] = $value;
 
                     break;
@@ -745,11 +1147,15 @@ class RegisterRequestTransfer extends AbstractTransfer
     public function toArrayNotRecursiveCamelCased(): array
     {
         return [
-            'environment' => $this->environment,
-            'applicationIdentifier' => $this->applicationIdentifier,
+            'private' => $this->private,
+            'appIdentifier' => $this->appIdentifier,
             'tenantIdentifier' => $this->tenantIdentifier,
-            'repositoryUrl' => $this->repositoryUrl,
-            'repositoryToken' => $this->repositoryToken,
+            'registryUrl' => $this->registryUrl,
+            'authorizationToken' => $this->authorizationToken,
+            'baseUrl' => $this->baseUrl,
+            'manifestPath' => $this->manifestPath,
+            'configurationFile' => $this->configurationFile,
+            'translationFile' => $this->translationFile,
         ];
     }
 
@@ -759,11 +1165,15 @@ class RegisterRequestTransfer extends AbstractTransfer
     public function toArrayNotRecursiveNotCamelCased(): array
     {
         return [
-            'environment' => $this->environment,
-            'application_identifier' => $this->applicationIdentifier,
+            'private' => $this->private,
+            'app_identifier' => $this->appIdentifier,
             'tenant_identifier' => $this->tenantIdentifier,
-            'repository_url' => $this->repositoryUrl,
-            'repository_token' => $this->repositoryToken,
+            'registry_url' => $this->registryUrl,
+            'authorization_token' => $this->authorizationToken,
+            'base_url' => $this->baseUrl,
+            'manifest_path' => $this->manifestPath,
+            'configuration_file' => $this->configurationFile,
+            'translation_file' => $this->translationFile,
         ];
     }
 
@@ -773,11 +1183,15 @@ class RegisterRequestTransfer extends AbstractTransfer
     public function toArrayRecursiveNotCamelCased(): array
     {
         return [
-            'environment' => $this->environment instanceof AbstractTransfer ? $this->environment->toArray(true, false) : $this->environment,
-            'application_identifier' => $this->applicationIdentifier instanceof AbstractTransfer ? $this->applicationIdentifier->toArray(true, false) : $this->applicationIdentifier,
+            'private' => $this->private instanceof AbstractTransfer ? $this->private->toArray(true, false) : $this->private,
+            'app_identifier' => $this->appIdentifier instanceof AbstractTransfer ? $this->appIdentifier->toArray(true, false) : $this->appIdentifier,
             'tenant_identifier' => $this->tenantIdentifier instanceof AbstractTransfer ? $this->tenantIdentifier->toArray(true, false) : $this->tenantIdentifier,
-            'repository_url' => $this->repositoryUrl instanceof AbstractTransfer ? $this->repositoryUrl->toArray(true, false) : $this->repositoryUrl,
-            'repository_token' => $this->repositoryToken instanceof AbstractTransfer ? $this->repositoryToken->toArray(true, false) : $this->repositoryToken,
+            'registry_url' => $this->registryUrl instanceof AbstractTransfer ? $this->registryUrl->toArray(true, false) : $this->registryUrl,
+            'authorization_token' => $this->authorizationToken instanceof AbstractTransfer ? $this->authorizationToken->toArray(true, false) : $this->authorizationToken,
+            'base_url' => $this->baseUrl instanceof AbstractTransfer ? $this->baseUrl->toArray(true, false) : $this->baseUrl,
+            'manifest_path' => $this->manifestPath instanceof AbstractTransfer ? $this->manifestPath->toArray(true, false) : $this->manifestPath,
+            'configuration_file' => $this->configurationFile instanceof AbstractTransfer ? $this->configurationFile->toArray(true, false) : $this->configurationFile,
+            'translation_file' => $this->translationFile instanceof AbstractTransfer ? $this->translationFile->toArray(true, false) : $this->translationFile,
         ];
     }
 
@@ -787,11 +1201,15 @@ class RegisterRequestTransfer extends AbstractTransfer
     public function toArrayRecursiveCamelCased(): array
     {
         return [
-            'environment' => $this->environment instanceof AbstractTransfer ? $this->environment->toArray(true, true) : $this->environment,
-            'applicationIdentifier' => $this->applicationIdentifier instanceof AbstractTransfer ? $this->applicationIdentifier->toArray(true, true) : $this->applicationIdentifier,
+            'private' => $this->private instanceof AbstractTransfer ? $this->private->toArray(true, true) : $this->private,
+            'appIdentifier' => $this->appIdentifier instanceof AbstractTransfer ? $this->appIdentifier->toArray(true, true) : $this->appIdentifier,
             'tenantIdentifier' => $this->tenantIdentifier instanceof AbstractTransfer ? $this->tenantIdentifier->toArray(true, true) : $this->tenantIdentifier,
-            'repositoryUrl' => $this->repositoryUrl instanceof AbstractTransfer ? $this->repositoryUrl->toArray(true, true) : $this->repositoryUrl,
-            'repositoryToken' => $this->repositoryToken instanceof AbstractTransfer ? $this->repositoryToken->toArray(true, true) : $this->repositoryToken,
+            'registryUrl' => $this->registryUrl instanceof AbstractTransfer ? $this->registryUrl->toArray(true, true) : $this->registryUrl,
+            'authorizationToken' => $this->authorizationToken instanceof AbstractTransfer ? $this->authorizationToken->toArray(true, true) : $this->authorizationToken,
+            'baseUrl' => $this->baseUrl instanceof AbstractTransfer ? $this->baseUrl->toArray(true, true) : $this->baseUrl,
+            'manifestPath' => $this->manifestPath instanceof AbstractTransfer ? $this->manifestPath->toArray(true, true) : $this->manifestPath,
+            'configurationFile' => $this->configurationFile instanceof AbstractTransfer ? $this->configurationFile->toArray(true, true) : $this->configurationFile,
+            'translationFile' => $this->translationFile instanceof AbstractTransfer ? $this->translationFile->toArray(true, true) : $this->translationFile,
         ];
     }
 }

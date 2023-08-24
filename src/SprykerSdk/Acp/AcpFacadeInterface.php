@@ -30,9 +30,9 @@ interface AcpFacadeInterface
      *
      * @api
      *
-     * @param RegisterRequestTransfer $registerRequestTransfer
+     * @param \Transfer\RegisterRequestTransfer $registerRequestTransfer
      *
-     * @return RegisterResponseTransfer
+     * @return \Transfer\RegisterResponseTransfer
      */
     public function registerApp(RegisterRequestTransfer $registerRequestTransfer): RegisterResponseTransfer;
 
