@@ -8,7 +8,6 @@
 namespace SprykerSdkTest\Acp\Console;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Acp\Console\AppConfigurationCreateConsole;
 use SprykerSdk\Acp\Console\RegisterConsole;
 use SprykerSdkTest\Acp\Tester;
 
@@ -30,13 +29,16 @@ class RegisterConsoleTest extends Unit
      */
     public function testRegisterAppReturnsSuccessfulResponseWhenAppWasRegisteredInAcp(): void
     {
-        $commandTester = $this->tester->getConsoleTester(RegisterConsole::class);
-
         // Arrange
-        $commandTester->setInputs([]);
+        $this->tester->haveValidConfigurations();
+        $registerConsole = $this->tester->getRegisterConsoleWithAtrsSuccessResponse();
 
         // Act
-        $commandTester->execute([]);
+        $commandTester = $this->tester->getConsoleTester($registerConsole);
+        $commandTester->execute([
+            '--appIdentifier' => '1234-5678-9012-3456',
+            '--authorizationToken' => '1234-5678-9012-3456',
+        ]);
 
         // Assert
         $this->assertSame(RegisterConsole::CODE_SUCCESS, $commandTester->getStatusCode());

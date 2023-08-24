@@ -12,6 +12,14 @@ use Exception;
 class AcpConfig
 {
     /**
+     * @return string
+     */
+    public function getRegistryUrl(): string
+    {
+        return 'https://api.atrs.spryker.com';
+    }
+
+    /**
      * @api
      *
      * @return string

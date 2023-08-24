@@ -58,9 +58,12 @@ class AcpFactory
         $this->config = $config;
     }
 
+    /**
+     * @return \SprykerSdk\Acp\Registrator\RegistratorInterface
+     */
     public function createAppRegistrator(): RegistratorInterface
     {
-        return new Registrator($this->getConfig());
+        return new Registrator($this->getConfig(), $this->createFinder());
     }
 
     /**

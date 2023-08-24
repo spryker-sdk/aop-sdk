@@ -5,6 +5,7 @@
     "descriptionShort": "Eine Beschreibung, die erklärt, was die App im Detail kann.",
     "url": "https://url-nicht-sichtbar-im-app-katalog-zu-ihrer-app-Homepage.com",
     "isAvailable": true,
+    "developedBy": "Spryker",
     "business_models": [
         "** WÄHLEN SIE EIN ODER MEHRERE AUS **",
         "B2B",

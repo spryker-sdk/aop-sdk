@@ -52,8 +52,9 @@ class AcpFacade implements AcpFacadeInterface
     }
 
     /**
-     * @param RegisterRequestTransfer $registerRequestTransfer
-     * @return RegisterResponseTransfer
+     * @param \Transfer\RegisterRequestTransfer $registerRequestTransfer
+     *
+     * @return \Transfer\RegisterResponseTransfer
      */
     public function registerApp(RegisterRequestTransfer $registerRequestTransfer): RegisterResponseTransfer
     {
