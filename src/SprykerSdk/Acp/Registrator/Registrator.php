@@ -37,7 +37,7 @@ class Registrator implements RegistratorInterface
         $registryUrl = $registerRequestTransfer->getRegistryUrl() ?? $this->config->getRegistryUrl();
 
         try {
-            $response = $this->getGuzzleClient($registryUrl)->post('/apps', [
+            $this->getGuzzleClient($registryUrl)->post('/apps', [
                 'body' => json_encode($this->getBody($registerRequestTransfer)),
                 'headers' => [
                     'content-type' => 'application/json',
@@ -100,12 +100,10 @@ class Registrator implements RegistratorInterface
      */
     protected function getApi(): string
     {
-        $api = (string)json_encode([
+        return (string)json_encode([
             'configuration' => '/private/configure',
             'disconnection' => '/private/disconnect',
         ]);
-
-        return $api;
     }
 
     /**
@@ -115,8 +113,6 @@ class Registrator implements RegistratorInterface
      */
     protected function getGuzzleClient(string $registryUrl): Client
     {
-        $guzzleClient = new Client(['base_uri' => $registryUrl]);
-
-        return $guzzleClient;
+        return new Client(['base_uri' => $registryUrl]);
     }
 }
