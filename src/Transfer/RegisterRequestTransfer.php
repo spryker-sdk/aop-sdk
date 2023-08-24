@@ -40,6 +40,11 @@ class RegisterRequestTransfer extends AbstractTransfer
     /**
      * @var string
      */
+    public const BASE_URL = 'baseUrl';
+
+    /**
+     * @var string
+     */
     public const MANIFEST_PATH = 'manifestPath';
 
     /**
@@ -80,6 +85,11 @@ class RegisterRequestTransfer extends AbstractTransfer
     /**
      * @var string|null
      */
+    protected $baseUrl;
+
+    /**
+     * @var string|null
+     */
     protected $manifestPath;
 
     /**
@@ -110,6 +120,9 @@ class RegisterRequestTransfer extends AbstractTransfer
         'authorization_token' => 'authorizationToken',
         'authorizationToken' => 'authorizationToken',
         'AuthorizationToken' => 'authorizationToken',
+        'base_url' => 'baseUrl',
+        'baseUrl' => 'baseUrl',
+        'BaseUrl' => 'baseUrl',
         'manifest_path' => 'manifestPath',
         'manifestPath' => 'manifestPath',
         'ManifestPath' => 'manifestPath',
@@ -177,6 +190,18 @@ class RegisterRequestTransfer extends AbstractTransfer
             'type' => 'string',
             'type_shim' => null,
             'name_underscore' => 'authorization_token',
+            'is_collection' => false,
+            'is_transfer' => false,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
+        self::BASE_URL => [
+            'type' => 'string',
+            'type_shim' => null,
+            'name_underscore' => 'base_url',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -591,6 +616,79 @@ class RegisterRequestTransfer extends AbstractTransfer
     /**
      * @module Test
      *
+     * @param string|null $baseUrl
+     *
+     * @return $this
+     */
+    public function setBaseUrl($baseUrl)
+    {
+        $this->baseUrl = $baseUrl;
+        $this->modifiedProperties[self::BASE_URL] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Test
+     *
+     * @return string|null
+     */
+    public function getBaseUrl()
+    {
+        return $this->baseUrl;
+    }
+
+    /**
+     * @module Test
+     *
+     * @param string|null $baseUrl
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return $this
+     */
+    public function setBaseUrlOrFail($baseUrl)
+    {
+        if ($baseUrl === null) {
+            $this->throwNullValueException(static::BASE_URL);
+        }
+
+        return $this->setBaseUrl($baseUrl);
+    }
+
+    /**
+     * @module Test
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return string
+     */
+    public function getBaseUrlOrFail()
+    {
+        if ($this->baseUrl === null) {
+            $this->throwNullValueException(static::BASE_URL);
+        }
+
+        return $this->baseUrl;
+    }
+
+    /**
+     * @module Test
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireBaseUrl()
+    {
+        $this->assertPropertyIsSet(self::BASE_URL);
+
+        return $this;
+    }
+
+    /**
+     * @module Test
+     *
      * @param string|null $manifestPath
      *
      * @return $this
@@ -826,6 +924,7 @@ class RegisterRequestTransfer extends AbstractTransfer
                 case 'tenantIdentifier':
                 case 'registryUrl':
                 case 'authorizationToken':
+                case 'baseUrl':
                 case 'manifestPath':
                 case 'configurationFile':
                 case 'translationFile':
@@ -953,6 +1052,7 @@ class RegisterRequestTransfer extends AbstractTransfer
                 case 'tenantIdentifier':
                 case 'registryUrl':
                 case 'authorizationToken':
+                case 'baseUrl':
                 case 'manifestPath':
                 case 'configurationFile':
                 case 'translationFile':
@@ -987,6 +1087,7 @@ class RegisterRequestTransfer extends AbstractTransfer
                 case 'tenantIdentifier':
                 case 'registryUrl':
                 case 'authorizationToken':
+                case 'baseUrl':
                 case 'manifestPath':
                 case 'configurationFile':
                 case 'translationFile':
@@ -1051,6 +1152,7 @@ class RegisterRequestTransfer extends AbstractTransfer
             'tenantIdentifier' => $this->tenantIdentifier,
             'registryUrl' => $this->registryUrl,
             'authorizationToken' => $this->authorizationToken,
+            'baseUrl' => $this->baseUrl,
             'manifestPath' => $this->manifestPath,
             'configurationFile' => $this->configurationFile,
             'translationFile' => $this->translationFile,
@@ -1068,6 +1170,7 @@ class RegisterRequestTransfer extends AbstractTransfer
             'tenant_identifier' => $this->tenantIdentifier,
             'registry_url' => $this->registryUrl,
             'authorization_token' => $this->authorizationToken,
+            'base_url' => $this->baseUrl,
             'manifest_path' => $this->manifestPath,
             'configuration_file' => $this->configurationFile,
             'translation_file' => $this->translationFile,
@@ -1085,6 +1188,7 @@ class RegisterRequestTransfer extends AbstractTransfer
             'tenant_identifier' => $this->tenantIdentifier instanceof AbstractTransfer ? $this->tenantIdentifier->toArray(true, false) : $this->tenantIdentifier,
             'registry_url' => $this->registryUrl instanceof AbstractTransfer ? $this->registryUrl->toArray(true, false) : $this->registryUrl,
             'authorization_token' => $this->authorizationToken instanceof AbstractTransfer ? $this->authorizationToken->toArray(true, false) : $this->authorizationToken,
+            'base_url' => $this->baseUrl instanceof AbstractTransfer ? $this->baseUrl->toArray(true, false) : $this->baseUrl,
             'manifest_path' => $this->manifestPath instanceof AbstractTransfer ? $this->manifestPath->toArray(true, false) : $this->manifestPath,
             'configuration_file' => $this->configurationFile instanceof AbstractTransfer ? $this->configurationFile->toArray(true, false) : $this->configurationFile,
             'translation_file' => $this->translationFile instanceof AbstractTransfer ? $this->translationFile->toArray(true, false) : $this->translationFile,
@@ -1102,6 +1206,7 @@ class RegisterRequestTransfer extends AbstractTransfer
             'tenantIdentifier' => $this->tenantIdentifier instanceof AbstractTransfer ? $this->tenantIdentifier->toArray(true, true) : $this->tenantIdentifier,
             'registryUrl' => $this->registryUrl instanceof AbstractTransfer ? $this->registryUrl->toArray(true, true) : $this->registryUrl,
             'authorizationToken' => $this->authorizationToken instanceof AbstractTransfer ? $this->authorizationToken->toArray(true, true) : $this->authorizationToken,
+            'baseUrl' => $this->baseUrl instanceof AbstractTransfer ? $this->baseUrl->toArray(true, true) : $this->baseUrl,
             'manifestPath' => $this->manifestPath instanceof AbstractTransfer ? $this->manifestPath->toArray(true, true) : $this->manifestPath,
             'configurationFile' => $this->configurationFile instanceof AbstractTransfer ? $this->configurationFile->toArray(true, true) : $this->configurationFile,
             'translationFile' => $this->translationFile instanceof AbstractTransfer ? $this->translationFile->toArray(true, true) : $this->translationFile,

@@ -92,6 +92,7 @@ class RegisterConsole extends AbstractConsole
         $registerRequestTransfer->setTenantIdentifier($input->getOption('tenantIdentifier'));
         $registerRequestTransfer->setRegistryUrl($input->getOption('registryUrl'));
         $registerRequestTransfer->setAuthorizationToken($input->getOption('authorizationToken'));
+        $registerRequestTransfer->setBaseUrl($input->getOption('baseUrl'));
 
         $registerRequestTransfer->setManifestPath($input->getOption(AppManifestValidateConsole::MANIFEST_PATH));
         $registerRequestTransfer->setConfigurationFile($input->getOption(AppConfigurationValidateConsole::CONFIGURATION_FILE));

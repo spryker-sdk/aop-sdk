@@ -61,15 +61,12 @@ class Registrator implements RegistratorInterface
      */
     protected function getBody(RegisterRequestTransfer $registerRequestTransfer): array
     {
-        // PRODUCTION: https://backend-api.de.mini-framework-new.demo-spryker.com/
-        // STAGING: https://backend-api.de.mini-app.demo-spryker.com/
-
         return [
             'data' => [
                 'type' => 'apps',
                 'attributes' => [
                     'id' => $registerRequestTransfer->getAppIdentifierOrFail(),
-                    'baseUrl' => 'https://backend-api.de.mini-app.demo-spryker.com/',
+                    'baseUrl' => $registerRequestTransfer->getBaseUrl(),
                     'api' => $this->getApi(),
                     'manifest' => json_encode($this->getManifests($registerRequestTransfer)),
                     'configuration' => file_get_contents($registerRequestTransfer->getConfigurationFileOrFail()),
