@@ -64,6 +64,6 @@
         "test-cover": "codecept build && codecept run --coverage-xml",
         "rector": "vendor/bin/rector process --config architector.php --ansi",
         "rector-diff": "vendor/bin/rector process --config architector.php --ansi --dry-run",
-        "local-ci": "composer cs-fix && composer cs-check && composer stan && composer test"
+        "local-ci": "composer cs-fix && composer cs-check && composer stan && composer rector-diff && composer test"
     }
 }
