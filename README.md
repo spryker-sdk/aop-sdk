@@ -25,3 +25,4 @@ There will be other modules beside the ACP module e.g. Console, Transfer etc.
 - [Readiness Check](./docs/readiness-check.md)
 - [Validation](./docs/validation.md)
 - [Configuration](./docs/configuration.md)
+- [Registration](./docs/registration.md)

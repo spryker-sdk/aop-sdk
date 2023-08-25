@@ -5,6 +5,7 @@
     "descriptionShort": "A long description explaining what the app does or talking about your business.",
     "url": "https://url-not-visible-in-app-catalog-to-your-app-homepage.com",
     "isAvailable": true,
+    "developedBy": "Spryker",
     "business_models": [
         "** CHOOSE ONE OR MORE BELOW **",
         "B2B",

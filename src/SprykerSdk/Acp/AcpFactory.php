@@ -23,6 +23,8 @@ use SprykerSdk\Acp\ReadinessChecker\ReadinessChecker;
 use SprykerSdk\Acp\ReadinessChecker\ReadinessCheckerInterface;
 use SprykerSdk\Acp\ReadinessChecker\RecipeLoader\RecipeLoader;
 use SprykerSdk\Acp\ReadinessChecker\RecipeLoader\RecipeLoaderInterface;
+use SprykerSdk\Acp\Registrator\Registrator;
+use SprykerSdk\Acp\Registrator\RegistratorInterface;
 use SprykerSdk\Acp\Translation\Builder\AppTranslationBuilder;
 use SprykerSdk\Acp\Translation\Builder\AppTranslationBuilderInterface;
 use SprykerSdk\Acp\Validator\Configuration\AppConfigurationValidator;
@@ -54,6 +56,14 @@ class AcpFactory
     public function setConfig(AcpConfig $config): void
     {
         $this->config = $config;
+    }
+
+    /**
+     * @return \SprykerSdk\Acp\Registrator\RegistratorInterface
+     */
+    public function createAppRegistrator(): RegistratorInterface
+    {
+        return new Registrator($this->getConfig(), $this->createFinder());
     }
 
     /**

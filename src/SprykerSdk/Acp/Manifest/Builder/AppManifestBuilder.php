@@ -91,6 +91,7 @@ class AppManifestBuilder implements AppManifestBuilderInterface
             'descriptionShort' => $manifestExampleData['descriptionShort'] ?? [],
             'url' => $manifestExampleData['url'] ?? [],
             'isAvailable' => $manifestExampleData['isAvailable'] ?? [],
+            'developedBy' => $manifestExampleData['developedBy'] ?? '',
             'business_models' => $manifestExampleData['business_models'] ?? [],
             'categories' => $manifestExampleData['categories'] ?? [],
             'pages' => $manifestExampleData['pages'] ?? [],

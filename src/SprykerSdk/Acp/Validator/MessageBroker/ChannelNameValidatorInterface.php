@@ -20,6 +20,6 @@ interface ChannelNameValidatorInterface
      */
     public function validate(
         ValidateRequestTransfer $validateRequestTransfer,
-        ?ValidateResponseTransfer $validateResponseTransfer = null
+        ?ValidateResponseTransfer $validateResponseTransfer = null,
     ): ValidateResponseTransfer;
 }
