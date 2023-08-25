@@ -48,7 +48,7 @@ class Registrator implements RegistratorInterface
             ];
             $this->getGuzzleClient($registryUrl)->post('/apps', $request);
         } catch (ClientException $e) {
-            // A 409 indicates that the App Already exists and we need to update instead
+            // A 409 indicates that the App already exist and we need to update instead
             if ($e->getCode() === 409) {
                 $this->getGuzzleClient($registryUrl)->patch(sprintf('/apps/%s', $registerRequestTransfer->getAppIdentifierOrFail()), $request);
             }

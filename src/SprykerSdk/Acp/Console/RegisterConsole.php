@@ -44,11 +44,48 @@ class RegisterConsole extends AbstractConsole
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        if (!$this->validateOptions($input, $output)) {
+            return static::CODE_ERROR;
+        }
+
         if (!$this->validate($input, $output)) {
             return static::CODE_ERROR;
         }
 
         return $this->register($input, $output);
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return bool
+     */
+    protected function validateOptions(InputInterface $input, OutputInterface $output): bool
+    {
+        $optionsValid = true;
+
+        if (!$input->getOption('appIdentifier')) {
+            $output->writeln('You need to pass an AppIdentifier with the option `--appIdentifier`.');
+            $optionsValid = false;
+        }
+
+        if (!$input->getOption('baseUrl')) {
+            $output->writeln('You need to pass a base URL to your App with the option `--baseUrl`.');
+            $optionsValid = false;
+        }
+
+        if (!$input->getOption('authorizationToken')) {
+            $output->writeln('You need to pass an authorization token with the option `--authorizationToken`.');
+            $optionsValid = false;
+        }
+
+        if ($input->getOption('private') && !$input->getOption('tenantIdentifier')) {
+            $output->writeln('You need to pass a Tenant Identifier with the option `--tenantIdentifier` when you want this App to be only visible to you.');
+            $optionsValid = false;
+        }
+
+        return $optionsValid;
     }
 
     /**

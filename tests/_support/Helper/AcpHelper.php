@@ -17,11 +17,11 @@ use SprykerSdk\Acp\AcpConfig;
 use SprykerSdk\Acp\AcpFacade;
 use SprykerSdk\Acp\AcpFacadeInterface;
 use SprykerSdk\Acp\AcpFactory;
+use SprykerSdk\Acp\Console\AbstractConsole;
 use SprykerSdk\Acp\Console\RegisterConsole;
 use SprykerSdk\Acp\Registrator\Registrator;
 use SprykerSdk\Acp\Validator\Finder\Finder;
 use SprykerSdk\Acp\Validator\Validator;
-use Symfony\Component\Console\Command\Command;
 use Transfer\ValidateResponseTransfer;
 
 class AcpHelper extends Module
@@ -59,9 +59,9 @@ class AcpHelper extends Module
     }
 
     /**
-     * @return \Symfony\Component\Console\Command\Command
+     * @return \SprykerSdk\Acp\Console\AbstractConsole
      */
-    public function getRegisterConsoleWithAtrsSuccessResponse(): Command
+    public function getRegisterConsoleWithAtrsSuccessResponse(): AbstractConsole
     {
         $responseMock = Stub::makeEmpty(ResponseInterface::class, [
             'getStatusCode' => 201,
