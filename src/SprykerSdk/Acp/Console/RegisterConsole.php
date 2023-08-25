@@ -24,9 +24,9 @@ class RegisterConsole extends AbstractConsole
     protected function configure(): void
     {
         $this->setName('app:register')
-            ->setDescription('Registers an App in ACP.')
-            ->addOption('private', 'p', InputOption::VALUE_NONE, 'Set this option when this App should be private to you. This requires to pass your Tenant Identifier with the option `--tenant-identifier|-ti`.')
-            ->addOption('appIdentifier', 'a', InputOption::VALUE_REQUIRED, 'The App Identifier of your App.')
+            ->setDescription('Registers an App in ACP. When the App already exists in ACP it will be updated automatically.')
+            ->addOption('private', null, InputOption::VALUE_NONE, 'Set this option when this App should be private to you. This requires to pass your Tenant Identifier with the option `--tenant-identifier`.')
+            ->addOption('appIdentifier', null, InputOption::VALUE_REQUIRED, 'The App Identifier of your App.')
             ->addOption('tenantIdentifier', null, InputOption::VALUE_REQUIRED, 'When this App needs to be private this option needs to be set to your Tenant Identifier.')
             ->addOption('baseUrl', null, InputOption::VALUE_REQUIRED, 'The Base URL to your App.')
             ->addOption('registryUrl', null, InputOption::VALUE_REQUIRED, 'The URL to your App repository e.g. https://github.com/organization/package.')
@@ -100,7 +100,7 @@ class RegisterConsole extends AbstractConsole
 
         $registerResponseTransfer = $this->getFacade()->registerApp($registerRequestTransfer);
 
-        $message = 'App successfully registered in ACP.';
+        $message = 'App successfully registered or updated in ACP.';
         $responseCode = static::CODE_SUCCESS;
 
         if ($registerResponseTransfer->getErrors()->count() > 0) {

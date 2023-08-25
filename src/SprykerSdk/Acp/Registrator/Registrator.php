@@ -8,6 +8,7 @@
 namespace SprykerSdk\Acp\Registrator;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use SprykerSdk\Acp\AcpConfig;
 use SprykerSdk\Acp\Validator\Finder\FinderInterface;
 use Throwable;
@@ -37,14 +38,20 @@ class Registrator implements RegistratorInterface
         $registryUrl = $registerRequestTransfer->getRegistryUrl() ?? $this->config->getRegistryUrl();
 
         try {
-            $this->getGuzzleClient($registryUrl)->post('/apps', [
+            $request = [
                 'body' => json_encode($this->getBody($registerRequestTransfer)),
                 'headers' => [
                     'content-type' => 'application/json',
                     'accept' => 'application/json',
                     'authorization' => 'Bearer ' . $registerRequestTransfer->getAuthorizationTokenOrFail(),
                 ],
-            ]);
+            ];
+            $this->getGuzzleClient($registryUrl)->post('/apps', $request);
+        } catch (ClientException $e) {
+            // A 409 indicates that the App Already exists and we need to update instead
+            if ($e->getCode() === 409) {
+                $this->getGuzzleClient($registryUrl)->patch(sprintf('/apps/%s', $registerRequestTransfer->getAppIdentifierOrFail()), $request);
+            }
         } catch (Throwable $e) {
             $registerResponseTransfer->addError(
                 (new MessageTransfer())->setMessage($e->getMessage()),

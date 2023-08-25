@@ -4,7 +4,7 @@ The following console commands are available:
 
 - `vendor/bin/acp app:configuration:create`
 
-## Adding an Configuration file
+## Adding a Configuration file
 
 The `vendor/bin/acp app:configuration:create` adds a minimal Configuration file.
 
