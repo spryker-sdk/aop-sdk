@@ -62,6 +62,14 @@ class AcpFacade implements AcpFacadeInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getRegistrationRequestBody(RegisterRequestTransfer $registerRequestTransfer): string
+    {
+        return $this->getFactory()->createRequestBuilder()->buildRequestBody($registerRequestTransfer);
+    }
+
+    /**
      * {@inheritDoc}
      *
      * @api

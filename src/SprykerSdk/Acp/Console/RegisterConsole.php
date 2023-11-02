@@ -25,15 +25,17 @@ class RegisterConsole extends AbstractConsole
     {
         $this->setName('app:register')
             ->setDescription('Registers an App in ACP. When the App already exists in ACP it will be updated automatically.')
-            ->addOption('private', null, InputOption::VALUE_NONE, 'Set this option when this App should be private to you. This requires to pass your Tenant Identifier with the option `--tenant-identifier`.')
             ->addOption('appIdentifier', null, InputOption::VALUE_REQUIRED, 'The App Identifier of your App.')
-            ->addOption('tenantIdentifier', null, InputOption::VALUE_REQUIRED, 'When this App needs to be private this option needs to be set to your Tenant Identifier.')
-            ->addOption('baseUrl', null, InputOption::VALUE_REQUIRED, 'The Base URL to your App.')
-            ->addOption('registryUrl', null, InputOption::VALUE_REQUIRED, 'The URL to your App repository e.g. https://github.com/organization/package.')
+            ->addOption('baseUrl', null, InputOption::VALUE_REQUIRED, 'The base URL to your App for app assets and APIs.')
+            ->addOption('registryUrl', null, InputOption::VALUE_OPTIONAL, 'The base URL to the Registry Service (local, testing, staging)', 'https://api.atrs.spryker.com')
             ->addOption('authorizationToken', null, InputOption::VALUE_REQUIRED, 'The Token that is required to be able to send requests to the Registry Service.')
-            ->addOption(AppConfigurationValidateConsole::CONFIGURATION_FILE, AppConfigurationValidateConsole::CONFIGURATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultConfigurationFile())
-            ->addOption(AppManifestValidateConsole::MANIFEST_PATH, AppManifestValidateConsole::MANIFEST_PATH_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultManifestPath())
-            ->addOption(AppTranslationValidateConsole::TRANSLATION_FILE, AppTranslationValidateConsole::TRANSLATION_FILE_SHORT, InputOption::VALUE_REQUIRED, '', $this->getConfig()->getDefaultTranslationFile());
+            ->addOption(AppConfigurationValidateConsole::CONFIGURATION_FILE, AppConfigurationValidateConsole::CONFIGURATION_FILE_SHORT, InputOption::VALUE_OPTIONAL, '', $this->getConfig()->getDefaultConfigurationFile())
+            ->addOption(AppManifestValidateConsole::MANIFEST_PATH, AppManifestValidateConsole::MANIFEST_PATH_SHORT, InputOption::VALUE_OPTIONAL, '', $this->getConfig()->getDefaultManifestPath())
+            ->addOption(AppTranslationValidateConsole::TRANSLATION_FILE, AppTranslationValidateConsole::TRANSLATION_FILE_SHORT, InputOption::VALUE_OPTIONAL, '', $this->getConfig()->getDefaultTranslationFile())
+            ->addOption('acpApiFile', 'a', InputOption::VALUE_OPTIONAL, '', $this->getConfig()->getDefaultAcpApiFilePath())
+            ->addOption('private', null, InputOption::VALUE_NONE, 'Set this option when this App should be private to you. This requires to pass your Tenant Identifier with the option `--tenant-identifier`.')
+            ->addOption('tenantIdentifier', null, InputOption::VALUE_REQUIRED, 'When this App needs to be private this option needs to be set to your Tenant Identifier.')
+            ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Simulate the operation without running HTTP request, the request body will be displayed.');
     }
 
     /**
@@ -134,25 +136,33 @@ class RegisterConsole extends AbstractConsole
         $registerRequestTransfer->setManifestPath($input->getOption(AppManifestValidateConsole::MANIFEST_PATH));
         $registerRequestTransfer->setConfigurationFile($input->getOption(AppConfigurationValidateConsole::CONFIGURATION_FILE));
         $registerRequestTransfer->setTranslationFile($input->getOption(AppTranslationValidateConsole::TRANSLATION_FILE));
+        $registerRequestTransfer->setAcpApiFile($input->getOption('acpApiFile'));
+
+        if ($input->getOption('dry-run')) {
+            $output->writeln('Running in dry-run mode. No actual changes will be made.');
+
+            $requestBody = $this->getFacade()->getRegistrationRequestBody($registerRequestTransfer);
+            $output->writeln($requestBody);
+
+            return static::CODE_SUCCESS;
+        }
 
         $registerResponseTransfer = $this->getFacade()->registerApp($registerRequestTransfer);
 
-        $message = 'App successfully registered or updated in ACP.';
-        $responseCode = static::CODE_SUCCESS;
-
         if ($registerResponseTransfer->getErrors()->count() > 0) {
-            $message = 'Could not register the App in ACP.';
-            $responseCode = static::CODE_ERROR;
+            $output->writeln('Could not register the App in ACP. Use -v to see errors.');
+
+            if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+                foreach ($registerResponseTransfer->getErrors() as $errorTransfer) {
+                    $output->writeln($errorTransfer->getMessageOrFail());
+                }
+            }
+
+            return static::CODE_ERROR;
         }
 
-        if ($output->isVerbose()) {
-            $output->writeln($message);
-        }
+        $output->writeln('App successfully registered or updated in ACP.');
 
-        foreach ($registerResponseTransfer->getErrors() as $errorTransfer) {
-            $output->writeln($errorTransfer->getMessageOrFail());
-        }
-
-        return $responseCode;
+        return static::CODE_SUCCESS;
     }
 }

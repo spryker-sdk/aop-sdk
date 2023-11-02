@@ -150,6 +150,23 @@ class AcpConfig
     /**
      * @api
      *
+     * @return string
+     */
+    public function getDefaultAcpApiFilePath(): string
+    {
+        $pathFragments = [
+            $this->getProjectRootPath(),
+            'config',
+            'app',
+            'api.json',
+        ];
+
+        return implode(DIRECTORY_SEPARATOR, $pathFragments);
+    }
+
+    /**
+     * @api
+     *
      * @throws \Exception
      *
      * @return string

@@ -58,6 +58,11 @@ class RegisterRequestTransfer extends AbstractTransfer
     public const TRANSLATION_FILE = 'translationFile';
 
     /**
+     * @var string
+     */
+    public const ACP_API_FILE = 'acpApiFile';
+
+    /**
      * @var bool|null
      */
     protected $private;
@@ -103,6 +108,11 @@ class RegisterRequestTransfer extends AbstractTransfer
     protected $translationFile;
 
     /**
+     * @var string|null
+     */
+    protected $acpApiFile;
+
+    /**
      * @var array<string, string>
      */
     protected $transferPropertyNameMap = [
@@ -132,6 +142,9 @@ class RegisterRequestTransfer extends AbstractTransfer
         'translation_file' => 'translationFile',
         'translationFile' => 'translationFile',
         'TranslationFile' => 'translationFile',
+        'acp_api_file' => 'acpApiFile',
+        'acpApiFile' => 'acpApiFile',
+        'AcpApiFile' => 'acpApiFile',
     ];
 
     /**
@@ -238,6 +251,18 @@ class RegisterRequestTransfer extends AbstractTransfer
             'type' => 'string',
             'type_shim' => null,
             'name_underscore' => 'translation_file',
+            'is_collection' => false,
+            'is_transfer' => false,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
+        self::ACP_API_FILE => [
+            'type' => 'string',
+            'type_shim' => null,
+            'name_underscore' => 'acp_api_file',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -906,6 +931,79 @@ class RegisterRequestTransfer extends AbstractTransfer
     }
 
     /**
+     * @module Test
+     *
+     * @param string|null $acpApiFile
+     *
+     * @return $this
+     */
+    public function setAcpApiFile($acpApiFile)
+    {
+        $this->acpApiFile = $acpApiFile;
+        $this->modifiedProperties[self::ACP_API_FILE] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Test
+     *
+     * @return string|null
+     */
+    public function getAcpApiFile()
+    {
+        return $this->acpApiFile;
+    }
+
+    /**
+     * @module Test
+     *
+     * @param string|null $acpApiFile
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return $this
+     */
+    public function setAcpApiFileOrFail($acpApiFile)
+    {
+        if ($acpApiFile === null) {
+            $this->throwNullValueException(static::ACP_API_FILE);
+        }
+
+        return $this->setAcpApiFile($acpApiFile);
+    }
+
+    /**
+     * @module Test
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return string
+     */
+    public function getAcpApiFileOrFail()
+    {
+        if ($this->acpApiFile === null) {
+            $this->throwNullValueException(static::ACP_API_FILE);
+        }
+
+        return $this->acpApiFile;
+    }
+
+    /**
+     * @module Test
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireAcpApiFile()
+    {
+        $this->assertPropertyIsSet(self::ACP_API_FILE);
+
+        return $this;
+    }
+
+    /**
      * @param array<string, mixed> $data
      * @param bool $ignoreMissingProperty
      *
@@ -928,6 +1026,7 @@ class RegisterRequestTransfer extends AbstractTransfer
                 case 'manifestPath':
                 case 'configurationFile':
                 case 'translationFile':
+                case 'acpApiFile':
                     $this->$normalizedPropertyName = $value;
                     $this->modifiedProperties[$normalizedPropertyName] = true;
 
@@ -1056,6 +1155,7 @@ class RegisterRequestTransfer extends AbstractTransfer
                 case 'manifestPath':
                 case 'configurationFile':
                 case 'translationFile':
+                case 'acpApiFile':
                     $values[$arrayKey] = $value;
 
                     break;
@@ -1091,6 +1191,7 @@ class RegisterRequestTransfer extends AbstractTransfer
                 case 'manifestPath':
                 case 'configurationFile':
                 case 'translationFile':
+                case 'acpApiFile':
                     $values[$arrayKey] = $value;
 
                     break;
@@ -1156,6 +1257,7 @@ class RegisterRequestTransfer extends AbstractTransfer
             'manifestPath' => $this->manifestPath,
             'configurationFile' => $this->configurationFile,
             'translationFile' => $this->translationFile,
+            'acpApiFile' => $this->acpApiFile,
         ];
     }
 
@@ -1174,6 +1276,7 @@ class RegisterRequestTransfer extends AbstractTransfer
             'manifest_path' => $this->manifestPath,
             'configuration_file' => $this->configurationFile,
             'translation_file' => $this->translationFile,
+            'acp_api_file' => $this->acpApiFile,
         ];
     }
 
@@ -1192,6 +1295,7 @@ class RegisterRequestTransfer extends AbstractTransfer
             'manifest_path' => $this->manifestPath instanceof AbstractTransfer ? $this->manifestPath->toArray(true, false) : $this->manifestPath,
             'configuration_file' => $this->configurationFile instanceof AbstractTransfer ? $this->configurationFile->toArray(true, false) : $this->configurationFile,
             'translation_file' => $this->translationFile instanceof AbstractTransfer ? $this->translationFile->toArray(true, false) : $this->translationFile,
+            'acp_api_file' => $this->acpApiFile instanceof AbstractTransfer ? $this->acpApiFile->toArray(true, false) : $this->acpApiFile,
         ];
     }
 
@@ -1210,6 +1314,7 @@ class RegisterRequestTransfer extends AbstractTransfer
             'manifestPath' => $this->manifestPath instanceof AbstractTransfer ? $this->manifestPath->toArray(true, true) : $this->manifestPath,
             'configurationFile' => $this->configurationFile instanceof AbstractTransfer ? $this->configurationFile->toArray(true, true) : $this->configurationFile,
             'translationFile' => $this->translationFile instanceof AbstractTransfer ? $this->translationFile->toArray(true, true) : $this->translationFile,
+            'acpApiFile' => $this->acpApiFile instanceof AbstractTransfer ? $this->acpApiFile->toArray(true, true) : $this->acpApiFile,
         ];
     }
 }
