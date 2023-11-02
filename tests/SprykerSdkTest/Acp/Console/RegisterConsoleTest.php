@@ -10,6 +10,7 @@ namespace SprykerSdkTest\Acp\Console;
 use Codeception\Test\Unit;
 use SprykerSdk\Acp\Console\RegisterConsole;
 use SprykerSdkTest\Acp\Tester;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @group SprykerSdkTest
@@ -39,11 +40,11 @@ class RegisterConsoleTest extends Unit
             '--appIdentifier' => '1234-5678-9012-3456',
             '--baseUrl' => 'http://www.example.com/',
             '--authorizationToken' => '1234-5678-9012-3456',
-        ]);
+        ], ['verbosity' => OutputInterface::VERBOSITY_VERBOSE]);
 
         // Assert
-        $this->assertSame(RegisterConsole::CODE_SUCCESS, $commandTester->getStatusCode());
-        $this->assertSame('', $commandTester->getDisplay());
+        $this->assertSame(RegisterConsole::CODE_SUCCESS, $commandTester->getStatusCode(), $commandTester->getDisplay());
+        $this->assertSame("App successfully registered or updated in ACP.\n", $commandTester->getDisplay());
     }
 
     /**

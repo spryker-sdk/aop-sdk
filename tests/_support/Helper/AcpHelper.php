@@ -20,6 +20,7 @@ use SprykerSdk\Acp\AcpFactory;
 use SprykerSdk\Acp\Console\AbstractConsole;
 use SprykerSdk\Acp\Console\RegisterConsole;
 use SprykerSdk\Acp\Registrator\Registrator;
+use SprykerSdk\Acp\Registrator\RequestBuilder;
 use SprykerSdk\Acp\Validator\Finder\Finder;
 use SprykerSdk\Acp\Validator\Validator;
 use Transfer\ValidateResponseTransfer;
@@ -73,7 +74,7 @@ class AcpHelper extends Module
 
         $registratorMock = Stub::construct(Registrator::class, [
             $this->getConfig(),
-            new Finder(),
+            new RequestBuilder(new Finder()),
         ], [
             'getGuzzleClient' => $guzzleClientMock,
             'config' => $this->getConfig(),

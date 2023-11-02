@@ -58,6 +58,10 @@ class RequestBuilder
      */
     protected function getJsonContentFromFile(string $filePath, array $defaultValue = []): array
     {
+        if (!file_exists($filePath)) {
+            return $defaultValue;
+        }
+
         return json_decode((string)file_get_contents($filePath), true) ?? $defaultValue;
     }
 
