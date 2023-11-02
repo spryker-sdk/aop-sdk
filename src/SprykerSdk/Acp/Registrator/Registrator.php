@@ -35,7 +35,7 @@ class Registrator implements RegistratorInterface
         $registerResponseTransfer = new RegisterResponseTransfer();
 
         $registryUrl = $registerRequestTransfer->getRegistryUrl() ?? $this->config->getRegistryUrl();
-
+        $httpClient = $this->getGuzzleClient($registryUrl);
         try {
             $request = [
                 'body' => $this->requestBuilder->buildRequestBody($registerRequestTransfer),
@@ -45,7 +45,7 @@ class Registrator implements RegistratorInterface
                     'authorization' => 'Bearer ' . $registerRequestTransfer->getAuthorizationTokenOrFail(),
                 ],
             ];
-            $this->getGuzzleClient($registryUrl)->post('/apps', $request);
+            $httpClient->post('/apps', $request);
         } catch (ClientException $e) {
             // A 409 indicates that the App already exist and we need to update instead
             if ($e->getCode() !== 409) {
@@ -58,7 +58,7 @@ class Registrator implements RegistratorInterface
 
             try {
                 // PATCH the existing app
-                $this->getGuzzleClient($registryUrl)->patch(sprintf('/apps/%s', $registerRequestTransfer->getAppIdentifierOrFail()), $request);
+                $httpClient->patch(sprintf('/apps/%s', $registerRequestTransfer->getAppIdentifierOrFail()), $request);
             } catch (Throwable $e) {
                 $registerResponseTransfer->addError(
                     (new MessageTransfer())->setMessage($e->getMessage()),

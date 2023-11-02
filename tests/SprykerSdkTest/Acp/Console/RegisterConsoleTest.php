@@ -46,7 +46,7 @@ class RegisterConsoleTest extends Unit
         $this->assertNotEmpty($decodedRequest['data']['attributes']['id']);
         $this->assertSame('1234-5678-9012-3456', $decodedRequest['data']['attributes']['id']);
         $this->assertNotEmpty($decodedRequest['data']['attributes']['baseUrl']);
-        $this->assertNotEmpty('http://www.example.com', $decodedRequest['data']['attributes']['baseUrl']);
+        $this->assertSame('http://www.example.com', $decodedRequest['data']['attributes']['baseUrl'], 'Without trailing /');
         $this->assertNotEmpty($decodedRequest['data']['attributes']['api']);
         $this->assertIsString($decodedRequest['data']['attributes']['api']);
         $this->assertNotEmpty($decodedRequest['data']['attributes']['manifest']);
@@ -64,7 +64,29 @@ class RegisterConsoleTest extends Unit
     {
         // Arrange
         $this->tester->haveValidConfigurations();
-        $registerConsole = $this->tester->getRegisterConsoleWithAtrsSuccessResponse();
+        $registerConsole = $this->tester->getRegisterConsoleWithAtrsResponse();
+
+        // Act
+        $commandTester = $this->tester->getConsoleTester($registerConsole);
+        $commandTester->execute([
+            '--appIdentifier' => '1234-5678-9012-3456',
+            '--baseUrl' => 'http://www.example.com/',
+            '--authorizationToken' => '1234-5678-9012-3456',
+        ]);
+
+        // Assert
+        $this->assertSame(RegisterConsole::CODE_SUCCESS, $commandTester->getStatusCode(), $commandTester->getDisplay());
+        $this->assertSame("App successfully registered or updated in ACP.\n", $commandTester->getDisplay());
+    }
+
+    /**
+     * @return void
+     */
+    public function testRegisterAppReturnsSuccessfulResponseWhenAppWasUpdatedInAcp(): void
+    {
+        // Arrange
+        $this->tester->haveValidConfigurations();
+        $registerConsole = $this->tester->getRegisterConsoleWithAtrsResponse(409, 201);
 
         // Act
         $commandTester = $this->tester->getConsoleTester($registerConsole);
@@ -82,11 +104,33 @@ class RegisterConsoleTest extends Unit
     /**
      * @return void
      */
+    public function testRegisterAppReturnsErrorResponseWhenATokenIsWrong(): void
+    {
+        // Arrange
+        $this->tester->haveValidConfigurations();
+        $registerConsole = $this->tester->getRegisterConsoleWithAtrsResponse(403);
+
+        // Act
+        $commandTester = $this->tester->getConsoleTester($registerConsole);
+        $commandTester->execute([
+            '--appIdentifier' => '1234-5678-9012-3456',
+            '--baseUrl' => 'http://www.example.com/',
+            '--authorizationToken' => 'bad-token',
+        ]);
+
+        // Assert
+        $this->assertSame(RegisterConsole::CODE_ERROR, $commandTester->getStatusCode());
+        $this->assertSame("Could not register the App in ACP. Use -v to see errors.\n", $commandTester->getDisplay());
+    }
+
+    /**
+     * @return void
+     */
     public function testRegisterAppPrintsErrorWhenAppIdentifierIsNotPassed(): void
     {
         // Arrange
         $this->tester->haveValidConfigurations();
-        $registerConsole = $this->tester->getRegisterConsoleWithAtrsSuccessResponse();
+        $registerConsole = $this->tester->getRegisterConsoleWithAtrsResponse();
 
         // Act
         $commandTester = $this->tester->getConsoleTester($registerConsole);
@@ -107,7 +151,7 @@ class RegisterConsoleTest extends Unit
     {
         // Arrange
         $this->tester->haveValidConfigurations();
-        $registerConsole = $this->tester->getRegisterConsoleWithAtrsSuccessResponse();
+        $registerConsole = $this->tester->getRegisterConsoleWithAtrsResponse();
 
         // Act
         $commandTester = $this->tester->getConsoleTester($registerConsole);
@@ -128,7 +172,7 @@ class RegisterConsoleTest extends Unit
     {
         // Arrange
         $this->tester->haveValidConfigurations();
-        $registerConsole = $this->tester->getRegisterConsoleWithAtrsSuccessResponse();
+        $registerConsole = $this->tester->getRegisterConsoleWithAtrsResponse();
 
         // Act
         $commandTester = $this->tester->getConsoleTester($registerConsole);
@@ -149,7 +193,7 @@ class RegisterConsoleTest extends Unit
     {
         // Arrange
         $this->tester->haveValidConfigurations();
-        $registerConsole = $this->tester->getRegisterConsoleWithAtrsSuccessResponse();
+        $registerConsole = $this->tester->getRegisterConsoleWithAtrsResponse();
 
         // Act
         $commandTester = $this->tester->getConsoleTester($registerConsole);

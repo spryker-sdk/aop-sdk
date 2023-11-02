@@ -11,8 +11,10 @@ use Codeception\Module;
 use Codeception\Stub;
 use Codeception\TestInterface;
 use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Response;
 use org\bovigo\vfs\vfsStream;
-use Psr\Http\Message\ResponseInterface;
 use SprykerSdk\Acp\AcpConfig;
 use SprykerSdk\Acp\AcpFacade;
 use SprykerSdk\Acp\AcpFacadeInterface;
@@ -31,6 +33,8 @@ class AcpHelper extends Module
      * @var string|null
      */
     protected ?string $rootPath = null;
+
+    protected Client $guzzleClient;
 
     /**
      * @codeCoverageIgnore
@@ -62,15 +66,18 @@ class AcpHelper extends Module
     /**
      * @return \SprykerSdk\Acp\Console\AbstractConsole
      */
-    public function getRegisterConsoleWithAtrsSuccessResponse(): AbstractConsole
+    public function getRegisterConsoleWithAtrsResponse(int $code = 201, ?int $secondStatus = null): AbstractConsole
     {
-        $responseMock = Stub::makeEmpty(ResponseInterface::class, [
-            'getStatusCode' => 201,
-        ]);
+        // Array of responses is needed for MockHandler when first response returns 40x and httpClient is executed second time.
+        $responses = [new Response($code)];
+        if ($secondStatus) {
+            $responses[] = new Response($secondStatus);
+        }
 
-        $guzzleClientMock = Stub::make(Client::class, [
-            'post' => $responseMock,
-        ]);
+        // Middleware http_errors is added because by default Client is created with \GuzzleHttp\HandlerStack::create() handler.
+        $mockHandler = MockHandler::createWithMiddleware($responses);
+        $mockHandler->push(Middleware::httpErrors(), 'http_errors');
+        $guzzleClientMock = new Client(['handler' => $mockHandler]);
 
         $registratorMock = Stub::construct(Registrator::class, [
             $this->getConfig(),
