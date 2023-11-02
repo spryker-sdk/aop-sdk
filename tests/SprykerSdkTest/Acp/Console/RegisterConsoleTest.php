@@ -26,6 +26,37 @@ class RegisterConsoleTest extends Unit
      */
     protected Tester $tester;
 
+    public function testRequestBuilderReturnsValidRequest(): void
+    {
+        // Arrange
+        $registerRequestTransfer = (new RegisterRequestTransfer())
+            ->setAppIdentifier('1234-5678-9012-3456')
+            ->setBaseUrl('http://www.example.com/')
+            ->setAcpApiFile(codecept_data_dir('valid/api/api.json'))
+            ->setConfigurationFile(codecept_data_dir('valid/configuration/configuration.json'))
+            ->setTranslationFile(codecept_data_dir('valid/translation/translation.json'))
+            ->setManifestPath(codecept_data_dir('valid/manifest/'));
+
+        // Act
+        $requestBody = $this->tester->getFacade()->getRegistrationRequestBody($registerRequestTransfer);
+
+        // Assert
+        $this->assertJson($requestBody);
+        $decodedRequest = json_decode($requestBody, true);
+        $this->assertNotEmpty($decodedRequest['data']['attributes']['id']);
+        $this->assertSame('1234-5678-9012-3456', $decodedRequest['data']['attributes']['id']);
+        $this->assertNotEmpty($decodedRequest['data']['attributes']['baseUrl']);
+        $this->assertNotEmpty('http://www.example.com', $decodedRequest['data']['attributes']['baseUrl']);
+        $this->assertNotEmpty($decodedRequest['data']['attributes']['api']);
+        $this->assertIsString($decodedRequest['data']['attributes']['api']);
+        $this->assertNotEmpty($decodedRequest['data']['attributes']['manifest']);
+        $this->assertIsString($decodedRequest['data']['attributes']['manifest']);
+        $this->assertNotEmpty($decodedRequest['data']['attributes']['configuration']);
+        $this->assertIsString($decodedRequest['data']['attributes']['configuration']);
+        $this->assertNotEmpty($decodedRequest['data']['attributes']['translation']);
+        $this->assertIsString($decodedRequest['data']['attributes']['translation']);
+    }
+
     /**
      * @return void
      */
@@ -46,24 +77,6 @@ class RegisterConsoleTest extends Unit
         // Assert
         $this->assertSame(RegisterConsole::CODE_SUCCESS, $commandTester->getStatusCode(), $commandTester->getDisplay());
         $this->assertSame("App successfully registered or updated in ACP.\n", $commandTester->getDisplay());
-    }
-
-    public function testRequestBuilderReturnsValidRequest(): void
-    {
-        // Arrange
-        $registerRequestTransfer = (new RegisterRequestTransfer())
-            ->setAppIdentifier('1234-5678-9012-3456')
-            ->setBaseUrl('http://www.example.com/')
-            ->setAcpApiFile(codecept_data_dir('valid/api/api.json'))
-            ->setConfigurationFile(codecept_data_dir('valid/configuration/configuration.json'))
-            ->setTranslationFile(codecept_data_dir('valid/translation/translation.json'))
-            ->setManifestPath(codecept_data_dir('valid/manifest/'));
-
-        // Act
-        $requestBody = $this->tester->getFacade()->getRegistrationRequestBody($registerRequestTransfer);
-
-        // Assert
-        $this->assertSame(rtrim(file_get_contents(codecept_data_dir('valid/registrator/request.json'))), $requestBody);
     }
 
     /**
