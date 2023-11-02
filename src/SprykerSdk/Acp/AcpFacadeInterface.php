@@ -26,7 +26,7 @@ interface AcpFacadeInterface
 {
     /**
      * Specification:
-     * - Registers an App in ACP.
+     * - Registers the App in ACP.
      *
      * @api
      *
@@ -35,6 +35,16 @@ interface AcpFacadeInterface
      * @return \Transfer\RegisterResponseTransfer
      */
     public function registerApp(RegisterRequestTransfer $registerRequestTransfer): RegisterResponseTransfer;
+
+    /**
+     *  Specification:
+     *  - Reads files of the app and build request for the app registration in ACP.
+     *
+     * @param \Transfer\RegisterRequestTransfer $registerRequestTransfer
+     *
+     * @return string
+     */
+    public function getRegistrationRequestBody(RegisterRequestTransfer $registerRequestTransfer): string;
 
     /**
      * Specification:

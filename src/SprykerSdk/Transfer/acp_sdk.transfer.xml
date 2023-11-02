@@ -8,12 +8,13 @@
         <property name="private" type="bool"/>
         <property name="appIdentifier" type="string"/>
         <property name="tenantIdentifier" type="string"/>
-        <property name="repositoryUrl" type="string"/>
-        <property name="repositoryToken" type="string"/>
+        <property name="registryUrl" type="string"/>
+        <property name="baseUrl" type="string"/>
         <property name="authorizationToken" type="string"/>
         <property name="manifestPath" type="string"/>
         <property name="configurationFile" type="string"/>
         <property name="translationFile" type="string"/>
+        <property name="acpApiFile" type="string"/>
     </transfer>
 
     <transfer name="RegisterResponse">
