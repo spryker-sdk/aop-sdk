@@ -76,6 +76,9 @@ class RequestBuilder
 
         /** @var \Symfony\Component\Finder\SplFileInfo $manifestFile */
         foreach ($this->finder->getFiles($registerRequestTransfer->getManifestPathOrFail()) as $manifestFile) {
+            if ($manifestFile->isDir()) {
+                continue;
+            }
             $manifestData = json_decode((string)file_get_contents($manifestFile->getPathname()), true);
             $localeName = $manifestFile->getFilenameWithoutExtension();
             $manifests[$localeName] = $manifestData;

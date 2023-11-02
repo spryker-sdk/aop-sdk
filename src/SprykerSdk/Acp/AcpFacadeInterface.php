@@ -40,6 +40,8 @@ interface AcpFacadeInterface
      *  Specification:
      *  - Reads files of the app and build request for the app registration in ACP.
      *
+     * @api
+     *
      * @param \Transfer\RegisterRequestTransfer $registerRequestTransfer
      *
      * @return string

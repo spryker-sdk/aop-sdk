@@ -11,6 +11,7 @@ use Codeception\Test\Unit;
 use SprykerSdk\Acp\Console\RegisterConsole;
 use SprykerSdkTest\Acp\Tester;
 use Symfony\Component\Console\Output\OutputInterface;
+use Transfer\RegisterRequestTransfer;
 
 /**
  * @group SprykerSdkTest
@@ -45,6 +46,24 @@ class RegisterConsoleTest extends Unit
         // Assert
         $this->assertSame(RegisterConsole::CODE_SUCCESS, $commandTester->getStatusCode(), $commandTester->getDisplay());
         $this->assertSame("App successfully registered or updated in ACP.\n", $commandTester->getDisplay());
+    }
+
+    public function testRequestBuilderReturnsValidRequest(): void
+    {
+        // Arrange
+        $registerRequestTransfer = (new RegisterRequestTransfer())
+            ->setAppIdentifier('1234-5678-9012-3456')
+            ->setBaseUrl('http://www.example.com/')
+            ->setAcpApiFile(codecept_data_dir('valid/api/api.json'))
+            ->setConfigurationFile(codecept_data_dir('valid/configuration/configuration.json'))
+            ->setTranslationFile(codecept_data_dir('valid/translation/translation.json'))
+            ->setManifestPath(codecept_data_dir('valid/manifest/'));
+
+        // Act
+        $requestBody = $this->tester->getFacade()->getRegistrationRequestBody($registerRequestTransfer);
+
+        // Assert
+        $this->assertSame(file_get_contents(codecept_data_dir('valid/registrator/request.json')), $requestBody . PHP_EOL);
     }
 
     /**
