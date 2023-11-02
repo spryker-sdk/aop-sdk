@@ -63,7 +63,7 @@ class RegisterConsoleTest extends Unit
         $requestBody = $this->tester->getFacade()->getRegistrationRequestBody($registerRequestTransfer);
 
         // Assert
-        $this->assertSame(file_get_contents(codecept_data_dir('valid/registrator/request.json')), $requestBody);
+        $this->assertSame(file_get_contents(codecept_data_dir('valid/registrator/request.json')), $requestBody . "\n");
     }
 
     /**

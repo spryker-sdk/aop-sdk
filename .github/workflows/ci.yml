@@ -66,7 +66,7 @@ jobs:
               run: php vendor/bin/php-openapi validate config/app/api/openapi/**.yml
 
             - name: Codecept tests with coverage
-              if: ${{ matrix.php-version == '8.1' }}
+              #if: ${{ matrix.php-version == '8.1' }}
               run: composer test-cover
 
             - name: Code Coverage Report
