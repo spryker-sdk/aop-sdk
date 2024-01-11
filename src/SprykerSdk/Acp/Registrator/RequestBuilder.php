@@ -42,7 +42,7 @@ class RequestBuilder
                 'attributes' => [
                     'id' => $registerRequestTransfer->getAppIdentifierOrFail(),
                     'baseUrl' => rtrim($registerRequestTransfer->getBaseUrlOrFail(), '/'),
-                    'apiBaseUrl' => rtrim($registerRequestTransfer->getApiBaseUrl(), '/'),
+                    'apiBaseUrl' => $registerRequestTransfer->getApiBaseUrl() ? rtrim($registerRequestTransfer->getApiBaseUrl(), '/') : null,
                     'api' => json_encode($this->getJsonContentFromFile($registerRequestTransfer->getAcpApiFileOrFail(), $this->getDefaultApi())),
                     'configuration' => json_encode($this->getJsonContentFromFile($registerRequestTransfer->getConfigurationFileOrFail())),
                     'translation' => json_encode($this->getJsonContentFromFile($registerRequestTransfer->getTranslationFileOrFail())),
