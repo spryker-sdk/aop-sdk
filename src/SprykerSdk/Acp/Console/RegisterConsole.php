@@ -27,6 +27,7 @@ class RegisterConsole extends AbstractConsole
             ->setDescription('Registers an App in ACP. When the App already exists in ACP it will be updated automatically.')
             ->addOption('appIdentifier', null, InputOption::VALUE_REQUIRED, 'The App Identifier of your App.')
             ->addOption('baseUrl', null, InputOption::VALUE_REQUIRED, 'The base URL to your App for app assets and APIs.')
+            ->addOption('apiBaseUrl', null, InputOption::VALUE_OPTIONAL, 'The API base URL to your App for the App APIs. (Only needed when the App has different URLs for the App and the APIs.))')
             ->addOption('registryUrl', null, InputOption::VALUE_OPTIONAL, 'The base URL to the Registry Service (local, testing, staging)', 'https://api.atrs.spryker.com')
             ->addOption('authorizationToken', null, InputOption::VALUE_REQUIRED, 'The Token that is required to be able to send requests to the Registry Service.')
             ->addOption(AppConfigurationValidateConsole::CONFIGURATION_FILE, AppConfigurationValidateConsole::CONFIGURATION_FILE_SHORT, InputOption::VALUE_OPTIONAL, '', $this->getConfig()->getDefaultConfigurationFile())
@@ -132,6 +133,7 @@ class RegisterConsole extends AbstractConsole
         $registerRequestTransfer->setRegistryUrl($input->getOption('registryUrl'));
         $registerRequestTransfer->setAuthorizationToken($input->getOption('authorizationToken'));
         $registerRequestTransfer->setBaseUrl($input->getOption('baseUrl'));
+        $registerRequestTransfer->setApiBaseUrl($input->getOption('apiBaseUrl'));
 
         $registerRequestTransfer->setManifestPath($input->getOption(AppManifestValidateConsole::MANIFEST_PATH));
         $registerRequestTransfer->setConfigurationFile($input->getOption(AppConfigurationValidateConsole::CONFIGURATION_FILE));

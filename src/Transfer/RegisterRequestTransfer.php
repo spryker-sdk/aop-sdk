@@ -45,6 +45,11 @@ class RegisterRequestTransfer extends AbstractTransfer
     /**
      * @var string
      */
+    public const API_BASE_URL = 'apiBaseUrl';
+
+    /**
+     * @var string
+     */
     public const MANIFEST_PATH = 'manifestPath';
 
     /**
@@ -95,6 +100,11 @@ class RegisterRequestTransfer extends AbstractTransfer
     /**
      * @var string|null
      */
+    protected $apiBaseUrl;
+
+    /**
+     * @var string|null
+     */
     protected $manifestPath;
 
     /**
@@ -133,6 +143,9 @@ class RegisterRequestTransfer extends AbstractTransfer
         'base_url' => 'baseUrl',
         'baseUrl' => 'baseUrl',
         'BaseUrl' => 'baseUrl',
+        'api_base_url' => 'apiBaseUrl',
+        'apiBaseUrl' => 'apiBaseUrl',
+        'ApiBaseUrl' => 'apiBaseUrl',
         'manifest_path' => 'manifestPath',
         'manifestPath' => 'manifestPath',
         'ManifestPath' => 'manifestPath',
@@ -215,6 +228,18 @@ class RegisterRequestTransfer extends AbstractTransfer
             'type' => 'string',
             'type_shim' => null,
             'name_underscore' => 'base_url',
+            'is_collection' => false,
+            'is_transfer' => false,
+            'is_value_object' => false,
+            'rest_request_parameter' => 'no',
+            'is_associative' => false,
+            'is_nullable' => false,
+            'is_strict' => false,
+        ],
+        self::API_BASE_URL => [
+            'type' => 'string',
+            'type_shim' => null,
+            'name_underscore' => 'api_base_url',
             'is_collection' => false,
             'is_transfer' => false,
             'is_value_object' => false,
@@ -707,6 +732,79 @@ class RegisterRequestTransfer extends AbstractTransfer
     public function requireBaseUrl()
     {
         $this->assertPropertyIsSet(self::BASE_URL);
+
+        return $this;
+    }
+
+    /**
+     * @module Test
+     *
+     * @param string|null $apiBaseUrl
+     *
+     * @return $this
+     */
+    public function setApiBaseUrl($apiBaseUrl)
+    {
+        $this->apiBaseUrl = $apiBaseUrl;
+        $this->modifiedProperties[self::API_BASE_URL] = true;
+
+        return $this;
+    }
+
+    /**
+     * @module Test
+     *
+     * @return string|null
+     */
+    public function getApiBaseUrl()
+    {
+        return $this->apiBaseUrl;
+    }
+
+    /**
+     * @module Test
+     *
+     * @param string|null $apiBaseUrl
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return $this
+     */
+    public function setApiBaseUrlOrFail($apiBaseUrl)
+    {
+        if ($apiBaseUrl === null) {
+            $this->throwNullValueException(static::API_BASE_URL);
+        }
+
+        return $this->setApiBaseUrl($apiBaseUrl);
+    }
+
+    /**
+     * @module Test
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     *
+     * @return string
+     */
+    public function getApiBaseUrlOrFail()
+    {
+        if ($this->apiBaseUrl === null) {
+            $this->throwNullValueException(static::API_BASE_URL);
+        }
+
+        return $this->apiBaseUrl;
+    }
+
+    /**
+     * @module Test
+     *
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     *
+     * @return $this
+     */
+    public function requireApiBaseUrl()
+    {
+        $this->assertPropertyIsSet(self::API_BASE_URL);
 
         return $this;
     }
