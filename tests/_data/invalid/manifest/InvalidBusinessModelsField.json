@@ -33,8 +33,7 @@
     "businessModels": [
         "B2C",
         "B2B",
-        "B2C_MARKETPLACE",
-        "B2B_MARKETPLACE"
+        "B2C-MARKETPLACE"
     ],
     "developedBy": "Example"
 }

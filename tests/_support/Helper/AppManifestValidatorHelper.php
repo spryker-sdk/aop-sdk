@@ -113,6 +113,18 @@ class AppManifestValidatorHelper extends Module
     }
 
     /**
+     * @return void
+     */
+    public function haveManifestFileWithInvalidBusinessModel(): void
+    {
+        $files = [
+            'en_US.json' => file_get_contents(codecept_data_dir('invalid/manifest/InvalidBusinessModelsField.json')),
+        ];
+
+        $this->prepareManifest($files);
+    }
+
+    /**
      * @param string $manifestLocale
      *
      * @return void

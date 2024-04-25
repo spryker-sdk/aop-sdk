@@ -30,5 +30,11 @@
             "key": "Label A"
         }
     ],
+    "businessModels": [
+        "B2C",
+        "B2B",
+        "B2C_MARKETPLACE",
+        "B2B_MARKETPLACE"
+    ],
     "developedBy": "Example"
 }

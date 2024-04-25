@@ -106,6 +106,24 @@ class AppManifestValidatorFacadeTest extends Unit
     /**
      * @return void
      */
+    public function testValidateManifestReturnsFailedResponseWhenBusinessModelHasInvalidName(): void
+    {
+        // Arrange
+        $this->tester->haveManifestFileWithInvalidBusinessModel();
+
+        // Act
+        $validateResponseTransfer = $this->tester->getFacade()->validateAppManifest(
+            $this->tester->haveValidateRequest(),
+        );
+
+        // Assert
+        $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
+        $this->assertSame('The business model with "B2C-MARKETPLACE" name not allowed in the manifest file "en_US.json".', $expectedErrorMessage->getMessage());
+    }
+
+    /**
+     * @return void
+     */
     public function testValidateManifestReturnsFailedResponseWhenFilesNotFound(): void
     {
         // Act
