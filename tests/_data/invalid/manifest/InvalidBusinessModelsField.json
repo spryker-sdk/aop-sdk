@@ -1,0 +1,40 @@
+{
+    "name": "Example DE",
+    "provider": "Example",
+    "description": "Eine lange Beschreibung.",
+    "descriptionShort": "Eine kurze Beschreibung.",
+    "configurationUrl": "https://example.spryker.local/configure",
+    "categories": [
+        {
+            "key": "category-key-a"
+        }
+    ],
+    "pages": {
+        "Overview": [
+            {
+                "title": "Features",
+                "type": "list",
+                "data": [
+                    "Feature A"
+                ]
+            },
+            {
+                "title": "Überschrift eins",
+                "type": "text",
+                "data": "Lorem ipsum"
+            }
+        ]
+    },
+    "labels": [
+        {
+            "key": "Label A"
+        }
+    ],
+    "businessModels": [
+        "B2C",
+        "B2B",
+        "B2C_MARKETPLACE",
+        "B2B_MARKETPLACE"
+    ],
+    "developedBy": "Example"
+}
