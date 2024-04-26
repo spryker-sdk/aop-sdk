@@ -33,6 +33,7 @@ use SprykerSdk\Acp\Validator\FileValidatorInterface;
 use SprykerSdk\Acp\Validator\Finder\Finder;
 use SprykerSdk\Acp\Validator\Finder\FinderInterface;
 use SprykerSdk\Acp\Validator\Manifest\AppManifestValidator;
+use SprykerSdk\Acp\Validator\Manifest\Validator\BusinessModelValidator;
 use SprykerSdk\Acp\Validator\Manifest\Validator\PagesFileValidator;
 use SprykerSdk\Acp\Validator\Manifest\Validator\RequiredFieldsFileValidator;
 use SprykerSdk\Acp\Validator\MessageBroker\ChannelNameValidator;
@@ -222,6 +223,7 @@ class AcpFactory
         return [
             $this->createManifestRequiredFieldsFileValidator(),
             $this->createManifestPagesFileValidator(),
+            $this->createBusinessModelValidator(),
         ];
     }
 
@@ -239,6 +241,14 @@ class AcpFactory
     protected function createManifestPagesFileValidator(): FileValidatorInterface
     {
         return new PagesFileValidator($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerSdk\Acp\Validator\FileValidatorInterface
+     */
+    protected function createBusinessModelValidator(): FileValidatorInterface
+    {
+        return new BusinessModelValidator($this->getConfig());
     }
 
     /**

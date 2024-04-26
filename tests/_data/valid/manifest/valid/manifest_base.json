@@ -29,5 +29,9 @@
         {
             "key": "Label A"
         }
+    ],
+    "businessModels": [
+        "B2C_MARKETPLACE",
+        "B2B_MARKETPLACE"
     ]
 }

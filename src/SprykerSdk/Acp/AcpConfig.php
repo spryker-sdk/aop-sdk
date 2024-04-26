@@ -99,6 +99,21 @@ class AcpConfig
     /**
      * @api
      *
+     * @return array<string>
+     */
+    public function getAllowedManifestBusinessModels(): array
+    {
+        return [
+            'B2C',
+            'B2B',
+            'B2C_MARKETPLACE',
+            'B2B_MARKETPLACE',
+        ];
+    }
+
+    /**
+     * @api
+     *
      * @return string
      */
     public function getDefaultConfigurationFile(): string

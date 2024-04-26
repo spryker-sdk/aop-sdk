@@ -1,8 +1,8 @@
 {
-    "name": "Example US",
+    "name": "Example DE",
     "provider": "Example",
-    "description": "A long description.",
-    "descriptionShort": "A short description.",
+    "description": "Eine lange Beschreibung.",
+    "descriptionShort": "Eine kurze Beschreibung.",
     "configurationUrl": "https://example.spryker.local/configure",
     "categories": [
         {
@@ -19,7 +19,7 @@
                 ]
             },
             {
-                "title": "Headline one",
+                "title": "Überschrift eins",
                 "type": "text",
                 "data": "Lorem ipsum"
             }
@@ -33,8 +33,7 @@
     "businessModels": [
         "B2C",
         "B2B",
-        "B2C_MARKETPLACE",
-        "B2B_MARKETPLACE"
+        "B2C-MARKETPLACE"
     ],
     "developedBy": "Example"
 }
