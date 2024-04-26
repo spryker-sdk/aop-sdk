@@ -12,7 +12,7 @@ use SprykerSdk\Acp\Validator\FileValidatorInterface;
 use Transfer\MessageTransfer;
 use Transfer\ValidateResponseTransfer;
 
-class BusinessModesValidator implements FileValidatorInterface
+class BusinessModelValidator implements FileValidatorInterface
 {
     /**
      * @var \SprykerSdk\Acp\AcpConfig
@@ -49,7 +49,7 @@ class BusinessModesValidator implements FileValidatorInterface
             if (!in_array($businessModel, $allowedManifestBusinessModels)) {
                 $messageTransfer = new MessageTransfer();
                 $messageTransfer->setMessage(sprintf(
-                    'The business model with "%s" name not allowed in the manifest file "%s".',
+                    'The business model with name "%s" is not allowed in the manifest file "%s".',
                     $businessModel,
                     $fileName,
                 ));

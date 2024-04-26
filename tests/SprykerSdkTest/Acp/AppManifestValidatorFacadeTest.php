@@ -118,7 +118,7 @@ class AppManifestValidatorFacadeTest extends Unit
 
         // Assert
         $expectedErrorMessage = $validateResponseTransfer->getErrors()[0];
-        $this->assertSame('The business model with "B2C-MARKETPLACE" name not allowed in the manifest file "en_US.json".', $expectedErrorMessage->getMessage());
+        $this->assertSame('The business model with name "B2C-MARKETPLACE" is not allowed in the manifest file "en_US.json".', $expectedErrorMessage->getMessage());
     }
 
     /**
